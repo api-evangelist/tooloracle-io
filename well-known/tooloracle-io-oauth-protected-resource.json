@@ -1,0 +1,44 @@
+{
+  "resource": "https://tooloracle.io",
+  "authorization_servers": [
+    "https://feedoracle.io"
+  ],
+  "bearer_methods_supported": [
+    "header"
+  ],
+  "scopes_supported": [
+    "mcp:read",
+    "mcp:tools:read",
+    "mcp:oracles:read",
+    "mcp:compliance:read"
+  ],
+  "resource_documentation": "https://tooloracle.io/docs",
+  "resource_signing_alg_values_supported": [
+    "ES256K"
+  ],
+  "mcp_endpoints": {
+    "streamable_http": "https://tooloracle.io/mcp",
+    "btc": "https://tooloracle.io/btc/mcp",
+    "solana": "https://tooloracle.io/solana/mcp",
+    "arbitrum": "https://tooloracle.io/arbitrum/mcp",
+    "ton": "https://tooloracle.io/ton/mcp",
+    "sui": "https://tooloracle.io/sui/mcp",
+    "hedera": "https://tooloracle.io/hedera/mcp",
+    "flare": "https://tooloracle.io/flare/mcp"
+  },
+  "tiers": {
+    "anonymous": {
+      "daily_limit": 20,
+      "note": "No registration needed - browse public tools"
+    },
+    "free": {
+      "daily_limit": 200,
+      "note": "Register via DCR at https://feedoracle.io/mcp/register"
+    },
+    "paid": {
+      "daily_limit": "unlimited",
+      "note": "Pay-per-call via x402 at https://tooloracle.io/x402/"
+    }
+  },
+  "federation_note": "tooloracle.io is a resource server of the FeedOracle ecosystem. Bearer tokens are issued by https://feedoracle.io and valid across both tooloracle.io and feedoracle.io."
+}

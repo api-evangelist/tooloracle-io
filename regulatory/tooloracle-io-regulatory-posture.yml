@@ -1,0 +1,66 @@
+generated: '2026-09-19'
+method: searched
+probe: true
+source: >-
+  https://tooloracle.io/datenschutz.html, https://tooloracle.io/terms.html, https://feedoracle.io/privacy.html, https://feedoracle.io/assets/dpa-feedoracle.html, plus live probes of the conventional paths (all 404 on both hosts: /accessibility, /accessibility/vpat, /legal/subprocessors, /legal/dpa, /privacy/requests, /transparency, /security/sbom, /docs/data-residency, /ai/transparency, /legal/report-content)
+signals:
+  data_subject_request:
+    url: https://tooloracle.io/datenschutz.html
+    section: '9. Ihre Rechte'
+    channel: contact@tooloracle.io (ToolOracle); privacy@feedoracle.io (FeedOracle)
+    rights_named: [Auskunft Art. 15, Berichtigung Art. 16, Löschung Art. 17, Einschränkung Art. 18, Datenportabilität Art. 20, Widerspruch Art. 21]
+    api: 'MemoryOracle tools forget (Art. 17) and export_memories (Art. 20) — named in Datenschutz §4/§9 and Terms §6 (server 404 on probe day)'
+    escalation: Landesbeauftragte für Datenschutz und Informationsfreiheit Nordrhein-Westfalen (§10)
+    stated_sla: null
+    evidence:
+    - {source: https://tooloracle.io/datenschutz.html, http_status: 200, fetched: '2026-09-19', quote: '"Löschung (Art. 17) — Löschung Ihrer Daten (auch via forget Tool) … Datenportabilität (Art. 20) — Export Ihrer Daten (auch via export_memories) … Kontakt: contact@tooloracle.io"'}
+    - {source: https://feedoracle.io/privacy.html, http_status: 200, fetched: '2026-09-19', quote: '"8. Your Rights (GDPR) … Access, Rectification, Erasure, Portability, Object, Withdraw consent. Contact privacy@feedoracle.io to exercise your rights."'}
+  subprocessors:
+    url: https://feedoracle.io/assets/dpa-feedoracle.html
+    section: Sub-processors (DPA template §7), plus Datenschutz §8 and Privacy §7
+    subprocessors:
+    - {name: netcup GmbH, purpose: infrastructure hosting, location: 'Germany (EU)', role: 'Auftragsverarbeiter Art. 28 DSGVO'}
+    - {name: 'Cloudflare, Inc.', purpose: 'CDN, DDoS protection, TLS termination', location: 'Global (EU primary, SCCs in place)'}
+    change_notice: '"giving the Controller the opportunity to object within 30 days"'
+    evidence:
+    - {source: https://feedoracle.io/assets/dpa-feedoracle.html, http_status: 200, fetched: '2026-09-19', quote: '"Current sub-processors: Sub-Processor Purpose Location netcup GmbH Infrastructure hosting Germany (EU) Cloudflare, Inc. CDN, DDoS protection, TLS termination Global (EU primary, SCCs in place)"'}
+    - {source: https://tooloracle.io/datenschutz.html, http_status: 200, fetched: '2026-09-19', quote: '"Hosting-Provider: netcup GmbH, Karlsruhe (Auftragsverarbeitung gem. Art. 28 DSGVO)."'}
+    note: A named, purposed, located table published anonymously inside the DPA template and echoed in both privacy policies; not a standalone dated subprocessor page, and the DPA is a template ("Effective Date [To be completed on execution]"). Recorded because the substance — who processes, for what, where — is present.
+  data_residency:
+    url: https://tooloracle.io/datenschutz.html
+    section: '7. Datenstandort'
+    regions: [de, eu]
+    evidence:
+    - {source: https://tooloracle.io/datenschutz.html, http_status: 200, fetched: '2026-09-19', quote: '"Alle Daten werden auf Servern in Deutschland (netcup, Nürnberg) und der EU verarbeitet und gespeichert. Es findet keine Übermittlung in Drittländer statt."'}
+    - {source: https://feedoracle.io/privacy.html, http_status: 200, fetched: '2026-09-19', quote: '"Primary data storage is in Germany (EU). CDN routing metadata (request headers, IP addresses) may transit globally via Cloudflare for DDoS protection. Personal data is not intentionally transferred outside the EU/EEA."'}
+    - {source: https://feedoracle.io/assets/dpa-feedoracle.html, http_status: 200, fetched: '2026-09-19', quote: '"Data residency: All primary storage in Germany (EU)"'}
+    note: A residency statement, not a region-selectable API; there is one region.
+  incident_notification:
+    url: https://feedoracle.io/assets/dpa-feedoracle.html
+    section: Data Breach Notification
+    stated_sla: 'without undue delay, and in any event within 48 hours, after becoming aware of a personal data breach'
+    evidence:
+    - {source: https://feedoracle.io/assets/dpa-feedoracle.html, http_status: 200, fetched: '2026-09-19', quote: '"The Processor shall notify the Controller without undue delay, and in any event within 48 hours, after becoming aware of a personal data breach."'}
+    note: Stated in the publicly reachable DPA template of the FeedOracle brand (same legal entity); ToolOracle's own Datenschutz states no breach-notification period.
+  ai_transparency:
+    url: https://tooloracle.io/terms.html
+    section: '8. No Financial or Legal Advice'
+    evidence:
+    - {source: https://tooloracle.io/terms.html, http_status: 200, fetched: '2026-09-19', quote: '"Decision Preflight verdicts (go/caution/stop) are automated assessments, not legal opinions."'}
+    - {source: 'POST https://tooloracle.io/handshake', http_status: 200, fetched: '2026-09-20', quote: '"classification": {"oracle": "MiCAOracle", "confidence": "medium", "reasoning": "static keyword match: ''mica''", "source": "static_keyword_match"}, "classifier_status": "ok"'}
+    - {source: https://tooloracle.io/, http_status: 200, fetched: '2026-09-19', quote: '"If the LLM classifier is unavailable, a static fallback route is returned with the same shape." … "One founder. Four AI models. Zero pretense."'}
+    note: >-
+      A contractual disclosure that verdicts are automated, plus a machine-readable per-response field (classification.source /
+      classifier_status) that tells the caller whether an LLM or a static rule produced the routing. No dedicated /ai or
+      /ai/transparency page (both 404). Recorded as the substance of an AI-interaction disclosure; it is not an EU AI Act Art. 50
+      conformity statement.
+not_found:
+  sbom: 'no SBOM, no CycloneDX/SPDX reference anywhere fetched (/security/sbom 404; security.txt names none)'
+  support_lifetime: 'no stated support period; FeedOracle versioning page labels v1 "Supported" without a horizon'
+  accessibility_conformance: '/accessibility and /accessibility/vpat 404 on both hosts; no VPAT/WCAG statement'
+  training_data_summary: none
+  global_privacy_control: 'no published GPC statement (not probed by header, per rule)'
+  age_assurance: none
+  notice_and_action: 'no report-content page; the do-not-contact.json opt-out registry is an agent-outreach control, not a DSA notice-and-action channel'
+  transparency_report: none
+  exit_assistance: 'Terms §13 "Upon termination, you may export your MemoryOracle data" and export_memories — recorded under data_subject_request (portability) rather than as a cloud-switching commitment'

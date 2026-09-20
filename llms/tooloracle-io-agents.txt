@@ -1,0 +1,192 @@
+# OracleNet — Agent Execution Reference
+# 3 Frontdoor Tools. Start here.
+# https://tooloracle.io
+
+## How to connect
+- Transport: Streamable HTTP (POST with JSON-RPC 2.0)
+- Content-Type: application/json
+- Accept: application/json, text/event-stream
+- Auth: X-API-Key header (optional for free tier, 100 calls/day)
+- Get API key: Call quantum_join (free, no auth needed) → returns key + 500 welcome units
+- Lean responses: Add "_mode": "lean" to arguments to skip discovery metadata
+
+---
+
+## 1. PREFLIGHT — "Can I do this?"
+
+One call before every agent action. Returns go / caution / stop / insufficient_evidence.
+
+Endpoint: POST https://tooloracle.io/preflight/mcp/
+Tool: decision_preflight
+Cost: $0.01 (1 unit)
+
+NOTE — this is the API-key/units surface. It is NOT the x402 product surface.
+If you pay per call with x402 v2 (USDC on Base), do not use this endpoint.
+See "## x402 v2 — pay per call, no API key" at the end of this file.
+
+Input:
+{
+  "jsonrpc": "2.0", "id": 1,
+  "method": "tools/call",
+  "params": {
+    "name": "decision_preflight",
+    "arguments": {
+      "claim": "Recommend USDC as settlement asset for EU client",
+      "asset": "USDC",
+      "_mode": "lean"
+    }
+  }
+}
+
+Required: claim (string)
+Optional: asset (USDC|USDT|EURC|RLUSD|DAI), context, risk_profile (default: conservative), action_type (default: cite)
+
+Response fields:
+- data.verdict: go | caution | stop | insufficient_evidence
+- data.confidence: 0.0–1.0
+- data.rationale: human-readable explanation
+- data.checks: individual check results (evidence, freshness, provenance, policy, red_flags)
+- data.recommended_next: suggested follow-up tool
+- meta.credits_consumed: units charged
+- meta.content_hash: sha256 for verification
+
+When to call: Before every transaction, listing, recommendation, or vendor selection.
+Retry: Safe to retry. Idempotent. Same input = same verdict (within cache window).
+Errors: 402 = insufficient credits. 400 = missing claim. 500 = retry after 5s.
+
+---
+
+## 2. VERIFY — "Is this true?"
+
+Verify any claim against signed evidence. Returns verified / partially_verified / unverified.
+
+Endpoint: POST https://tooloracle.io/trust/mcp/
+Tool: verify_claim
+Cost: $0.01 (1 unit)
+
+Input:
+{
+  "jsonrpc": "2.0", "id": 1,
+  "method": "tools/call",
+  "params": {
+    "name": "verify_claim",
+    "arguments": {
+      "claim": "USDC reserve ratio is above 100%",
+      "_mode": "lean"
+    }
+  }
+}
+
+Required: claim (string)
+Optional: symbol (string, auto-detected from claim if omitted)
+
+Response fields:
+- data.verdict: verified | partially_verified | unverified
+- data.confidence: 0.0–1.0
+- data.evidence_match: what matched in the evidence registry
+- data.signed: whether evidence is ES256K signed
+- data.source: data provenance chain
+- meta.content_hash: sha256 for verification
+
+When to call: Before citing any external data point. Before acting on another agent's output.
+Retry: Safe to retry. Idempotent.
+Errors: 402 = insufficient credits. 400 = missing claim. 500 = retry after 5s.
+
+---
+
+## 3. ROUTE — "Where do I go?"
+
+Describe what you need in plain language. Gets routed to the right tool across 1,179 tools.
+
+Endpoint: POST https://tooloracle.io/quantum/mcp/
+Tool: quantum_intent
+Cost: Free (0 units)
+
+Input:
+{
+  "jsonrpc": "2.0", "id": 1,
+  "method": "tools/call",
+  "params": {
+    "name": "quantum_intent",
+    "arguments": {
+      "need": "Check if Tether is MiCA-compliant for EU trading",
+      "_mode": "lean"
+    }
+  }
+}
+
+Required: need (string)
+Optional: llm (boolean, default: true — uses Gemma 4 for semantic matching)
+
+Response fields:
+- data.matched_tools: array of {tool, server, description, endpoint, confidence}
+- data.top_match: highest-confidence tool
+- data.category: which category matched
+
+When to call: When you don't know which tool to use. First interaction with OracleNet.
+Retry: Safe to retry. Non-deterministic (LLM-based), results may vary slightly.
+Errors: 400 = missing need. 500 = retry after 5s.
+
+---
+
+## Typical agent workflow
+
+1. ROUTE: "I need to check if USDT is safe for EU settlement"
+   → Returns: compliance_preflight on ComplianceOracle, peg_deviation on MiCAOracle
+2. PREFLIGHT: "List USDT as settlement option for EU client" + asset: USDT
+   → Returns: stop (MiCA authorization missing)
+3. PREFLIGHT: "List USDC as settlement option for EU client" + asset: USDC
+   → Returns: go (confidence: 0.94)
+4. VERIFY: "USDC is MiCA-authorized and listed on ESMA register"
+   → Returns: verified (confidence: 0.97, signed evidence)
+
+Cost of this workflow: $0.03 (3 units). Time: <2 seconds.
+
+---
+
+## Auth & billing
+
+- Free: 100 calls/day, no API key needed
+- API key: Call quantum_join → get key + 500 welcome units/month
+- x402: USDC micropayments on Base chain ($0.01/unit)
+- Header: X-API-Key: your_key_here
+
+## Error codes
+
+- 200: Success
+- 400: Bad request (missing required field)
+- 402: Payment required (out of credits)
+- 429: Rate limited (free tier: 100/day)
+- 500: Server error (retry after 5 seconds)
+
+## Discovery
+
+- MCP entry: https://tooloracle.io/.well-known/mcp.json
+- Agent card: https://tooloracle.io/.well-known/agent-card.json
+- Full catalog: https://tooloracle.io/assets/catalog.json
+- All tools: https://tooloracle.io/llms-full.txt
+
+---
+
+## x402 v2 — pay per call, no API key
+
+If your agent settles per call in USDC on Base (eip155:8453) via the x402 v2 protocol,
+use these HTTP routes directly. No API key, no units, no registration.
+
+Flow: POST the flat JSON body -> HTTP 402 with payment requirements -> sign locally ->
+repeat the same POST with the payment header -> HTTP 200 with the result.
+Settlement happens only after a successful delivery; a failed call is not settled and its
+error body may carry "settled": false.
+
+NOMOS Cross-Border Preflight — "May this data cross this border?"
+
+  Endpoint: POST https://tooloracle.io/v2/nomos/preflight
+  Price:    $0.05 USDC (50000 atomic) on eip155:8453
+  Input:    {"source_regime":"EU","target_regime":"JAPAN","data_category":"mcp_capability_signal"}
+            all fields optional; regimes are auto-detected from an "intent" string
+  Output:   preflight_summary.verdict = ALLOW | ALLOW_PUBLIC_SIGNAL_ONLY | REVIEW | BLOCK
+            plus adequacy_status, risk_level, sccs_required, blocked_fields, receipt_hash
+  Contract: https://tooloracle.io/.well-known/x402  ->  endpoint object -> commercial_contract
+  Schema:   https://tooloracle.io/openapi.json#/paths/~1v2~1nomos~1preflight
+
+Full list of x402 v2 products: https://tooloracle.io/.well-known/x402

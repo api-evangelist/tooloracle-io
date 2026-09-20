@@ -1,0 +1,564 @@
+generated: '2026-09-19'
+method: derived
+source: Derived by aligning the live tools/list of every hosted MCP endpoint (mcp/tooloracle-io-tools.json, 2026-09-19/20)
+  with the two ToolOracle OpenAPIs (openapi/_original/tooloracle-io-openapi.json, 70 operations; openapi/_original/tooloracle-io-v2-openapi.json,
+  8 operations). Confidence per row; nothing mapped that does not exist on both sides.
+purpose: 'ToolOracle inverts the usual shape: MCP is the primary contract (1,178 tool entries) and REST is a thin
+  projection (18 /v2 x402 routes + mesh-economics + discovery), while 40 of the 70 "REST" operations are just the
+  MCP transport endpoints themselves. The crosswalk records which /v2 REST routes have an MCP twin, which MCP servers
+  back the OpenAPI''s endpoint operations, and how much of the tool surface has no REST contract at all.'
+surfaces:
+  rest_openapi:
+  - openapi/tooloracle-io-mcp-platform-openapi.yml
+  - openapi/tooloracle-io-x402-v2-openapi.yml
+  graphql: null
+  mcp: https://tooloracle.io/quantum/mcp/ (front door) + ~90 sibling endpoints; tools/list anonymous on all but
+    uvo (session) and deal (401)
+  manifest: mcp/tooloracle-io-mcp.yml
+crosswalk:
+- tool:
+  - decision_preflight
+  - quantum_preflight
+  category: agent-safety
+  rest:
+  - v2_agent_preflight
+  - agentPreflight
+  binding: rest
+  confidence: medium
+  note: Same capability family (pre-execution GO/CAUTION/STOP verdict) on different surfaces; the REST route returns
+    a signed receipt, decision_preflight is the MCP form. Input contracts are documented separately (openapi/_original/tooloracle-io-v2-openapi.json
+    agentPreflightInput vs the tool inputSchema in mcp/tooloracle-io-tools.json).
+  mcp_endpoints:
+  - https://tooloracle.io/preflight/mcp/
+  - https://tooloracle.io/quantum/mcp/
+- tool:
+  - cve_asset_map
+  - cve_latest
+  - cve_risk_score
+  - cve_search
+  category: security
+  rest:
+  - v2_cve_lookup
+  - cveLookup
+  binding: rest
+  confidence: medium
+  note: CyberShield / DORA ICT-risk tools cover CVE lookups over MCP; the /v2 route is NIST NVD only.
+  mcp_endpoints:
+  - https://tooloracle.io/ampel/mcp/
+  - https://tooloracle.io/cybershield/mcp/
+  - https://tooloracle.io/dora/mcp/
+- tool: compliance_preflight
+  category: compliance
+  rest:
+  - v2_compliance_preflight
+  binding: rest
+  confidence: high
+  note: Identical tool name on https://feedoracle.io/mcp (FeedOracle Compliance server); same PASS/WARN/BLOCK verdict.
+  mcp_endpoints:
+  - https://feedoracle.io/mcp
+  - https://mcp.feedoracle.io/mcp/sse
+- tool: macro_dashboard
+  category: finance
+  rest:
+  - v2_macro_snapshot
+  - macroSnapshot
+  binding: rest
+  confidence: medium
+  note: MacroOracle exposes the same FRED/ECB series as individual tools; the REST route bundles them into one snapshot.
+  mcp_endpoints:
+  - https://tooloracle.io/macro/mcp/
+- tool:
+  - mica_cross_check
+  - mica_full_pack
+  - mica_status
+  category: compliance
+  rest:
+  - v2_mica_stablecoin_check
+  - micaStablecoinCheck
+  binding: rest
+  confidence: medium
+  note: MiCAOracle tools split the 12-article Ampel check into several tools; the REST route runs the full check.
+  mcp_endpoints:
+  - https://feedoracle.io/mcp
+  - https://mcp.feedoracle.io/mcp/sse
+  - https://tooloracle.io/iso20022/mcp/
+- tool: rug_check
+  category: blockchain-risk
+  rest:
+  - v2_meme_rug_check
+  binding: rest
+  confidence: high
+  note: MemeOracle rug-check tool.
+  mcp_endpoints:
+  - https://tooloracle.io/meme/mcp/
+- tool:
+  - pg_sanctions_screen_entity
+  - sanctions_detail
+  - sanctions_screen
+  - sanctions_screen_iso
+  category: compliance
+  rest:
+  - v2_sanctions_screen
+  - sanctionsScreen
+  binding: rest
+  confidence: high
+  note: AMLOracle sanctions tools screen the same EU/OFAC/UN/UK HMT lists.
+  mcp_endpoints:
+  - https://feedoracle.io/predictionguard/mcp/
+  - https://tooloracle.io/aml/mcp/
+  - https://tooloracle.io/iso20022/mcp/
+- tool: xrpl_rlusd_integrity
+  category: compliance
+  rest:
+  - v2_xrpl_rlusd_integrity
+  binding: rest
+  confidence: high
+  note: Identical tool on https://tooloracle.io/xrpl/mcp/ (free tier) and /x402/xrpl/mcp/ (paid); the /v2 route
+    is the x402 v2 REST form.
+  mcp_endpoints:
+  - https://feedoracle.io/xrpl/mcp/
+  - https://tooloracle.io/x402/xrpl/mcp/
+  - https://tooloracle.io/xrpl/mcp/
+- tool:
+  - pg_kalshi_orderbook_analysis
+  - pg_kalshi_thin_market_alert
+  category: market-integrity
+  rest:
+  - v2_orderbook_risk
+  binding: rest
+  confidence: medium
+  note: Prediction-market integrity tools on PredictOracle / PredictionGuard.
+  mcp_endpoints:
+  - https://feedoracle.io/predictionguard/mcp/
+  - https://feedoracle.io/xrpl/mcp/
+  - https://tooloracle.io/x402/xrpl/mcp/
+  - https://tooloracle.io/xrpl/mcp/
+- tool: pg_kalshi_conflict_of_interest_check
+  category: market-integrity
+  rest:
+  - v2_candidate_conflict_check
+  binding: rest
+  confidence: medium
+  note: See orderbook_risk.
+  mcp_endpoints:
+  - https://feedoracle.io/predictionguard/mcp/
+- tool: pg_position_timing_anomaly
+  category: market-integrity
+  rest:
+  - v2_suspicious_timing_scan
+  binding: rest
+  confidence: medium
+  note: See orderbook_risk.
+  mcp_endpoints:
+  - https://feedoracle.io/predictionguard/mcp/
+- tool: quantum_scan
+  category: agent-readiness
+  rest:
+  - v2_agent_card_a2a_readiness_v1
+  binding: rest
+  confidence: medium
+  note: quantum_scan passively inspects a domain's discovery surfaces; the /v2 route returns a signed readiness
+    verdict.
+  mcp_endpoints:
+  - https://tooloracle.io/quantum/mcp/
+mcp_gated:
+- tool: uvo-action-gate (tools/list needs an MCP session)
+  rest:
+  - uvoCitationCheck
+  - uvoFull
+  - uvoQuick
+  - v2_uvo_academic_verify
+  - v2_uvo_citation_check
+  - v2_uvo_full
+  - v2_uvo_quick
+  reason: https://tooloracle.io/uvo/mcp/ is stateful; the tool names behind the four /v2/uvo_* REST routes could
+    not be listed anonymously without initialize, so the binding is by product name only.
+  confidence: low
+endpoint_operations:
+- operationId: researchMcp
+  path: /research/mcp/
+  mcp_endpoint: https://tooloracle.io/research/mcp/
+  tools_listed: 11
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: eulawMcp
+  path: /eulaw/mcp/
+  mcp_endpoint: https://tooloracle.io/eulaw/mcp/
+  tools_listed: 8
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: regwatchMcp
+  path: /regwatch/mcp/
+  mcp_endpoint: https://tooloracle.io/regwatch/mcp/
+  tools_listed: 6
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: esmaMcp
+  path: /esma/mcp/
+  mcp_endpoint: https://tooloracle.io/esma/mcp/
+  tools_listed: 8
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: macroMcp
+  path: /macro/mcp/
+  mcp_endpoint: https://tooloracle.io/macro/mcp/
+  tools_listed: 33
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: doraMcp
+  path: /dora/mcp/
+  mcp_endpoint: https://tooloracle.io/dora/mcp/
+  tools_listed: 15
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: ampelMcp
+  path: /ampel/mcp/
+  mcp_endpoint: https://tooloracle.io/ampel/mcp/
+  tools_listed: 50
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: micaMcp
+  path: /mica/mcp/
+  mcp_endpoint: https://tooloracle.io/mica/mcp/
+  tools_listed: 24
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: amlMcp
+  path: /aml/mcp/
+  mcp_endpoint: https://tooloracle.io/aml/mcp/
+  tools_listed: 12
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: insuranceMcp
+  path: /insurance/mcp/
+  mcp_endpoint: https://tooloracle.io/insurance/mcp/
+  tools_listed: 12
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: carbonMcp
+  path: /carbon/mcp/
+  mcp_endpoint: https://tooloracle.io/carbon/mcp/
+  tools_listed: 11
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: reserveMcp
+  path: /reserve/mcp/
+  mcp_endpoint: https://tooloracle.io/reserve/mcp/
+  tools_listed: 11
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: iso20022Mcp
+  path: /iso20022/mcp/
+  mcp_endpoint: https://tooloracle.io/iso20022/mcp/
+  tools_listed: 12
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: weatherMcp
+  path: /weather/mcp/
+  mcp_endpoint: https://tooloracle.io/weather/mcp/
+  tools_listed: 10
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: sportMcp
+  path: /sport/mcp/
+  mcp_endpoint: https://tooloracle.io/sport/mcp/
+  tools_listed: 12
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: movieMcp
+  path: /movie/mcp/
+  mcp_endpoint: https://tooloracle.io/movie/mcp/
+  tools_listed: 12
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: mapMcp
+  path: /map/mcp/
+  mcp_endpoint: https://tooloracle.io/map/mcp/
+  tools_listed: 12
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: newsMcp
+  path: /news/mcp/
+  mcp_endpoint: https://tooloracle.io/news/mcp/
+  tools_listed: 9
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: flightMcp
+  path: /flight/mcp/
+  mcp_endpoint: https://tooloracle.io/flight/mcp/
+  tools_listed: 8
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: hotelMcp
+  path: /hotel/mcp/
+  mcp_endpoint: https://tooloracle.io/hotel/mcp/
+  tools_listed: 8
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: jobMcp
+  path: /job/mcp/
+  mcp_endpoint: https://tooloracle.io/job/mcp/
+  tools_listed: 8
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: reviewMcp
+  path: /review/mcp/
+  mcp_endpoint: https://tooloracle.io/review/mcp/
+  tools_listed: 8
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: priceMcp
+  path: /price/mcp/
+  mcp_endpoint: https://tooloracle.io/price/mcp/
+  tools_listed: 7
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: seoMcp
+  path: /seo/mcp/
+  mcp_endpoint: https://tooloracle.io/seo/mcp/
+  tools_listed: null
+  note: Endpoint 404/503 today — the OpenAPI names a server that does not answer.
+- operationId: leadMcp
+  path: /lead/mcp/
+  mcp_endpoint: https://tooloracle.io/lead/mcp/
+  tools_listed: 7
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: arbitrumMcp
+  path: /arbitrum/mcp/
+  mcp_endpoint: https://tooloracle.io/arbitrum/mcp/
+  tools_listed: 12
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: solanaMcp
+  path: /solana/mcp/
+  mcp_endpoint: https://tooloracle.io/solana/mcp/
+  tools_listed: 12
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: tonMcp
+  path: /ton/mcp/
+  mcp_endpoint: https://tooloracle.io/ton/mcp/
+  tools_listed: 11
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: suiMcp
+  path: /sui/mcp/
+  mcp_endpoint: https://tooloracle.io/sui/mcp/
+  tools_listed: 9
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: ethMcp
+  path: /eth/mcp/
+  mcp_endpoint: https://tooloracle.io/eth/mcp/
+  tools_listed: 10
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: xlmMcp
+  path: /xlm/mcp/
+  mcp_endpoint: https://tooloracle.io/xlm/mcp/
+  tools_listed: 7
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: POST /xrpl/mcp/
+  path: /xrpl/mcp/
+  mcp_endpoint: https://tooloracle.io/xrpl/mcp/
+  tools_listed: 31
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: xrplPaidMcp
+  path: /x402/xrpl/mcp/
+  mcp_endpoint: https://tooloracle.io/x402/xrpl/mcp/
+  tools_listed: 31
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: bnbMcp
+  path: /bnb/mcp/
+  mcp_endpoint: https://tooloracle.io/bnb/mcp/
+  tools_listed: 8
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: aptosMcp
+  path: /aptos/mcp/
+  mcp_endpoint: https://tooloracle.io/aptos/mcp/
+  tools_listed: 7
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: baseMcp
+  path: /base/mcp/
+  mcp_endpoint: https://tooloracle.io/base/mcp/
+  tools_listed: 8
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: hederaMcp
+  path: /hedera/mcp/
+  mcp_endpoint: https://tooloracle.io/hedera/mcp/
+  tools_listed: 9
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: btcMcp
+  path: /btc/mcp/
+  mcp_endpoint: https://tooloracle.io/btc/mcp/
+  tools_listed: 10
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: flareMcp
+  path: /flare/mcp/
+  mcp_endpoint: https://tooloracle.io/flare/mcp/
+  tools_listed: 12
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+- operationId: POST /quantum/mcp
+  path: /quantum/mcp
+  mcp_endpoint: https://tooloracle.io/quantum/mcp
+  tools_listed: 20
+  note: The REST operation IS the MCP transport (POST JSON-RPC to this path); its tools are the server's tools/list,
+    not a REST body.
+rest_only:
+- operation: GET /oraclenet/beacon
+  method: GET
+  path: /oraclenet/beacon
+  tags:
+  - OracleNet
+- operation: GET /mesh/registry.json
+  method: GET
+  path: /mesh/registry.json
+  tags:
+  - OracleNet
+- operation: GET /economics/api/health
+  method: GET
+  path: /economics/api/health
+  tags:
+  - Mesh Economics
+- operation: POST /economics/api/price
+  method: POST
+  path: /economics/api/price
+  tags:
+  - Mesh Economics
+- operation: POST /economics/api/commit
+  method: POST
+  path: /economics/api/commit
+  tags:
+  - Mesh Economics
+- operation: GET /economics/api/balance/{wallet}
+  method: GET
+  path: /economics/api/balance/{wallet}
+  tags:
+  - Mesh Economics
+- operation: POST /economics/api/referral
+  method: POST
+  path: /economics/api/referral
+  tags:
+  - Mesh Economics
+- operation: GET /economics/api/stats
+  method: GET
+  path: /economics/api/stats
+  tags:
+  - Mesh Economics
+- operation: GET /.well-known/mesh-economics
+  method: GET
+  path: /.well-known/mesh-economics
+  tags:
+  - Mesh Economics
+  - Discovery
+- operation: GET /.well-known/agent-pulse
+  method: GET
+  path: /.well-known/agent-pulse
+  tags:
+  - Mesh Nervous System
+  - Discovery
+- operation: GET /.well-known/meta-tools
+  method: GET
+  path: /.well-known/meta-tools
+  tags:
+  - Mesh Nervous System
+  - Discovery
+- operation: GET /economics.html
+  method: GET
+  path: /economics.html
+  tags:
+  - Mesh Economics
+- operation: v2_nomos_preflight
+  method: POST
+  path: /v2/nomos/preflight
+  tags:
+  - cross-border
+- operation: v2_nomos_full_chain_verification
+  method: POST
+  path: /v2/nomos_full_chain_verification
+  tags:
+  - nomos
+mcp_only:
+  count: 897
+  note: 'Unique MCP tool names with no REST operation. This is the bulk of the surface: the OpenAPI is a discovery
+    index of MCP servers, not a REST contract for their tools. Their real input contract is the inputSchema captured
+    in mcp/tooloracle-io-tools.json.'
+  examples:
+  - access_gap_analysis
+  - access_review
+  - action_tracker
+  - active_rules
+  - adverse_event_report
+  - adverse_media
+  - agency_lookup
+  - agent_reputation
+  - ai_explain
+  - ai_provenance
+  - ai_query
+  - airport_hub
+  - alert_check
+  - alpha_signal
+  - amazon_search
+  - aml_news
+  - amlr_calendar
+  - anchor_status
+  - anime_top
+  - annual_report
+  - annual_review
+  - api_standard_check
+  - approval_check
+  - approval_tracker
+  - approve_report
+  - apt_account_info
+  - apt_defi_yields
+  - apt_module_check
+  - apt_network_stats
+  - apt_overview
+  - apt_protocol_tvl
+  - apt_stablecoin_check
+  - arb_bridge_flows
+  - arb_contract_check
+  - arb_defi_yields
+  - arb_gas_tracker
+  - arb_liquidity_scan
+  - arb_overview
+  - arb_protocol_health
+  - arb_protocol_list
+  - arb_stablecoin_risk
+  - arb_token_risk
+  - arb_token_screening
+  - arb_whale_watch
+  - area_guide
+  - article_extract
+  - article_lookup
+  - article_status
+  - arxiv_search
+  - assess_all
+  - assess_entity
+  - assess_token
+  - asset_inventory
+  - attack_chain
+  - attack_surface_check
+  - attestation
+  - audit_log
+  - audit_proof
+  - audit_query
+  - audit_trail
+coverage:
+  mcp_tool_entries: 1178
+  mcp_unique_tools: 919
+  mcp_tools_bound_to_rest: 22
+  rest_operations_total: 78
+  rest_operations_that_are_mcp_endpoints: 40
+  rest_operations_with_a_tool: 17
+  rest_only: 14

@@ -1,0 +1,126 @@
+generated: '2026-09-19'
+method: searched
+format: mixed
+source: >-
+  Derived from the 4xx/5xx responses in openapi/_original/tooloracle-io-v2-openapi.json (Error and X402PaymentRequired schemas)
+  and openapi/_original/tooloracle-io-openapi.json (400/402/409 descriptions), enriched from the provider's documented error
+  tables at https://tooloracle.io/docs/402-protocol and https://tooloracle.io/docs/x402-buyer-quickstart/ (x402 error codes with
+  safe reactions), and from responses observed live on 2026-09-19/20 (402 on POST /v2/cve_lookup and POST /x402/flight/mcp/;
+  JSON-RPC errors on /uvo/mcp/, /deal/mcp/ and /a2a/tasks; nginx 429 during concurrent probing).
+envelopes:
+- surface: /v2 REST routes (x402 v2)
+  media_type: application/json
+  shape_400: '{ "error": string, "code": string, "message": string }  (components.schemas.Error)'
+  shape_402: 'body may be {} — the challenge is in the PAYMENT-REQUIRED response header (base64 JSON: x402Version, error, resource, accepts[], extensions.bazaar); components.schemas.X402PaymentRequired documents the decoded shape'
+  shape_500: 'application/problem+json with an instance URN (RFC 9457) — per the buyer quickstart; not observed live'
+- surface: legacy x402 v1 routes (/x402/{product}/mcp/)
+  media_type: application/json
+  shape_402: '{ "x402Version": 2, "accepts": [...], "status": "payment_required", "denial": { "tool", "product", "reason", "required_cents", "required_amount_usd", "current_balance_cents", "current_tier" }, "payment": {...}, "upgrade_path": {...} }'
+  headers_402: [x-payment-required, x-denial-reason, x-required-amount-usd, x-required-cents, x-current-balance, x-current-tier, 'www-authenticate: x402 scheme="USDC" network="base" amount_usd="…"', payment-required]
+- surface: MCP endpoints (JSON-RPC 2.0)
+  media_type: application/json or text/event-stream
+  shape: '{ "jsonrpc": "2.0", "id": …, "error": { "code": int, "message": string, "data"?: object } }'
+- surface: edge (nginx)
+  media_type: text/html
+  shape: plain nginx error page — no JSON body, no Retry-After
+problems:
+- status: 400
+  title: Bad request
+  meaning: Missing or invalid field in a /v2 request body.
+  source_operation: openapi/tooloracle-io-x402-v2-openapi.yml#cveLookup (and every /v2 operation)
+  remediation: Validate the body against the operation's *Input schema; every /v2 operation ships an example.
+- status: 400
+  title: Malformed decision
+  meaning: POST /economics/api/commit received a CallDecision that does not match what /economics/api/price returned.
+  source_operation: openapi/tooloracle-io-mcp-platform-openapi.yml#POST /economics/api/commit
+- status: 401
+  title: Unauthorized (edge)
+  meaning: v1 FeedOracle data endpoints without X-API-Key ("No auth = 401" — https://feedoracle.io/docs/versioning.html).
+  source: https://feedoracle.io/docs/versioning.html
+- status: 402
+  title: Payment required (x402 v2)
+  meaning: A priced /v2 route was called without a valid PAYMENT-SIGNATURE. The PAYMENT-REQUIRED header carries accepts[] with the exact amount in atomic USDC.
+  source_operation: openapi/tooloracle-io-x402-v2-openapi.yml#* (402 on all 8 operations)
+  observed: 'POST https://tooloracle.io/v2/cve_lookup -> 402, body "{}", PAYMENT-REQUIRED header decoded to accepts[0].amount "5000" ($0.005)'
+  remediation: Copy accepts[0] from the FRESH challenge, sign an EIP-3009 authorization on eip155:8453, retry with PAYMENT-SIGNATURE; never reuse a cached challenge (invalid_payment_requirements).
+- status: 402
+  title: Payment required (legacy x402 v1)
+  meaning: A paid tool on /x402/{product}/mcp/ was called without X-PAYMENT or with insufficient balance; denial.reason says why.
+  denial_reasons:
+  - {reason: no_payment, meaning: 'no X-PAYMENT header and no credited balance', observed: true}
+  - {reason: route_not_enabled_for_paid_cutover, meaning: 'route not yet enabled in the controlled paid cutover (llms.txt); paid attempt refused', observed: false}
+  observed: 'POST https://tooloracle.io/x402/flight/mcp/ tools/call airport_hub -> 402, x-denial-reason: no_payment, x-required-amount-usd: $0.02, x-current-tier: none'
+  remediation: Send USDC on Base to payment.payTo, include the tx hash as X-PAYMENT, retry; or use the v2 route where one exists.
+- status: 409
+  title: Idempotency conflict
+  meaning: This call_uuid was already committed to the mesh-economics ledger.
+  source_operation: openapi/tooloracle-io-mcp-platform-openapi.yml#POST /economics/api/commit
+  remediation: Treat as success of the earlier commit; do not re-book.
+- status: 429
+  title: Too Many Requests (edge)
+  meaning: nginx rate limit; body is HTML, no Retry-After, no RateLimit-* headers.
+  observed: 'returned on /deal/mcp/, /x402/smart/mcp/, /nis2/mcp/, /aiact/mcp/ while ~6 tools/list requests ran concurrently; all succeeded on a sequential retry 4 s later except the 404/401 routes'
+  remediation: Back off and serialize; the provider publishes daily quotas (rate-limits/) but no runtime headers.
+- status: 500
+  title: Internal server error (RFC 9457)
+  meaning: application/problem+json with an instance URN; "No payment was taken at this stage; retry later with a fresh challenge."
+  source: https://tooloracle.io/docs/x402-buyer-quickstart/
+- status: 503
+  title: Service unavailable
+  meaning: A server named in the OpenAPI/registry is down.
+  observed: 'https://tooloracle.io/gpu/mcp/ and https://tooloracle.io/payments/mcp/ -> 503 on 2026-09-20'
+jsonrpc_errors:
+- {code: -32600, message: 'Bad Request: Missing session ID', where: https://tooloracle.io/uvo/mcp/, meaning: stateful Streamable HTTP server — call initialize first and send Mcp-Session-Id, observed: true}
+- {code: -32601, message: 'Legacy A2A task endpoint. Use POST /a2a/jsonrpc with method message/send (A2A 0.3).', where: https://tooloracle.io/a2a/tasks, meaning: deprecated endpoint; data.canonical_endpoint names the replacement, observed: true}
+- {code: -32001, message: unauthorized, where: https://tooloracle.io/deal/mcp/, meaning: DealOracle requires a credential even for tools/list, observed: true}
+x402_error_codes:
+  source: https://tooloracle.io/docs/x402-buyer-quickstart/
+  note: Verify-stage codes arrive in the fresh PAYMENT-REQUIRED header's error field; settle-stage codes in PAYMENT-RESPONSE.errorReason. Reactions are the provider's own guidance.
+  codes:
+  - code: 'insufficient_funds'
+    stage: 'verify'
+    meaning: 'wallet holds less USDC than the price'
+    action: 'fund the wallet then retry with a new challenge and signature'
+    retry: 'yes after funding'
+  - code: 'invalid_payload'
+    stage: 'verify'
+    meaning: 'payload did not match the facilitator schema'
+    action: 'rebuild from a fresh challenge (see the SDK 2.19 resource-field note)'
+    retry: 'yes after fixing'
+  - code: 'invalid_scheme'
+    stage: 'verify'
+    meaning: 'scheme is not exact'
+    action: 'fix client config'
+    retry: 'yes after fixing'
+  - code: 'invalid_network'
+    stage: 'verify'
+    meaning: 'wrong chain (must be eip155:8453)'
+    action: 'switch the wallet to Base'
+    retry: 'yes after fixing'
+  - code: 'invalid_x402_version'
+    stage: 'verify'
+    meaning: 'payload is not v2 / used X-PAYMENT on /v2'
+    action: 'use PAYMENT-SIGNATURE'
+    retry: 'yes after fixing'
+  - code: 'invalid_payment_requirements'
+    stage: 'verify'
+    meaning: 'echoed accepts block does not match the server offer'
+    action: 'always copy accepts[0] from the fresh challenge'
+    retry: 'yes with a fresh challenge'
+  - code: 'unexpected_verify_error'
+    stage: 'verify'
+    meaning: 'unspecified verification failure'
+    action: 'do not auto-retry; try once manually later'
+    retry: 'manual only'
+  - code: 'unexpected_settle_error'
+    stage: 'settle'
+    meaning: 'settlement failed after verification'
+    action: 'do NOT re-pay until the on-chain nonce state is checked'
+    retry: 'only after confirming no transfer'
+  - code: 'settlement_pending'
+    stage: 'settle'
+    meaning: 'settlement transaction still in flight'
+    action: 'poll the tx from PAYMENT-RESPONSE; never auto-pay again'
+    retry: 'no'
+support_tooling:
+  note: SupportOracle (https://tooloracle.io/support/mcp/) exposes support_error_explain ("machine-readable explanation of any HTTP error code — cause, fix steps, transient flag"), support_diagnose, support_known_issues and support_ticket_open — a machine-readable error reference served over MCP rather than as a docs page.

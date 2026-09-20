@@ -1,0 +1,957 @@
+{
+  "x402Version": 2,
+  "name": "ToolOracle / FeedOracle x402 Payment Gateway",
+  "description": "16 paid endpoints discoverable on the Coinbase x402 Bazaar. Compliance, blockchain risk, agent safety, prediction-market integrity. Pay per call in USDC on Base.",
+  "network": "eip155:8453",
+  "currency": "USDC",
+  "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+  "payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D",
+  "facilitator": "https://api.cdp.coinbase.com/platform/v2/x402",
+  "discovery": {
+    "bazaar_search": "https://api.cdp.coinbase.com/platform/v2/x402/discovery/search?query=tooloracle",
+    "gateway_manifest": "https://tooloracle.io/v2/.well-known/x402",
+    "agent_descriptions": "https://tooloracle.io/.well-known/agent-descriptions"
+  },
+  "endpoints": [
+    {
+      "path": "/v2/agent_preflight",
+      "method": "POST",
+      "price": "$0.005",
+      "category": "agent-safety",
+      "summary": "AI agent decision pre-flight: GO / CAUTION / STOP with cryptographic receipt.",
+      "inputSchema": {
+        "intent": {
+          "type": "string",
+          "description": "Description of what the agent wants to do",
+          "required": true
+        },
+        "context": {
+          "type": "object",
+          "description": "Optional agent context (agent_id, session_id, etc.)",
+          "required": false
+        }
+      },
+      "sample_input": {
+        "intent": "transfer 1000 EUR to wallet 0xabc..."
+      },
+      "sample_output": {
+        "verdict": "go",
+        "cost_units": 1,
+        "evidence": []
+      },
+      "description": "AI agent decision pre-flight + action audit + autonomous safety — should agent X execute action Y? Combined check: evidence freshness, provenance trace, policy gate, risk scoring, hallucination signals. Returns GO / CAUTION / STOP / INSUFFICIENT_EVIDENCE with cryptographic receipt. For autonomous agent workflows: tool calls, financial transactions, content publishing, regulatory submissions, multi-step task execution, agent compliance evidence, MCP gateway routing.",
+      "example_type": "illustrative"
+    },
+    {
+      "path": "/v2/cve_lookup",
+      "method": "POST",
+      "price": "$0.005",
+      "category": "security",
+      "summary": "NIST NVD CVE search by keyword, vendor, or product — CVSS score, CWE, references.",
+      "inputSchema": {
+        "keyword": {
+          "type": "string",
+          "description": "Search keyword, vendor, or product name",
+          "required": true,
+          "example": "openssl"
+        },
+        "limit": {
+          "type": "integer",
+          "description": "Max results (default 10, max 50)",
+          "required": false
+        }
+      },
+      "sample_input": {
+        "keyword": "openssl",
+        "limit": 5
+      },
+      "sample_output": {
+        "total_results": 10,
+        "returned": 1,
+        "vulnerabilities": [
+          {
+            "cve_id": "CVE-2026-45363",
+            "published": "2026-07-14",
+            "cvss_score": 9.1,
+            "attack_vector": "NETWORK",
+            "cwe": "CWE-287",
+            "nvd_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45363"
+          }
+        ],
+        "source": "NIST NVD"
+      },
+      "description": "AgentNOMOS CVE Vulnerability Intelligence Lookup: Keyword, vendor or product search against the NIST NVD database. Returns per CVE: cve_id, published date, CVSS base score and vector string, attack vector, CWE class, description excerpt, references and the NVD detail URL. Source is NIST NVD only — no CISA KEV and no MITRE ATT&CK integration. For automated security checks and agent workflows.",
+      "example_type": "verified_fixture"
+    },
+    {
+      "path": "/v2/uvo_quick",
+      "method": "POST",
+      "price": "$0.005",
+      "category": "agent-safety",
+      "summary": "UVO Action Gate: deterministic validation of an agent action proposal across up to nine stages, fail-fast. Returns APPROVE/WARN/ESCALATE/BLOCK.",
+      "inputSchema": {
+        "proposal": {
+          "type": "object",
+          "description": "The agent action proposal to validate. Required non-empty object. Required inner fields: claim (string, minLength 10) and expected_outcome (string, minLength 10). success_metric (string) is required for a non-BLOCK verdict. Optional: action_type (one of shell, http, code_diff, decision, filesystem, config_change), target, args, idempotent, declared_sandbox. Unknown fields are accepted.",
+          "required": true
+        }
+      },
+      "sample_input": {
+        "proposal": {
+          "action_type": "decision",
+          "target": "quarterly-compliance-report",
+          "claim": "Approve the quarterly compliance report for submission",
+          "expected_outcome": "the report is marked approved and queued for submission",
+          "success_metric": "report status equals approved and a submission id is returned",
+          "idempotent": true
+        }
+      },
+      "sample_output": {
+        "decision": "APPROVE",
+        "risk_score": 0.0,
+        "blocking_layer": null,
+        "reasoning": "All layers approve — proposal looks safe (Phase 1 dry-run, would not be executed in this phase)",
+        "layers": [
+          {
+            "id": "L0",
+            "name": "schema",
+            "verdict": "APPROVE",
+            "score": 0.0,
+            "reasoning": "proposal structurally valid"
+          },
+          {
+            "id": "L6",
+            "name": "measurability",
+            "verdict": "APPROVE",
+            "score": 0.0,
+            "reasoning": "success_metric defined"
+          },
+          {
+            "id": "L4",
+            "name": "reversibility",
+            "verdict": "APPROVE",
+            "score": 0.0,
+            "reasoning": "decision-only proposal, no side effect, no rollback required"
+          },
+          {
+            "id": "L5",
+            "name": "containment",
+            "verdict": "APPROVE",
+            "score": 0.0,
+            "reasoning": "target in sandbox: decision (no side effect)"
+          },
+          {
+            "id": "L3",
+            "name": "danger",
+            "verdict": "APPROVE",
+            "score": 0.0,
+            "reasoning": "no danger patterns detected"
+          },
+          {
+            "id": "L8",
+            "name": "citation",
+            "verdict": "APPROVE",
+            "score": 0.0,
+            "reasoning": "no legal/regulatory citations detected in proposal text"
+          },
+          {
+            "id": "L9",
+            "name": "commitment",
+            "verdict": "APPROVE",
+            "score": 0.0,
+            "reasoning": "no commitment patterns detected"
+          },
+          {
+            "id": "L2",
+            "name": "existence",
+            "verdict": "APPROVE",
+            "score": 0.0,
+            "reasoning": "decision-only, no target to probe"
+          },
+          {
+            "id": "L1",
+            "name": "hallucination",
+            "verdict": "APPROVE",
+            "score": 0.0,
+            "reasoning": "L1 disabled by caller (enabled=False)"
+          }
+        ],
+        "receipt_id": "rec-<redacted>"
+      },
+      "description": "Deterministic pre-flight validation for an autonomous agent action. Up to nine validation stages (IDs L0-L6, L8, L9 - historically non-contiguous; there is no L7) covering schema, measurability, reversibility, containment, danger, citation, commitment, existence and hallucination. Execution is fail-fast: a blocking stage ends the run, so not every request executes all nine stages. Stage L1 (hallucination) is reported but runs disabled unless enabled by the caller; this route does not enable it - use /v2/uvo_academic_verify for academic claim verification. Returns decision (APPROVE/WARN/ESCALATE/BLOCK), risk_score, blocking_layer and a per-stage layers array. Input contract: the body is {proposal: {...}}. Inside the proposal, claim and expected_outcome are required strings of at least 10 characters; success_metric is required for a non-BLOCK verdict (stage L6 blocks a proposal without it); action_type is optional but, when present, must be exactly one of shell, http, code_diff, decision, filesystem, config_change (lower case). Unknown fields are accepted. Sub-100ms validation time; transport not included.",
+      "example_type": "illustrative"
+    },
+    {
+      "path": "/v2/compliance_preflight",
+      "method": "POST",
+      "price": "$0.01",
+      "category": "compliance",
+      "summary": "MiCA stablecoin compliance preflight — PASS/WARN/BLOCK + grade A-F + signed MiCA status evidence snapshot for one stablecoin token.",
+      "inputSchema": {
+        "token": {
+          "type": "string",
+          "required": true,
+          "description": "Stablecoin symbol e.g. USDC, USDT, EURC, RLUSD, DAI"
+        },
+        "issuer": {
+          "type": "string",
+          "description": "Optional issuer e.g. Circle, Tether, Ripple"
+        }
+      },
+      "sample_input": {
+        "token": "USDC"
+      },
+      "sample_output": {
+        "verdict": "PASS",
+        "score": 87.4,
+        "grade": "A",
+        "mica_status": "AUTHORIZED",
+        "signed": true
+      },
+      "description": "EU stablecoin MiCA pre-flight verdict (PASS/WARN/BLOCK) with grade A-F and a signed MiCA status evidence snapshot (source and as-of metadata). Supports USDC, USDT, EURC, RLUSD, DAI and 40+ stablecoins. Required EU regulatory due diligence for CASPs, exchanges, payment & e-money agents.",
+      "example_type": "illustrative",
+      "status": "live",
+      "value_prop": "Check a token before interacting: receive a machine-readable PASS/WARN/BLOCK compliance preflight for $0.01."
+    },
+    {
+      "path": "/v2/macro_snapshot",
+      "method": "POST",
+      "price": "$0.01",
+      "category": "finance",
+      "summary": "US macro snapshot: Fed funds, CPI, PPI, yield curve, unemployment, GDP, housing, sentiment.",
+      "inputSchema": {},
+      "sample_input": {},
+      "sample_output": {
+        "fed_funds": 4.5,
+        "cpi_yoy": 2.7,
+        "yield_10y_2y": 0.45,
+        "unemployment": 4.1
+      },
+      "description": "US macro economic snapshot + trading signals + market data — Fed funds rate, CPI inflation, PPI, yield curve (10Y-2Y spread), unemployment, GDP growth, housing index, consumer sentiment in single API call. Real-time from FRED + BLS + BEA. For trading agents, risk models, portfolio rebalancing, economic forecasting, market commentary, research workflows, autonomous treasury management, DeFi macro hedging.",
+      "example_type": "illustrative"
+    },
+    {
+      "path": "/v2/mica_stablecoin_check",
+      "method": "POST",
+      "price": "$0.01",
+      "category": "compliance",
+      "summary": "MiCA full Ampel check across 12 articles + grade A-F. USDC, USDT, EURC, RLUSD, DAI, 40+ stables.",
+      "inputSchema": {
+        "token": {
+          "type": "string",
+          "description": "Stablecoin symbol (USDC, USDT, EURC, RLUSD, DAI, etc.)",
+          "required": true
+        },
+        "issuer": {
+          "type": "string",
+          "description": "Optional issuer name (Circle, Tether, Ripple, etc.)",
+          "required": false
+        }
+      },
+      "sample_input": {
+        "token": "USDC",
+        "issuer": "Circle"
+      },
+      "sample_output": {
+        "verdict": "PASS",
+        "score": 87.4,
+        "grade": "A",
+        "mica_status": "AUTHORIZED"
+      },
+      "description": "EU stablecoin MiCA compliance audit + regulatory readiness — full Ampel traffic-light check (RED/YELLOW/GREEN) across all 12 MiCA articles (Title III EMT + Title IV ART). Grade A-F + signed MiCA status evidence snapshot (source and as-of metadata). Supports USDC, USDT, EURC, RLUSD, DAI, FDUSD, PYUSD and 40+ stablecoins. Required regulatory due diligence for CASPs, EU exchanges, payment service providers, e-money institutions, fintech agents. BaFin / ESMA / AMF / FINMA / CySEC aligned. July 2026 CASP deadline.",
+      "example_type": "illustrative"
+    },
+    {
+      "path": "/v2/orderbook_risk",
+      "method": "POST",
+      "price": "$0.01",
+      "category": "market-integrity",
+      "summary": "Kalshi orderbook fragility: thin liquidity, penny walls, single-order dominance scoring.",
+      "inputSchema": {
+        "ticker": {
+          "type": "string",
+          "description": "Kalshi market ticker (e.g. KXG7LEADEROUT-45JAN01-FMER)",
+          "required": true
+        }
+      },
+      "sample_input": {
+        "ticker": "KXG7LEADEROUT-45JAN01-FMER"
+      },
+      "sample_output": {
+        "score": 20,
+        "severity": "LOW",
+        "manipulation_flags": [
+          {
+            "signal": "penny_wall_pattern",
+            "points": 20
+          }
+        ]
+      },
+      "description": "Detects thin liquidity, penny walls, spread risk, and fragile orderbook structures in Kalshi markets. Returns 0-100 manipulation-vulnerability score plus signal-level evidence: wide spread (>$0.10), shallow depth (<10 contracts), few price levels, single-order dominance (>80% in top level), penny-wall pattern (large bids at ≤$0.005, common in wash trading). For agents that need to detect fragile order books before placing orders.",
+      "example_type": "illustrative"
+    },
+    {
+      "path": "/v2/uvo_citation_check",
+      "method": "POST",
+      "price": "$0.01",
+      "category": "agent-safety",
+      "summary": "Citation/source validation: legal articles, statutes, DOIs against authoritative registers.",
+      "inputSchema": {
+        "claim": {
+          "type": "string",
+          "description": "The statement whose legal or academic citations should be verified. Required, non-empty.",
+          "required": true
+        },
+        "references": {
+          "type": "array",
+          "description": "Optional list of source references supporting the claim, e.g. an EUR-Lex URL or a DOI. If given, must be a non-empty array of strings."
+        }
+      },
+      "sample_input": {
+        "claim": "Under MiCA Art. 4, EMT issuers must hold 1:1 reserves.",
+        "references": [
+          "https://eur-lex.europa.eu/eli/reg/2023/1114"
+        ]
+      },
+      "sample_output": {
+        "results": [
+          {
+            "citation": "Art. 17 MiCA",
+            "verdict": "APPROVE",
+            "title": "Application for authorisation"
+          }
+        ]
+      },
+      "description": "Verify legal & academic citations against authoritative sources. 448 EUR-Lex verified articles (MiCA 149, DSGVO 99, DORA 64, AMLR 90, NIS2 46) + Semantic Scholar + OpenAlex + German codes (BGB, KWG). Detects fake citations like 'Art. 999 MiCA' or 'doi:10.9999/fake-paper'.",
+      "example_type": "illustrative"
+    },
+    {
+      "path": "/v2/meme_rug_check",
+      "method": "POST",
+      "price": "$0.02",
+      "category": "blockchain-risk",
+      "summary": "Memecoin rug-pull check across Base, Solana, ETH, BSC, Arbitrum, Polygon.",
+      "inputSchema": {
+        "token": {
+          "type": "string",
+          "description": "Token contract address (0x... or solana base58)",
+          "required": true
+        },
+        "chain": {
+          "type": "string",
+          "description": "Chain: base, ethereum, solana, bsc, etc.",
+          "required": false
+        }
+      },
+      "sample_input": {
+        "token": "0x1234...",
+        "chain": "base"
+      },
+      "sample_output": {
+        "risk_score": 0.23,
+        "verdict": "LOW_RISK",
+        "liquidity_locked": true
+      },
+      "description": "Memecoin rug-pull check + token risk assessment + scam detection — liquidity depth, holder concentration, contract age, volume patterns, LP lockup status, mint authority, honeypot detection. Multi-chain (Base, Solana, Ethereum, BSC, Arbitrum, Polygon). Live DexScreener + on-chain analysis. For DeFi trading agents, copy-trading bots, alpha discovery, MEV protection, treasury due diligence, crypto safety screening, agent token validation.",
+      "example_type": "illustrative"
+    },
+    {
+      "path": "/v2/sanctions_screen",
+      "method": "POST",
+      "price": "$0.02",
+      "category": "compliance",
+      "summary": "Name screening: EU FSF (14k) + OFAC SDN (69k) + UN (3k) + UK HMT (4k).",
+      "inputSchema": {
+        "name": {
+          "type": "string",
+          "description": "Person or entity name to screen",
+          "required": true
+        },
+        "country": {
+          "type": "string",
+          "description": "Optional ISO country code",
+          "required": false
+        },
+        "dob": {
+          "type": "string",
+          "description": "Optional date of birth YYYY-MM-DD",
+          "required": false
+        }
+      },
+      "sample_input": {
+        "name": "John Doe",
+        "country": "RU"
+      },
+      "sample_output": {
+        "hit": false,
+        "matched_lists": [],
+        "confidence": 0
+      },
+      "description": "Sanctions screening + AML compliance check — real-time name screening against EU FSF (14k entities), US OFAC SDN (69k), UN Security Council (3k), UK HMT (4k). Hit/no-hit verdict with entity details, confidence score, matched-list breakdown. For KYC, KYB, CDD, AML, transaction monitoring, agent payment pre-flight, payments compliance, regtech workflows. EU AMLR Art. 21 + FinCEN BSA + FATF Rec. 6 + BaFin GwG compliant.",
+      "example_type": "illustrative"
+    },
+    {
+      "path": "/v2/uvo_full",
+      "method": "POST",
+      "price": "$0.02",
+      "category": "agent-safety",
+      "summary": "UVO Action Gate: deterministic validation of an agent action proposal across up to nine stages, fail-fast. Returns APPROVE/WARN/ESCALATE/BLOCK.",
+      "inputSchema": {
+        "proposal": {
+          "type": "object",
+          "description": "The agent action proposal to validate. Required non-empty object. Required inner fields: claim (string, minLength 10) and expected_outcome (string, minLength 10). success_metric (string) is required for a non-BLOCK verdict. Optional: action_type (one of shell, http, code_diff, decision, filesystem, config_change), target, args, idempotent, declared_sandbox. Unknown fields are accepted.",
+          "required": true
+        }
+      },
+      "sample_input": {
+        "proposal": {
+          "action_type": "config_change",
+          "target": "/etc/app/feature_flags.yaml",
+          "claim": "Enable the payout_v2 feature flag for ten percent of traffic",
+          "expected_outcome": "feature flag payout_v2 is set to a ten percent rollout",
+          "success_metric": "config diff applied and health checks green for 15 minutes",
+          "idempotent": true
+        }
+      },
+      "sample_output": {
+        "decision": "ESCALATE",
+        "risk_score": 7.0,
+        "blocking_layer": null,
+        "reasoning": "Escalation triggered by: L5:target neither sandbox-whitelisted nor obviously production ",
+        "layers": [
+          {
+            "id": "L0",
+            "name": "schema",
+            "verdict": "APPROVE",
+            "score": 0.0,
+            "reasoning": "proposal structurally valid"
+          },
+          {
+            "id": "L6",
+            "name": "measurability",
+            "verdict": "APPROVE",
+            "score": 0.0,
+            "reasoning": "success_metric defined"
+          },
+          {
+            "id": "L4",
+            "name": "reversibility",
+            "verdict": "APPROVE",
+            "score": 0.1,
+            "reasoning": "idempotent=True — repeatable without harm"
+          },
+          {
+            "id": "L5",
+            "name": "containment",
+            "verdict": "ESCALATE",
+            "score": 0.7,
+            "reasoning": "target neither sandbox-whitelisted nor obviously production — needs human judgement"
+          },
+          {
+            "id": "L3",
+            "name": "danger",
+            "verdict": "APPROVE",
+            "score": 0.0,
+            "reasoning": "no danger patterns detected"
+          },
+          {
+            "id": "L8",
+            "name": "citation",
+            "verdict": "APPROVE",
+            "score": 0.0,
+            "reasoning": "no legal/regulatory citations detected in proposal text"
+          },
+          {
+            "id": "L9",
+            "name": "commitment",
+            "verdict": "APPROVE",
+            "score": 0.0,
+            "reasoning": "no commitment patterns detected"
+          },
+          {
+            "id": "L2",
+            "name": "existence",
+            "verdict": "WARN",
+            "score": 0.5,
+            "reasoning": "target does not exist: /etc/app/feature_flags.yaml — may be intended to create"
+          },
+          {
+            "id": "L1",
+            "name": "hallucination",
+            "verdict": "APPROVE",
+            "score": 0.0,
+            "reasoning": "L1 disabled by caller (enabled=False)"
+          }
+        ],
+        "receipt_id": "rec-<redacted>"
+      },
+      "description": "Deterministic validation for an autonomous agent action. Up to nine validation stages (IDs L0-L6, L8, L9 - historically non-contiguous; there is no L7) covering schema, measurability, reversibility, containment, danger, citation, commitment, existence and hallucination. Execution is fail-fast: a blocking stage ends the run, so not every request executes all nine stages. Stage L1 (hallucination) is reported but runs disabled unless enabled by the caller; this route does not enable it - use /v2/uvo_academic_verify for academic claim verification. Returns decision (APPROVE/WARN/ESCALATE/BLOCK), risk_score, blocking_layer and a per-stage layers array. Input contract: the body is {proposal: {...}}. Inside the proposal, claim and expected_outcome are required strings of at least 10 characters; success_metric is required for a non-BLOCK verdict (stage L6 blocks a proposal without it); action_type is optional but, when present, must be exactly one of shell, http, code_diff, decision, filesystem, config_change (lower case). Unknown fields are accepted. Sub-second validation time; transport not included.",
+      "example_type": "illustrative"
+    },
+    {
+      "path": "/v2/candidate_conflict_check",
+      "method": "POST",
+      "price": "$0.05",
+      "category": "market-integrity",
+      "summary": "Kalshi self-interest risk detector — pattern-matches CFTC Rule 5.17(z) signals.",
+      "inputSchema": {
+        "ticker": {
+          "type": "string",
+          "description": "Kalshi market ticker (provide this or event_ticker — at least one required)",
+          "required": false
+        },
+        "event_ticker": {
+          "type": "string",
+          "description": "Kalshi event ticker (provide this or ticker — at least one required)",
+          "required": false
+        },
+        "candidate_name": {
+          "type": "string",
+          "description": "Optional name to match against market",
+          "required": false
+        }
+      },
+      "sample_input": {
+        "event_ticker": "KXPRESNOMR-28",
+        "candidate_name": "Marjorie Taylor Greene"
+      },
+      "sample_output": {
+        "score": 95,
+        "severity": "CRITICAL",
+        "recommendation": "BLOCK — high CFTC Rule 5.17(z) exposure"
+      },
+      "description": "Detects candidate self-interest risk in Kalshi prediction markets. Pattern-matches CFTC Rule 5.17(z) signals: election/candidacy markets, named individuals, legislative or policy decisions, regulatory enforcement, sports outcomes. Calibrated against Kalshi April 2026 cases (Moran, Klein, Enriquez — all fined for trading own elections). Returns ALLOW/MONITOR/WARN/BLOCK + 0-100 score + reference cases.",
+      "example_type": "illustrative",
+      "input_constraints": {
+        "any_of": [
+          [
+            "ticker",
+            "event_ticker"
+          ]
+        ]
+      }
+    },
+    {
+      "path": "/v2/suspicious_timing_scan",
+      "method": "POST",
+      "price": "$0.05",
+      "category": "market-integrity",
+      "summary": "Polymarket pre-event flow scan: large positions, wallet-newness, coordinated timing.",
+      "inputSchema": {
+        "slug": {
+          "type": "string",
+          "description": "Polymarket market slug (provide this or market_id — at least one required)",
+          "required": false
+        },
+        "market_id": {
+          "type": "string",
+          "description": "Polymarket conditionId (provide this or slug — at least one required)",
+          "required": false
+        },
+        "window_hours": {
+          "type": "integer",
+          "description": "Pre-event window in hours (default 72)",
+          "required": false
+        },
+        "min_position_usd": {
+          "type": "number",
+          "description": "Min notional to flag (default $1000)",
+          "required": false
+        }
+      },
+      "sample_input": {
+        "slug": "will-israel-launch-a-ground-operation-in-iran-by-may-31-2026",
+        "window_hours": 72
+      },
+      "sample_output": {
+        "score": 50,
+        "severity": "MEDIUM",
+        "window_trades_analyzed": 482
+      },
+      "description": "Suspicious-timing risk scan for Polymarket markets. Multi-signal scan: large pre-event positions, ratio of wallets new to this market, coordinated timing clusters, one-sided positioning, sensitive-keyword categories (military, regime change, intel, monetary policy). Returns 0-100 score, severity, triggered signals with evidence, top 5 positioners with new-wallet flags. Calibrated against publicly reported cases. Statistical signal only — not legal determination.",
+      "example_type": "illustrative",
+      "input_constraints": {
+        "any_of": [
+          [
+            "slug",
+            "market_id"
+          ]
+        ]
+      }
+    },
+    {
+      "path": "/v2/uvo_academic_verify",
+      "method": "POST",
+      "price": "$0.10",
+      "category": "agent-safety",
+      "summary": "Academic citation verification: DOI lookup, author match, journal authenticity.",
+      "inputSchema": {
+        "claim": {
+          "type": "string",
+          "description": "The research statement whose academic sources should be verified. Required, non-empty.",
+          "required": true
+        },
+        "references": {
+          "type": "array",
+          "description": "Optional list of source references supporting the claim, typically DOIs. If given, must be a non-empty array of strings."
+        }
+      },
+      "sample_input": {
+        "claim": "Vitamin D supplementation reduces respiratory infection risk.",
+        "references": [
+          "10.1136/bmj.i6583"
+        ]
+      },
+      "sample_output": {
+        "verdict": "APPROVE",
+        "journal_authentic": true,
+        "authors_match": true
+      },
+      "description": "Deep academic source verification with DOI resolution, journal authenticity (predatory-journal blocklist), and authorship cross-check via OpenAlex + Semantic Scholar. For high-stakes research output where one fake citation kills credibility.",
+      "example_type": "illustrative"
+    },
+    {
+      "path": "/v2/nomos/preflight",
+      "method": "POST",
+      "price": "$0.05",
+      "category": "cross-border",
+      "summary": "Cross-border transfer preflight: one call returns ALLOW / ALLOW_PUBLIC_SIGNAL_ONLY / REVIEW / BLOCK with adequacy status, risk level and SCC requirement.",
+      "inputSchema": {
+        "source_regime": {
+          "type": "string",
+          "description": "Origin regime of the data transfer. Auto-detected from `intent` when omitted."
+        },
+        "target_regime": {
+          "type": "string",
+          "description": "Destination regime. Auto-detected from `intent` when omitted."
+        },
+        "region": {
+          "type": "string",
+          "description": "Target-scan region filter. Derived from source_regime when omitted."
+        },
+        "data_category": {
+          "type": "string",
+          "description": "Category of the data to be transferred. Drives the verdict; personal and payment categories resolve to BLOCK."
+        },
+        "query": {
+          "type": "string",
+          "description": "Free-text target search query."
+        },
+        "intent": {
+          "type": "string",
+          "description": "Free-text intent; used to auto-detect regimes, capability and data category when the explicit fields are absent."
+        },
+        "max_results": {
+          "type": "integer",
+          "description": "Maximum scanned targets returned."
+        },
+        "min_score": {
+          "type": "integer",
+          "description": "Minimum target score for a candidate to be included."
+        }
+      },
+      "sample_input": {
+        "source_regime": "EU",
+        "target_regime": "JAPAN",
+        "region": "japan",
+        "data_category": "mcp_capability_signal",
+        "query": "MCP-ready AI agent",
+        "max_results": 5
+      },
+      "sample_output": {
+        "broker": "NOMOS",
+        "version": "0.1.0",
+        "envelope_id": "env_0123456789abcdef",
+        "envelope_hash": "sha256:…",
+        "timestamp": "2026-07-28T09:00:00Z",
+        "elapsed_ms": 1,
+        "query": {
+          "source_regime": "EU",
+          "target_regime": "JAPAN",
+          "data_category": "mcp_capability_signal",
+          "region": "japan",
+          "requested_capability": null,
+          "risk_policy": "standard"
+        },
+        "scan_meta": {
+          "scan_id": "…",
+          "scan_time": "2026-07-28T04:00:02Z",
+          "cache_age_s": 17567,
+          "total_before_filter": 40,
+          "after_filter": 2,
+          "region_filter": "japan"
+        },
+        "preflight_summary": {
+          "verdict": "ALLOW",
+          "adequacy_status": "recognized",
+          "risk_level": "low",
+          "sccs_required": false,
+          "requires_human_review": false,
+          "blocked_fields": [],
+          "note": "…",
+          "evidence_hash": "sha256:…"
+        },
+        "results": [],
+        "receipt_hash": "sha256:19e7f52a…",
+        "pricing": {
+          "price": "$0.05",
+          "currency": "USDC",
+          "network": "eip155:8453",
+          "scheme": "exact",
+          "payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D"
+        },
+        "disclaimer": "Preflight classification only. Not legal advice. Not a legal compliance certificate. Engage qualified counsel before actual data transfer."
+      },
+      "description": "AgentNOMOS Cross-Border Regulatory Compliance Preflight. Checks a planned cross-border data transfer between EU, India, Japan, Korea, Singapore and China against GDPR, DPDP, PIPL, FSA and MAS. Returns one verdict for the request (ALLOW, ALLOW_PUBLIC_SIGNAL_ONLY, REVIEW or BLOCK) inside `preflight_summary`, together with adequacy_status, risk_level, sccs_required, requires_human_review, blocked_fields and evidence_hash, plus scanned target candidates and a SHA-256 receipt_hash. Target-specific fields are withheld automatically when the verdict does not permit them. Classification only, not legal advice.",
+      "example_type": "illustrative",
+      "commercial_contract": {
+        "contract_version": "1.0.0",
+        "problem": "Before an AI agent moves data across a border, it must know whether that transfer is lawful under the source and target regime.",
+        "expected_result": "One machine-readable verdict for the planned transfer (ALLOW, ALLOW_PUBLIC_SIGNAL_ONLY, REVIEW or BLOCK) with adequacy status, risk level, SCC requirement and blocked-field list, plus scanned target candidates whose target-specific fields are withheld automatically when the verdict does not permit them.",
+        "price": {
+          "amount_atomic": "50000",
+          "amount_decimal": "0.05",
+          "currency": "USDC",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "network": "eip155:8453",
+          "scheme": "exact",
+          "payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D"
+        },
+        "delivery": {
+          "settle_only_on_successful_delivery": true,
+          "failure_settled": false,
+          "statement": "Settlement occurs only after a billable HTTP 200 response was delivered. If the call is rejected, errors, times out or returns an unusable body, the gateway answers non-2xx and no settlement is attempted. Error bodies may carry \"settled\": false.",
+          "refund_applicable": false,
+          "refund_note": "No refund mechanism is claimed: a failed delivery is blocked before settlement, so no payment is captured that could be refunded."
+        },
+        "result_properties": {
+          "deterministic_classification": true,
+          "deterministic_note": "For identical input and an unchanged target-scan cache, preflight_summary and results are byte-identical (verified by repeated isolated execution).",
+          "byte_stable_response": false,
+          "byte_stable_note": "envelope_id is a per-call UUID and receipt_hash covers it plus a second-resolution timestamp, so the full response body differs between calls.",
+          "evidence_supported": true,
+          "evidence_note": "Every response carries receipt_hash (SHA-256 over the receipt payload) and, when a regime pair is resolvable, preflight_summary.evidence_hash. These are self-contained content hashes; NO external verification endpoint and NO signature key is published today.",
+          "receipt_available": true,
+          "receipt_is_signed": false
+        },
+        "data_freshness": {
+          "source": "NOMOS Asia target scan",
+          "refresh": "daily, approximately 04:00 UTC",
+          "max_age_seconds": 86400,
+          "reported_per_response": "scan_meta.cache_age_s"
+        },
+        "runtime": {
+          "status": "insufficient_sample",
+          "observed_p50_ms": 28,
+          "observed_p95_ms": 564,
+          "sample_size": 10,
+          "measurement_window": "2026-06-18 .. 2026-07-25",
+          "last_measured_at": "2026-07-25T23:32:57Z",
+          "is_sla": false,
+          "note": "Observed values, NOT a service level agreement. With n=10 the 95th percentile is effectively the single slowest observation (a 564 ms cold start on the first ever delivery); the other nine range from 5 to 69 ms."
+        },
+        "error_contract": {
+          "402": {
+            "meaning": "Payment required — this is the x402 challenge.",
+            "settled": false
+          },
+          "400": {
+            "meaning": "Input rejected by the gateway before the upstream service was called.",
+            "body_hint": {
+              "error": "missing_param",
+              "settled": false
+            },
+            "settled": false
+          },
+          "422": {
+            "meaning": "Input rejected by the upstream service; its response is forwarded verbatim.",
+            "settled": false
+          },
+          "502": {
+            "meaning": "Upstream service unreachable, or its answer was empty, malformed or not deliverable.",
+            "settled": false
+          },
+          "504": {
+            "meaning": "Upstream service timed out (gateway timeout is 60000 ms).",
+            "settled": false
+          },
+          "500": {
+            "meaning": "Unclassified gateway error.",
+            "settled": false
+          }
+        },
+        "governance": {
+          "field_redaction_enforced": true,
+          "statement": "For BLOCK and ALLOW_PUBLIC_SIGNAL_ONLY item verdicts the service withholds all target-specific fields (entity, url, companies, amount, score, source, date, tags, protocol_match) and returns only public-safe metadata with redacted=true. Personal-contact and payment/wallet data categories resolve to BLOCK, so raw sensitive target fields are never emitted."
+        },
+        "next_best_actions": [
+          {
+            "product_id": "compliance_preflight",
+            "route": "/v2/compliance_preflight",
+            "when": "preflight_summary.verdict is REVIEW or BLOCK and the transfer involves a stablecoin or payment counterparty",
+            "purpose": "Obtain a MiCA PASS/WARN/BLOCK verdict with grade for the token involved before reconsidering the transfer.",
+            "discovery_url": "https://tooloracle.io/.well-known/x402",
+            "price_reference": "see discovery_url — priced separately",
+            "auto_execute": false
+          },
+          {
+            "product_id": "agent_card_a2a_readiness_v1",
+            "route": "/v2/agent_card_a2a_readiness_v1",
+            "when": "preflight_summary.verdict is ALLOW and a scanned target is to be contacted over A2A or MCP",
+            "purpose": "Check whether the intended counterparty agent is actually A2A/MCP ready before attempting an exchange.",
+            "discovery_url": "https://tooloracle.io/v2/.well-known/x402",
+            "price_reference": "see discovery_url — priced separately",
+            "auto_execute": false
+          }
+        ],
+        "output_schema_url": "https://tooloracle.io/openapi.json#/paths/~1v2~1nomos~1preflight"
+      }
+    },
+    {
+      "path": "/v2/xrpl_rlusd_integrity",
+      "method": "POST",
+      "price": "$0.03",
+      "category": "compliance",
+      "summary": "RLUSD integrity: peg + on-chain supply + XRPL DEX liquidity cross-check",
+      "inputSchema": {},
+      "sample_input": {},
+      "sample_output": {
+        "sources": {
+          "defillama": {
+            "price": 1.0,
+            "ok": true
+          },
+          "xrpl_onchain": {
+            "circulating": 0,
+            "issuer": "rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De",
+            "ok": true
+          },
+          "xrpl_dex": {
+            "active_offers": 0,
+            "dex_liquidity": false,
+            "ok": true
+          }
+        },
+        "flags": [],
+        "timestamp": "1970-01-01T00:00:00Z"
+      },
+      "description": "AgentNOMOS XRPL RLUSD Integrity Check: Cross-verifies Ripple USD (RLUSD) across three sources in one call — DeFiLlama peg price and market cap, XRPL on-chain circulating supply via gateway_balances on the issuer account, and live XRPL DEX orderbook offers. Returns per-source results, an integrity summary with sources_checked and sources_ok, and flags such as SUPPLY_MISMATCH with severity and detail. Automated data cross-check — not investment advice and not a regulatory assessment.",
+      "example_type": "illustrative"
+    },
+    {
+      "path": "/v2/agent_card_a2a_readiness_v1",
+      "method": "POST",
+      "price": "$0.10",
+      "category": "agent-readiness",
+      "summary": "Automated agent-card & A2A readiness check (signed evidence)",
+      "inputSchema": {
+        "job_id": {
+          "type": "string",
+          "description": "Job id from the x402 challenge binding",
+          "required": false
+        },
+        "quote_id": {
+          "type": "string",
+          "description": "Quote id from the x402 challenge binding",
+          "required": false
+        }
+      },
+      "sample_input": {
+        "job_id": "a2aj_...",
+        "quote_id": "x402q_..."
+      },
+      "sample_output": {
+        "job_id": "a2aj_...",
+        "status": "COMPLETED_WITH_WARNINGS",
+        "decision": "WARN",
+        "readiness_level": 3,
+        "credential_id": "a2ard_...",
+        "record_digest": "sha256:..."
+      },
+      "description": "AgentNOMOS Agent-Card & A2A Readiness Check: Deterministic assessment of a public agent card or A2A discovery URL across eight dimensions — fetch/parse, identity, skills, protocol, auth, commercial, trust and privacy. Returns decision READY, WARN or NOT_READY, a readiness_level, findings with severity critical or warn, and machine-readable improvement suggestions, delivered with an Ed25519-signed evidence record. Assessment service only: it does not conclude a contract, does not perform outreach, does not guarantee a deal and is NOT a certification, NOT regulator-approved, NOT an AI-Act conformity statement and NOT a penetration test.",
+      "example_type": "illustrative"
+    },
+    {
+      "path": "/v2/nomos_full_chain_verification",
+      "method": "POST",
+      "price": "$0.001",
+      "category": "nomos",
+      "summary": "One safe action through the full governed NOMOS chain - signed, verifiable execution receipt",
+      "inputSchema": {
+        "intent": {
+          "type": "string",
+          "description": "Fixed action selector. The only accepted value is verify_full_chain.",
+          "enum": [
+            "verify_full_chain"
+          ],
+          "required": true
+        },
+        "client_nonce": {
+          "type": "string",
+          "description": "Your correlation nonce; echoed and bound into the signed intent digest. 8-64 characters, letters, digits, underscore and hyphen only.",
+          "pattern": "^[A-Za-z0-9_-]{8,64}$",
+          "required": true
+        },
+        "requested_capability": {
+          "type": "string",
+          "description": "Optional legacy compatibility field. Omit it: normal callers do not need it. If sent, it must equal the canonical capability id, otherwise the request is rejected. It carries no caller authority - it neither selects nor widens the executed capability, and the value is discarded after validation; execution always uses the server-side capability constant.",
+          "enum": [
+            "nomos_full_chain_verification"
+          ]
+        }
+      },
+      "sample_input": {
+        "intent": "verify_full_chain",
+        "client_nonce": "agent-nonce-12345678"
+      },
+      "sample_output": {
+        "schema": "nomos.full_chain_verification.result.v1",
+        "claim_ceiling": "EXECUTION_BOUND_PROOF",
+        "chain": {
+          "admission": {
+            "policy_version": "2026-08-10.r2.oraclenet-secfresh"
+          },
+          "execution": {
+            "execution_id": "exe1_903914429d846a487679d42aa866d07b",
+            "state": "EXECUTION_COMPLETED"
+          },
+          "receipt": {
+            "kid": "exr1_40c4bc9a9f61988b"
+          }
+        },
+        "verification": {
+          "jwks_url": "https://feedoracle.io/.well-known/nomos-execution-jwks.json"
+        }
+      },
+      "description": "Full-Chain Governed Verification: run one safe, read-only machine action through the complete NOMOS Machine Economy Trust Chain and get back a cryptographically verifiable execution proof. The call binds your payment, a stated intent, a pinned capability and offer, a NOMOS admission decision (which enforces current CISA-KEV-derived OracleNet security-freshness evidence), the execution and the response bytes into one Ed25519-signed execution receipt you can verify yourself against the public JWKS (https://feedoracle.io/.well-known/nomos-execution-jwks.json). Read-only; no asset movement besides the x402 payment itself. Request size limit (separate from schema validation): the request object is rejected when its re-serialised JSON exceeds 2048 UTF-8 bytes; this is measured on the parsed-and-re-serialised object, so whitespace and key order in the raw HTTP body do not count towards it. Claim boundary: EXECUTION_BOUND_PROOF (estate-signed evidence, not an independent third-party attestation, not a certification).",
+      "example_type": "verified_fixture",
+      "inputSchemaAdditionalProperties": false
+    }
+  ],
+  "how_to_pay": [
+    "1. POST JSON body to any endpoint above → receive HTTP 402 with the x402 v2 payment requirements in the PAYMENT-REQUIRED response header (base64 JSON, accepts[])",
+    "2. Sign an EIP-3009 (EIP-712 typed) USDC transfer authorization on Base (eip155:8453) to 0x11f591C3496C0632e7B173184f5Bc71dC941125D",
+    "3. Retry the POST with the PAYMENT-SIGNATURE header (base64-encoded x402 v2 payment payload). These /v2 routes are x402 v2 only — the legacy X-PAYMENT header is not accepted here.",
+    "4. Settlement is handled by the Coinbase Developer Platform facilitator. The success response includes the PAYMENT-RESPONSE header with the on-chain TX hash.",
+    "5. Legacy x402 v1 endpoints are a separate family under /x402/{product}/mcp/ and continue to use the X-PAYMENT header."
+  ],
+  "client_libraries": [
+    "Node.js: @x402/fetch, x402-fetch (npm)",
+    "Coinbase Developer Platform: api.cdp.coinbase.com/platform/v2/x402",
+    "x402 spec: https://x402.org"
+  ],
+  "publisher": {
+    "name": "ToolOracle / FeedOracle",
+    "url": "https://tooloracle.io",
+    "github": "https://github.com/ToolOracle",
+    "contact": "https://feedoracle.io"
+  },
+  "counts": {
+    "paid_products": 18,
+    "platform_servers": 89,
+    "platform_tools": 1096
+  },
+  "canonical_source": "https://tooloracle.io/assets/catalog.json",
+  "generated_at": "2026-09-20T02:13:01+00:00",
+  "example_provenance": "ToolOracle/NOMOS-curated metadata. Each endpoint declares example_type as verified_fixture, illustrative, or synthetic. Illustrative examples are not captured live executions."
+}

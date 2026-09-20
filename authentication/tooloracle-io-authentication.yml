@@ -1,0 +1,24 @@
+generated: '2026-09-19'
+method: derived
+source: openapi/tooloracle-io-feedoracle-compliance-evidence-openapi.yml
+summary:
+  types:
+  - apiKey
+  - http
+  api_key_in:
+  - header
+schemes:
+- name: ApiKeyAuth
+  type: apiKey
+  in: header
+  parameter: X-API-Key
+  description: Required for v1 data endpoints. Get at /pricing.html
+  sources:
+  - openapi/tooloracle-io-feedoracle-compliance-evidence-openapi.yml
+- name: BearerAuth
+  type: http
+  scheme: bearer
+  bearerFormat: JWT
+  description: OAuth 2.0 Bearer token from POST /mcp/token
+  sources:
+  - openapi/tooloracle-io-feedoracle-compliance-evidence-openapi.yml

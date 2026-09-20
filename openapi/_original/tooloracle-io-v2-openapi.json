@@ -1,0 +1,1184 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "ToolOracle — Compliance, Evidence & Agent-Safety Oracle for AI Agents",
+    "version": "1.0.0",
+    "description": "Pay-per-call x402 API on Base (USDC), no API key, no account. EU-regulation-grade (MiCA / DORA / AMLR). Agent action preflight (GO/STOP with signed receipt), MiCA stablecoin compliance, AML/sanctions screening, CVE/DORA ICT-risk, UVO claim & citation verification, and signed evidence certificates. Each paid endpoint follows the x402 v2 protocol: an unpaid request returns HTTP 402 with payment details (see the x-x402 extension); retry with the PAYMENT-SIGNATURE header (x402 v2; the legacy X-PAYMENT header is not accepted on /v2 routes).",
+    "contact": {
+      "name": "ToolOracle / FeedOracle Technologies",
+      "url": "https://tooloracle.io"
+    },
+    "license": {
+      "name": "Proprietary"
+    },
+    "x-provider": "ToolOracle",
+    "x-payment-protocol": "x402-v2"
+  },
+  "servers": [
+    {
+      "url": "https://tooloracle.io",
+      "description": "ToolOracle production (Base Mainnet, USDC)"
+    }
+  ],
+  "tags": [
+    {
+      "name": "compliance",
+      "description": "MiCA / AML / regulatory compliance checks."
+    },
+    {
+      "name": "agent-safety",
+      "description": "AI-agent action preflight & guardrails."
+    },
+    {
+      "name": "uvo",
+      "description": "Universal Verifiable Output: claim/citation/action validation."
+    },
+    {
+      "name": "evidence",
+      "description": "Signed, auditable evidence certificates."
+    },
+    {
+      "name": "security",
+      "description": "CVE / threat-intel / ICT-risk."
+    },
+    {
+      "name": "macro",
+      "description": "Macroeconomic market data."
+    }
+  ],
+  "paths": {
+    "/v2/agent_preflight": {
+      "post": {
+        "operationId": "agentPreflight",
+        "summary": "Agent action preflight: GO/CAUTION/STOP verdict with evidence chain",
+        "description": "AI agent decision pre-flight + action audit + autonomous safety — should agent X execute action Y? Combined check: evidence freshness, provenance trace, policy gate, risk scoring, hallucination signals. Returns GO / CAUTION / STOP / INSUFFICIENT_EVIDENCE with cryptographic receipt. For autonomous agent workflows: tool calls, financial transactions, content publishing, regulatory submissions, multi-step task execution, agent compliance evidence, MCP gateway routing.",
+        "tags": [
+          "agent-safety",
+          "ai-safety",
+          "validation",
+          "decision-support"
+        ],
+        "x-x402": {
+          "price": "$0.005",
+          "maxAmountRequired": "5000",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "assetName": "USD Coin",
+          "network": "eip155:8453",
+          "scheme": "exact",
+          "payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D",
+          "facilitator": "https://api.cdp.coinbase.com/platform/v2/x402"
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/agentPreflightInput"
+              },
+              "examples": {
+                "default": {
+                  "value": {
+                    "intent": "transfer 1000 EUR to wallet 0xabc..."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/agentPreflightOutput"
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "verdict": "go",
+                      "cost_units": 1,
+                      "evidence": [
+                        {
+                          "source": "feedoracle"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2). Retry with the PAYMENT-SIGNATURE header. See x-x402.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/X402PaymentRequired"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (missing/invalid field).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/mica_stablecoin_check": {
+      "post": {
+        "operationId": "micaStablecoinCheck",
+        "summary": "MiCA stablecoin compliance check (full Ampel + grade + ESMA status)",
+        "description": "EU stablecoin MiCA compliance audit + regulatory readiness — full Ampel traffic-light check (RED/YELLOW/GREEN) across all 12 MiCA articles (Title III EMT + Title IV ART). Grade A-F + signed MiCA status evidence snapshot (source and as-of metadata). Supports USDC, USDT, EURC, RLUSD, DAI, FDUSD, PYUSD and 40+ stablecoins. Required regulatory due diligence for CASPs, EU exchanges, payment service providers, e-money institutions, fintech agents. BaFin / ESMA / AMF / FINMA / CySEC aligned. July 2026 CASP deadline.",
+        "tags": [
+          "compliance",
+          "mica",
+          "stablecoin",
+          "eu-regulation",
+          "crypto"
+        ],
+        "x-x402": {
+          "price": "$0.01",
+          "maxAmountRequired": "10000",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "assetName": "USD Coin",
+          "network": "eip155:8453",
+          "scheme": "exact",
+          "payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D",
+          "facilitator": "https://api.cdp.coinbase.com/platform/v2/x402"
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/micaStablecoinCheckInput"
+              },
+              "examples": {
+                "default": {
+                  "value": {
+                    "token": "USDC",
+                    "issuer": "Circle"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/micaStablecoinCheckOutput"
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "verdict": "PASS",
+                      "score": 87.4,
+                      "grade": "A",
+                      "mica_status": "AUTHORIZED",
+                      "signed": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2). Retry with the PAYMENT-SIGNATURE header. See x-x402.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/X402PaymentRequired"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (missing/invalid field).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/uvo_quick": {
+      "post": {
+        "operationId": "uvoQuick",
+        "summary": "Fast deterministic agent-action validator (sub-100ms, APPROVE/WARN/ESCALATE/BLOCK)",
+        "description": "AI agent safety check + hallucination detection — fast pre-flight guardrail for autonomous agent actions. Sub-100ms validation with risk score and APPROVE/WARN/ESCALATE/BLOCK verdict. For agent safety, agent guardrails, MCP tool gating, autonomous workflow audit, AI compliance pre-checks. Use before any agent action: tool calls, payments, content publishing, code execution, regulatory submissions.",
+        "tags": [
+          "agent-safety",
+          "uvo",
+          "validation"
+        ],
+        "x-x402": {
+          "price": "$0.005",
+          "maxAmountRequired": "5000",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "assetName": "USD Coin",
+          "network": "eip155:8453",
+          "scheme": "exact",
+          "payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D",
+          "facilitator": "https://api.cdp.coinbase.com/platform/v2/x402"
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/uvoQuickInput"
+              },
+              "examples": {
+                "default": {
+                  "value": {
+                    "proposal": {
+                      "action_type": "payment",
+                      "target": "0xabc...",
+                      "claim": "vendor invoice",
+                      "idempotent": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/uvoQuickOutput"
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "decision": "BLOCK",
+                      "risk_score": 10.0,
+                      "blocking_layer": "L4",
+                      "reasoning": "Blocked by L4: high-risk action without rollback or idempotency",
+                      "elapsed_ms": 0,
+                      "receipt_id": "rec-abc123def456"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2). Retry with the PAYMENT-SIGNATURE header. See x-x402.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/X402PaymentRequired"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (missing/invalid field).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/uvo_citation_check": {
+      "post": {
+        "operationId": "uvoCitationCheck",
+        "summary": "Legal/academic citation verification + phantom-citation detection",
+        "description": "Legal citation verification + phantom detection — catches fabricated EU/US statute references, hallucinated case law, fake academic papers, made-up section numbers in AI-generated regulatory text. EU MiCA, GDPR, DORA, AMLR, NIS2, BaFin German codes (BGB, KWG) + US FINRA, SEC, FinCEN citations supported. For legal research, compliance audit, regulatory drafting, AI hallucination defense. Sub-200ms.",
+        "tags": [
+          "uvo",
+          "legal-tech",
+          "citation",
+          "compliance"
+        ],
+        "x-x402": {
+          "price": "$0.01",
+          "maxAmountRequired": "10000",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "assetName": "USD Coin",
+          "network": "eip155:8453",
+          "scheme": "exact",
+          "payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D",
+          "facilitator": "https://api.cdp.coinbase.com/platform/v2/x402"
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/uvoCitationCheckInput"
+              },
+              "examples": {
+                "default": {
+                  "value": {
+                    "claim": "Per MiCA Article 4(99), all stablecoin issuers must..."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/uvoCitationCheckOutput"
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "verdict": "BLOCK",
+                      "score": 1.0,
+                      "reasoning": "phantom citation detected",
+                      "elapsed_ms": 12
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2). Retry with the PAYMENT-SIGNATURE header. See x-x402.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/X402PaymentRequired"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (missing/invalid field).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/uvo_full": {
+      "post": {
+        "operationId": "uvoFull",
+        "summary": "Full 8-layer agent-action validator with ECDSA P-256 receipt",
+        "description": "AI agent action validation + audit — comprehensive 8-layer deep check: schema, measurability, reversibility, containment, danger, existence, citation, commitment. Production-grade agent safety guardrail with cryptographic receipt (ECDSA P-256, audit-ready). For high-stakes autonomous workflows: financial transactions, regulatory submissions, content publishing, code deployment. EU MiCA / DORA / AMLR compliance evidence.",
+        "tags": [
+          "agent-safety",
+          "uvo",
+          "validation",
+          "evidence"
+        ],
+        "x-x402": {
+          "price": "$0.02",
+          "maxAmountRequired": "20000",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "assetName": "USD Coin",
+          "network": "eip155:8453",
+          "scheme": "exact",
+          "payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D",
+          "facilitator": "https://api.cdp.coinbase.com/platform/v2/x402"
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/uvoFullInput"
+              },
+              "examples": {
+                "default": {
+                  "value": {
+                    "proposal": {
+                      "action_type": "deploy",
+                      "target": "prod",
+                      "expected_outcome": "rollout v2",
+                      "idempotent": true,
+                      "declared_sandbox": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/uvoFullOutput"
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "decision": "APPROVE",
+                      "risk_score": 0.0,
+                      "elapsed_ms": 487
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2). Retry with the PAYMENT-SIGNATURE header. See x-x402.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/X402PaymentRequired"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (missing/invalid field).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/sanctions_screen": {
+      "post": {
+        "operationId": "sanctionsScreen",
+        "summary": "Screen names against EU + OFAC + UN sanctions lists (87k+ entities)",
+        "description": "Sanctions screening + AML compliance check — real-time name screening against EU FSF (14k entities), US OFAC SDN (69k), UN Security Council (3k), UK HMT (4k). Hit/no-hit verdict with entity details, confidence score, matched-list breakdown. For KYC, KYB, CDD, AML, transaction monitoring, agent payment pre-flight, payments compliance, regtech workflows. EU AMLR Art. 21 + FinCEN BSA + FATF Rec. 6 + BaFin GwG compliant.",
+        "tags": [
+          "compliance",
+          "aml",
+          "sanctions",
+          "kyc",
+          "regtech"
+        ],
+        "x-x402": {
+          "price": "$0.02",
+          "maxAmountRequired": "20000",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "assetName": "USD Coin",
+          "network": "eip155:8453",
+          "scheme": "exact",
+          "payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D",
+          "facilitator": "https://api.cdp.coinbase.com/platform/v2/x402"
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/sanctionsScreenInput"
+              },
+              "examples": {
+                "default": {
+                  "value": {
+                    "name": "John Doe",
+                    "country": "RU"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/sanctionsScreenOutput"
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "hit": false,
+                      "matched_lists": [],
+                      "confidence": 0.0
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2). Retry with the PAYMENT-SIGNATURE header. See x-x402.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/X402PaymentRequired"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (missing/invalid field).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/cve_lookup": {
+      "post": {
+        "operationId": "cveLookup",
+        "summary": "NIST NVD CVE search by keyword, vendor, or product — CVSS score, CWE, references.",
+        "description": "AgentNOMOS CVE Vulnerability Intelligence Lookup: Keyword, vendor or product search against the NIST NVD database. Returns per CVE: cve_id, published date, CVSS base score and vector string, attack vector, CWE class, description excerpt, references and the NVD detail URL. Source is NIST NVD only — no CISA KEV and no MITRE ATT&CK integration. For automated security checks and agent workflows.",
+        "tags": [
+          "security",
+          "cve",
+          "vulnerability",
+          "threat-intel",
+          "compliance"
+        ],
+        "x-x402": {
+          "price": "$0.005",
+          "maxAmountRequired": "5000",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "assetName": "USD Coin",
+          "network": "eip155:8453",
+          "scheme": "exact",
+          "payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D",
+          "facilitator": "https://api.cdp.coinbase.com/platform/v2/x402"
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/cveLookupInput"
+              },
+              "examples": {
+                "default": {
+                  "value": {
+                    "keyword": "openssl",
+                    "limit": 5
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/cveLookupOutput"
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "total_results": 10,
+                      "returned": 1,
+                      "vulnerabilities": [
+                        {
+                          "cve_id": "CVE-2026-45363",
+                          "published": "2026-07-14",
+                          "cvss_score": 9.1,
+                          "attack_vector": "NETWORK",
+                          "cwe": "CWE-287",
+                          "nvd_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45363"
+                        }
+                      ],
+                      "source": "NIST NVD"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2). Retry with the PAYMENT-SIGNATURE header. See x-x402.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/X402PaymentRequired"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (missing/invalid field).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/macro_snapshot": {
+      "post": {
+        "operationId": "macroSnapshot",
+        "summary": "US macro dashboard: Fed + CPI + yields + jobs + GDP in one call",
+        "description": "US macro economic snapshot + trading signals + market data — Fed funds rate, CPI inflation, PPI, yield curve (10Y-2Y spread), unemployment, GDP growth, housing index, consumer sentiment in single API call. Real-time from FRED + BLS + BEA. For trading agents, risk models, portfolio rebalancing, economic forecasting, market commentary, research workflows, autonomous treasury management, DeFi macro hedging.",
+        "tags": [
+          "macro",
+          "finance",
+          "economics",
+          "market-data",
+          "trading"
+        ],
+        "x-x402": {
+          "price": "$0.01",
+          "maxAmountRequired": "10000",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "assetName": "USD Coin",
+          "network": "eip155:8453",
+          "scheme": "exact",
+          "payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D",
+          "facilitator": "https://api.cdp.coinbase.com/platform/v2/x402"
+        },
+        "requestBody": {
+          "required": false,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/macroSnapshotInput"
+              },
+              "examples": {
+                "default": {
+                  "value": {}
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful result.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/macroSnapshotOutput"
+                },
+                "examples": {
+                  "default": {
+                    "value": {
+                      "fed_funds_rate": 4.5,
+                      "cpi_yoy": 2.7,
+                      "unemployment": 4.1,
+                      "gdp_yoy": 2.3
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2). Retry with the PAYMENT-SIGNATURE header. See x-x402.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/X402PaymentRequired"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (missing/invalid field).",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "agentPreflightInput": {
+        "type": "object",
+        "properties": {
+          "intent": {
+            "type": "string",
+            "description": "Description of what the agent wants to do."
+          },
+          "context": {
+            "type": "object",
+            "description": "Optional agent context (agent_id, session_id, etc.).",
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "intent"
+        ],
+        "additionalProperties": false
+      },
+      "agentPreflightOutput": {
+        "type": "object",
+        "properties": {
+          "verdict": {
+            "type": "string"
+          },
+          "cost_units": {
+            "type": "integer"
+          },
+          "evidence": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "source": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "micaStablecoinCheckInput": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "Stablecoin symbol (USDC, USDT, EURC, RLUSD, DAI, etc.)."
+          },
+          "issuer": {
+            "type": "string",
+            "description": "Optional issuer name (Circle, Tether, Ripple, etc.)."
+          }
+        },
+        "required": [
+          "token"
+        ],
+        "additionalProperties": false
+      },
+      "micaStablecoinCheckOutput": {
+        "type": "object",
+        "properties": {
+          "verdict": {
+            "type": "string"
+          },
+          "score": {
+            "type": "number"
+          },
+          "grade": {
+            "type": "string"
+          },
+          "mica_status": {
+            "type": "string"
+          },
+          "signed": {
+            "type": "boolean"
+          }
+        }
+      },
+      "uvoQuickInput": {
+        "type": "object",
+        "properties": {
+          "proposal": {
+            "type": "object",
+            "description": "Agent action proposal to validate.",
+            "properties": {
+              "action_type": {
+                "type": "string",
+                "description": "Kind of action (e.g. tool_call, payment, publish, deploy)."
+              },
+              "target": {
+                "type": "string",
+                "description": "Target of the action."
+              },
+              "claim": {
+                "type": "string",
+                "description": "Claim/justification the agent asserts."
+              },
+              "expected_outcome": {
+                "type": "string",
+                "description": "Expected result if executed."
+              },
+              "success_metric": {
+                "type": "string",
+                "description": "How success is measured."
+              },
+              "args": {
+                "type": "object",
+                "description": "Action arguments.",
+                "additionalProperties": true
+              },
+              "idempotent": {
+                "type": "boolean",
+                "description": "Whether the action is safely repeatable."
+              },
+              "declared_sandbox": {
+                "type": "boolean",
+                "description": "Whether the action runs in a sandbox."
+              }
+            },
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "proposal"
+        ],
+        "additionalProperties": false
+      },
+      "uvoQuickOutput": {
+        "type": "object",
+        "properties": {
+          "decision": {
+            "type": "string"
+          },
+          "risk_score": {
+            "type": "number"
+          },
+          "blocking_layer": {
+            "type": "string"
+          },
+          "reasoning": {
+            "type": "string"
+          },
+          "elapsed_ms": {
+            "type": "integer"
+          },
+          "receipt_id": {
+            "type": "string"
+          }
+        }
+      },
+      "uvoCitationCheckInput": {
+        "type": "object",
+        "properties": {
+          "claim": {
+            "type": "string",
+            "description": "Text potentially containing citations to verify."
+          },
+          "references": {
+            "type": "array",
+            "description": "Optional list of reference URLs/IDs.",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "claim"
+        ],
+        "additionalProperties": false
+      },
+      "uvoCitationCheckOutput": {
+        "type": "object",
+        "properties": {
+          "verdict": {
+            "type": "string"
+          },
+          "score": {
+            "type": "number"
+          },
+          "reasoning": {
+            "type": "string"
+          },
+          "elapsed_ms": {
+            "type": "integer"
+          }
+        }
+      },
+      "uvoFullInput": {
+        "type": "object",
+        "properties": {
+          "proposal": {
+            "type": "object",
+            "description": "Agent action proposal to validate.",
+            "properties": {
+              "action_type": {
+                "type": "string",
+                "description": "Kind of action (e.g. tool_call, payment, publish, deploy)."
+              },
+              "target": {
+                "type": "string",
+                "description": "Target of the action."
+              },
+              "claim": {
+                "type": "string",
+                "description": "Claim/justification the agent asserts."
+              },
+              "expected_outcome": {
+                "type": "string",
+                "description": "Expected result if executed."
+              },
+              "success_metric": {
+                "type": "string",
+                "description": "How success is measured."
+              },
+              "args": {
+                "type": "object",
+                "description": "Action arguments.",
+                "additionalProperties": true
+              },
+              "idempotent": {
+                "type": "boolean",
+                "description": "Whether the action is safely repeatable."
+              },
+              "declared_sandbox": {
+                "type": "boolean",
+                "description": "Whether the action runs in a sandbox."
+              }
+            },
+            "additionalProperties": true
+          }
+        },
+        "required": [
+          "proposal"
+        ],
+        "additionalProperties": false
+      },
+      "uvoFullOutput": {
+        "type": "object",
+        "properties": {
+          "decision": {
+            "type": "string"
+          },
+          "risk_score": {
+            "type": "number"
+          },
+          "elapsed_ms": {
+            "type": "integer"
+          }
+        }
+      },
+      "sanctionsScreenInput": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Person or entity name to screen."
+          },
+          "country": {
+            "type": "string",
+            "description": "Optional ISO country code."
+          },
+          "dob": {
+            "type": "string",
+            "description": "Optional date of birth YYYY-MM-DD."
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "additionalProperties": false
+      },
+      "sanctionsScreenOutput": {
+        "type": "object",
+        "properties": {
+          "hit": {
+            "type": "boolean"
+          },
+          "matched_lists": {
+            "type": "array",
+            "items": {}
+          },
+          "confidence": {
+            "type": "number"
+          }
+        }
+      },
+      "cveLookupInput": {
+        "type": "object",
+        "properties": {
+          "keyword": {
+            "type": "string",
+            "description": "Search keyword, vendor, or product name."
+          },
+          "limit": {
+            "type": "integer",
+            "description": "Max results (default 10, max 50).",
+            "minimum": 1,
+            "maximum": 50
+          }
+        },
+        "required": [
+          "keyword"
+        ],
+        "additionalProperties": false
+      },
+      "cveLookupOutput": {
+        "type": "object",
+        "properties": {
+          "total_results": {
+            "type": "integer"
+          },
+          "returned": {
+            "type": "integer"
+          },
+          "vulnerabilities": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "cve_id": {
+                  "type": "string"
+                },
+                "published": {
+                  "type": "string"
+                },
+                "cvss_score": {
+                  "type": "number"
+                },
+                "attack_vector": {
+                  "type": "string"
+                },
+                "cwe": {
+                  "type": "string"
+                },
+                "nvd_url": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "source": {
+            "type": "string"
+          }
+        }
+      },
+      "macroSnapshotInput": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": true
+      },
+      "macroSnapshotOutput": {
+        "type": "object",
+        "properties": {
+          "fed_funds_rate": {
+            "type": "number"
+          },
+          "cpi_yoy": {
+            "type": "number"
+          },
+          "unemployment": {
+            "type": "number"
+          },
+          "gdp_yoy": {
+            "type": "number"
+          }
+        }
+      },
+      "X402PaymentRequired": {
+        "type": "object",
+        "description": "Standard x402 v2 Payment-Required challenge.",
+        "properties": {
+          "x402Version": {
+            "type": "integer",
+            "examples": [
+              2
+            ]
+          },
+          "accepts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "scheme": {
+                  "type": "string",
+                  "examples": [
+                    "exact"
+                  ]
+                },
+                "network": {
+                  "type": "string",
+                  "examples": [
+                    "eip155:8453"
+                  ]
+                },
+                "maxAmountRequired": {
+                  "type": "string",
+                  "description": "Atomic USDC units (6 decimals)."
+                },
+                "price": {
+                  "type": "string",
+                  "examples": [
+                    "$0.01"
+                  ]
+                },
+                "asset": {
+                  "type": "string",
+                  "examples": [
+                    "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+                  ]
+                },
+                "payTo": {
+                  "type": "string",
+                  "examples": [
+                    "0x11f591C3496C0632e7B173184f5Bc71dC941125D"
+                  ]
+                }
+              }
+            }
+          },
+          "error": {
+            "type": "string"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "x-x402-global": {
+    "protocol": "x402-v2",
+    "network": "eip155:8453",
+    "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D",
+    "facilitator": "https://api.cdp.coinbase.com/platform/v2/x402",
+    "manifest": "https://tooloracle.io/.well-known/x402"
+  }
+}

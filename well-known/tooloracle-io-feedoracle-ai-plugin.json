@@ -1,0 +1,21 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "FeedOracle",
+  "name_for_model": "feedoracle",
+  "description_for_human": "Evidence infrastructure for regulated tokenized markets. Cryptographically signed risk and compliance intelligence across RWA (61 protocols), macro-economics (118 FRED+ECB series), MiCA stablecoin compliance (105 tokens), stablecoin risk intelligence (7-signal scoring), and DORA operational resilience. Enterprise Trust Layer: JWS signing (RFC 7515), evidence registry, versioned schemas, agent trust management, streaming evidence (SSE), deterministic audit replay, validation SDK.",
+  "description_for_model": "FeedOracle provides cryptographically verified evidence APIs with Enterprise Trust Layer. Base URL: https://feedoracle.io. 3 MCP Servers (44 tools total): (1) Compliance MCP at /mcp/sse \u2014 22 tools: compliance_preflight, mica_status, mica_full_pack, evidence_profile, custody_risk, market_liquidity, evidence_leaderboard, macro_risk, ai_query, evidence_bundle, ai_explain, ai_provenance + MiCA tools. (2) Macro MCP at /mcp/macro/sse \u2014 13 tools: macro_regime, fed_rates, ecb_rates, inflation, yield_curve. (3) Stablecoin Risk MCP at /mcp/risk/sse \u2014 13 tools: risk_assessment, peg_status, supply_flow, custody_data, leaderboard (SAFE/CAUTION/AVOID verdicts). Enterprise Trust Layer endpoints: GET /schemas/ (8 versioned JSON Schemas), GET /evidence/registry (Compliance Transparency Log with filters), GET /evidence/stream (SSE real-time events: peg_deviation, regime_change, market_stress), GET /evidence/replay/{pack_id} (deterministic audit replay with hash_match proof), POST /ai/agent/register (agent trust management with reputation scoring), GET /ai/agent/leaderboard (agent reputation ranking), GET /verify/sdk (validation SDK info), GET /verify/self-test (live 7-check verification). Every response includes: evidence{pack_id, content_hash, anchor_ref}, jws{RFC 7515 ES256K compact token}, sla{freshness, confidence, sources}, schema_ref. JWS verification via JWKS: /.well-known/jwks.json. All data ECDSA-signed (secp256k1), SHA-256 hashed, blockchain-anchored (Polygon+XRPL). Connect MCP: npx -y mcp-remote https://feedoracle.io/mcp/sse",
+  "auth": {
+    "type": "service_http",
+    "authorization_type": "custom",
+    "custom_auth_header": "X-API-Key",
+    "verification_tokens": {}
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://feedoracle.io/.well-known/openapi.json",
+    "is_user_authenticated": false
+  },
+  "logo_url": "https://feedoracle.io/logo.png",
+  "contact_email": "enterprise@feedoracle.io",
+  "legal_info_url": "https://feedoracle.io/terms.html"
+}

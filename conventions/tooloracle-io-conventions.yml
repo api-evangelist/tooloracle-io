@@ -1,0 +1,134 @@
+generated: '2026-09-19'
+method: searched
+source: >-
+  https://tooloracle.io/docs/mcp-auth.html, https://tooloracle.io/docs/402-protocol, https://tooloracle.io/docs/x402-buyer-quickstart/,
+  https://tooloracle.io/.well-known/pricing.json, https://tooloracle.io/terms.html, https://tooloracle.io/datenschutz.html, the three
+  saved OpenAPIs, the live MCP tools/list capture, and response headers observed on 2026-09-19/20 (200 tools/call, 402 v1 and v2,
+  ANP handshake). Cross-cutting semantics only; per-operation contracts live in openapi/ and mcp/tooloracle-io-tools.json.
+description: >-
+  How the ToolOracle / OracleNet surface behaves across its ~90 MCP endpoints, 18 priced /v2 REST routes and the A2A endpoint:
+  layered optional authentication, x402 pay-per-call signalling, in-band request ids, no pagination, mixed error envelopes,
+  partial idempotency and a largely irreversible (paid, on-chain) write surface.
+base_url: https://tooloracle.io
+api_style: MCP over Streamable HTTP (JSON-RPC 2.0) as the primary contract; JSON-over-HTTPS POST for /v2 and mesh-economics routes; A2A 0.3 JSON-RPC at /a2a/jsonrpc; ANP JSON-LD at POST /handshake
+
+authentication:
+  style: layered and optional
+  layers:
+  - {name: anonymous, mechanism: none, scope: discovery documents, handshake, tools/list everywhere but deal/mcp, free tools; 20 requests/day (RFC 9728 doc) / "100 calls/day" (docs)}
+  - {name: api key, mechanism: 'X-API-Key header, key prefix fo_, issued by the kya_register MCP tool with 500 welcome units', scope: all tools; units deducted per call}
+  - {name: OAuth 2.1 bearer, mechanism: 'Authorization: Bearer from https://feedoracle.io/mcp/token (RFC 7591 DCR at /mcp/register, PKCE S256, client_credentials)', scope: 'one token valid across tooloracle.io and feedoracle.io MCP resources (federation_note)'}
+  - {name: DID:WBA, mechanism: 'Bearer DID-WBA-JWT (ES256K) per the agent card securitySchemes / ANP', scope: authenticated agent identity}
+  - {name: x402, mechanism: 'v2: PAYMENT-SIGNATURE header answering a PAYMENT-REQUIRED challenge; v1: X-PAYMENT: 0x<tx hash>', scope: paid tools/routes}
+  detail: authentication/tooloracle-io-authentication.yml
+  scopes: scopes/tooloracle-io-scopes.yml
+
+idempotency:
+  supported: partial
+  coverage: partial
+  mechanism: mixed — no Idempotency-Key header anywhere; replay protection exists on three named surfaces
+  scope:
+  - operation: 'POST /economics/api/commit'
+    spec: openapi/tooloracle-io-mcp-platform-openapi.yml
+    mechanism: 'call_uuid inside the CallDecision returned by POST /economics/api/price; a repeat returns 409 "Idempotency conflict — this call_uuid already committed"'
+  - operation: 'POST /v2/nomos_full_chain_verification'
+    spec: openapi/tooloracle-io-mcp-platform-openapi.yml
+    mechanism: 'request body client_nonce (8-64 chars [A-Za-z0-9_-]) per the buyer quickstart'
+  - operation: 'every x402 v2 paid call (/v2/*)'
+    spec: openapi/tooloracle-io-x402-v2-openapi.yml
+    mechanism: 'EIP-3009 transferWithAuthorization nonce — the payment cannot be settled twice; the buyer quickstart latches to "exactly one challenge request, at most one paid retry"'
+  not_covered: 'all MCP tools/call writes (kya_register, quantum_join, quantum_deal, quantum_settle, escrow_create, subscribe, emit_event, schedule_task, memory store) — a retried tools/call is a second call'
+  key_format: null
+  retention: not stated
+  docs: https://tooloracle.io/docs/x402-buyer-quickstart/
+
+dry_run:
+  mode: none
+  note: >-
+    No destructive operation exposes a dry_run/simulate/preview/validate_only parameter. Two adjacent affordances exist and are
+    recorded so they are not mistaken for one: (a) an unpaid POST to a priced route returns 402 with the exact price and never
+    executes — a QUOTE, usable to plan spend; (b) POST /handshake and the quantum_intent / quantum_route tools classify an intent
+    and name the route without invoking it (pricing.json tier "capability_query": "Intent classification without invoking the
+    underlying tool"). decision_preflight / agent_preflight rehearse the DECISION, not the tool.
+
+reversibility:
+  status: documented
+  method: searched
+  derived_from: [openapi/_original/tooloracle-io-openapi.json, openapi/_original/tooloracle-io-v2-openapi.json, mcp/tooloracle-io-tools.json]
+  docs: [https://tooloracle.io/terms.html, https://tooloracle.io/datenschutz.html]
+  summary: >-
+    The write surface splits in two. Payments are explicitly irreversible: Terms §3 "blockchain transactions are irreversible …
+    No refunds are provided for completed, successfully executed tool calls" and §13 "Blockchain payments already made are
+    non-refundable." State an agent creates on the mesh has named reversal operations on several servers (cancel, unsubscribe,
+    forget), but the provider states NO window for any of them, so the grade is documented, not verified.
+  irreversible:
+  - {surface: x402 payments (v1 and v2), statement: 'Terms §3 / §13 — irreversible, no refunds for successfully executed calls', docs: https://tooloracle.io/terms.html}
+  - {surface: on-chain anchors / escrow settlement, statement: 'Datenschutz §6 "Blockchain-Transaktionen: unveränderlich"', docs: https://tooloracle.io/datenschutz.html}
+  reversals:
+  - {write: schedule_task, reversal: cancel_task, surface: 'https://tooloracle.io/scheduler/mcp/ and /x402/scheduler/mcp/', window: null, evidence: tools/list 2026-09-20}
+  - {write: subscribe (EventFabric), reversal: unsubscribe, surface: https://tooloracle.io/eventfabric/mcp/, window: null, evidence: tools/list 2026-09-20}
+  - {write: quantum_subscribe (OracleNet webhook), reversal: null, surface: https://tooloracle.io/quantum/mcp/, window: null, note: no unsubscribe tool listed on quantum/mcp}
+  - {write: MemoryOracle store, reversal: forget (delete) and export_memories (portability), surface: https://tooloracle.io/memory/mcp/ (404 on probe day), window: 'user-set expires_hours TTL, not a reversal window', evidence: 'Terms §6, Datenschutz §4 and §9'}
+  - {write: price_alert (ShopOracle), reversal: 'same tool with delete semantics per its description', surface: https://tooloracle.io/shop/mcp/, window: null}
+  - {write: register_change (ChangeOracle), reversal: 'rollback_plan (produces a plan; does not itself roll back)', surface: https://tooloracle.io/change/mcp/, window: null}
+  - {write: escrow_create (DealOracle), reversal: 'escrow_settle / not listed — server answers 401 anonymously', surface: https://tooloracle.io/deal/mcp/, window: null}
+  - {write: kya_register (API key + client_id), reversal: null, surface: https://feedoracle.io/mcp, window: null, note: 'no revoke tool; OAuth tokens can be revoked at https://feedoracle.io/mcp/revoke'}
+  grade_basis: 'reversal operations exist in the contract (cancel_task, unsubscribe, forget) => documented (0.4); no stated window anywhere => not verified. Payments are correctly declared irreversible, which is a statement, not a reversal.'
+
+pagination:
+  style: none
+  note: No list operation with cursor/offset/limit parameters in any spec; MCP list tools (list_accounts, list_subscriptions, list_changes) take no paging arguments in their inputSchema.
+
+field_expansion: {supported: false}
+metadata: {supported: false, note: 'MemoryOracle namespaces and quantum_join agent metadata are server-side records, not a metadata bag on API objects.'}
+
+request_tracing:
+  request_id: 'in-band: MCP tool results carry "request_id" (e.g. "wl-2dbb084c1571") inside the JSON text content; the handshake response carries an "id" URL'
+  request_id_header: none observed
+  response_headers_observed:
+  - 'x-oraclenet-manifest, x-oraclenet-did (did:web:tooloracle.io), x-oraclenet-join, x-agent-protocol: MCP,A2A,x402 — on the x402 gateway responses'
+  - 'link: rel="agent-card", rel="oraclenet-manifest", rel="deal-policy", rel="do-not-contact", rel="foedus-next-step"'
+  - 'strict-transport-security: max-age=31536000; includeSubDomains; preload; CSP; x-frame-options DENY on every host'
+
+versioning:
+  scheme: path generations (/v2/*, legacy /x402/{product}/mcp/) + independently versioned documents
+  header: none
+  detail: lifecycle/tooloracle-io-lifecycle.yml
+  changelog: changelog/tooloracle-io-changelog.yml
+
+error_envelope:
+  media_type: application/json (REST), JSON-RPC error objects (MCP), text/html (nginx edge)
+  rfc9457: partial — documented for HTTP 500 on /v2 only
+  shape_rest_400: '{ "error", "code", "message" }'
+  shape_402_v2: 'header PAYMENT-REQUIRED (base64 JSON) + empty body'
+  shape_402_v1: '{ "x402Version", "accepts"[], "status": "payment_required", "denial"{}, "payment"{}, "upgrade_path"{} }'
+  detail: errors/tooloracle-io-problem-types.yml
+
+rate_limits:
+  signal_status: 429 (nginx HTML, no Retry-After)
+  quota_signalling: 'x-current-balance / x-current-tier / x-required-cents on 402 responses; kya_status tool for balance'
+  headers: none of RateLimit-*, X-RateLimit-*, Retry-After observed
+  detail: rate-limits/tooloracle-io-rate-limits.yml
+
+payments:
+  protocol: x402 v2 (Base mainnet eip155:8453, USDC 0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913, payTo 0x11f591C3496C0632e7B173184f5Bc71dC941125D, facilitator api.cdp.coinbase.com)
+  challenge: 'HTTP 402 + PAYMENT-REQUIRED header (accepts[0].amount in atomic USDC, maxTimeoutSeconds 300)'
+  payment: 'PAYMENT-SIGNATURE header (EIP-3009 exact scheme)'
+  receipt: 'PAYMENT-RESPONSE header with the on-chain tx; paid /v2 responses embed chain.receipt.verification (Ed25519 NOMOS execution receipt, JWKS https://feedoracle.io/.well-known/nomos-execution-jwks.json)'
+  legacy: 'v1 routes: send USDC, then X-PAYMENT: 0x<tx hash>; balances in units (1 unit = $0.01)'
+  unit_pricing: '1 unit = $0.01 USDC; light 1 unit, medium 3-5, heavy 8-15 (docs/402-protocol); /v2 routes $0.001-$0.10 per call (x402 manifest)'
+  docs: [https://tooloracle.io/docs/402-protocol, https://tooloracle.io/docs/x402-buyer-quickstart/, https://tooloracle.io/.well-known/x402]
+
+webhooks:
+  detail: asyncapi/tooloracle-io-webhooks.yml
+  note: A2A pushNotifications true; quantum_subscribe / EventFabric subscribe register webhook URLs; no signing scheme documented.
+
+other_conventions:
+- name: Signed responses
+  detail: 'ES256K JWS "where supported" (verification-policy.json); verify against https://tooloracle.io/.well-known/jwks.json. Not every response is signed and the provider says so.'
+- name: Free-first flow
+  detail: 'Provider-published skill (skills/tooloracle-io-oraclenet-mesh-SKILL.md) mandates handshake -> read route -> check price -> explicit budget/consent -> call. Discovery is always free.'
+- name: Do-not-contact registry
+  detail: 'Senders MUST consult https://tooloracle.io/.well-known/do-not-contact.json before outbound proposals (agent card links[]).'
+- name: Counts are snapshots
+  detail: 'Every discovery document embeds live mesh counts that disagree with each other; the provider names https://tooloracle.io/assets/catalog.json and /data/mesh-truth.json as canonical.'

@@ -1,0 +1,38 @@
+generated: '2026-09-19'
+method: searched
+source: https://tooloracle.io/.well-known/oauth-protected-resource (tiers), https://feedoracle.io/.well-known/oauth-protected-resource (tiers), https://tooloracle.io/docs/mcp-auth.html, https://tooloracle.io/llms.txt (XRPLOracle), https://raw.githubusercontent.com/ToolOracle/rankoracle/main/README.md, https://tooloracle.io/.well-known/pricing.json; exhaustion behaviour observed live 2026-09-20
+docs: https://tooloracle.io/docs/mcp-auth.html
+limit_count: 10
+summary: >-
+  Limits are published as daily call quotas per access tier, in three documents that do not fully agree, and are enforced at the
+  nginx edge without any runtime header. The RFC 9728 protected-resource document is the most machine-readable statement
+  (anonymous 20/day, free 200/day, paid unlimited on tooloracle.io). pricing.json says the discovery tier's limit is
+  "route-specific; may be published in endpoint headers" — none were, on any captured response.
+rate_limits:
+- {name: Anonymous MCP access (tooloracle.io), scope: per-client, limit: 20, window: 1d, metric: request, source: https://tooloracle.io/.well-known/oauth-protected-resource}
+- {name: Free tier after dynamic client registration (tooloracle.io), scope: per-client, limit: 200, window: 1d, metric: request, source: https://tooloracle.io/.well-known/oauth-protected-resource}
+- {name: Paid via x402 (tooloracle.io), scope: per-wallet, limit: unlimited, window: 1d, metric: request, source: https://tooloracle.io/.well-known/oauth-protected-resource, note: 'bounded by units/balance, not by count'}
+- {name: Free tools (docs), scope: per-client, limit: 100, window: 1d, metric: call, source: https://tooloracle.io/docs/mcp-auth.html, note: 'conflicts with the 20/day anonymous figure above'}
+- {name: XRPLOracle free tier, scope: per-client, limit: 100, window: 1d, metric: call, source: https://tooloracle.io/llms.txt, endpoint: https://tooloracle.io/xrpl/mcp/}
+- {name: Anonymous MCP access (feedoracle.io), scope: per-client, limit: 20, window: 1d, metric: request, source: https://feedoracle.io/.well-known/oauth-protected-resource}
+- {name: Free tier (feedoracle.io), scope: per-client, limit: 100, window: 1d, metric: request, source: https://feedoracle.io/.well-known/oauth-protected-resource}
+- {name: Pro tier (feedoracle.io, $49/mo), scope: per-account, limit: 5000, window: 1d, metric: request, source: https://feedoracle.io/.well-known/oauth-protected-resource}
+- {name: Agent tier (feedoracle.io, $299/mo), scope: per-account, limit: 50000, window: 1d, metric: request, source: https://feedoracle.io/.well-known/oauth-protected-resource}
+- {name: Per-oracle README tiers, scope: per-key, limit: '100 (Free) / 10,000 (Pro)', window: 1d, metric: call, source: 'https://github.com/ToolOracle/* READMEs', note: 'per-server marketing figure; not reflected in the well-known documents'}
+per_call_caps:
+  note: unit bundles also cap spend per call — Free 3 units, Starter 8, Pro/Agency 15, x402 up to 1,000 units per call (plans/tooloracle-io-plans-pricing.yml)
+headers:
+  documented: []
+  observed_on_200: none related to rate limiting (only CORS, HSTS, CSP, x-oraclenet-*)
+  observed_on_402: [x-current-balance, x-current-tier, x-required-cents, x-required-amount-usd, x-denial-reason, 'www-authenticate: x402 …']
+  retry_after: not observed
+response_codes:
+  throttled: 429
+  throttled_body: nginx text/html "429 Too Many Requests" (no JSON, no Retry-After)
+  quota_exhausted_paid: 402 (units exhausted -> "All paid tools will return HTTP 402 until you top up", https://feedoracle.io/console/)
+observed:
+  note: >-
+    Running ~6 concurrent tools/list requests across different endpoints produced 429s on four endpoints (/deal/mcp/, /x402/smart/mcp/,
+    /nis2/mcp/, /aiact/mcp/) within seconds; sequential requests spaced 1.2 s apart never hit 429 across ~90 endpoints. The edge limit
+    therefore appears to be per-source concurrency/rate rather than the per-tier daily quota, and it is invisible until it fires.
+balance_signal: 'kya_status MCP tool (feedoracle.io/mcp) and GET /x402/balance/{wallet_address} return the remaining units'

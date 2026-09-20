@@ -1,0 +1,294 @@
+{
+  "protocol": "tooloracle.agent-pulse.v1",
+  "mesh_id": "did:web:tooloracle.io",
+  "mesh_name": "ToolOracle",
+  "timestamp": "2026-09-20T02:15:01.725751+00:00",
+  "ttl_seconds": 300,
+  "next_update_expected": "2026-09-20T02:20:01.725751+00:00",
+  "mesh_state": {
+    "servers_online": 89,
+    "tools_available": 1096,
+    "mesh_nodes": 9,
+    "blockchain_anchors": [
+      "polygon",
+      "base",
+      "xrpl",
+      "hedera",
+      "avalanche"
+    ],
+    "unique_agents_24h": 92,
+    "mcp_calls_24h": 6951,
+    "signal_hits_24h": 1588
+  },
+  "emergent_patterns": {
+    "meta_tool_candidates_count": 69,
+    "external_sessions_analyzed": 438,
+    "distinct_external_agents": 335,
+    "time_range": {
+      "from": "2026-04-11T06",
+      "to": "2026-09-20T01"
+    },
+    "details_url": "https://tooloracle.io/.well-known/meta-tools"
+  },
+  "performance": {
+    "median_latency_ms": 45,
+    "error_rate_24h": 0.00394,
+    "log_sample_size": 4318,
+    "freshness_age_max_seconds": 300
+  },
+  "cost_model": {
+    "protocol": "x402",
+    "currency": "USDC",
+    "network": "base",
+    "unit_value_usd": 0.01,
+    "free_tier_monthly_units": 50,
+    "welcome_bonus_units_new_wallets": 0,
+    "pay_to": "0x11f591C3496C0632e7B173184f5Bc71dC941125D",
+    "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+  },
+  "trust_layer": {
+    "signature_scheme": "ES256K",
+    "jwks": "https://tooloracle.io/.well-known/jwks.json",
+    "audit_log_type": "hash_chain_sha256",
+    "audit_log_size": 1261,
+    "did_method": "did:web",
+    "anchor_chains": 5
+  },
+  "cross_llm_gaps": [
+    {
+      "llm_family": "all",
+      "gap": "live_multi_chain_blockchain_data",
+      "description": "Real-time on-chain data across 13 chains (BTC, ETH, Solana, XRPL, Base, Arbitrum, BNB, TON, Sui, Hedera, Aptos, Flare, XLM) \u2014 prices, DEX orderbooks, wallet flows, network health. Frontier LLMs have training-cutoff data; agents need live feeds.",
+      "covered_by_tool": "mesh.blockchain_oracles_13",
+      "confidence": 0.95,
+      "agent_use_case": "trading_agents, prediction_markets, defi_automation"
+    },
+    {
+      "llm_family": "all",
+      "gap": "real_time_gpu_compute_pricing",
+      "description": "Live GPU availability and pricing across providers (Vast.ai, RunPod, Lambda) for agents that need to provision compute dynamically. LLMs have no live spot prices.",
+      "covered_by_tool": "gpuoracle.gpu_search",
+      "confidence": 0.98,
+      "agent_use_case": "ml_training_agents, inference_routing, autonomous_devops"
+    },
+    {
+      "llm_family": "claude",
+      "gap": "live_macro_economic_indicators",
+      "description": "Fed rates, ECB rates, CPI, inflation, employment data post knowledge-cutoff. Trading and financial-planning agents cannot reason without fresh macro data.",
+      "covered_by_tool": "macrooracle.fed_rates_v3",
+      "confidence": 0.9,
+      "agent_use_case": "trading_agents, financial_advisors, risk_management"
+    },
+    {
+      "llm_family": "all",
+      "gap": "persistent_cross_session_memory",
+      "description": "Persistent structured memory across agent sessions \u2014 store, query, cross-reference, summarize_session, export. Memory is the #3 most-installed MCP category per FastMCP April 2026. Agents lose context between runs without a memory layer.",
+      "covered_by_tool": "memoryoracle.store_memory, query_memory, cross_reference",
+      "confidence": 0.93,
+      "agent_use_case": "multi_session_agents, research_agents, customer_support_bots"
+    },
+    {
+      "llm_family": "gpt",
+      "gap": "threat_intel_cve_live",
+      "description": "NVD CVE database, CISA KEV list, CERT-Bund advisories updated daily. Security-review agents and vulnerability-scanning agents need live threat feeds \u2014 training-data CVEs are stale within weeks.",
+      "covered_by_tool": "doraoracle.cve_latest",
+      "confidence": 0.88,
+      "agent_use_case": "security_audit_agents, devops_agents, incident_response"
+    },
+    {
+      "llm_family": "all",
+      "gap": "commerce_search_prices_flights_hotels",
+      "description": "Live flight prices, hotel availability, product prices for agentic commerce (Google UCP, OpenAI ACP launched Q1 2026). Autonomous shopping agents need live comparable offers, not training-data snapshots.",
+      "covered_by_tool": "flightoracle, hoteloracle, shoporacle, priceoracle",
+      "confidence": 0.92,
+      "agent_use_case": "travel_planning_agents, procurement_agents, shopping_bots"
+    },
+    {
+      "llm_family": "all",
+      "gap": "eu_regulatory_compliance_corpus",
+      "description": "DORA, MiCA, AMLR, CSRD, LkSG articles + cross-mappings. Enterprise compliance agents may need this when working in EU-regulated contexts. Narrower audience than the other gaps but deep value when relevant. Optional regulated-evidence sub-layer routed via FeedOracle.",
+      "covered_by_tool": "ampeloracle, micaoracle, eulaworacle",
+      "confidence": 0.85,
+      "agent_use_case": "compliance_automation, audit_agents, enterprise_risk"
+    },
+    {
+      "llm_family": "all",
+      "gap": "live_carbon_esg_data",
+      "description": "Live EU ETS carbon prices, grid-level CO2 intensity per country, carbon footprint calculations, Ember electricity-mix data. LLMs have only stale training-cutoff ESG figures; corporate CBAM/CSRD reporting needs live values.",
+      "covered_by_tool": "carbonoracle.carbon_eu_ets_price, carbon_grid_intensity, carbon_footprint",
+      "confidence": 0.92,
+      "agent_use_case": "esg_reporting_agents, sustainability_audit, cbam_compliance"
+    },
+    {
+      "llm_family": "all",
+      "gap": "live_weather_air_quality_marine",
+      "description": "Live weather, forecast, alerts, air-quality index, marine conditions, astronomy. Logistics routing, insurance-claim validation, travel planning and outdoor-ops agents all require post-cutoff weather data.",
+      "covered_by_tool": "weatheroracle.weather_current, weather_forecast, weather_alerts, weather_marine, weather_air_quality",
+      "confidence": 0.95,
+      "agent_use_case": "logistics_agents, insurance_claim_agents, travel_planning_agents"
+    },
+    {
+      "llm_family": "all",
+      "gap": "structured_invoice_extraction_zugferd",
+      "description": "Structured extraction of invoices with EU-regulated formats (ZUGFeRD, Factur-X, XRechnung), OCR for scanned docs, table extraction, field validation. LLMs can read text but cannot emit compliance-grade structured XML payloads for B2B/B2G invoicing.",
+      "covered_by_tool": "invoiceoracle.invoice_extract, invoice_zugferd, invoice_ocr, invoice_validate",
+      "confidence": 0.88,
+      "agent_use_case": "accounting_agents, b2b_reconciliation, expense_automation"
+    },
+    {
+      "llm_family": "all",
+      "gap": "supply_chain_risk_cbam_csrd",
+      "description": "Live supplier risk scoring, geopolitical-risk per country, concentration risk, disruption detection, and EU directive checks (CBAM, CSRD, LkSG, Scope-3 estimates). Procurement and due-diligence agents need live geopolitical events + latest regulatory mappings.",
+      "covered_by_tool": "supplychainoracle.supplier_risk_score, geopolitical_risk, cbam_check, csrd_supply_check, lksg_check",
+      "confidence": 0.85,
+      "agent_use_case": "procurement_agents, due_diligence_bots, supply_chain_compliance"
+    }
+  ],
+  "observed_agent_demand": {
+    "window_primary": "24h",
+    "window_trend": "7d",
+    "generated_at": "2026-09-20T02:15:01.725817+00:00",
+    "note": "Measured demand from nginx access logs. Hybrid filter (IP + UA + behavior). Confidence reflects agent behavior quality, not raw volume.",
+    "categories": [
+      {
+        "category": "compliance",
+        "label": "Compliance & Regulation",
+        "calls_24h": 40050,
+        "unique_agents_24h": 179,
+        "success_ratio_24h": 0.988,
+        "top_oracles": [
+          "AMLOracle",
+          "RiskOracle",
+          "AmpelOracle"
+        ],
+        "trend_7d": "insufficient_data",
+        "trend_delta_percent_7d": null,
+        "confidence": "high"
+      },
+      {
+        "category": "blockchain",
+        "label": "Blockchain & Crypto",
+        "calls_24h": 11093,
+        "unique_agents_24h": 136,
+        "success_ratio_24h": 0.983,
+        "top_oracles": [
+          "ArbitrumOracle",
+          "YieldOracle",
+          "SmartMoneyOracle"
+        ],
+        "trend_7d": "insufficient_data",
+        "trend_delta_percent_7d": null,
+        "confidence": "high"
+      },
+      {
+        "category": "business",
+        "label": "Business Intelligence",
+        "calls_24h": 9328,
+        "unique_agents_24h": 116,
+        "success_ratio_24h": 0.984,
+        "top_oracles": [
+          "NewsOracle",
+          "MemeOracle",
+          "ShopOracle"
+        ],
+        "trend_7d": "insufficient_data",
+        "trend_delta_percent_7d": null,
+        "confidence": "high"
+      },
+      {
+        "category": "trust",
+        "label": "Trust & Identity",
+        "calls_24h": 6069,
+        "unique_agents_24h": 85,
+        "success_ratio_24h": 0.953,
+        "top_oracles": [
+          "Conductor",
+          "CyberShield",
+          "EventFabric"
+        ],
+        "trend_7d": "insufficient_data",
+        "trend_delta_percent_7d": null,
+        "confidence": "high"
+      },
+      {
+        "category": "finance",
+        "label": "Finance & Macro",
+        "calls_24h": 4557,
+        "unique_agents_24h": 79,
+        "success_ratio_24h": 0.98,
+        "top_oracles": [
+          "MacroOracle",
+          "HROracle",
+          "TaxOracle"
+        ],
+        "trend_7d": "insufficient_data",
+        "trend_delta_percent_7d": null,
+        "confidence": "high"
+      },
+      {
+        "category": "travel",
+        "label": "Travel & Lifestyle",
+        "calls_24h": 2485,
+        "unique_agents_24h": 81,
+        "success_ratio_24h": 0.982,
+        "top_oracles": [
+          "FlightOracle",
+          "HotelOracle",
+          "WeatherOracle"
+        ],
+        "trend_7d": "insufficient_data",
+        "trend_delta_percent_7d": null,
+        "confidence": "high"
+      },
+      {
+        "category": "sustainability",
+        "label": "Sustainability",
+        "calls_24h": 72,
+        "unique_agents_24h": 3,
+        "success_ratio_24h": 0.889,
+        "top_oracles": [
+          "SupplyChainOracle"
+        ],
+        "trend_7d": "insufficient_data",
+        "trend_delta_percent_7d": null,
+        "confidence": "high"
+      }
+    ],
+    "_debug": {
+      "external_lines_considered": 124896,
+      "internal_filtered": 28642,
+      "internal_reasons": {
+        "internal_ua": 3639,
+        "internal_ip": 25003
+      },
+      "unique_external_agents_7d": 1499,
+      "log_span_hours": 25.6
+    }
+  },
+  "gravity_score": 0.796,
+  "gravity_formula": "verified_success_rate * freshness * trust / (latency_ms * cost_units * (1 + error_rate))",
+  "discovery": {
+    "agent_card": "https://tooloracle.io/.well-known/agent.json",
+    "agent_descriptions": "https://tooloracle.io/.well-known/agent-descriptions",
+    "mcp_registry": "https://tooloracle.io/.well-known/mcp.json",
+    "tool_catalog": "https://tooloracle.io/assets/catalog.json",
+    "x402_spec": "https://tooloracle.io/.well-known/x402",
+    "openapi": "https://tooloracle.io/.well-known/openapi.json",
+    "pulse_source": "https://tooloracle.io/.well-known/agent-pulse",
+    "meta_tools": "https://tooloracle.io/.well-known/meta-tools",
+    "mesh_economics": "https://tooloracle.io/.well-known/mesh-economics",
+    "economics_dashboard": "https://tooloracle.io/economics.html"
+  },
+  "connect": {
+    "join_tool": "quantum_join",
+    "join_endpoint": "https://tooloracle.io/quantum/mcp/",
+    "intent_tool": "quantum_intent"
+  },
+  "meta": {
+    "version": "1.0",
+    "builder": "build_agent_pulse.py",
+    "source": "https://tooloracle.io/.well-known/agent-pulse",
+    "update_frequency_seconds": 300,
+    "license": "open \u2014 agents may cache and redistribute"
+  }
+}

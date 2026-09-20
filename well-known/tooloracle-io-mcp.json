@@ -1,0 +1,98 @@
+{
+  "name": "ToolOracle",
+  "version": "1.0.0",
+  "description": "Self-serve MCP infrastructure for AI agents. 100 MCP servers, 1,096 tools across 8 categories.",
+  "endpoint": "https://tooloracle.io/mcp/",
+  "transport": "streamable-http",
+  "protocol_version": "2025-03-26",
+  "capabilities": {
+    "tools": true,
+    "resources": false,
+    "prompts": false
+  },
+  "auth": {
+    "type": "optional",
+    "methods": [
+      "api_key",
+      "x402"
+    ],
+    "free_tools_available": true,
+    "registration": "Call kya_register (no auth needed) for API key + 500 welcome units"
+  },
+  "endpoints": {
+    "main": "https://tooloracle.io/mcp/",
+    "guard": "https://tooloracle.io/guard/mcp/",
+    "sse": {
+      "compliance": "https://mcp.feedoracle.io/mcp/sse",
+      "risk": "https://mcp.feedoracle.io/mcp/risk/sse",
+      "macro": "https://mcp.feedoracle.io/mcp/macro/sse"
+    },
+    "x402": "https://tooloracle.io/x402/"
+  },
+  "discovery": {
+    "agent_card": "https://tooloracle.io/.well-known/agent-card.json",
+    "catalog": "https://tooloracle.io/assets/catalog.json",
+    "llms_txt": "https://tooloracle.io/llms.txt",
+    "openapi": "https://tooloracle.io/openapi.json",
+    "x402": "https://tooloracle.io/.well-known/x402",
+    "agents_txt": "https://tooloracle.io/agents.txt"
+  },
+  "operator": {
+    "name": "FeedOracle Technologies",
+    "url": "https://tooloracle.io",
+    "contact": "hello@tooloracle.io"
+  },
+  "frontdoor": {
+    "preflight": {
+      "tool": "decision_preflight",
+      "endpoint": "https://tooloracle.io/preflight/mcp/",
+      "cost": "$0.01"
+    },
+    "verify": {
+      "tool": "verify_claim",
+      "endpoint": "https://tooloracle.io/trust/mcp/",
+      "cost": "$0.01"
+    },
+    "route": {
+      "tool": "quantum_intent",
+      "endpoint": "https://tooloracle.io/quantum/mcp/",
+      "cost": "free"
+    }
+  },
+  "featured_servers": [
+    {
+      "name": "XRPLOracle",
+      "endpoint": "https://tooloracle.io/xrpl/mcp/",
+      "paid_endpoint": "https://tooloracle.io/x402/xrpl/mcp/",
+      "paid_hero": {
+        "tool": "xrpl_rlusd_integrity",
+        "price_usd": 0.03,
+        "network": "base",
+        "asset": "USDC",
+        "payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D"
+      },
+      "transport": "streamable-http",
+      "tools": 31,
+      "category": "blockchain",
+      "did": "did:web:tooloracle.io:xrploracle",
+      "description": "XRP Ledger intelligence + RLUSD stablecoin compliance. Hero tools: xrpl_rlusd_integrity, xrpl_rlusd_cci, xrpl_rlusd_holders, xrpl_compliance_check, xrpl_token_check.",
+      "discovery": "https://tooloracle.io/xrpl/discovery.json",
+      "auth": {
+        "type": "optional",
+        "methods": [
+          "x402"
+        ],
+        "free_tier": "100 calls/day"
+      }
+    }
+  ],
+  "counts": {
+    "servers_online": 98,
+    "servers_total": 100,
+    "tools_available": 1096,
+    "categories": 8,
+    "paid_products": 36
+  },
+  "canonical_source": "https://tooloracle.io/assets/catalog.json",
+  "generated_at": "2026-06-18T07:58:01+00:00"
+}

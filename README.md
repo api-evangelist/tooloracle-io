@@ -64,5 +64,8 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-FeedOracle Technologies is a company surfaced via the API Evangelist harvest backlog (source: a2a-registry) and added to the network as a stub for full-pipeline profiling.
+FeedOracle Technologies (Herford, Germany) operates ToolOracle / OracleNet — a capability router and hosted mesh of about ninety Model Context Protocol servers for autonomous agents, an A2A 0.3 agent with a published Agent Card, and x402 v2 pay-per-call REST routes settled in USDC on Base — and the sibling FeedOracle compliance-evidence API, which also hosts the OAuth 2.1 authorization server both brands share.
+
 - https://tooloracle.io/
+- https://feedoracle.io/
+- Profile: `apis.yml` — five API entries, three provider-published OpenAPIs (`openapi/_original/` verbatim), the live MCP tool catalog (`mcp/tooloracle-io-tools.json`), the agent cards (`a2a/`), and the discovery documents (`well-known/`).

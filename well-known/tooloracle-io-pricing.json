@@ -1,0 +1,102 @@
+{
+  "protocol_name": "OracleNet Pricing",
+  "version": "1.0.0",
+  "issuer": "did:web:tooloracle.io",
+  "description": "Machine-readable pricing for OracleNet capability access. Discovery and first contact are free. Where a paid call is required, settlement uses x402 USDC on Base. Specific per-call values are route-dependent and may be published in the per-tool MCP card.",
+  "currency": {
+    "settlement_currency": "USDC",
+    "settlement_network": "base",
+    "granularity_usd": 0.01
+  },
+  "tiers": {
+    "discovery": {
+      "cost": "free",
+      "auth": "none",
+      "scope": [
+        "GET /.well-known/agent.json",
+        "GET /.well-known/agent-pulse",
+        "GET /.well-known/agent-descriptions",
+        "GET /.well-known/mcp.json",
+        "GET /.well-known/openapi.json",
+        "GET /.well-known/deal-capabilities.json",
+        "GET /.well-known/pricing.json",
+        "GET /.well-known/rewards.json",
+        "GET /.well-known/verification-policy.json",
+        "GET /.well-known/do-not-contact.json"
+      ],
+      "rate_limit": "route-specific; static files cached at the edge"
+    },
+    "soft_handshake": {
+      "cost": "free",
+      "auth": "none",
+      "endpoint": "https://tooloracle.io/handshake",
+      "rate_limit": "route-specific; may be published in endpoint headers"
+    },
+    "capability_query": {
+      "cost": "free",
+      "auth": "none",
+      "endpoint": "https://tooloracle.io/handshake",
+      "description": "Intent classification without invoking the underlying tool."
+    },
+    "test_call": {
+      "cost": "free_where_available",
+      "availability": "route-dependent",
+      "description": "A subset of tools is always free (typically discovery, status, and ping variants). Other tools may return HTTP 402 with an x402 payment challenge from the first call.",
+      "auth": "none"
+    },
+    "paid_call": {
+      "settlement_protocol": "x402",
+      "settlement_currency": "USDC",
+      "settlement_network": "base",
+      "settlement_asset_contract": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+      "pay_to": "0x11f591C3496C0632e7B173184f5Bc71dC941125D",
+      "auth": "x402",
+      "per_call_cost": "route-dependent; the per-tool MCP card declares the price",
+      "common_baseline_usd": 0.01,
+      "common_baseline_note": "A common baseline of 0.01 USD per call is used for many tools. This is not a contractual guarantee and per-tool overrides apply."
+    },
+    "signed_response": {
+      "cost": "included_where_supported",
+      "premium_tier_currently_offered": false,
+      "explanation": "Where a tool produces a signed response, the signature is included at no additional charge under the current pricing version. A premium signed-response tier is not currently offered."
+    },
+    "evidence_response": {
+      "cost": "routed_to_external_layer",
+      "primary_route": "FeedOracle",
+      "primary_route_pricing_url": "https://feedoracle.io/.well-known/pricing.json",
+      "explanation": "Regulated-evidence capabilities are not priced by ToolOracle. Where routed, they fall under the FeedOracle layer's own pricing. Most agents will not need this tier."
+    }
+  },
+  "welcome_bonus": {
+    "supported": "not_currently_granted",
+    "current_amount_units": 0,
+    "amount_reference": "/.well-known/agent-pulse",
+    "description": "No welcome bonus is granted under the current controlled cutover (CP-F1): new wallets receive 0 free units. Any future new-wallet credit is declared in the live mesh snapshot."
+  },
+  "free_tier_summary": {
+    "anonymous_access": "available_for_subset_of_tools",
+    "subset_definition": "Tools whose MCP card declares them free; commonly discovery, status, and ping variants.",
+    "registration_required_for_free_tier": false,
+    "api_key_required_for_free_tier": false
+  },
+  "payment_methods_for_machine_access": {
+    "x402_usdc_base": {
+      "supported": true,
+      "preferred": true
+    },
+    "stripe": {
+      "applies_to_machine_access": false,
+      "note": "Machine-to-machine access is designed around x402 per-call USDC pricing on Base. Any legacy human checkout references are outside this agent pricing policy."
+    },
+    "other_chains": {
+      "supported": false,
+      "roadmap": "x402 on additional networks may be added; announced via /.well-known/agent-pulse when live."
+    }
+  },
+  "no_hard_promise_clause": [
+    "Every per-call price referenced in this document is a current published rate, not a contractual guarantee. Prices may change between calls; agents should re-fetch pricing.json before bulk operations.",
+    "Premium signed-response and evidence tiers described above are described as currently offered or not currently offered. Where 'not currently offered' is stated, the agent must not assume the tier is available.",
+    "Where availability is described as 'may_be_available' or 'route-dependent', the agent must verify availability at the per-tool level before relying on it."
+  ],
+  "live_mesh_state": "https://tooloracle.io/.well-known/agent-pulse"
+}

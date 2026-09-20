@@ -1,0 +1,701 @@
+generated: '2026-09-19'
+method: probed
+source: Live GET probes of the named /.well-known/* path list (plus /apis.json, /apis.yml, /llms.txt, /openapi.json
+  and the agent/MCP discovery paths the site itself advertises) on six hosts, 2026-09-19/20. Every row is a request
+  that was issued; every status is the one returned.
+summary:
+  hosts_probed: 6
+  paths_probed: 132
+  documents_served: 33
+  note: 'ToolOracle serves an unusually complete discovery surface on tooloracle.io: RFC 9116 security.txt, RFC
+    8414 authorization-server metadata (delegated to feedoracle.io), RFC 9728 protected-resource metadata, an RFC
+    9727 API catalog linkset, an ai-plugin.json, an A2A Agent Card at both the canonical and legacy paths, an MCP
+    server card, an x402 v2 manifest, a JWKS, a DID document and ANP agent descriptions. OpenID Connect discovery
+    lives ONLY on the auth-server host feedoracle.io. Neither api.feedoracle.io (the REST base) nor mcp.feedoracle.io
+    (the MCP SSE host) serves protected-resource or authorization-server metadata — the RFC 9728 document for the
+    FeedOracle resource sits on feedoracle.io. No UCP/ACP/AAuth/APIs.json document on any host.'
+  misses_that_matter:
+  - /.well-known/openid-configuration on tooloracle.io (404) — discovery is on feedoracle.io
+  - /.well-known/oauth-protected-resource on api.feedoracle.io and mcp.feedoracle.io (404) — an MCP client that
+    follows RFC 9728 from the SSE host finds nothing
+  - /.well-known/apis.json, /apis.json, /apis.yml on every host (404)
+  - /.well-known/ucp.json, /.well-known/acp.json, /.well-known/aauth-resource.json on every host (404)
+hosts:
+- host: tooloracle.io
+  role: ToolOracle / OracleNet website, REST base, MCP host and A2A host (RFC 9728 resource server)
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain
+    file: tooloracle-io-security.txt
+    bytes: 914
+    standard: RFC 9116
+  - path: /.well-known/openid-configuration
+    status: 404
+    content_type: text/html
+    standard: OpenID Connect Discovery 1.0
+    note: 404 on tooloracle.io; OIDC discovery is served on the auth-server host feedoracle.io instead.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: tooloracle-io-oauth-authorization-server.json
+    bytes: 1017
+    standard: RFC 8414
+    note: issuer is https://feedoracle.io — tooloracle.io delegates OAuth 2.1 to the sibling brand (federation_note
+      in the document); registration_endpoint (RFC 7591 DCR), revocation_endpoint, PKCE S256, 7 scopes.
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    file: tooloracle-io-oauth-protected-resource.json
+    bytes: 1367
+    standard: RFC 9728
+    note: resource https://tooloracle.io, authorization_servers [https://feedoracle.io], bearer header, ES256K resource
+      signing, lists 8 MCP endpoints and anonymous/free/paid tiers.
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: application/linkset+json
+    file: tooloracle-io-api-catalog.json
+    bytes: 1783
+    standard: RFC 9727
+    note: application/linkset+json naming service-desc (openapi.json, agent-descriptions, agents.json, agent.json),
+      service-doc and service-meta for BOTH tooloracle.io and feedoracle.io anchors; identical bytes on both hosts.
+  - path: /.well-known/api-catalog.json
+    status: 404
+    content_type: text/html
+    standard: RFC 9727 (alt path)
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    content_type: application/json
+    file: tooloracle-io-ai-plugin.json
+    bytes: 753
+    standard: OpenAI plugin manifest
+  - path: /.well-known/ucp.json
+    status: 404
+    content_type: text/html
+    standard: UCP
+  - path: /.well-known/acp.json
+    status: 404
+    content_type: text/html
+    standard: ACP
+  - path: /.well-known/aauth-resource.json
+    status: 404
+    content_type: text/html
+    standard: AAuth (draft-hardt-oauth-aauth-protocol)
+  - path: /.well-known/apis.json
+    status: 404
+    content_type: text/html
+    standard: APIs.json
+  - path: /apis.json
+    status: 404
+    content_type: text/html
+    standard: APIs.json
+  - path: /apis.yml
+    status: 404
+    content_type: text/html
+    standard: APIs.json (YAML)
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json
+    file: ../a2a/tooloracle-io-agent-card.json
+    bytes: 49968
+    standard: A2A Agent Card (canonical path)
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: application/json
+    file: ../a2a/tooloracle-io-agent-card.json
+    bytes: 49968
+    standard: A2A Agent Card (legacy path)
+    note: identical bytes to agent-card.json; the card itself declares agent-card.json as an alias of this legacy
+      path.
+  - path: /.well-known/mcp.json
+    status: 200
+    content_type: application/json
+    file: tooloracle-io-mcp.json
+    bytes: 3033
+    standard: MCP server card (non-standard)
+    note: 'non-standard server card: endpoint https://tooloracle.io/mcp/, transport streamable-http, protocol 2025-03-26,
+      auth optional (api_key, x402); same bytes at /.well-known/mcp/server.json.'
+  - path: /.well-known/mcp/server.json
+    status: 200
+    content_type: application/json
+    file: tooloracle-io-mcp.json
+    bytes: 3033
+    standard: MCP server card / registry server.json
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain; charset=utf-8
+    file: ../llms/tooloracle-io-llms.txt
+    bytes: 11437
+    standard: llms.txt
+  - path: /openapi.json
+    status: 200
+    content_type: application/json
+    file: ../openapi/_original/tooloracle-io-openapi.json
+    bytes: 92695
+    standard: OpenAPI
+  - path: /.well-known/openapi.json
+    status: 200
+    content_type: application/json
+    file: ../openapi/_original/tooloracle-io-openapi.json
+    bytes: 92695
+    standard: OpenAPI (well-known mirror)
+  - path: /.well-known/x402
+    status: 200
+    content_type: application/json
+    file: tooloracle-io-x402.json
+    bytes: 44667
+    standard: x402 v2 discovery manifest (Coinbase Bazaar)
+    note: 'x402Version 2 manifest: 18 paid /v2 endpoints with price, inputSchema, sample_input/sample_output and
+      example_type provenance; facilitator api.cdp.coinbase.com; a 1.38 MB mesh-wide variant sits at /.well-known/x402.json.'
+  - path: /.well-known/jwks.json
+    status: 200
+    content_type: application/json
+    file: tooloracle-io-jwks.json
+    bytes: 3786
+    standard: RFC 7517 JWK Set
+  - path: /.well-known/agent-descriptions
+    status: 200
+    content_type: application/ld+json
+    file: tooloracle-io-agent-descriptions.json
+    bytes: 33665
+    standard: ANP agent descriptions (JSON-LD)
+- host: www.tooloracle.io
+  role: 301 alias of tooloracle.io for every path
+  documents:
+  - path: /.well-known/security.txt
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/.well-known/security.txt
+    standard: RFC 9116
+  - path: /.well-known/openid-configuration
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/.well-known/openid-configuration
+    standard: OpenID Connect Discovery 1.0
+  - path: /.well-known/oauth-authorization-server
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/.well-known/oauth-authorization-server
+    standard: RFC 8414
+  - path: /.well-known/oauth-protected-resource
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/.well-known/oauth-protected-resource
+    standard: RFC 9728
+  - path: /.well-known/api-catalog
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/.well-known/api-catalog
+    standard: RFC 9727
+  - path: /.well-known/api-catalog.json
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/.well-known/api-catalog.json
+    standard: RFC 9727 (alt path)
+  - path: /.well-known/ai-plugin.json
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/.well-known/ai-plugin.json
+    standard: OpenAI plugin manifest
+  - path: /.well-known/ucp.json
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/.well-known/ucp.json
+    standard: UCP
+  - path: /.well-known/acp.json
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/.well-known/acp.json
+    standard: ACP
+  - path: /.well-known/aauth-resource.json
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/.well-known/aauth-resource.json
+    standard: AAuth (draft-hardt-oauth-aauth-protocol)
+  - path: /.well-known/apis.json
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/.well-known/apis.json
+    standard: APIs.json
+  - path: /apis.json
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/apis.json
+    standard: APIs.json
+  - path: /apis.yml
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/apis.yml
+    standard: APIs.json (YAML)
+  - path: /.well-known/agent-card.json
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/.well-known/agent-card.json
+    standard: A2A Agent Card (canonical path)
+  - path: /.well-known/agent.json
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/.well-known/agent.json
+    standard: A2A Agent Card (legacy path)
+  - path: /.well-known/mcp.json
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/.well-known/mcp.json
+    standard: MCP server card (non-standard)
+  - path: /.well-known/mcp/server.json
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/.well-known/mcp/server.json
+    standard: MCP server card / registry server.json
+  - path: /llms.txt
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/llms.txt
+    standard: llms.txt
+  - path: /openapi.json
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/openapi.json
+    standard: OpenAPI
+  - path: /.well-known/openapi.json
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/.well-known/openapi.json
+    standard: OpenAPI (well-known mirror)
+  - path: /.well-known/x402
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/.well-known/x402
+    standard: x402 v2 discovery manifest (Coinbase Bazaar)
+  - path: /.well-known/jwks.json
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/.well-known/jwks.json
+    standard: RFC 7517 JWK Set
+  - path: /.well-known/agent-descriptions
+    status: 301
+    content_type: text/html
+    redirect: https://tooloracle.io/.well-known/agent-descriptions
+    standard: ANP agent descriptions (JSON-LD)
+- host: feedoracle.io
+  role: FeedOracle brand site and the OAuth 2.1 authorization server BOTH brands use (issuer)
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/plain
+    file: tooloracle-io-feedoracle-security.txt
+    bytes: 198
+    standard: RFC 9116
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: application/octet-stream
+    file: tooloracle-io-feedoracle-openid-configuration.json
+    bytes: 996
+    standard: OpenID Connect Discovery 1.0
+    note: served as application/octet-stream; declares openid scope, id_token_signing_alg ES256K, claims sub/iss/iat/exp/scope;
+      no userinfo_endpoint.
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: application/json
+    file: tooloracle-io-feedoracle-oauth-authorization-server.json
+    bytes: 868
+    standard: RFC 8414
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    content_type: application/json
+    file: tooloracle-io-feedoracle-oauth-protected-resource.json
+    bytes: 1838
+    standard: RFC 9728
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: application/linkset+json
+    file: tooloracle-io-feedoracle-api-catalog.json
+    bytes: 1783
+    standard: RFC 9727
+  - path: /.well-known/api-catalog.json
+    status: 404
+    content_type: text/html
+    standard: RFC 9727 (alt path)
+    note: 404 page returned with a 200-sized HTML body but a real 404 status.
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    content_type: application/json
+    file: tooloracle-io-feedoracle-ai-plugin.json
+    bytes: 2635
+    standard: OpenAI plugin manifest
+  - path: /.well-known/ucp.json
+    status: 404
+    content_type: text/html
+    standard: UCP
+  - path: /.well-known/acp.json
+    status: 404
+    content_type: text/html
+    standard: ACP
+  - path: /.well-known/aauth-resource.json
+    status: 404
+    content_type: text/html
+    standard: AAuth (draft-hardt-oauth-aauth-protocol)
+  - path: /.well-known/apis.json
+    status: 404
+    content_type: text/html
+    standard: APIs.json
+  - path: /apis.json
+    status: 404
+    content_type: text/html
+    standard: APIs.json
+  - path: /apis.yml
+    status: 404
+    content_type: text/html
+    standard: APIs.json (YAML)
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json
+    file: ../a2a/tooloracle-io-feedoracle-agent-card.json
+    bytes: 16445
+    standard: A2A Agent Card (canonical path)
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: application/json
+    file: ../a2a/tooloracle-io-feedoracle-agent-card.json
+    bytes: 16445
+    standard: A2A Agent Card (legacy path)
+  - path: /.well-known/mcp.json
+    status: 200
+    content_type: application/json
+    bytes: 144
+    standard: MCP server card (non-standard)
+    note: 'NOT a server card: a 144-byte {"v":"MCPv1","keys":[ed25519 publicKey]} key document — recorded as served
+      but it is a signing-key manifest, not MCP discovery.'
+  - path: /.well-known/mcp/server.json
+    status: 200
+    content_type: application/json
+    file: tooloracle-io-feedoracle-mcp-server.json
+    bytes: 980
+    standard: MCP server card / registry server.json
+    note: io.feedoracle/dora-os in the MCP registry server.json schema (2025-09-16); 4 remotes.
+  - path: /llms.txt
+    status: 200
+    content_type: text/plain
+    file: ../llms/tooloracle-io-feedoracle-llms.txt
+    bytes: 6436
+    standard: llms.txt
+  - path: /openapi.json
+    status: 200
+    content_type: application/json
+    file: ../openapi/_original/tooloracle-io-feedoracle-openapi.json
+    bytes: 192920
+    standard: OpenAPI
+  - path: /.well-known/openapi.json
+    status: 200
+    content_type: application/json
+    file: ../openapi/_original/tooloracle-io-feedoracle-openapi.json
+    bytes: 192920
+    standard: OpenAPI (well-known mirror)
+  - path: /.well-known/x402
+    status: 200
+    content_type: application/json
+    bytes: 5774
+    standard: x402 v2 discovery manifest (Coinbase Bazaar)
+  - path: /.well-known/jwks.json
+    status: 200
+    content_type: application/json
+    bytes: 3484
+    standard: RFC 7517 JWK Set
+  - path: /.well-known/agent-descriptions
+    status: 200
+    content_type: application/ld+json
+    bytes: 33665
+    standard: ANP agent descriptions (JSON-LD)
+- host: www.feedoracle.io
+  role: 301 alias of feedoracle.io for every path
+  documents:
+  - path: /.well-known/security.txt
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/.well-known/security.txt
+    standard: RFC 9116
+  - path: /.well-known/openid-configuration
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/.well-known/openid-configuration
+    standard: OpenID Connect Discovery 1.0
+  - path: /.well-known/oauth-authorization-server
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/.well-known/oauth-authorization-server
+    standard: RFC 8414
+  - path: /.well-known/oauth-protected-resource
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/.well-known/oauth-protected-resource
+    standard: RFC 9728
+  - path: /.well-known/api-catalog
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/.well-known/api-catalog
+    standard: RFC 9727
+  - path: /.well-known/api-catalog.json
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/.well-known/api-catalog.json
+    standard: RFC 9727 (alt path)
+  - path: /.well-known/ai-plugin.json
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/.well-known/ai-plugin.json
+    standard: OpenAI plugin manifest
+  - path: /.well-known/ucp.json
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/.well-known/ucp.json
+    standard: UCP
+  - path: /.well-known/acp.json
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/.well-known/acp.json
+    standard: ACP
+  - path: /.well-known/aauth-resource.json
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/.well-known/aauth-resource.json
+    standard: AAuth (draft-hardt-oauth-aauth-protocol)
+  - path: /.well-known/apis.json
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/.well-known/apis.json
+    standard: APIs.json
+  - path: /apis.json
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/apis.json
+    standard: APIs.json
+  - path: /apis.yml
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/apis.yml
+    standard: APIs.json (YAML)
+  - path: /.well-known/agent-card.json
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/.well-known/agent-card.json
+    standard: A2A Agent Card (canonical path)
+  - path: /.well-known/agent.json
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/.well-known/agent.json
+    standard: A2A Agent Card (legacy path)
+  - path: /.well-known/mcp.json
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/.well-known/mcp.json
+    standard: MCP server card (non-standard)
+  - path: /.well-known/mcp/server.json
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/.well-known/mcp/server.json
+    standard: MCP server card / registry server.json
+  - path: /llms.txt
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/llms.txt
+    standard: llms.txt
+  - path: /openapi.json
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/openapi.json
+    standard: OpenAPI
+  - path: /.well-known/openapi.json
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/.well-known/openapi.json
+    standard: OpenAPI (well-known mirror)
+  - path: /.well-known/x402
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/.well-known/x402
+    standard: x402 v2 discovery manifest (Coinbase Bazaar)
+  - path: /.well-known/jwks.json
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/.well-known/jwks.json
+    standard: RFC 7517 JWK Set
+  - path: /.well-known/agent-descriptions
+    status: 301
+    content_type: text/html
+    redirect: https://feedoracle.io/.well-known/agent-descriptions
+    standard: ANP agent descriptions (JSON-LD)
+- host: api.feedoracle.io
+  role: FeedOracle REST API host (OpenAPI servers[] https://api.feedoracle.io)
+  documents:
+  - path: /
+    status: 200
+    content_type: application/json
+    standard: host root
+    note: REST base of the FeedOracle Compliance Evidence API (OpenAPI servers[]); root answers a JSON endpoint
+      list; serves no /.well-known/ documents at all.
+  - path: /.well-known/security.txt
+    status: 404
+    content_type: text/html; charset=utf-8
+    standard: RFC 9116
+  - path: /.well-known/openid-configuration
+    status: 404
+    content_type: text/html; charset=utf-8
+    standard: OpenID Connect Discovery 1.0
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    content_type: text/html; charset=utf-8
+    standard: RFC 8414
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    content_type: text/html; charset=utf-8
+    standard: RFC 9728
+  - path: /.well-known/api-catalog
+    status: 404
+    content_type: text/html; charset=utf-8
+    standard: RFC 9727
+  - path: /.well-known/api-catalog.json
+    status: 404
+    content_type: text/html; charset=utf-8
+    standard: RFC 9727 (alt path)
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    content_type: text/html; charset=utf-8
+    standard: OpenAI plugin manifest
+  - path: /.well-known/ucp.json
+    status: 404
+    content_type: text/html; charset=utf-8
+    standard: UCP
+  - path: /.well-known/acp.json
+    status: 404
+    content_type: text/html; charset=utf-8
+    standard: ACP
+  - path: /.well-known/aauth-resource.json
+    status: 404
+    content_type: text/html; charset=utf-8
+    standard: AAuth (draft-hardt-oauth-aauth-protocol)
+  - path: /.well-known/apis.json
+    status: 404
+    content_type: text/html; charset=utf-8
+    standard: APIs.json
+  - path: /apis.json
+    status: 404
+    content_type: text/html; charset=utf-8
+    standard: APIs.json
+  - path: /apis.yml
+    status: 404
+    content_type: text/html; charset=utf-8
+    standard: APIs.json (YAML)
+  - path: /.well-known/agent-card.json
+    status: 404
+    content_type: text/html; charset=utf-8
+    standard: A2A Agent Card (canonical path)
+  - path: /.well-known/agent.json
+    status: 404
+    content_type: text/html; charset=utf-8
+    standard: A2A Agent Card (legacy path)
+  - path: /.well-known/mcp.json
+    status: 404
+    content_type: text/html; charset=utf-8
+    standard: MCP server card (non-standard)
+  - path: /openapi.json
+    status: 404
+    content_type: text/html; charset=utf-8
+    standard: OpenAPI
+  - path: /llms.txt
+    status: 404
+    content_type: text/html; charset=utf-8
+    standard: llms.txt
+  - path: /mcp
+    status: 404
+    content_type: text/html; charset=utf-8
+    standard: MCP endpoint (GET info card)
+- host: mcp.feedoracle.io
+  role: FeedOracle MCP SSE host named in mcp.json endpoints.sse
+  documents:
+  - path: /
+    status: 200
+    content_type: text/html
+    note: FeedOracle MCP SSE host named by mcp.json; serves only the FeedOracle agent card and the MCP endpoint
+      (GET /mcp returns a ComplianceOracle info card).
+    standard: host root
+  - path: /.well-known/security.txt
+    status: 404
+    content_type: text/plain; charset=utf-8
+    standard: RFC 9116
+  - path: /.well-known/openid-configuration
+    status: 404
+    content_type: text/plain; charset=utf-8
+    standard: OpenID Connect Discovery 1.0
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    content_type: text/plain; charset=utf-8
+    standard: RFC 8414
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    content_type: text/plain; charset=utf-8
+    standard: RFC 9728
+  - path: /.well-known/api-catalog
+    status: 404
+    content_type: text/plain; charset=utf-8
+    standard: RFC 9727
+  - path: /.well-known/api-catalog.json
+    status: 404
+    content_type: text/plain; charset=utf-8
+    standard: RFC 9727 (alt path)
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    content_type: text/plain; charset=utf-8
+    standard: OpenAI plugin manifest
+  - path: /.well-known/ucp.json
+    status: 404
+    content_type: text/plain; charset=utf-8
+    standard: UCP
+  - path: /.well-known/acp.json
+    status: 404
+    content_type: text/plain; charset=utf-8
+    standard: ACP
+  - path: /.well-known/aauth-resource.json
+    status: 404
+    content_type: text/plain; charset=utf-8
+    standard: AAuth (draft-hardt-oauth-aauth-protocol)
+  - path: /.well-known/apis.json
+    status: 404
+    content_type: text/plain; charset=utf-8
+    standard: APIs.json
+  - path: /apis.json
+    status: 404
+    content_type: text/html
+    standard: APIs.json
+  - path: /apis.yml
+    status: 404
+    content_type: text/html
+    standard: APIs.json (YAML)
+  - path: /.well-known/agent-card.json
+    status: 200
+    content_type: application/json
+    file: ../a2a/tooloracle-io-feedoracle-agent-card.json
+    bytes: 16445
+    standard: A2A Agent Card (canonical path)
+    note: same FeedOracle card as feedoracle.io (16,445 bytes).
+  - path: /.well-known/agent.json
+    status: 200
+    content_type: application/json
+    file: ../a2a/tooloracle-io-feedoracle-agent-card.json
+    bytes: 16445
+    standard: A2A Agent Card (legacy path)
+  - path: /.well-known/mcp.json
+    status: 404
+    content_type: text/plain; charset=utf-8
+    standard: MCP server card (non-standard)
+  - path: /openapi.json
+    status: 404
+    content_type: text/html
+    standard: OpenAPI
+  - path: /llms.txt
+    status: 404
+    content_type: text/html
+    standard: llms.txt
+  - path: /mcp
+    status: 200
+    content_type: application/json; charset=utf-8
+    standard: MCP endpoint (GET info card)

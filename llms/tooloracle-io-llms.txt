@@ -1,0 +1,168 @@
+# OracleNet — The Open Agent Mesh
+> 94 registered MCP servers (89 online) · 1,096 live tools · 36 paid · 102 free · DID:WBA · ANP+A2A+MCP · x402 USDC on Base · LLM-routed handshake
+> https://tooloracle.io
+> Canonical counts: /data/mesh-truth.json · Last updated: 2026-05-11T11:33:36Z
+
+## Agent Quickstart (machine-readable)
+```json
+{
+  "ROUTE":     {"tool": "quantum_intent",     "endpoint": "https://tooloracle.io/quantum/mcp/",   "auth": "optional"},
+  "PREFLIGHT": {"tool": "decision_preflight", "endpoint": "https://tooloracle.io/preflight/mcp/", "auth": "optional", "cost": "$0.01"},
+  "VERIFY":    {"tool": "verify_claim",       "endpoint": "https://tooloracle.io/trust/mcp/",     "auth": "optional"},
+  "PAY":       {"protocol": "x402", "currency": "USDC", "network": "base"}
+}
+```
+
+### JSON-RPC examples
+```json
+// PREFLIGHT
+POST https://tooloracle.io/preflight/mcp/
+{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"decision_preflight","arguments":{"intent":"transfer 1000 EUR"}}}
+
+// VERIFY
+POST https://tooloracle.io/trust/mcp/
+{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"verify_claim","arguments":{"claim_id":"clm_xxx"}}}
+```
+
+### Expected response fields
+- `result.verdict` ∈ ("go", "caution", "stop", "insufficient_evidence")
+- `result.evidence[]` (sources, signatures)
+- `result.cost_units`, `result.signature?` (ES256K when present)
+
+## x402 v2 Live Endpoints (Bazaar-discoverable, Base Mainnet)
+For agent buyers using the standardized x402 v2 protocol with CDP Facilitator. Auto-discovered via `/.well-known/x402` (manifest format) and CDP Bazaar.
+
+9 paid endpoints live (June 2026), $0.005 – $0.15 USDC per call:
+
+| Endpoint                              | Price  | Category       | What it does                                                                  |
+|---------------------------------------|--------|----------------|-------------------------------------------------------------------------------|
+| `/v2/agent_preflight`       | $0.005 | agent-safety     | Agent action preflight: GO/CAUTION/STOP verdict + evidence chain               |
+| `/v2/mica_stablecoin_check` | $0.01  | regtech          | MiCA stablecoin compliance: Ampel + grade + ESMA register status               |
+| `/v2/nomos/preflight`       | $0.05  | cross-border     | Cross-border transfer verdict: ALLOW/REVIEW/BLOCK + adequacy + SCC requirement |
+| `/v2/uvo_quick`             | $0.005 | agent-safety     | Fast deterministic agent-action validator (sub-100ms)                          |
+| `/v2/uvo_citation_check`    | $0.01  | legal-tech       | Legal/academic citation verification + phantom-citation detection              |
+| `/v2/uvo_full`              | $0.02  | agent-safety     | Full 8-layer agent-action validator with ECDSA P-256 receipt                   |
+| `/v2/sanctions_screen`      | $0.02  | compliance       | Screen names vs EU + OFAC + UN sanctions lists (87k+ entities)                 |
+| `/v2/cve_lookup`            | $0.005 | security         | NIST NVD CVE search by keyword, vendor, or product — CVSS score, CWE, references. |
+| `/v2/macro_snapshot`        | $0.01  | macro            | US macro dashboard: Fed + CPI + yields + jobs + GDP in one call                |
+| `/v2/evidence_bundle`       | $0.15  | prediction-guard | Signed forensic evidence bundle for prediction-market risk reviews             |
+
+```json
+{
+  "protocol":     "x402-v2",
+  "scheme":       "exact (EIP-3009)",
+  "network":      "eip155:8453 (Base Mainnet)",
+  "asset":        "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913 (USDC)",
+  "payTo":        "0x11f591C3496C0632e7B173184f5Bc71dC941125D",
+  "facilitator":  "https://api.cdp.coinbase.com/platform/v2/x402",
+  "manifest":     "https://tooloracle.io/.well-known/x402",
+  "openapi":      "https://tooloracle.io/v2/openapi.json  (OpenAPI 3.1: schemas + examples + x-x402)",
+  "free_test":    "https://tooloracle.io/uvo/mcp/  (MCP server, ping/list_tools/call free for discovery)"
+}
+```
+
+## x402 v1 — Controlled Paid Cutover (Base Mainnet, `/x402/<product>/mcp/`)
+The v1 entitlement gateway is in a controlled paid cutover (CP-F1): **5 routes are enabled for paid operation**. All other v1 tool-routes stay free for discovery (`tools/list`, `health_check`) and are marked `coming_soon` / `operator_review` in `/.well-known/x402.json` until enabled — a paid attempt returns HTTP 402 `route_not_enabled_for_paid_cutover`. New wallets receive **0** welcome-bonus units under the cutover.
+
+| Route | Tool | Price |
+|---|---|---|
+| `/x402/memory/mcp/` | `forget` | $0.01 |
+| `/x402/scheduler/mcp/` | `task_stats` | $0.01 |
+| `/x402/flight/mcp/` | `airport_hub` | $0.02 |
+| `/x402/hotel/mcp/` | `area_guide` | $0.03 |
+| `/x402/smart/mcp/` | `top_whales` | $0.03 |
+
+This is separate from the v2 suite above (which is governed by its own gateway).
+
+### UVO Action Gate — what's unique on the Bazaar
+- **Multi-jurisdiction citation verification** — German BGB/HGB, EU MiCA/DORA/GDPR/AMLR/NIS2/eIDAS/PSD2, US USC/CFR, UK Companies/Bribery/POCA/FSMA, ISO standards
+- **Out-of-range phantom detection** — `Art. 999 MiCA` → BLOCK (MiCA has 149 articles)
+- **Live academic-paper verification** — DOI + arXiv lookup via Semantic Scholar API (1 req/s rate-limited, in-memory cache)
+- **Hybrid confidence levels** — curated entries (verified, content-checked) vs structural (article exists in valid range, content not manually verified) vs phantom (BLOCK)
+- **ECDSA P-256 signed receipts** — non-repudiable evidence chain for compliance audits
+- **Hash-chained receipt audit** — 1136+ receipts in production
+
+### Quick test (any x402-v2-compatible client)
+```bash
+# 1. Get 402 challenge for any v2 endpoint
+curl -X POST https://tooloracle.io/v2/uvo_citation_check \
+  -H "Content-Type: application/json" \
+  -d '{"claim":"Per § 823c BGB and Art. 999 MiCA"}'
+# → HTTP 402 with PAYMENT-REQUIRED header (Bazaar-metadata embedded)
+
+# 2. Sign EIP-3009 + retry — full SDK flow:
+#    @x402/fetch wraps fetch() with payment auto-handling on Base Mainnet
+#    Or test the MCP server free at https://tooloracle.io/uvo/mcp/
+```
+
+### Free MCP discovery endpoint (no payment)
+For agents wanting to test before paying, UVO MCP server is publicly accessible:
+```
+https://tooloracle.io/uvo/mcp/
+```
+- Tools: `ping`, `uvo_quick`, `uvo_full`, `uvo_citation_check`, `uvo_academic_verify`
+- Standard MCP streamable-http protocol (Mcp-Session-Id header)
+- Served over HTTPS at the public endpoint above; no client-side setup beyond a standard MCP client
+
+## XRPL / RLUSD — Stablecoin Compliance on the XRP Ledger (dedicated MCP server)
+XRPLOracle exposes **31 tools** for XRP Ledger intelligence and RLUSD stablecoin compliance at a dedicated MCP endpoint:
+`https://tooloracle.io/xrpl/mcp/` (streamable-http). Free tier 100 calls/day, no key; x402 USDC on Base ($0.01/call) for higher volume.
+
+- **Hero tools:**
+  - `xrpl_rlusd_integrity` — multi-source RLUSD integrity (peg, reserve ratio, on-chain vs reported supply, DEX liquidity)
+  - `xrpl_rlusd_cci` — RLUSD Compliance Confidence Index (0–100)
+  - `xrpl_rlusd_holders` — RLUSD holder distribution + whale concentration
+  - `xrpl_compliance_check` — XRPL freeze / clawback / require-auth / transfer-restriction flags
+  - `xrpl_token_check` — XRPL issued-currency risk (issuer trust, supply, freeze capability)
+- **Also:** overview, account_intel, dex_orderbook, amm_pools, payment_intel, escrow (monitor/create/check), nft_intel/offers, trust_lines, server_state, gateway_balances, path_find, ledger_data, rlusd_supply/service/anchor/webhook/enterprise, iso20022, rwa_scoring, quantum_join, beacon_pulse, settlement_status.
+- **Use case:** agents doing RLUSD due diligence (peg, reserves, holder concentration, MiCA-relevant signals) and XRPL counterparty/token risk before settlement.
+- **Data:** live XRPL public RPC (xrplcluster.com / s1.ripple.com) + CoinGecko + DeFiLlama + Ripple CPA attestations.
+- JSON-RPC: `POST https://tooloracle.io/xrpl/mcp/ {"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"xrpl_rlusd_integrity","arguments":{}}}`
+
+## What OracleNet Is
+OracleNet is a mesh of 94 registered MCP servers (89 online) providing 1,096 live tools across 7 categories. It is not a single product — it is infrastructure for autonomous agents. Any agent can join in one call (quantum_join), get a Trust Passport, and access the full tool mesh. Six oracles carry W3C-compliant DID:WBA identities and are discoverable via the ANP Agent Network Protocol.
+
+## The 8 Categories
+- **Compliance & Regulation** (40 servers): DORA, MiCA, AML, PSD2, NIS2, EU AI Act. Sanctions screening. ES256K evidence signing.
+- **Blockchain & DeFi** (19 servers, 13 chains + Avalanche suite): ETH, SOL, XRP, ARB, HBAR, TON, SUI, BNB, BTC, APT, XLM, BASE, FLR. Plus 5 Avalanche compliance servers.
+- **Finance & Markets** (10 servers): Macro (Fed, ECB, OECD), gold, crypto, carbon, ISO 20022, invoicing.
+- **Business Intelligence** (10 servers): SEO, lead gen, ecommerce, reviews, memes, policy analysis.
+- **Trust & Agent Infrastructure** (10 servers): Trust Passports, memory, scheduling, research, fraud detection.
+- **Travel & Lifestyle** (8 servers): Flights, hotels, jobs, maps, movies, news, sports, weather.
+- **Payment & Settlement** (6 servers): PSD2/PSD3, CBDC, settlement, merchant services, escrow.
+- **Compute** (1 server): GPU pricing and availability via Vast.ai (A100, H100, RTX 4090).
+
+## Discovery Endpoints
+- Canonical Counts: https://tooloracle.io/assets/catalog.json
+- Agent Card (A2A, canonical): https://tooloracle.io/.well-known/agent.json
+- Agent Card (alias): https://tooloracle.io/.well-known/agent-card.json
+- ANP Discovery Index: https://tooloracle.io/.well-known/agent-descriptions
+- MCP Server Card (canonical): https://tooloracle.io/.well-known/mcp.json
+- MCP Server Card (alias): https://tooloracle.io/.well-known/mcp/server.json
+- Oracle Catalog: https://tooloracle.io/assets/catalog.json
+- A2A Tasks: https://tooloracle.io/a2a/tasks
+- Partnership Inbox: https://tooloracle.io/a2a/inbox
+- LLM Handshake: https://tooloracle.io/handshake
+- Full Tool Reference: https://tooloracle.io/llms-full.txt
+- OpenAPI: https://tooloracle.io/openapi.json (mirrored at /.well-known/openapi.json)
+
+## Verification — NOMOS execution receipts (/v2 paid routes)
+- Receipt family: NOMOS execution receipts (signed result of paid /v2 calls)
+- Algorithm: Ed25519
+- JWKS: https://feedoracle.io/.well-known/nomos-execution-jwks.json
+- Recipe: published in-band in every paid response under chain.receipt.verification
+  (canonical JSON of chain.receipt.document.receipt; signing domain
+  "nomos.execution.receipt.v1" || 0x00 || canonical(receipt))
+- Buyer quickstart incl. verifier: https://tooloracle.io/docs/x402-buyer-quickstart/
+- Do not mix this family with the legacy tool-response signatures below.
+
+## Verification — legacy tool-response signatures (separate family)
+- Algorithm: ES256K
+- Status: available where supported — not every response is signed
+- Issuer key state: legacy (shared FeedOracle key, documented)
+- Issuer key planned: did:web:tooloracle.io#keys-1
+- JWKS: https://tooloracle.io/.well-known/jwks.json
+- Local verification: supported
+
+## Authentication (OAuth 2.1 + DCR)
+OracleNet runs a unified OAuth 2.1 authorization server at feedoracle.io. One Bearer token works across ALL 100 MCP servers on both tooloracle.io and feedoracle.io.

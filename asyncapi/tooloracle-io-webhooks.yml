@@ -1,0 +1,44 @@
+generated: '2026-09-19'
+method: probed
+spec_type: Webhooks
+source: https://tooloracle.io/.well-known/agent-card.json (capabilities.pushNotifications), GET https://tooloracle.io/a2a/jsonrpc (method list), tools/list on https://tooloracle.io/quantum/mcp/, https://tooloracle.io/eventfabric/mcp/ and https://tooloracle.io/xrpl/mcp/ (mcp/tooloracle-io-tools.json), https://feedoracle.io/docs.html (Webhooks PRO+ / POST /api/v2/webhooks)
+asyncapi_published: false
+asyncapi_probes:
+- {url: https://tooloracle.io/asyncapi.yaml, status: 404}
+- {url: https://tooloracle.io/asyncapi.json, status: 404}
+- {url: https://feedoracle.io/asyncapi.yaml, status: 404}
+description: >-
+  ToolOracle publishes no AsyncAPI document and no webhook signing scheme, but it documents an outbound event surface in three
+  places an agent can act on: A2A push notifications (the card sets capabilities.pushNotifications true and the JSON-RPC endpoint
+  lists the four tasks/pushNotificationConfig methods), OracleNet webhook subscriptions (quantum_subscribe, with quantum_feed as the
+  polling fallback), and the EventFabric server (subscribe / unsubscribe / list_subscriptions / emit_event / test_webhook /
+  webhook_status). FeedOracle additionally sells a PRO+ webhooks product (POST /api/v2/webhooks) whose docs page 404s.
+surfaces:
+- name: A2A push notifications
+  endpoint: https://tooloracle.io/a2a/jsonrpc
+  methods: [tasks/pushNotificationConfig/set, tasks/pushNotificationConfig/get, tasks/pushNotificationConfig/list, tasks/pushNotificationConfig/delete]
+  declared_by: agent card capabilities.pushNotifications = true (ToolOracle card); false on the FeedOracle card
+  payload: A2A task status updates per the A2A 0.3 push-notification contract
+  signing: not documented
+- name: OracleNet event webhooks
+  endpoint: https://tooloracle.io/quantum/mcp/
+  subscribe_tool: quantum_subscribe — "Subscribe to OracleNet events via webhook. Get notified when servers change, new capabilities appear…"
+  poll_fallback: quantum_feed — "OracleNet event feed — latest signals, changes, alerts. Poll this for updates if you cannot use webhooks"
+  unsubscribe: not listed on quantum/mcp
+  signing: not documented
+- name: EventFabric (DORA event fabric)
+  endpoint: https://tooloracle.io/eventfabric/mcp/
+  tools: [emit_event, subscribe, unsubscribe, list_subscriptions, test_webhook, webhook_status]
+  tool_count: 14
+  signing: not documented
+- name: XRPL RLUSD webhook
+  endpoints: [https://tooloracle.io/xrpl/mcp/, https://tooloracle.io/x402/xrpl/mcp/, https://feedoracle.io/xrpl/mcp/]
+  tool: xrpl_rlusd_webhook
+  signing: not documented
+- name: FeedOracle webhooks (PRO+)
+  endpoint: 'POST https://api.feedoracle.io/api/v2/webhooks (tier-gated per https://feedoracle.io/docs.html: "Tier-gated (require key): /api/v2/webhooks*")'
+  docs: https://feedoracle.io/docs/webhooks.html
+  docs_status: 404
+  spec: '/api/v3/rlusd/webhooks/events is the only webhook path in openapi/_original/tooloracle-io-feedoracle-openapi.json; /api/v2/webhooks is not in the spec'
+event_catalog: not published — event names are not enumerated anywhere fetched; subscriptions are described by tool descriptions only
+input_schemas: see mcp/tooloracle-io-tools.json for the verbatim inputSchema of quantum_subscribe, subscribe, emit_event and xrpl_rlusd_webhook

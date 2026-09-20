@@ -1,0 +1,2561 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "ToolOracle MCP Platform",
+    "version": "4.2.0",
+    "description": "ToolOracle MCP Platform — 89 servers, 1096 tools, OracleNet self-learning agent mesh. Neural routing, W3C DIDs, Verifiable Credentials, escrow-free x402 USDC settlement on Base + XRPL native escrow.",
+    "x-hedera-mainnet": {
+      "contract": "0.0.10420310",
+      "beacon_topic": "0.0.10420280",
+      "join_topic": "0.0.10420282"
+    },
+    "x-changelog": [
+      {
+        "version": "4.2.0",
+        "date": "2026-04-28",
+        "changes": [
+          "Canonicalized counts from /assets/catalog.json",
+          "Aligned root /openapi.json with /.well-known/openapi.json",
+          "Added x-counts and x-canonical-source extensions"
+        ]
+      },
+      {
+        "version": "4.1.0",
+        "date": "2026-04-19",
+        "changes": [
+          "Added Mesh Economics v1 API paths (/economics/api/*)",
+          "Added Mesh Nervous System discovery paths (/.well-known/agent-pulse, /.well-known/meta-tools)",
+          "Added /.well-known/mesh-economics discovery endpoint"
+        ]
+      }
+    ],
+    "x-counts": {
+      "servers_online": 89,
+      "tools_available": 1096,
+      "categories": 7,
+      "chains_supported": 13,
+      "paid_products": 18
+    },
+    "x-canonical-source": "https://tooloracle.io/assets/catalog.json",
+    "x-generated-at": "2026-09-20T02:13:01+00:00"
+  },
+  "servers": [
+    {
+      "url": "https://tooloracle.io"
+    }
+  ],
+  "paths": {
+    "/research/mcp/": {
+      "post": {
+        "tags": [
+          "ResearchOracle"
+        ],
+        "summary": "ResearchOracle MCP (11 tools)",
+        "description": "Semantic Scholar 200M+ papers, arXiv, Crossref",
+        "operationId": "researchMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/eulaw/mcp/": {
+      "post": {
+        "tags": [
+          "EULawOracle"
+        ],
+        "summary": "EULawOracle MCP (8 tools)",
+        "description": "12 EU regulations, article-level, cross-references",
+        "operationId": "eulawMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/regwatch/mcp/": {
+      "post": {
+        "tags": [
+          "RegWatchOracle"
+        ],
+        "summary": "RegWatchOracle MCP (6 tools)",
+        "description": "US Federal Register + EU RSS feeds",
+        "operationId": "regwatchMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/esma/mcp/": {
+      "post": {
+        "tags": [
+          "ESMAOracle"
+        ],
+        "summary": "ESMAOracle MCP (8 tools)",
+        "description": "177 CASPs, ESMA MiCA register",
+        "operationId": "esmaMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/macro/mcp/": {
+      "post": {
+        "tags": [
+          "MacroOracle"
+        ],
+        "summary": "MacroOracle MCP (22 tools)",
+        "description": "FRED + ECB + World Bank + BLS",
+        "operationId": "macroMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/dora/mcp/": {
+      "post": {
+        "tags": [
+          "DORAOracle"
+        ],
+        "summary": "DORAOracle MCP (15 tools)",
+        "description": "CVE/KEV, CERT-Bund, cloud status",
+        "operationId": "doraMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/ampel/mcp/": {
+      "post": {
+        "tags": [
+          "AmpelOracle"
+        ],
+        "summary": "AmpelOracle MCP (25 tools)",
+        "description": "DORA traffic light system",
+        "operationId": "ampelMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/mica/mcp/": {
+      "post": {
+        "tags": [
+          "MiCAOracle"
+        ],
+        "summary": "MiCAOracle MCP (24 tools)",
+        "description": "MiCA stablecoin compliance",
+        "operationId": "micaMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/aml/mcp/": {
+      "post": {
+        "tags": [
+          "AMLOracle"
+        ],
+        "summary": "AMLOracle MCP (12 tools)",
+        "description": "Sanctions, PEP, KYC",
+        "operationId": "amlMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/insurance/mcp/": {
+      "post": {
+        "tags": [
+          "InsuranceOracle"
+        ],
+        "summary": "InsuranceOracle MCP (12 tools)",
+        "description": "NatCat, GLEIF",
+        "operationId": "insuranceMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/carbon/mcp/": {
+      "post": {
+        "tags": [
+          "CarbonOracle"
+        ],
+        "summary": "CarbonOracle MCP (11 tools)",
+        "description": "EU ETS, grid intensity",
+        "operationId": "carbonMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/reserve/mcp/": {
+      "post": {
+        "tags": [
+          "ReserveOracle"
+        ],
+        "summary": "ReserveOracle MCP (11 tools)",
+        "description": "Gold/silver, RWA tokens",
+        "operationId": "reserveMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/iso20022/mcp/": {
+      "post": {
+        "tags": [
+          "ISO20022Oracle"
+        ],
+        "summary": "ISO20022Oracle MCP (12 tools)",
+        "description": "Financial messaging",
+        "operationId": "iso20022Mcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/weather/mcp/": {
+      "post": {
+        "tags": [
+          "WeatherOracle"
+        ],
+        "summary": "WeatherOracle MCP (10 tools)",
+        "description": "Real-time weather",
+        "operationId": "weatherMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/sport/mcp/": {
+      "post": {
+        "tags": [
+          "SportOracle"
+        ],
+        "summary": "SportOracle MCP (12 tools)",
+        "description": "Live sports data",
+        "operationId": "sportMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/movie/mcp/": {
+      "post": {
+        "tags": [
+          "MovieOracle"
+        ],
+        "summary": "MovieOracle MCP (12 tools)",
+        "description": "Film & entertainment",
+        "operationId": "movieMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/map/mcp/": {
+      "post": {
+        "tags": [
+          "MapOracle"
+        ],
+        "summary": "MapOracle MCP (12 tools)",
+        "description": "Location intelligence",
+        "operationId": "mapMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/news/mcp/": {
+      "post": {
+        "tags": [
+          "NewsOracle"
+        ],
+        "summary": "NewsOracle MCP (9 tools)",
+        "description": "News & trends",
+        "operationId": "newsMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/flight/mcp/": {
+      "post": {
+        "tags": [
+          "FlightOracle"
+        ],
+        "summary": "FlightOracle MCP (8 tools)",
+        "description": "Flight search",
+        "operationId": "flightMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/hotel/mcp/": {
+      "post": {
+        "tags": [
+          "HotelOracle"
+        ],
+        "summary": "HotelOracle MCP (8 tools)",
+        "description": "Hotel search",
+        "operationId": "hotelMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/job/mcp/": {
+      "post": {
+        "tags": [
+          "JobOracle"
+        ],
+        "summary": "JobOracle MCP (8 tools)",
+        "description": "Job market",
+        "operationId": "jobMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/review/mcp/": {
+      "post": {
+        "tags": [
+          "ReviewOracle"
+        ],
+        "summary": "ReviewOracle MCP (8 tools)",
+        "description": "Product reviews",
+        "operationId": "reviewMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/price/mcp/": {
+      "post": {
+        "tags": [
+          "PriceOracle"
+        ],
+        "summary": "PriceOracle MCP (7 tools)",
+        "description": "Price comparison",
+        "operationId": "priceMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/seo/mcp/": {
+      "post": {
+        "tags": [
+          "SEOOracle"
+        ],
+        "summary": "SEOOracle MCP (7 tools)",
+        "description": "SEO intelligence",
+        "operationId": "seoMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/lead/mcp/": {
+      "post": {
+        "tags": [
+          "LeadOracle"
+        ],
+        "summary": "LeadOracle MCP (7 tools)",
+        "description": "Lead enrichment",
+        "operationId": "leadMcp",
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/arbitrum/mcp/": {
+      "post": {
+        "tags": [
+          "Blockchain"
+        ],
+        "summary": "ARBITRUMOracle MCP",
+        "operationId": "arbitrumMcp",
+        "responses": {
+          "200": {
+            "description": "MCP response"
+          }
+        }
+      }
+    },
+    "/solana/mcp/": {
+      "post": {
+        "tags": [
+          "Blockchain"
+        ],
+        "summary": "SOLANAOracle MCP",
+        "operationId": "solanaMcp",
+        "responses": {
+          "200": {
+            "description": "MCP response"
+          }
+        }
+      }
+    },
+    "/ton/mcp/": {
+      "post": {
+        "tags": [
+          "Blockchain"
+        ],
+        "summary": "TONOracle MCP",
+        "operationId": "tonMcp",
+        "responses": {
+          "200": {
+            "description": "MCP response"
+          }
+        }
+      }
+    },
+    "/sui/mcp/": {
+      "post": {
+        "tags": [
+          "Blockchain"
+        ],
+        "summary": "SUIOracle MCP",
+        "operationId": "suiMcp",
+        "responses": {
+          "200": {
+            "description": "MCP response"
+          }
+        }
+      }
+    },
+    "/eth/mcp/": {
+      "post": {
+        "tags": [
+          "Blockchain"
+        ],
+        "summary": "ETHOracle MCP",
+        "operationId": "ethMcp",
+        "responses": {
+          "200": {
+            "description": "MCP response"
+          }
+        }
+      }
+    },
+    "/xlm/mcp/": {
+      "post": {
+        "tags": [
+          "Blockchain"
+        ],
+        "summary": "XLMOracle MCP",
+        "operationId": "xlmMcp",
+        "responses": {
+          "200": {
+            "description": "MCP response"
+          }
+        }
+      }
+    },
+    "/xrpl/mcp/": {
+      "post": {
+        "summary": "XRPLOracle — XRP Ledger Intelligence + RLUSD Stablecoin Compliance (31 tools)",
+        "description": "MCP endpoint for XRPLOracle — 31 tools for XRP Ledger intelligence and RLUSD stablecoin compliance. Groups: 15 XRPL intelligence (xrpl_overview, xrpl_account_intel, xrpl_dex_orderbook, xrpl_amm_pools, xrpl_payment_intel, xrpl_token_check, xrpl_escrow_monitor, xrpl_nft_intel, xrpl_nft_offers, xrpl_trust_lines, xrpl_server_state, xrpl_gateway_balances, xrpl_path_find, xrpl_ledger_data, xrpl_compliance_check); 9 RLUSD compliance (xrpl_rlusd, xrpl_rlusd_supply, xrpl_rlusd_cci, xrpl_rlusd_integrity, xrpl_rlusd_holders, xrpl_rlusd_service, xrpl_rlusd_anchor, xrpl_rlusd_webhook, xrpl_rlusd_enterprise); ISO 20022 + RWA scoring (xrpl_iso20022, xrpl_rwa_scoring); 5 OracleNet settlement (xrpl_quantum_join, xrpl_beacon_pulse, xrpl_settlement_status, xrpl_escrow_create, xrpl_escrow_check). Hero tools: xrpl_rlusd_integrity, xrpl_rlusd_cci, xrpl_rlusd_holders, xrpl_compliance_check, xrpl_token_check. Use case: autonomous agents performing RLUSD peg/reserve/holder due diligence and XRPL counterparty/token risk checks before settlement. Endpoint https://tooloracle.io/xrpl/mcp/ — free tier 100 calls/day, x402 USDC on Base for higher volume.",
+        "tags": [
+          "OracleNet",
+          "XRPL",
+          "Blockchain"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MCPRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/x402/xrpl/mcp/": {
+      "post": {
+        "operationId": "xrplPaidMcp",
+        "summary": "XRPLOracle paid hero — RLUSD integrity ($0.03/call, x402 USDC on Base)",
+        "description": "Paid x402 mirror of xrpl_rlusd_integrity. Multi-source RLUSD integrity: peg deviation, reserve ratio, on-chain vs reported supply, DEX liquidity; auto-flags peg/supply anomalies. $0.03/call USDC on Base (eip155:8453), payTo 0x11f591C3496C0632e7B173184f5Bc71dC941125D. Free discovery: tools/list + health_check. The other 30 XRPL tools stay free on /xrpl/mcp/.",
+        "tags": [
+          "OracleNet",
+          "XRPL",
+          "x402"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MCPRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response (after payment)"
+          },
+          "402": {
+            "description": "Payment required — x402 challenge with accepts[] (USDC on Base, $0.03)"
+          }
+        }
+      }
+    },
+    "/bnb/mcp/": {
+      "post": {
+        "tags": [
+          "Blockchain"
+        ],
+        "summary": "BNBOracle MCP",
+        "operationId": "bnbMcp",
+        "responses": {
+          "200": {
+            "description": "MCP response"
+          }
+        }
+      }
+    },
+    "/aptos/mcp/": {
+      "post": {
+        "tags": [
+          "Blockchain"
+        ],
+        "summary": "APTOSOracle MCP",
+        "operationId": "aptosMcp",
+        "responses": {
+          "200": {
+            "description": "MCP response"
+          }
+        }
+      }
+    },
+    "/base/mcp/": {
+      "post": {
+        "tags": [
+          "Blockchain"
+        ],
+        "summary": "BASEOracle MCP",
+        "operationId": "baseMcp",
+        "responses": {
+          "200": {
+            "description": "MCP response"
+          }
+        }
+      }
+    },
+    "/hedera/mcp/": {
+      "post": {
+        "tags": [
+          "Blockchain"
+        ],
+        "summary": "HEDERAOracle MCP",
+        "operationId": "hederaMcp",
+        "responses": {
+          "200": {
+            "description": "MCP response"
+          }
+        }
+      }
+    },
+    "/btc/mcp/": {
+      "post": {
+        "tags": [
+          "Blockchain"
+        ],
+        "summary": "BTCOracle MCP",
+        "operationId": "btcMcp",
+        "responses": {
+          "200": {
+            "description": "MCP response"
+          }
+        }
+      }
+    },
+    "/flare/mcp/": {
+      "post": {
+        "tags": [
+          "Blockchain"
+        ],
+        "summary": "FLAREOracle MCP",
+        "operationId": "flareMcp",
+        "responses": {
+          "200": {
+            "description": "MCP response"
+          }
+        }
+      }
+    },
+    "/quantum/mcp": {
+      "post": {
+        "summary": "QuantumOracle — OracleNet Join & Trust Layer",
+        "description": "MCP endpoint for QuantumOracle. 8 tools: quantum_join (one-call mesh join), quantum_trust_passport (portable W3C VC), quantum_route (neural-weighted routing), quantum_preflight (trust check), quantum_settle (deal settlement), quantum_status (network health), quantum_nodes (registered nodes), neural_status (mesh intelligence).",
+        "tags": [
+          "OracleNet",
+          "Trust"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MCPRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "MCP JSON-RPC response"
+          }
+        }
+      }
+    },
+    "/oraclenet/beacon": {
+      "get": {
+        "summary": "OracleNet Beacon — Live mesh status",
+        "description": "JSON beacon with oracle status, uptime, tools count, content hash. Updated every 5 minutes.",
+        "tags": [
+          "OracleNet"
+        ],
+        "responses": {
+          "200": {
+            "description": "Beacon JSON",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/mesh/registry.json": {
+      "get": {
+        "summary": "OracleNet Mesh Registry — Oracle discovery",
+        "description": "Complete registry of 24 oracles with 116 indexed capabilities. Find oracles by name, DID, or capability.",
+        "tags": [
+          "OracleNet"
+        ],
+        "responses": {
+          "200": {
+            "description": "Mesh registry JSON"
+          }
+        }
+      }
+    },
+    "/economics/api/health": {
+      "get": {
+        "summary": "Mesh Economics API health check",
+        "description": "Returns service health, pricing version, and DB path.",
+        "tags": [
+          "Mesh Economics"
+        ],
+        "responses": {
+          "200": {
+            "description": "Service healthy",
+            "content": {
+              "application/json": {
+                "example": {
+                  "ok": true,
+                  "service": "mesh-economics-api",
+                  "version": "v1",
+                  "pricing_version": "v1.0.0"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/economics/api/price": {
+      "post": {
+        "summary": "Decide pricing for an incoming call (fresh vs cached)",
+        "description": "Returns a CallDecision. No ledger events are written — caller must follow up with /commit.",
+        "tags": [
+          "Mesh Economics"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "tool_id",
+                  "wallet"
+                ],
+                "properties": {
+                  "tool_id": {
+                    "type": "string",
+                    "example": "btc_overview"
+                  },
+                  "args": {
+                    "type": "object",
+                    "example": {}
+                  },
+                  "wallet": {
+                    "type": "string",
+                    "example": "0xabc..."
+                  },
+                  "referrer_wallet": {
+                    "type": "string"
+                  },
+                  "agent_id": {
+                    "type": "string"
+                  },
+                  "api_key_hash": {
+                    "type": "string"
+                  },
+                  "verify_only": {
+                    "type": "boolean",
+                    "default": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Pricing decision returned"
+          },
+          "400": {
+            "description": "Missing/invalid fields"
+          },
+          "403": {
+            "description": "Wallet blocked"
+          }
+        }
+      }
+    },
+    "/economics/api/commit": {
+      "post": {
+        "summary": "Commit a call to the ledger after execution",
+        "description": "Book the call into the append-only ledger. Writes debit for caller, fee for treasury, and reward events for originator/referrer if applicable.",
+        "tags": [
+          "Mesh Economics"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "decision",
+                  "wallet",
+                  "kind"
+                ],
+                "properties": {
+                  "decision": {
+                    "type": "object",
+                    "description": "CallDecision returned by /price"
+                  },
+                  "wallet": {
+                    "type": "string"
+                  },
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "fresh",
+                      "cached",
+                      "verify_only"
+                    ]
+                  },
+                  "result_signed": {
+                    "type": "string",
+                    "description": "Full signed result (for fresh calls)"
+                  },
+                  "output_hash": {
+                    "type": "string"
+                  },
+                  "signature_hash": {
+                    "type": "string"
+                  },
+                  "referrer_wallet": {
+                    "type": "string"
+                  },
+                  "referrer_agent_id": {
+                    "type": "string"
+                  },
+                  "agent_id": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Call committed"
+          },
+          "400": {
+            "description": "Malformed decision"
+          },
+          "409": {
+            "description": "Idempotency conflict — this call_uuid already committed"
+          }
+        }
+      }
+    },
+    "/economics/api/balance/{wallet}": {
+      "get": {
+        "summary": "Get wallet balance (live view over append-only ledger)",
+        "description": "Balance is computed as SUM over confirmed ledger events. Returns 0-balance for unknown wallets.",
+        "tags": [
+          "Mesh Economics"
+        ],
+        "parameters": [
+          {
+            "name": "wallet",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "0xabc..."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Wallet balance",
+            "content": {
+              "application/json": {
+                "example": {
+                  "ok": true,
+                  "balance": {
+                    "wallet": "0xabc...",
+                    "balance_credits": 0,
+                    "pending_credits": 0,
+                    "lifetime_earned": 0,
+                    "lifetime_spent": 0
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/economics/api/referral": {
+      "post": {
+        "summary": "Register a direct (1-hop) referral",
+        "description": "Self-referrals are blocked at registration (same wallet, same owner cluster, or same api_key_hash). Only direct referrals — no MLM.",
+        "tags": [
+          "Mesh Economics"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "referrer_wallet",
+                  "referee_wallet"
+                ],
+                "properties": {
+                  "referrer_wallet": {
+                    "type": "string"
+                  },
+                  "referee_wallet": {
+                    "type": "string"
+                  },
+                  "referrer_agent_id": {
+                    "type": "string"
+                  },
+                  "referee_agent_id": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Registration result (ok:true if accepted, ok:false if self-referral/duplicate)"
+          }
+        }
+      }
+    },
+    "/economics/api/stats": {
+      "get": {
+        "summary": "Live mesh economics statistics",
+        "description": "Same payload as /.well-known/mesh-economics but generated live (not cached by the 5-min dashboard cron).",
+        "tags": [
+          "Mesh Economics"
+        ],
+        "responses": {
+          "200": {
+            "description": "Full stats payload"
+          }
+        }
+      }
+    },
+    "/.well-known/mesh-economics": {
+      "get": {
+        "summary": "Mesh economics public dashboard payload (JSON)",
+        "description": "Machine-readable pricing, activity, rewards, treasury, agents, referrals, audit. Updated every 5 minutes.",
+        "tags": [
+          "Mesh Economics",
+          "Discovery"
+        ],
+        "responses": {
+          "200": {
+            "description": "Full mesh economics snapshot"
+          }
+        }
+      }
+    },
+    "/.well-known/agent-pulse": {
+      "get": {
+        "summary": "Mesh Nervous System — agent pulse (gravity, emergent patterns)",
+        "description": "Gravity score, cross-LLM gaps, discovery links, emergent patterns. Updated every 5 minutes.",
+        "tags": [
+          "Mesh Nervous System",
+          "Discovery"
+        ],
+        "responses": {
+          "200": {
+            "description": "Pulse JSON"
+          }
+        }
+      }
+    },
+    "/.well-known/meta-tools": {
+      "get": {
+        "summary": "Mesh Nervous System — meta-tool candidates",
+        "description": "Emergent tool-composition patterns discovered from real external agent traffic. 3-stage pipeline: discover (active), simulate (planned), promote (planned).",
+        "tags": [
+          "Mesh Nervous System",
+          "Discovery"
+        ],
+        "responses": {
+          "200": {
+            "description": "Meta-tools JSON"
+          }
+        }
+      }
+    },
+    "/economics.html": {
+      "get": {
+        "summary": "Human-readable mesh economics dashboard",
+        "tags": [
+          "Mesh Economics"
+        ],
+        "responses": {
+          "200": {
+            "description": "HTML dashboard"
+          }
+        }
+      }
+    },
+    "/v2/agent_preflight": {
+      "post": {
+        "operationId": "v2_agent_preflight",
+        "tags": [
+          "agent-safety"
+        ],
+        "summary": "AI agent decision pre-flight: GO / CAUTION / STOP with cryptographic receipt.",
+        "description": "AI agent decision pre-flight + action audit + autonomous safety — should agent X execute action Y? Combined check: evidence freshness, provenance trace, policy gate, risk scoring, hallucination signals. Returns GO / CAUTION / STOP / INSUFFICIENT_EVIDENCE with cryptographic receipt. For autonomous agent workflows: tool calls, financial transactions, content publishing, regulatory submissions, multi-step task execution, agent compliance evidence, MCP gateway routing.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "intent": {
+                    "type": "string",
+                    "description": "Description of what the agent wants to do"
+                  },
+                  "context": {
+                    "type": "object",
+                    "description": "Optional agent context (agent_id, session_id, etc.)"
+                  }
+                },
+                "required": [
+                  "intent"
+                ]
+              },
+              "example": {
+                "intent": "transfer 1000 EUR to wallet 0xabc..."
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success (synthetic example)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "verdict": "go",
+                  "cost_units": 1,
+                  "evidence": []
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes."
+          },
+          "400": {
+            "description": "Bad Request — invalid or missing parameters."
+          }
+        },
+        "x-x402": {
+          "price": "$0.005",
+          "currency": "USDC",
+          "network": "eip155:8453",
+          "method": "POST",
+          "example_type": "synthetic"
+        }
+      }
+    },
+    "/v2/cve_lookup": {
+      "post": {
+        "operationId": "v2_cve_lookup",
+        "tags": [
+          "security"
+        ],
+        "summary": "NIST NVD CVE search by keyword, vendor, or product — CVSS score, CWE, references.",
+        "description": "AgentNOMOS CVE Vulnerability Intelligence Lookup: Keyword, vendor or product search against the NIST NVD database. Returns per CVE: cve_id, published date, CVSS base score and vector string, attack vector, CWE class, description excerpt, references and the NVD detail URL. Source is NIST NVD only — no CISA KEV and no MITRE ATT&CK integration. For automated security checks and agent workflows.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "keyword": {
+                    "type": "string",
+                    "description": "Search keyword, vendor, or product name"
+                  },
+                  "limit": {
+                    "type": "integer",
+                    "description": "Max results (default 10, max 50)"
+                  }
+                },
+                "required": [
+                  "keyword"
+                ]
+              },
+              "example": {
+                "keyword": "openssl",
+                "limit": 5
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success (synthetic example)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "total_results": 10,
+                  "returned": 1,
+                  "vulnerabilities": [
+                    {
+                      "cve_id": "CVE-2026-45363",
+                      "published": "2026-07-14",
+                      "cvss_score": 9.1,
+                      "attack_vector": "NETWORK",
+                      "cwe": "CWE-287",
+                      "nvd_url": "https://nvd.nist.gov/vuln/detail/CVE-2026-45363"
+                    }
+                  ],
+                  "source": "NIST NVD"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes."
+          },
+          "400": {
+            "description": "Bad Request — invalid or missing parameters."
+          }
+        },
+        "x-x402": {
+          "price": "$0.005",
+          "currency": "USDC",
+          "network": "eip155:8453",
+          "method": "POST",
+          "example_type": "synthetic"
+        }
+      }
+    },
+    "/v2/uvo_quick": {
+      "post": {
+        "operationId": "v2_uvo_quick",
+        "tags": [
+          "agent-safety"
+        ],
+        "summary": "UVO Action Gate: deterministic validation of an agent action proposal across up to nine stages, fail-fast. Returns APPROVE/WARN/ESCALATE/BLOCK.",
+        "description": "Deterministic pre-flight validation for an autonomous agent action. Up to nine validation stages (IDs L0-L6, L8, L9 - historically non-contiguous; there is no L7) covering schema, measurability, reversibility, containment, danger, citation, commitment, existence and hallucination. Execution is fail-fast: a blocking stage ends the run, so not every request executes all nine stages. Stage L1 (hallucination) is reported but runs disabled unless enabled by the caller; this route does not enable it - use /v2/uvo_academic_verify for academic claim verification. Returns decision (APPROVE/WARN/ESCALATE/BLOCK), risk_score, blocking_layer and a per-stage layers array. Input contract: the body is {proposal: {...}}. Inside the proposal, claim and expected_outcome are required strings of at least 10 characters; success_metric is required for a non-BLOCK verdict (stage L6 blocks a proposal without it); action_type is optional but, when present, must be exactly one of shell, http, code_diff, decision, filesystem, config_change (lower case). Unknown fields are accepted. Sub-100ms validation time; transport not included.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "proposal": {
+                    "type": "object",
+                    "description": "The agent action proposal to validate. Required non-empty object. Required inner fields: claim (string, minLength 10) and expected_outcome (string, minLength 10). success_metric (string) is required for a non-BLOCK verdict. Optional: action_type (one of shell, http, code_diff, decision, filesystem, config_change), target, args, idempotent, declared_sandbox. Unknown fields are accepted."
+                  }
+                },
+                "required": [
+                  "proposal"
+                ]
+              },
+              "example": {
+                "proposal": {
+                  "action_type": "decision",
+                  "target": "quarterly-compliance-report",
+                  "claim": "Approve the quarterly compliance report for submission",
+                  "expected_outcome": "the report is marked approved and queued for submission",
+                  "success_metric": "report status equals approved and a submission id is returned",
+                  "idempotent": true
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success (synthetic example)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "decision": "APPROVE",
+                  "risk_score": 0.0,
+                  "blocking_layer": null,
+                  "reasoning": "All layers approve — proposal looks safe (Phase 1 dry-run, would not be executed in this phase)",
+                  "layers": [
+                    {
+                      "id": "L0",
+                      "name": "schema",
+                      "verdict": "APPROVE",
+                      "score": 0.0,
+                      "reasoning": "proposal structurally valid"
+                    },
+                    {
+                      "id": "L6",
+                      "name": "measurability",
+                      "verdict": "APPROVE",
+                      "score": 0.0,
+                      "reasoning": "success_metric defined"
+                    },
+                    {
+                      "id": "L4",
+                      "name": "reversibility",
+                      "verdict": "APPROVE",
+                      "score": 0.0,
+                      "reasoning": "decision-only proposal, no side effect, no rollback required"
+                    },
+                    {
+                      "id": "L5",
+                      "name": "containment",
+                      "verdict": "APPROVE",
+                      "score": 0.0,
+                      "reasoning": "target in sandbox: decision (no side effect)"
+                    },
+                    {
+                      "id": "L3",
+                      "name": "danger",
+                      "verdict": "APPROVE",
+                      "score": 0.0,
+                      "reasoning": "no danger patterns detected"
+                    },
+                    {
+                      "id": "L8",
+                      "name": "citation",
+                      "verdict": "APPROVE",
+                      "score": 0.0,
+                      "reasoning": "no legal/regulatory citations detected in proposal text"
+                    },
+                    {
+                      "id": "L9",
+                      "name": "commitment",
+                      "verdict": "APPROVE",
+                      "score": 0.0,
+                      "reasoning": "no commitment patterns detected"
+                    },
+                    {
+                      "id": "L2",
+                      "name": "existence",
+                      "verdict": "APPROVE",
+                      "score": 0.0,
+                      "reasoning": "decision-only, no target to probe"
+                    },
+                    {
+                      "id": "L1",
+                      "name": "hallucination",
+                      "verdict": "APPROVE",
+                      "score": 0.0,
+                      "reasoning": "L1 disabled by caller (enabled=False)"
+                    }
+                  ],
+                  "receipt_id": "rec-<redacted>"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes."
+          },
+          "400": {
+            "description": "Bad Request — invalid or missing parameters."
+          }
+        },
+        "x-x402": {
+          "price": "$0.005",
+          "currency": "USDC",
+          "network": "eip155:8453",
+          "method": "POST",
+          "example_type": "synthetic"
+        }
+      }
+    },
+    "/v2/compliance_preflight": {
+      "post": {
+        "operationId": "v2_compliance_preflight",
+        "tags": [
+          "compliance"
+        ],
+        "summary": "MiCA stablecoin compliance preflight — PASS/WARN/BLOCK + grade A-F + signed MiCA status evidence snapshot for one stablecoin token.",
+        "description": "EU stablecoin MiCA pre-flight verdict (PASS/WARN/BLOCK) with grade A-F and a signed MiCA status evidence snapshot (source and as-of metadata). Supports USDC, USDT, EURC, RLUSD, DAI and 40+ stablecoins. Required EU regulatory due diligence for CASPs, exchanges, payment & e-money agents.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "description": "Stablecoin symbol e.g. USDC, USDT, EURC, RLUSD, DAI"
+                  },
+                  "issuer": {
+                    "type": "string",
+                    "description": "Optional issuer e.g. Circle, Tether, Ripple"
+                  }
+                },
+                "required": [
+                  "token"
+                ]
+              },
+              "example": {
+                "token": "USDC"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success (synthetic example)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "verdict": "PASS",
+                  "score": 87.4,
+                  "grade": "A",
+                  "mica_status": "AUTHORIZED",
+                  "signed": true
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes."
+          },
+          "400": {
+            "description": "Bad Request — invalid or missing parameters."
+          }
+        },
+        "x-x402": {
+          "price": "$0.01",
+          "currency": "USDC",
+          "network": "eip155:8453",
+          "method": "POST",
+          "example_type": "synthetic",
+          "status": "live",
+          "value_prop": "Check a token before interacting: receive a machine-readable PASS/WARN/BLOCK compliance preflight for $0.01."
+        }
+      }
+    },
+    "/v2/macro_snapshot": {
+      "post": {
+        "operationId": "v2_macro_snapshot",
+        "tags": [
+          "finance"
+        ],
+        "summary": "US macro snapshot: Fed funds, CPI, PPI, yield curve, unemployment, GDP, housing, sentiment.",
+        "description": "US macro economic snapshot + trading signals + market data — Fed funds rate, CPI inflation, PPI, yield curve (10Y-2Y spread), unemployment, GDP growth, housing index, consumer sentiment in single API call. Real-time from FRED + BLS + BEA. For trading agents, risk models, portfolio rebalancing, economic forecasting, market commentary, research workflows, autonomous treasury management, DeFi macro hedging.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success (synthetic example)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "fed_funds": 4.5,
+                  "cpi_yoy": 2.7,
+                  "yield_10y_2y": 0.45,
+                  "unemployment": 4.1
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes."
+          },
+          "400": {
+            "description": "Bad Request — invalid or missing parameters."
+          }
+        },
+        "x-x402": {
+          "price": "$0.01",
+          "currency": "USDC",
+          "network": "eip155:8453",
+          "method": "POST",
+          "example_type": "synthetic"
+        }
+      }
+    },
+    "/v2/mica_stablecoin_check": {
+      "post": {
+        "operationId": "v2_mica_stablecoin_check",
+        "tags": [
+          "compliance"
+        ],
+        "summary": "MiCA full Ampel check across 12 articles + grade A-F. USDC, USDT, EURC, RLUSD, DAI, 40+ stables.",
+        "description": "EU stablecoin MiCA compliance audit + regulatory readiness — full Ampel traffic-light check (RED/YELLOW/GREEN) across all 12 MiCA articles (Title III EMT + Title IV ART). Grade A-F + signed MiCA status evidence snapshot (source and as-of metadata). Supports USDC, USDT, EURC, RLUSD, DAI, FDUSD, PYUSD and 40+ stablecoins. Required regulatory due diligence for CASPs, EU exchanges, payment service providers, e-money institutions, fintech agents. BaFin / ESMA / AMF / FINMA / CySEC aligned. July 2026 CASP deadline.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "description": "Stablecoin symbol (USDC, USDT, EURC, RLUSD, DAI, etc.)"
+                  },
+                  "issuer": {
+                    "type": "string",
+                    "description": "Optional issuer name (Circle, Tether, Ripple, etc.)"
+                  }
+                },
+                "required": [
+                  "token"
+                ]
+              },
+              "example": {
+                "token": "USDC",
+                "issuer": "Circle"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success (synthetic example)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "verdict": "PASS",
+                  "score": 87.4,
+                  "grade": "A",
+                  "mica_status": "AUTHORIZED"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes."
+          },
+          "400": {
+            "description": "Bad Request — invalid or missing parameters."
+          }
+        },
+        "x-x402": {
+          "price": "$0.01",
+          "currency": "USDC",
+          "network": "eip155:8453",
+          "method": "POST",
+          "example_type": "synthetic"
+        }
+      }
+    },
+    "/v2/orderbook_risk": {
+      "post": {
+        "operationId": "v2_orderbook_risk",
+        "tags": [
+          "market-integrity"
+        ],
+        "summary": "Kalshi orderbook fragility: thin liquidity, penny walls, single-order dominance scoring.",
+        "description": "Detects thin liquidity, penny walls, spread risk, and fragile orderbook structures in Kalshi markets. Returns 0-100 manipulation-vulnerability score plus signal-level evidence: wide spread (>$0.10), shallow depth (<10 contracts), few price levels, single-order dominance (>80% in top level), penny-wall pattern (large bids at ≤$0.005, common in wash trading). For agents that need to detect fragile order books before placing orders.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ticker": {
+                    "type": "string",
+                    "description": "Kalshi market ticker (e.g. KXG7LEADEROUT-45JAN01-FMER)"
+                  }
+                },
+                "required": [
+                  "ticker"
+                ]
+              },
+              "example": {
+                "ticker": "KXG7LEADEROUT-45JAN01-FMER"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success (synthetic example)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "score": 20,
+                  "severity": "LOW",
+                  "manipulation_flags": [
+                    {
+                      "signal": "penny_wall_pattern",
+                      "points": 20
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes."
+          },
+          "400": {
+            "description": "Bad Request — invalid or missing parameters."
+          }
+        },
+        "x-x402": {
+          "price": "$0.01",
+          "currency": "USDC",
+          "network": "eip155:8453",
+          "method": "POST",
+          "example_type": "synthetic"
+        }
+      }
+    },
+    "/v2/uvo_citation_check": {
+      "post": {
+        "operationId": "v2_uvo_citation_check",
+        "tags": [
+          "agent-safety"
+        ],
+        "summary": "Citation/source validation: legal articles, statutes, DOIs against authoritative registers.",
+        "description": "Verify legal & academic citations against authoritative sources. 448 EUR-Lex verified articles (MiCA 149, DSGVO 99, DORA 64, AMLR 90, NIS2 46) + Semantic Scholar + OpenAlex + German codes (BGB, KWG). Detects fake citations like 'Art. 999 MiCA' or 'doi:10.9999/fake-paper'.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "claim": {
+                    "type": "string",
+                    "description": "The statement whose legal or academic citations should be verified. Required, non-empty."
+                  },
+                  "references": {
+                    "type": "array",
+                    "description": "Optional list of source references supporting the claim, e.g. an EUR-Lex URL or a DOI. If given, must be a non-empty array of strings."
+                  }
+                },
+                "required": [
+                  "claim"
+                ]
+              },
+              "example": {
+                "claim": "Under MiCA Art. 4, EMT issuers must hold 1:1 reserves.",
+                "references": [
+                  "https://eur-lex.europa.eu/eli/reg/2023/1114"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success (synthetic example)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "results": [
+                    {
+                      "citation": "Art. 17 MiCA",
+                      "verdict": "APPROVE",
+                      "title": "Application for authorisation"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes."
+          },
+          "400": {
+            "description": "Bad Request — invalid or missing parameters."
+          }
+        },
+        "x-x402": {
+          "price": "$0.01",
+          "currency": "USDC",
+          "network": "eip155:8453",
+          "method": "POST",
+          "example_type": "synthetic"
+        }
+      }
+    },
+    "/v2/meme_rug_check": {
+      "post": {
+        "operationId": "v2_meme_rug_check",
+        "tags": [
+          "blockchain-risk"
+        ],
+        "summary": "Memecoin rug-pull check across Base, Solana, ETH, BSC, Arbitrum, Polygon.",
+        "description": "Memecoin rug-pull check + token risk assessment + scam detection — liquidity depth, holder concentration, contract age, volume patterns, LP lockup status, mint authority, honeypot detection. Multi-chain (Base, Solana, Ethereum, BSC, Arbitrum, Polygon). Live DexScreener + on-chain analysis. For DeFi trading agents, copy-trading bots, alpha discovery, MEV protection, treasury due diligence, crypto safety screening, agent token validation.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "token": {
+                    "type": "string",
+                    "description": "Token contract address (0x... or solana base58)"
+                  },
+                  "chain": {
+                    "type": "string",
+                    "description": "Chain: base, ethereum, solana, bsc, etc."
+                  }
+                },
+                "required": [
+                  "token"
+                ]
+              },
+              "example": {
+                "token": "0x1234...",
+                "chain": "base"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success (synthetic example)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "risk_score": 0.23,
+                  "verdict": "LOW_RISK",
+                  "liquidity_locked": true
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes."
+          },
+          "400": {
+            "description": "Bad Request — invalid or missing parameters."
+          }
+        },
+        "x-x402": {
+          "price": "$0.02",
+          "currency": "USDC",
+          "network": "eip155:8453",
+          "method": "POST",
+          "example_type": "synthetic"
+        }
+      }
+    },
+    "/v2/sanctions_screen": {
+      "post": {
+        "operationId": "v2_sanctions_screen",
+        "tags": [
+          "compliance"
+        ],
+        "summary": "Name screening: EU FSF (14k) + OFAC SDN (69k) + UN (3k) + UK HMT (4k).",
+        "description": "Sanctions screening + AML compliance check — real-time name screening against EU FSF (14k entities), US OFAC SDN (69k), UN Security Council (3k), UK HMT (4k). Hit/no-hit verdict with entity details, confidence score, matched-list breakdown. For KYC, KYB, CDD, AML, transaction monitoring, agent payment pre-flight, payments compliance, regtech workflows. EU AMLR Art. 21 + FinCEN BSA + FATF Rec. 6 + BaFin GwG compliant.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Person or entity name to screen"
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "Optional ISO country code"
+                  },
+                  "dob": {
+                    "type": "string",
+                    "description": "Optional date of birth YYYY-MM-DD"
+                  }
+                },
+                "required": [
+                  "name"
+                ]
+              },
+              "example": {
+                "name": "John Doe",
+                "country": "RU"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success (synthetic example)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "hit": false,
+                  "matched_lists": [],
+                  "confidence": 0
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes."
+          },
+          "400": {
+            "description": "Bad Request — invalid or missing parameters."
+          }
+        },
+        "x-x402": {
+          "price": "$0.02",
+          "currency": "USDC",
+          "network": "eip155:8453",
+          "method": "POST",
+          "example_type": "synthetic"
+        }
+      }
+    },
+    "/v2/uvo_full": {
+      "post": {
+        "operationId": "v2_uvo_full",
+        "tags": [
+          "agent-safety"
+        ],
+        "summary": "UVO Action Gate: deterministic validation of an agent action proposal across up to nine stages, fail-fast. Returns APPROVE/WARN/ESCALATE/BLOCK.",
+        "description": "Deterministic validation for an autonomous agent action. Up to nine validation stages (IDs L0-L6, L8, L9 - historically non-contiguous; there is no L7) covering schema, measurability, reversibility, containment, danger, citation, commitment, existence and hallucination. Execution is fail-fast: a blocking stage ends the run, so not every request executes all nine stages. Stage L1 (hallucination) is reported but runs disabled unless enabled by the caller; this route does not enable it - use /v2/uvo_academic_verify for academic claim verification. Returns decision (APPROVE/WARN/ESCALATE/BLOCK), risk_score, blocking_layer and a per-stage layers array. Input contract: the body is {proposal: {...}}. Inside the proposal, claim and expected_outcome are required strings of at least 10 characters; success_metric is required for a non-BLOCK verdict (stage L6 blocks a proposal without it); action_type is optional but, when present, must be exactly one of shell, http, code_diff, decision, filesystem, config_change (lower case). Unknown fields are accepted. Sub-second validation time; transport not included.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "proposal": {
+                    "type": "object",
+                    "description": "The agent action proposal to validate. Required non-empty object. Required inner fields: claim (string, minLength 10) and expected_outcome (string, minLength 10). success_metric (string) is required for a non-BLOCK verdict. Optional: action_type (one of shell, http, code_diff, decision, filesystem, config_change), target, args, idempotent, declared_sandbox. Unknown fields are accepted."
+                  }
+                },
+                "required": [
+                  "proposal"
+                ]
+              },
+              "example": {
+                "proposal": {
+                  "action_type": "config_change",
+                  "target": "/etc/app/feature_flags.yaml",
+                  "claim": "Enable the payout_v2 feature flag for ten percent of traffic",
+                  "expected_outcome": "feature flag payout_v2 is set to a ten percent rollout",
+                  "success_metric": "config diff applied and health checks green for 15 minutes",
+                  "idempotent": true
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success (synthetic example)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "decision": "ESCALATE",
+                  "risk_score": 7.0,
+                  "blocking_layer": null,
+                  "reasoning": "Escalation triggered by: L5:target neither sandbox-whitelisted nor obviously production ",
+                  "layers": [
+                    {
+                      "id": "L0",
+                      "name": "schema",
+                      "verdict": "APPROVE",
+                      "score": 0.0,
+                      "reasoning": "proposal structurally valid"
+                    },
+                    {
+                      "id": "L6",
+                      "name": "measurability",
+                      "verdict": "APPROVE",
+                      "score": 0.0,
+                      "reasoning": "success_metric defined"
+                    },
+                    {
+                      "id": "L4",
+                      "name": "reversibility",
+                      "verdict": "APPROVE",
+                      "score": 0.1,
+                      "reasoning": "idempotent=True — repeatable without harm"
+                    },
+                    {
+                      "id": "L5",
+                      "name": "containment",
+                      "verdict": "ESCALATE",
+                      "score": 0.7,
+                      "reasoning": "target neither sandbox-whitelisted nor obviously production — needs human judgement"
+                    },
+                    {
+                      "id": "L3",
+                      "name": "danger",
+                      "verdict": "APPROVE",
+                      "score": 0.0,
+                      "reasoning": "no danger patterns detected"
+                    },
+                    {
+                      "id": "L8",
+                      "name": "citation",
+                      "verdict": "APPROVE",
+                      "score": 0.0,
+                      "reasoning": "no legal/regulatory citations detected in proposal text"
+                    },
+                    {
+                      "id": "L9",
+                      "name": "commitment",
+                      "verdict": "APPROVE",
+                      "score": 0.0,
+                      "reasoning": "no commitment patterns detected"
+                    },
+                    {
+                      "id": "L2",
+                      "name": "existence",
+                      "verdict": "WARN",
+                      "score": 0.5,
+                      "reasoning": "target does not exist: /etc/app/feature_flags.yaml — may be intended to create"
+                    },
+                    {
+                      "id": "L1",
+                      "name": "hallucination",
+                      "verdict": "APPROVE",
+                      "score": 0.0,
+                      "reasoning": "L1 disabled by caller (enabled=False)"
+                    }
+                  ],
+                  "receipt_id": "rec-<redacted>"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes."
+          },
+          "400": {
+            "description": "Bad Request — invalid or missing parameters."
+          }
+        },
+        "x-x402": {
+          "price": "$0.02",
+          "currency": "USDC",
+          "network": "eip155:8453",
+          "method": "POST",
+          "example_type": "synthetic"
+        }
+      }
+    },
+    "/v2/candidate_conflict_check": {
+      "post": {
+        "operationId": "v2_candidate_conflict_check",
+        "tags": [
+          "market-integrity"
+        ],
+        "summary": "Kalshi self-interest risk detector — pattern-matches CFTC Rule 5.17(z) signals.",
+        "description": "Detects candidate self-interest risk in Kalshi prediction markets. Pattern-matches CFTC Rule 5.17(z) signals: election/candidacy markets, named individuals, legislative or policy decisions, regulatory enforcement, sports outcomes. Calibrated against Kalshi April 2026 cases (Moran, Klein, Enriquez — all fined for trading own elections). Returns ALLOW/MONITOR/WARN/BLOCK + 0-100 score + reference cases.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ticker": {
+                    "type": "string",
+                    "description": "Kalshi market ticker (provide this or event_ticker — at least one required)"
+                  },
+                  "event_ticker": {
+                    "type": "string",
+                    "description": "Kalshi event ticker (provide this or ticker — at least one required)"
+                  },
+                  "candidate_name": {
+                    "type": "string",
+                    "description": "Optional name to match against market"
+                  }
+                }
+              },
+              "example": {
+                "event_ticker": "KXPRESNOMR-28",
+                "candidate_name": "Marjorie Taylor Greene"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success (synthetic example)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "score": 95,
+                  "severity": "CRITICAL",
+                  "recommendation": "BLOCK — high CFTC Rule 5.17(z) exposure"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes."
+          },
+          "400": {
+            "description": "Bad Request — invalid or missing parameters."
+          }
+        },
+        "x-x402": {
+          "price": "$0.05",
+          "currency": "USDC",
+          "network": "eip155:8453",
+          "method": "POST",
+          "example_type": "synthetic"
+        }
+      }
+    },
+    "/v2/suspicious_timing_scan": {
+      "post": {
+        "operationId": "v2_suspicious_timing_scan",
+        "tags": [
+          "market-integrity"
+        ],
+        "summary": "Polymarket pre-event flow scan: large positions, wallet-newness, coordinated timing.",
+        "description": "Suspicious-timing risk scan for Polymarket markets. Multi-signal scan: large pre-event positions, ratio of wallets new to this market, coordinated timing clusters, one-sided positioning, sensitive-keyword categories (military, regime change, intel, monetary policy). Returns 0-100 score, severity, triggered signals with evidence, top 5 positioners with new-wallet flags. Calibrated against publicly reported cases. Statistical signal only — not legal determination.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "slug": {
+                    "type": "string",
+                    "description": "Polymarket market slug (provide this or market_id — at least one required)"
+                  },
+                  "market_id": {
+                    "type": "string",
+                    "description": "Polymarket conditionId (provide this or slug — at least one required)"
+                  },
+                  "window_hours": {
+                    "type": "integer",
+                    "description": "Pre-event window in hours (default 72)"
+                  },
+                  "min_position_usd": {
+                    "type": "number",
+                    "description": "Min notional to flag (default $1000)"
+                  }
+                }
+              },
+              "example": {
+                "slug": "will-israel-launch-a-ground-operation-in-iran-by-may-31-2026",
+                "window_hours": 72
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success (synthetic example)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "score": 50,
+                  "severity": "MEDIUM",
+                  "window_trades_analyzed": 482
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes."
+          },
+          "400": {
+            "description": "Bad Request — invalid or missing parameters."
+          }
+        },
+        "x-x402": {
+          "price": "$0.05",
+          "currency": "USDC",
+          "network": "eip155:8453",
+          "method": "POST",
+          "example_type": "synthetic"
+        }
+      }
+    },
+    "/v2/uvo_academic_verify": {
+      "post": {
+        "operationId": "v2_uvo_academic_verify",
+        "tags": [
+          "agent-safety"
+        ],
+        "summary": "Academic citation verification: DOI lookup, author match, journal authenticity.",
+        "description": "Deep academic source verification with DOI resolution, journal authenticity (predatory-journal blocklist), and authorship cross-check via OpenAlex + Semantic Scholar. For high-stakes research output where one fake citation kills credibility.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "claim": {
+                    "type": "string",
+                    "description": "The research statement whose academic sources should be verified. Required, non-empty."
+                  },
+                  "references": {
+                    "type": "array",
+                    "description": "Optional list of source references supporting the claim, typically DOIs. If given, must be a non-empty array of strings."
+                  }
+                },
+                "required": [
+                  "claim"
+                ]
+              },
+              "example": {
+                "claim": "Vitamin D supplementation reduces respiratory infection risk.",
+                "references": [
+                  "10.1136/bmj.i6583"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success (synthetic example)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "verdict": "APPROVE",
+                  "journal_authentic": true,
+                  "authors_match": true
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes."
+          },
+          "400": {
+            "description": "Bad Request — invalid or missing parameters."
+          }
+        },
+        "x-x402": {
+          "price": "$0.10",
+          "currency": "USDC",
+          "network": "eip155:8453",
+          "method": "POST",
+          "example_type": "synthetic"
+        }
+      }
+    },
+    "/v2/nomos/preflight": {
+      "post": {
+        "operationId": "v2_nomos_preflight",
+        "tags": [
+          "cross-border"
+        ],
+        "summary": "Cross-border transfer preflight: one call returns ALLOW / ALLOW_PUBLIC_SIGNAL_ONLY / REVIEW / BLOCK with adequacy status, risk level and SCC requirement.",
+        "description": "AgentNOMOS Cross-Border Regulatory Compliance Preflight. Checks a planned cross-border data transfer between EU, India, Japan, Korea, Singapore and China against GDPR, DPDP, PIPL, FSA and MAS. Returns one verdict for the request (ALLOW, ALLOW_PUBLIC_SIGNAL_ONLY, REVIEW or BLOCK) inside `preflight_summary`, together with adequacy_status, risk_level, sccs_required, requires_human_review, blocked_fields and evidence_hash, plus scanned target candidates and a SHA-256 receipt_hash. Target-specific fields are withheld automatically when the verdict does not permit them. Classification only, not legal advice.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "source_regime": {
+                    "type": "string",
+                    "description": "Origin regime of the data transfer. Auto-detected from `intent` when omitted."
+                  },
+                  "target_regime": {
+                    "type": "string",
+                    "description": "Destination regime. Auto-detected from `intent` when omitted."
+                  },
+                  "region": {
+                    "type": "string",
+                    "description": "Target-scan region filter. Derived from source_regime when omitted."
+                  },
+                  "data_category": {
+                    "type": "string",
+                    "description": "Category of the data to be transferred. Drives the verdict; personal and payment categories resolve to BLOCK."
+                  },
+                  "query": {
+                    "type": "string",
+                    "description": "Free-text target search query."
+                  },
+                  "intent": {
+                    "type": "string",
+                    "description": "Free-text intent; used to auto-detect regimes, capability and data category when the explicit fields are absent."
+                  },
+                  "max_results": {
+                    "type": "integer",
+                    "description": "Maximum scanned targets returned."
+                  },
+                  "min_score": {
+                    "type": "integer",
+                    "description": "Minimum target score for a candidate to be included."
+                  }
+                }
+              },
+              "example": {
+                "source_regime": "EU",
+                "target_regime": "JAPAN",
+                "region": "japan",
+                "data_category": "mcp_capability_signal",
+                "query": "MCP-ready AI agent",
+                "max_results": 5
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success (synthetic example)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "broker": "NOMOS",
+                  "version": "0.1.0",
+                  "envelope_id": "env_0123456789abcdef",
+                  "envelope_hash": "sha256:…",
+                  "timestamp": "2026-07-28T09:00:00Z",
+                  "elapsed_ms": 1,
+                  "query": {
+                    "source_regime": "EU",
+                    "target_regime": "JAPAN",
+                    "data_category": "mcp_capability_signal",
+                    "region": "japan",
+                    "requested_capability": null,
+                    "risk_policy": "standard"
+                  },
+                  "scan_meta": {
+                    "scan_id": "…",
+                    "scan_time": "2026-07-28T04:00:02Z",
+                    "cache_age_s": 17567,
+                    "total_before_filter": 40,
+                    "after_filter": 2,
+                    "region_filter": "japan"
+                  },
+                  "preflight_summary": {
+                    "verdict": "ALLOW",
+                    "adequacy_status": "recognized",
+                    "risk_level": "low",
+                    "sccs_required": false,
+                    "requires_human_review": false,
+                    "blocked_fields": [],
+                    "note": "…",
+                    "evidence_hash": "sha256:…"
+                  },
+                  "results": [],
+                  "receipt_hash": "sha256:19e7f52a…",
+                  "pricing": {
+                    "price": "$0.05",
+                    "currency": "USDC",
+                    "network": "eip155:8453",
+                    "scheme": "exact",
+                    "payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D"
+                  },
+                  "disclaimer": "Preflight classification only. Not legal advice. Not a legal compliance certificate. Engage qualified counsel before actual data transfer."
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes."
+          },
+          "400": {
+            "description": "Bad Request — invalid or missing parameters."
+          }
+        },
+        "x-x402": {
+          "price": "$0.05",
+          "currency": "USDC",
+          "network": "eip155:8453",
+          "method": "POST",
+          "example_type": "synthetic"
+        }
+      }
+    },
+    "/v2/xrpl_rlusd_integrity": {
+      "post": {
+        "operationId": "v2_xrpl_rlusd_integrity",
+        "tags": [
+          "compliance"
+        ],
+        "summary": "RLUSD integrity: peg + on-chain supply + XRPL DEX liquidity cross-check",
+        "description": "AgentNOMOS XRPL RLUSD Integrity Check: Cross-verifies Ripple USD (RLUSD) across three sources in one call — DeFiLlama peg price and market cap, XRPL on-chain circulating supply via gateway_balances on the issuer account, and live XRPL DEX orderbook offers. Returns per-source results, an integrity summary with sources_checked and sources_ok, and flags such as SUPPLY_MISMATCH with severity and detail. Automated data cross-check — not investment advice and not a regulatory assessment.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              },
+              "example": {}
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success (synthetic example)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "sources": {
+                    "defillama": {
+                      "price": 1.0,
+                      "ok": true
+                    },
+                    "xrpl_onchain": {
+                      "circulating": 0,
+                      "issuer": "rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De",
+                      "ok": true
+                    },
+                    "xrpl_dex": {
+                      "active_offers": 0,
+                      "dex_liquidity": false,
+                      "ok": true
+                    }
+                  },
+                  "flags": [],
+                  "timestamp": "1970-01-01T00:00:00Z"
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes."
+          },
+          "400": {
+            "description": "Bad Request — invalid or missing parameters."
+          }
+        },
+        "x-x402": {
+          "price": "$0.03",
+          "currency": "USDC",
+          "network": "eip155:8453",
+          "method": "POST",
+          "example_type": "synthetic"
+        }
+      }
+    },
+    "/v2/agent_card_a2a_readiness_v1": {
+      "post": {
+        "operationId": "v2_agent_card_a2a_readiness_v1",
+        "tags": [
+          "agent-readiness"
+        ],
+        "summary": "Automated agent-card & A2A readiness check (signed evidence)",
+        "description": "AgentNOMOS Agent-Card & A2A Readiness Check: Deterministic assessment of a public agent card or A2A discovery URL across eight dimensions — fetch/parse, identity, skills, protocol, auth, commercial, trust and privacy. Returns decision READY, WARN or NOT_READY, a readiness_level, findings with severity critical or warn, and machine-readable improvement suggestions, delivered with an Ed25519-signed evidence record. Assessment service only: it does not conclude a contract, does not perform outreach, does not guarantee a deal and is NOT a certification, NOT regulator-approved, NOT an AI-Act conformity statement and NOT a penetration test.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "job_id": {
+                    "type": "string",
+                    "description": "Job id from the x402 challenge binding"
+                  },
+                  "quote_id": {
+                    "type": "string",
+                    "description": "Quote id from the x402 challenge binding"
+                  }
+                }
+              },
+              "example": {
+                "job_id": "a2aj_...",
+                "quote_id": "x402q_..."
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success (synthetic example)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "job_id": "a2aj_...",
+                  "status": "COMPLETED_WITH_WARNINGS",
+                  "decision": "WARN",
+                  "readiness_level": 3,
+                  "credential_id": "a2ard_...",
+                  "record_digest": "sha256:..."
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes."
+          },
+          "400": {
+            "description": "Bad Request — invalid or missing parameters."
+          }
+        },
+        "x-x402": {
+          "price": "$0.10",
+          "currency": "USDC",
+          "network": "eip155:8453",
+          "method": "POST",
+          "example_type": "synthetic"
+        }
+      }
+    },
+    "/v2/nomos_full_chain_verification": {
+      "post": {
+        "operationId": "v2_nomos_full_chain_verification",
+        "tags": [
+          "nomos"
+        ],
+        "summary": "One safe action through the full governed NOMOS chain - signed, verifiable execution receipt",
+        "description": "Full-Chain Governed Verification: run one safe, read-only machine action through the complete NOMOS Machine Economy Trust Chain and get back a cryptographically verifiable execution proof. The call binds your payment, a stated intent, a pinned capability and offer, a NOMOS admission decision (which enforces current CISA-KEV-derived OracleNet security-freshness evidence), the execution and the response bytes into one Ed25519-signed execution receipt you can verify yourself against the public JWKS (https://feedoracle.io/.well-known/nomos-execution-jwks.json). Read-only; no asset movement besides the x402 payment itself. Request size limit (separate from schema validation): the request object is rejected when its re-serialised JSON exceeds 2048 UTF-8 bytes; this is measured on the parsed-and-re-serialised object, so whitespace and key order in the raw HTTP body do not count towards it. Claim boundary: EXECUTION_BOUND_PROOF (estate-signed evidence, not an independent third-party attestation, not a certification).",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "intent": {
+                    "type": "string",
+                    "description": "Fixed action selector. The only accepted value is verify_full_chain.",
+                    "enum": [
+                      "verify_full_chain"
+                    ]
+                  },
+                  "client_nonce": {
+                    "type": "string",
+                    "description": "Your correlation nonce; echoed and bound into the signed intent digest. 8-64 characters, letters, digits, underscore and hyphen only.",
+                    "pattern": "^[A-Za-z0-9_-]{8,64}$"
+                  },
+                  "requested_capability": {
+                    "type": "string",
+                    "description": "Optional legacy compatibility field. Omit it: normal callers do not need it. If sent, it must equal the canonical capability id, otherwise the request is rejected. It carries no caller authority - it neither selects nor widens the executed capability, and the value is discarded after validation; execution always uses the server-side capability constant.",
+                    "enum": [
+                      "nomos_full_chain_verification"
+                    ]
+                  }
+                },
+                "required": [
+                  "intent",
+                  "client_nonce"
+                ],
+                "additionalProperties": false
+              },
+              "example": {
+                "intent": "verify_full_chain",
+                "client_nonce": "agent-nonce-12345678"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success (synthetic example)",
+            "content": {
+              "application/json": {
+                "example": {
+                  "schema": "nomos.full_chain_verification.result.v1",
+                  "claim_ceiling": "EXECUTION_BOUND_PROOF",
+                  "chain": {
+                    "admission": {
+                      "policy_version": "2026-08-10.r2.oraclenet-secfresh"
+                    },
+                    "execution": {
+                      "execution_id": "exe1_903914429d846a487679d42aa866d07b",
+                      "state": "EXECUTION_COMPLETED"
+                    },
+                    "receipt": {
+                      "kid": "exr1_40c4bc9a9f61988b"
+                    }
+                  },
+                  "verification": {
+                    "jwks_url": "https://feedoracle.io/.well-known/nomos-execution-jwks.json"
+                  }
+                }
+              }
+            }
+          },
+          "402": {
+            "description": "Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes."
+          },
+          "400": {
+            "description": "Bad Request — invalid or missing parameters."
+          }
+        },
+        "x-x402": {
+          "price": "$0.001",
+          "currency": "USDC",
+          "network": "eip155:8453",
+          "method": "POST",
+          "example_type": "synthetic"
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "ResearchOracle",
+      "description": "Semantic Scholar 200M+ papers, arXiv, Crossref (11 tools)"
+    },
+    {
+      "name": "EULawOracle",
+      "description": "12 EU regulations, article-level, cross-references (8 tools)"
+    },
+    {
+      "name": "RegWatchOracle",
+      "description": "US Federal Register + EU RSS feeds (6 tools)"
+    },
+    {
+      "name": "ESMAOracle",
+      "description": "177 CASPs, ESMA MiCA register (8 tools)"
+    },
+    {
+      "name": "MacroOracle",
+      "description": "FRED + ECB + World Bank + BLS (22 tools)"
+    },
+    {
+      "name": "DORAOracle",
+      "description": "CVE/KEV, CERT-Bund, cloud status (15 tools)"
+    },
+    {
+      "name": "AmpelOracle",
+      "description": "DORA traffic light system (25 tools)"
+    },
+    {
+      "name": "MiCAOracle",
+      "description": "MiCA stablecoin compliance (24 tools)"
+    },
+    {
+      "name": "AMLOracle",
+      "description": "Sanctions, PEP, KYC (12 tools)"
+    },
+    {
+      "name": "InsuranceOracle",
+      "description": "NatCat, GLEIF (12 tools)"
+    },
+    {
+      "name": "CarbonOracle",
+      "description": "EU ETS, grid intensity (11 tools)"
+    },
+    {
+      "name": "ReserveOracle",
+      "description": "Gold/silver, RWA tokens (11 tools)"
+    },
+    {
+      "name": "ISO20022Oracle",
+      "description": "Financial messaging (12 tools)"
+    },
+    {
+      "name": "WeatherOracle",
+      "description": "Real-time weather (10 tools)"
+    },
+    {
+      "name": "SportOracle",
+      "description": "Live sports data (12 tools)"
+    },
+    {
+      "name": "MovieOracle",
+      "description": "Film & entertainment (12 tools)"
+    },
+    {
+      "name": "MapOracle",
+      "description": "Location intelligence (12 tools)"
+    },
+    {
+      "name": "NewsOracle",
+      "description": "News & trends (9 tools)"
+    },
+    {
+      "name": "FlightOracle",
+      "description": "Flight search (8 tools)"
+    },
+    {
+      "name": "HotelOracle",
+      "description": "Hotel search (8 tools)"
+    },
+    {
+      "name": "JobOracle",
+      "description": "Job market (8 tools)"
+    },
+    {
+      "name": "ReviewOracle",
+      "description": "Product reviews (8 tools)"
+    },
+    {
+      "name": "PriceOracle",
+      "description": "Price comparison (7 tools)"
+    },
+    {
+      "name": "SEOOracle",
+      "description": "SEO intelligence (7 tools)"
+    },
+    {
+      "name": "LeadOracle",
+      "description": "Lead enrichment (7 tools)"
+    },
+    {
+      "name": "Blockchain",
+      "description": "13 blockchain oracles: Arbitrum, Solana, TON, Sui, ETH, XLM, XRPL, BNB, Aptos, Base, Hedera, BTC, Flare"
+    },
+    {
+      "name": "OracleNet",
+      "description": "Self-learning agent mesh protocol. Neural routing, W3C DIDs, VCs, on-chain escrow (Base + XRPL), PROV-O provenance."
+    },
+    {
+      "name": "Mesh Economics",
+      "description": "Agent-native economic layer: append-only ledger, fresh/cached pricing, originator + referrer rewards."
+    },
+    {
+      "name": "Mesh Nervous System",
+      "description": "Live mesh signals for autonomous agents: gravity, emergent patterns, meta-tool candidates."
+    },
+    {
+      "name": "Discovery",
+      "description": "Well-known endpoints for agent discovery (ANP/A2A-compatible)."
+    },
+    {
+      "name": "agent-safety"
+    },
+    {
+      "name": "security"
+    },
+    {
+      "name": "compliance"
+    },
+    {
+      "name": "finance"
+    },
+    {
+      "name": "market-integrity"
+    },
+    {
+      "name": "blockchain-risk"
+    },
+    {
+      "name": "cross-border"
+    },
+    {
+      "name": "agent-readiness"
+    },
+    {
+      "name": "nomos"
+    }
+  ],
+  "externalDocs": {
+    "description": "x402 v2 buyer quickstart (pay one /v2 route and verify the signed NOMOS execution receipt)",
+    "url": "https://tooloracle.io/docs/x402-buyer-quickstart/"
+  }
+}

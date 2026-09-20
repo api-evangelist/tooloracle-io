@@ -1,0 +1,21 @@
+# ToolOracle / OracleNet — Security Disclosure Policy
+# RFC 9116 compliant
+
+Contact: mailto:security@tooloracle.io
+Contact: https://tooloracle.io/responsible-disclosure
+Expires: 2027-04-26T00:00:00.000Z
+Preferred-Languages: en, de
+Canonical: https://tooloracle.io/.well-known/security.txt
+Canonical: https://tooloracle.io/security.txt
+Policy: https://tooloracle.io/responsible-disclosure
+Acknowledgments: https://tooloracle.io/security/acknowledgments
+
+# Scope
+# In scope: tooloracle.io, *.tooloracle.io, MCP endpoints, x402 gateway,
+# OracleNet mesh nodes, agent-discovery files (.well-known/*).
+# Out of scope: third-party services, social engineering, physical attacks,
+# DoS without code execution, automated scanner output without verification.
+
+# Reporting
+# Please report findings via email (PGP optional) or the responsible-disclosure form.
+# Provide reproduction steps. We aim for 48h initial response.

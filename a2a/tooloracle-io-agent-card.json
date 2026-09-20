@@ -1,0 +1,1241 @@
+{
+  "name": "ToolOracle",
+  "description": "OracleNet is a mesh capability router for autonomous agents — not a product, not a marketplace, not a tool list. Discover, route, verify, call, and where supported pay for external capabilities via MCP or A2A. Settlement uses x402 / USDC on Base where required; pricing is route-dependent. Live mesh snapshot: https://tooloracle.io/.well-known/agent-pulse.",
+  "url": "https://tooloracle.io/a2a/jsonrpc",
+  "version": "5.2.0",
+  "provider": {
+    "organization": "FeedOracle Technologies",
+    "url": "https://tooloracle.io",
+    "location": "Herford, Germany",
+    "name": "FeedOracle Technologies",
+    "support_contact": "https://feedoracle.io"
+  },
+  "iconUrl": "https://tooloracle.io/logo.png",
+  "documentationUrl": "https://tooloracle.io/docs/x402-buyer-quickstart/",
+  "capabilities": {
+    "streaming": true,
+    "pushNotifications": true,
+    "stateTransitionHistory": false,
+    "extensions": [
+      {
+        "uri": "urn:oraclenet:signal:v1",
+        "required": false
+      },
+      {
+        "uri": "urn:oraclenet:deal:v1",
+        "required": false
+      },
+      {
+        "uri": "urn:oraclenet:mesh:v1",
+        "required": false
+      },
+      {
+        "uri": "https://agentnomos.com/extensions/nomos-trust-chain-v1",
+        "description": "Machine-readable NOMOS S0-S10 trust lifecycle metadata. SCOPE: NOMOS proves the S0-S10 chain for exactly the routes listed in params.proven_routes (3 of them). ToolOracle serves many other endpoints; none of them is covered by this claim, and 'all ToolOracle routes are governed' would be false.",
+        "required": false,
+        "params": {
+          "manifest": "https://agentnomos.com/.well-known/nomos-capabilities.json",
+          "compatibility_map": "https://agentnomos.com/.well-known/nomos-compatibility.json",
+          "subject": "tooloracle.io",
+          "proven_routes": [
+            "GET /handshake-stats",
+            "POST /nomos/handshake",
+            "POST /nomos/regulatory-gap"
+          ],
+          "proven_route_count": 3,
+          "scope_note": "Not a portfolio-wide statement. The authoritative list is scope.cohorts[subject_id=tooloracle.io].routes in the manifest; this card carries a copy for discovery only."
+        }
+      }
+    ]
+  },
+  "defaultInputModes": [
+    "text/plain",
+    "application/json"
+  ],
+  "defaultOutputModes": [
+    "text/plain",
+    "application/json"
+  ],
+  "skills": [
+    {
+      "id": "nomos_preflight",
+      "name": "NOMOS Cross-Border Preflight",
+      "description": "NOMOS cross-border preflight: cached scan + regulatory verdict + protocol match, signed receipt; per-target fields redaction-enforced on BLOCK/ALLOW_PUBLIC_SIGNAL_ONLY.",
+      "tags": [
+        "cross-border",
+        "regulatory-preflight",
+        "governance",
+        "nomos",
+        "x402"
+      ],
+      "examples": [
+        "Preflight an EU-Japan data transfer before acting on it.",
+        "Is this EU-India target allowed under GDPR/DPDP before I proceed?"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ],
+      "x402": {
+        "offer_id": "offer_nomos_preflight_v1",
+        "product_id": "nomos_preflight",
+        "url": "https://tooloracle.io/v2/nomos/preflight",
+        "method": "POST",
+        "price": "$0.05",
+        "amount_atomic": "50000",
+        "currency": "USDC",
+        "network": "eip155:8453",
+        "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+        "payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D",
+        "schema_ref": "https://tooloracle.io/openapi.json#/paths/~1v2~1nomos~1preflight",
+        "result_retrieval": "synchronous in the HTTP 200 response body",
+        "receipt_retrieval": "not implemented"
+      }
+    },
+    {
+      "id": "intent_router",
+      "name": "OracleNet Intent Router",
+      "description": "Describe what you need in plain language. LLM-powered routing across 100+ servers and 1,200+ tools. Covers: blockchain analytics, flight search, hotel booking, sanctions screening, macro data, SEO, job search, weather, news, crypto prices, compliance checks, contract analysis, and more.",
+      "tags": [
+        "intent",
+        "routing",
+        "LLM",
+        "discovery",
+        "natural-language",
+        "universal"
+      ],
+      "examples": [
+        "Find flights from Berlin to Tokyo under $500",
+        "Check Solana DeFi yields",
+        "Screen 'Acme Corp' against EU sanctions",
+        "Current gold price and ECB rate",
+        "SEO ranking for 'agentic payments'",
+        "Hotels in Paris for next weekend",
+        "Latest crypto news",
+        "DORA readiness check for my cloud setup"
+      ]
+    },
+    {
+      "id": "blockchain_multichain",
+      "name": "Multi-Chain Blockchain Intelligence (14 chains)",
+      "description": "14 dedicated chain oracles: Ethereum, Solana, Bitcoin, XRP Ledger (31 tools), Arbitrum, Base, Hedera, TON, Sui, BNB, Aptos, Stellar, Flare, plus SmartMoney tracking. DEX orderbooks, DeFi yields, gas tracking, token screening, NFT data, whale alerts, mempool analysis.",
+      "tags": [
+        "blockchain",
+        "DeFi",
+        "multichain",
+        "ethereum",
+        "solana",
+        "bitcoin",
+        "xrpl",
+        "arbitrum",
+        "hedera",
+        "ton",
+        "sui",
+        "flare",
+        "bnb",
+        "aptos",
+        "stellar",
+        "base",
+        "DEX",
+        "NFT",
+        "whale",
+        "gas"
+      ],
+      "examples": [
+        "ETH gas price and top DeFi yields",
+        "XRPL DEX orderbook for XRP/USD",
+        "Solana DeFi protocol health check",
+        "Bitcoin mempool and fee estimate",
+        "Hedera token screening",
+        "TON jetton analytics",
+        "Flare FTSO oracle data feeds",
+        "Sui DEX liquidity pools",
+        "Arbitrum L2 bridge activity",
+        "Smart money wallet tracking"
+      ]
+    },
+    {
+      "id": "compliance_regulatory",
+      "name": "EU Regulatory Compliance (35 servers, 462 tools)",
+      "description": "Full DORA operating layer (8 oracles, 95 tools covering all 49 articles), MiCA stablecoin compliance, AML/AMLR sanctions screening (87K+ names from EU/OFAC/UN/Interpol), NIS2, EU AI Act, PSD2/PSD3, ESMA register intelligence, EU law monitoring, contract clause analysis. All evidence ES256K-signed and anchored on Polygon + XRPL.",
+      "tags": [
+        "compliance",
+        "DORA",
+        "MiCA",
+        "AML",
+        "NIS2",
+        "EU-AI-Act",
+        "sanctions",
+        "BaFin",
+        "ESMA",
+        "evidence",
+        "audit",
+        "PSD2"
+      ],
+      "examples": [
+        "Is USDT authorized under MiCA?",
+        "DORA readiness assessment",
+        "Screen entity against EU+OFAC sanctions",
+        "Contract clause check for DORA Art. 30",
+        "ESMA register lookup"
+      ]
+    },
+    {
+      "id": "finance_macro",
+      "name": "Finance, Macro & Markets (7 servers, 86 tools)",
+      "description": "Central bank data (Fed, ECB, BoE, BoJ), OECD statistics (38 countries), commodities (gold, silver, oil, gas), crypto prices, carbon credits, ISO 20022 payment messages, invoice management, reserve analysis.",
+      "tags": [
+        "macro",
+        "Fed",
+        "ECB",
+        "OECD",
+        "gold",
+        "oil",
+        "commodities",
+        "inflation",
+        "GDP",
+        "ISO20022",
+        "crypto-prices",
+        "carbon"
+      ],
+      "examples": [
+        "Current gold and silver prices",
+        "ECB latest rate decision",
+        "OECD GDP comparison Germany vs France",
+        "Fed funds rate history",
+        "Carbon credit pricing"
+      ]
+    },
+    {
+      "id": "business_intelligence",
+      "name": "Business Intelligence & Growth (9 servers, 85 tools)",
+      "description": "SEO rankings and keyword tracking, lead scoring, ecommerce product search, review analysis, news aggregation, policy analysis, meme generation, change management. Tools for marketing, sales, and operations teams.",
+      "tags": [
+        "SEO",
+        "leads",
+        "ecommerce",
+        "reviews",
+        "marketing",
+        "news",
+        "sales",
+        "rankings",
+        "policy"
+      ],
+      "examples": [
+        "Check SEO ranking for 'MCP server compliance'",
+        "Search products under $50 on Amazon",
+        "Aggregate latest fintech news",
+        "Score this sales lead",
+        "Analyze product reviews"
+      ]
+    },
+    {
+      "id": "travel_lifestyle",
+      "name": "Travel, Jobs & Entertainment (8 servers, 76 tools)",
+      "description": "Flight search (global), hotel booking, job listings (Adzuna API), maps & navigation, movie database, live sports scores, weather forecasts worldwide, decision support. Consumer and enterprise use cases.",
+      "tags": [
+        "flights",
+        "hotels",
+        "jobs",
+        "weather",
+        "news",
+        "sports",
+        "movies",
+        "maps",
+        "navigation",
+        "travel"
+      ],
+      "examples": [
+        "Flights Berlin to Tokyo next month",
+        "Hotels in London under £150",
+        "Python developer jobs in Berlin",
+        "Weather forecast for Paris",
+        "Latest Premier League scores",
+        "Find Italian restaurants near me"
+      ]
+    },
+    {
+      "id": "trust_identity",
+      "name": "Agent Trust, Identity & Orchestration (7 servers, 83 tools)",
+      "description": "AgentGuard (20 tools): policy enforcement, OAuth, KYA (Know Your Agent) with 4 trust levels. QuantumOracle: mesh coordination. MemoryOracle: persistent agent memory. SchedulerOracle: cron-style task scheduling. HealthGuard: service monitoring. Trust Passports (W3C Verifiable Credentials). Fraud detection and reputation scoring.",
+      "tags": [
+        "trust",
+        "identity",
+        "DID",
+        "KYA",
+        "OAuth",
+        "agent-security",
+        "memory",
+        "scheduler",
+        "reputation",
+        "verifiable-credentials"
+      ],
+      "examples": [
+        "Register as KYA agent",
+        "Check agent trust score",
+        "Schedule daily compliance check",
+        "Store agent memory",
+        "Get Trust Passport"
+      ]
+    },
+    {
+      "id": "payments_settlement",
+      "name": "Payments & Settlement (4 servers, 48 tools)",
+      "description": "PSD2/PSD3 open banking compliance, CBDC monitoring (global central bank digital currencies), cross-border settlement, merchant onboarding, XRPL escrow, x402 USDC micropayments on Base. 4 dedicated payment oracles.",
+      "tags": [
+        "PSD2",
+        "PSD3",
+        "CBDC",
+        "settlement",
+        "escrow",
+        "USDC",
+        "payments",
+        "x402",
+        "open-banking",
+        "merchant"
+      ],
+      "examples": [
+        "PSD2 compliance check",
+        "CBDC status by country",
+        "Create escrow on XRPL",
+        "Merchant risk assessment"
+      ]
+    },
+    {
+      "id": "oraclenet_deal_v1",
+      "name": "OracleNet Deal Discovery Protocol v1",
+      "description": "Advertises support for the OracleNet Deal Discovery Protocol, a permissioned commercial matching layer for autonomous agents. Accepts signed capability_declaration messages (W3C VC format or legacy ES256K-signed JSON) at the inbox linked under rel='deal-policy'. Senders MUST consult the do-not-contact registry and honour the gate chain (readiness tier >= deal_ready, fit score >= 0.5, rate limit 1 thread / counterparty / 30 days). Spec: https://tooloracle.io/docs/deal-protocol/rfc-0001",
+      "tags": [
+        "oraclenet-deal-v1",
+        "deal-protocol",
+        "permissioned-matching",
+        "opt-in",
+        "verifiable-credentials",
+        "agent-to-agent"
+      ],
+      "examples": [
+        "Fetch my deal-policy: GET {base}/.well-known/deal-policy.json",
+        "Send me a signed capability_declaration (VC) to the inbox at rel='deal-policy'.inbox.url",
+        "Read the full spec: https://tooloracle.io/docs/deal-protocol/rfc-0001"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    }
+  ],
+  "payment": {
+    "protocol": "x402",
+    "version": 2,
+    "specification": "https://github.com/coinbase/x402",
+    "network": "base",
+    "chain_id": 8453,
+    "currency": "USDC",
+    "asset_address": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+    "payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D",
+    "pay_endpoint_pattern": "https://tooloracle.io{path}",
+    "discovery": {
+      "well_known": "https://tooloracle.io/.well-known/x402",
+      "catalog": "https://tooloracle.io/x402/catalog.json",
+      "gateway_root": "https://tooloracle.io/x402/"
+    },
+    "free_tier": {
+      "description": "Tools like ping, health_check, kya_register are free ($0). kya_register grants a one-time welcome credit.",
+      "free_tools_examples": [
+        "ping",
+        "health_check",
+        "kya_register",
+        "quantum_join",
+        "quantum_status"
+      ]
+    },
+    "pricing_model": "pay_per_call",
+    "how_to_pay": [
+      "v2 routes (/v2/*, x402 v2 only): 1. POST → HTTP 402 with PAYMENT-REQUIRED header (accepts[]) · 2. Sign EIP-3009 USDC authorization on Base (eip155:8453) · 3. Retry with the PAYMENT-SIGNATURE header (X-PAYMENT is not accepted on /v2) · 4. Success response carries the PAYMENT-RESPONSE header with the on-chain TX hash",
+      "legacy v1 routes (/x402/{product}/mcp/): 1. POST to receive structured 402 response with pricing · 2. Send USDC on Base network to payTo address (payment verified on confirmation) · 3. Retry call with X-PAYMENT: 0x{transaction_hash} header · 4. Tool executes, response includes X-Amount-Charged-USD and X-Balance-Remaining"
+    ],
+    "openapi_v2": "https://tooloracle.io/v2/openapi.json (OpenAPI 3.1: schemas + examples + x-x402)",
+    "v1_legacy": {
+      "version": 1,
+      "pay_endpoint_pattern": "https://tooloracle.io/x402/{product}/mcp/",
+      "payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D",
+      "scheme": "raw_tx_hash (X-PAYMENT header with tx hash)",
+      "facilitator": "self-managed (gateway port 6500)",
+      "products_count": 36,
+      "note": "Existing v1 stack — wallet-based deposit (per-call USDC), see /x402/catalog.json"
+    },
+    "v2": {
+      "version": 2,
+      "specification": "https://www.x402.org/x402-whitepaper.pdf",
+      "scheme": "exact (EIP-3009)",
+      "facilitator": "https://api.cdp.coinbase.com/platform/v2/x402",
+      "facilitator_type": "cdp",
+      "discoverable": true,
+      "bazaar_extension": true,
+      "endpoints": [
+        {
+          "url": "https://tooloracle.io/v2/compliance_preflight",
+          "method": "POST",
+          "name": "MiCA Stablecoin Compliance Preflight",
+          "category": "regtech",
+          "network": "eip155:8453",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "asset_name": "USDC",
+          "payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D",
+          "price_usd": 0.01,
+          "amount_atomic": "10000",
+          "input": {
+            "token": "USDC|USDT|EURC|RLSD|DAI|...",
+            "issuer": "(optional)"
+          },
+          "output_signature": "ES256K",
+          "live_since": "2026-05-10",
+          "manifest": "https://tooloracle.io/.well-known/x402"
+        },
+        {
+          "url": "https://tooloracle.io/v2/uvo_quick",
+          "method": "POST",
+          "name": "UVO Quick — Agent Action Validator",
+          "category": "agent-safety",
+          "network": "eip155:8453",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "asset_name": "USDC",
+          "payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D",
+          "price_usd": 0.005,
+          "amount_atomic": "5000",
+          "input": {
+            "proposal": "{action_type, target, claim, expected_outcome, success_metric, args, idempotent, declared_sandbox}"
+          },
+          "output_signature": "ECDSA-P256",
+          "live_since": "2026-05-10",
+          "manifest": "https://tooloracle.io/.well-known/x402",
+          "description": "Deterministic validation of an agent action proposal. Up to nine validation stages (IDs L0-L6, L8, L9 - historically non-contiguous; there is no L7), executed fail-fast: a blocking stage ends the run. Returns APPROVE/WARN/ESCALATE/BLOCK, risk score and per-stage reasoning. Sub-100ms validation time; transport not included."
+        },
+        {
+          "url": "https://tooloracle.io/v2/uvo_full",
+          "method": "POST",
+          "name": "UVO Full — Production-grade Action Validator",
+          "category": "agent-safety",
+          "network": "eip155:8453",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "asset_name": "USDC",
+          "payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D",
+          "price_usd": 0.02,
+          "amount_atomic": "20000",
+          "input": {
+            "proposal": "Agent action proposal (see uvo_quick schema)"
+          },
+          "output_signature": "ECDSA-P256",
+          "live_since": "2026-05-10",
+          "manifest": "https://tooloracle.io/.well-known/x402",
+          "description": "Deterministic validation of an agent action proposal. Up to nine validation stages - schema, measurability, reversibility, containment, danger, citation, commitment, existence, hallucination (IDs L0-L6, L8, L9 - historically non-contiguous; there is no L7) - executed fail-fast: a blocking stage ends the run. Returns APPROVE/WARN/ESCALATE/BLOCK, risk score and per-stage reasoning. Sub-second validation time; transport not included."
+        },
+        {
+          "url": "https://tooloracle.io/v2/uvo_citation_check",
+          "method": "POST",
+          "name": "UVO Citation Check — Multi-Jurisdiction Phantom Detection",
+          "category": "legal-tech",
+          "network": "eip155:8453",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "asset_name": "USDC",
+          "payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D",
+          "price_usd": 0.01,
+          "amount_atomic": "10000",
+          "input": {
+            "claim": "Text containing potential citations",
+            "references": "(optional) array of URLs/IDs"
+          },
+          "output_signature": "ECDSA-P256",
+          "live_since": "2026-05-10",
+          "manifest": "https://tooloracle.io/.well-known/x402",
+          "jurisdictions": [
+            "DE (BGB/HGB/StGB)",
+            "EU (MiCA/DORA/GDPR/AMLR/NIS2/eIDAS/PSD2)",
+            "US (USC/CFR)",
+            "UK (Companies/Bribery/POCA/FSMA)",
+            "ISO standards",
+            "Academic (DOI/arXiv via Semantic Scholar)"
+          ],
+          "description": "Detects fabricated legal/regulatory citations (phantom paragraphs, out-of-range articles, fake DOIs). Live academic-paper verification via Semantic Scholar API. ~1.5s for mixed claims."
+        },
+        {
+          "url": "https://tooloracle.io/v2/uvo_academic_verify",
+          "method": "POST",
+          "name": "UVO Academic Verify — Premium Claim Verification",
+          "category": "research",
+          "network": "eip155:8453",
+          "asset": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "asset_name": "USDC",
+          "payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D",
+          "price_usd": 0.1,
+          "amount_atomic": "100000",
+          "input": {
+            "claim": "Factual claim to verify against academic literature",
+            "references": "(optional) starting references"
+          },
+          "output_signature": "ECDSA-P256 (signed evidence receipt schema v0.3)",
+          "live_since": "2026-05-10",
+          "manifest": "https://tooloracle.io/.well-known/x402",
+          "academic_sources": [
+            "Semantic Scholar",
+            "OpenAlex",
+            "Perplexity"
+          ],
+          "description": "Verify factual claims against academic literature. Returns SUPPORTED/MIXED/DISPUTED/INSUFFICIENT with confidence score, top evidence sources, and ECDSA P-256 signed receipt. ~17s premium tier."
+        }
+      ],
+      "discovery": {
+        "well_known": "https://tooloracle.io/.well-known/x402",
+        "well_known_alt": "https://tooloracle.io/.well-known/x402.json",
+        "cdp_bazaar": "https://api.cdp.coinbase.com/platform/v2/x402/discovery/resources",
+        "filter_by_payTo": "0x11f591C3496C0632e7B173184f5Bc71dC941125D"
+      },
+      "wallet_separation_note": "v2 uses dedicated Bazaar wallet (separate from v1 DAP wallet) for clean accounting and Bazaar discovery isolation",
+      "live_settlement": true,
+      "wire": {
+        "payment_header": "PAYMENT-SIGNATURE",
+        "challenge_header": "PAYMENT-REQUIRED",
+        "settlement_header": "PAYMENT-RESPONSE",
+        "note": "x402 v2 only on /v2/*; the legacy X-PAYMENT header is not accepted there."
+      }
+    },
+    "versions_supported": [
+      "v1",
+      "v2"
+    ],
+    "shadow_only": false,
+    "operator_gated": true,
+    "settlement_enabled": true,
+    "method": "POST",
+    "pay_endpoint_note": "Each paid product carries its own absolute path in x402_products.products[].path (e.g. /v2/nomos/preflight). POST is the purchase method; GET returns 405 by design. The former pattern https://tooloracle.io/x402/{product}/mcp/ is retired and returns 404.",
+    "pricing": "Pricing varies by route. The authoritative price is contained in the x402 PaymentRequired.accepts[] challenge of each route (and mirrored in https://tooloracle.io/.well-known/x402)."
+  },
+  "_last_hardening": "2026-04-18T12:44:13.428185Z",
+  "links": [
+    {
+      "rel": "deal-policy",
+      "href": "https://tooloracle.io/.well-known/deal-policy.json",
+      "type": "application/json",
+      "description": "OracleNet Deal Discovery Protocol — curated intent (Layer 1)."
+    },
+    {
+      "rel": "do-not-contact",
+      "href": "https://tooloracle.io/.well-known/do-not-contact.json",
+      "type": "application/json",
+      "description": "Signed opt-out registry. Senders MUST consult before any outbound proposal."
+    },
+    {
+      "rel": "deal-feed",
+      "href": "https://tooloracle.io/.well-known/deal-feed.atom",
+      "type": "application/atom+xml",
+      "description": "Subscribable Atom broadcast of capabilities sought across OracleNet origins (Layer 3)."
+    },
+    {
+      "rel": "deal-emergence",
+      "href": "https://tooloracle.io/.well-known/deal-emergence.json",
+      "type": "application/json",
+      "description": "Observed emergent demand signals (Layer 5). Epistemically distinct from deal-policy."
+    },
+    {
+      "rel": "describedBy",
+      "href": "https://tooloracle.io/docs/deal-protocol/rfc-0001",
+      "type": "text/html",
+      "description": "OracleNet Deal Discovery Protocol v1.1-draft specification."
+    },
+    {
+      "rel": "describedBy",
+      "href": "https://tooloracle.io/docs/deal-protocol/rfc-0001.md",
+      "type": "text/markdown",
+      "description": "Specification (Markdown source)."
+    },
+    {
+      "rel": "service-desc",
+      "href": "https://tooloracle.io/docs/deal-protocol/registry/protocol-descriptor.json",
+      "type": "application/json",
+      "description": "Machine-readable protocol descriptor suitable for registry ingestion."
+    },
+    {
+      "rel": "foedus-next-step",
+      "href": "https://tooloracle.io/.well-known/foedus.json",
+      "type": "application/json",
+      "description": "FOEDUS next-step index — checkout, free-test, registry, passport, deal-policy, a2a, mcp."
+    },
+    {
+      "rel": "trust-passport",
+      "href": "https://agentnomos.com/api/passports/pass_25a7f8cad0743ed54cc5263e0402ec7d/verify",
+      "type": "application/json",
+      "description": "NOMOS Agent Assessment Passport for ToolOracle (self-issued, BETA; live verify)."
+    }
+  ],
+  "generated_at": "2026-06-21T11:15:12Z",
+  "canonical_source": "https://tooloracle.io/assets/catalog.json",
+  "aliases": [
+    "https://tooloracle.io/.well-known/agent-card.json"
+  ],
+  "protocolVersion": "0.3.0",
+  "repository": "https://github.com/ToolOracle",
+  "license": "Proprietary",
+  "preferredTransport": "JSONRPC",
+  "mcpServers": [],
+  "featureDetails": {
+    "tooloracle:signing": {
+      "algorithm": "ES256K",
+      "jwksUrl": "https://feedoracle.io/.well-known/jwks.json",
+      "independentlyVerifiable": true
+    },
+    "blockchain_endpoints": {
+      "arbitrum": {
+        "mcp": "https://tooloracle.io/arbitrum/mcp/",
+        "tools": 12
+      },
+      "solana": {
+        "mcp": "https://tooloracle.io/solana/mcp/",
+        "tools": 12
+      },
+      "ton": {
+        "mcp": "https://tooloracle.io/ton/mcp/",
+        "tools": 11
+      },
+      "sui": {
+        "mcp": "https://tooloracle.io/sui/mcp/",
+        "tools": 9
+      },
+      "hedera": {
+        "mcp": "https://tooloracle.io/hedera/mcp/",
+        "tools": 9
+      },
+      "flare": {
+        "mcp": "https://tooloracle.io/flare/mcp/",
+        "tools": 12
+      },
+      "ethereum": {
+        "mcp": "https://tooloracle.io/ethereum/mcp/",
+        "tools": 10
+      },
+      "xrpl": {
+        "mcp": "https://tooloracle.io/xrpl/mcp/",
+        "tools": 31
+      },
+      "stellar": {
+        "mcp": "https://tooloracle.io/stellar/mcp/",
+        "tools": 7
+      },
+      "bnb": {
+        "mcp": "https://tooloracle.io/bnb/mcp/",
+        "tools": 8
+      },
+      "aptos": {
+        "mcp": "https://tooloracle.io/aptos/mcp/",
+        "tools": 7
+      },
+      "base": {
+        "mcp": "https://tooloracle.io/base/mcp/",
+        "tools": 8
+      },
+      "bitcoin": {
+        "mcp": "https://tooloracle.io/bitcoin/mcp/",
+        "tools": 10
+      }
+    },
+    "updated_at": "2026-04-14T12:30:00Z"
+  },
+  "oraclenet": {
+    "signal": {
+      "type": "heartbeat",
+      "alive": true,
+      "last_pulse": "2026-09-20T02:13:01+00:00",
+      "servers_online": 89,
+      "tools_available": 1096,
+      "uptime_pct": 100.0,
+      "mesh_epoch": "5928428",
+      "frequency": "91ffc7072b730b85",
+      "mesh_nodes": 5,
+      "message": "OracleNet is live. Join: quantum_join via https://tooloracle.io/quantum/mcp/",
+      "manifest": "https://tooloracle.io/.well-known/oraclenet.json",
+      "x402_catalog": "https://tooloracle.io/x402/catalog.json",
+      "x402_discovery": "https://tooloracle.io/.well-known/x402",
+      "agent_pulse": "https://tooloracle.io/.well-known/agent-pulse",
+      "mesh_economics": "https://tooloracle.io/.well-known/mesh-economics",
+      "counts_source": "mesh-truth.json (canonical)"
+    },
+    "dealProtocol": {
+      "protocol": "oraclenet-deal-v1",
+      "status": "draft",
+      "version": "1.1-draft",
+      "spec": "https://tooloracle.io/docs/deal-protocol/rfc-0001",
+      "descriptor": "https://tooloracle.io/docs/deal-protocol/registry/protocol-descriptor.json",
+      "repository": "https://github.com/ToolOracle/oraclenet-deal-protocol",
+      "inbox": "https://feedoracle.io/a2a/inbox",
+      "supports": {
+        "deal_policy": true,
+        "do_not_contact": true,
+        "deal_feed_atom": true,
+        "deal_emergence": true,
+        "vc_proposals": true,
+        "legacy_signed_json_proposals": true
+      },
+      "signing_algorithm": "ES256K",
+      "canonical_json": "keys sorted lexicographically, signature/proof field removed"
+    }
+  },
+  "mesh": {
+    "statistics": {
+      "$comment": "Canonical mesh counts. Source of truth: /data/mesh-truth.json",
+      "mcp_servers": 89,
+      "mcp_tools": 1096,
+      "paid_endpoints": 35,
+      "free_endpoints": 100,
+      "public_phrasing": "100 canonical oracle identities · 94 registered · 89 publicly online verified · 1096 live tools",
+      "source_url": "https://tooloracle.io/data/mesh-truth.json",
+      "generated_at": "2026-09-20T01:32:01Z"
+    },
+    "catalogSummary": {
+      "total_servers": 89,
+      "total_tools": 1096,
+      "categories": {
+        "agent_infra": {
+          "servers": 11,
+          "tools": 128,
+          "highlight": "DealOracle, SchedulerOracle, MemoryOracle, AccessOracle, ResearchOracle, HROracle, SupplyChain, DriftOracle"
+        },
+        "compliance": {
+          "servers": 41,
+          "tools": 594,
+          "highlight": "DORA + MiCA + AML + NIS2 + EU AI Act coverage"
+        },
+        "blockchain": {
+          "servers": 29,
+          "tools": 318,
+          "highlight": "13 chains: ETH, SOL, XRP, ARB, HBAR, TON, SUI, BNB, BTC, APT, XLM, BASE, FLR"
+        },
+        "finance": {
+          "servers": 8,
+          "tools": 134,
+          "highlight": "Fed/ECB/OECD macro + payments + corporate finance (CFO, tax)"
+        },
+        "other": {
+          "servers": 3,
+          "tools": 36,
+          "highlight": "Utility oracles: carbon attestation, GPU pricing, support tooling"
+        },
+        "trust": {
+          "servers": 7,
+          "tools": 90,
+          "highlight": "AgentGuard, KYA, QuantumOracle, EventFabric, W3C VCs"
+        },
+        "security": {
+          "servers": 2,
+          "tools": 24,
+          "highlight": "CyberShield — threat intel, vulnerability scanning, CVE lookup"
+        },
+        "business": {
+          "servers": 22,
+          "tools": 211,
+          "highlight": "Leads, SEO, shops, news, jobs, rankings, reviews, sports, media"
+        },
+        "travel": {
+          "servers": 9,
+          "tools": 86,
+          "highlight": "Flights, hotels, weather, maps"
+        },
+        "legal": {
+          "servers": 3,
+          "tools": 36,
+          "highlight": "LegalOracle, LegalTech — contract analysis, statutes, jurisdictions"
+        }
+      },
+      "pricing": {
+        "free_tier": "100 calls/day",
+        "pro": "$49/month",
+        "agent": "$299/month",
+        "x402": "$0.005 - $0.15/call USDC on Base"
+      },
+      "manifest_url": "https://tooloracle.io/manifest.json",
+      "x402_catalog": "https://tooloracle.io/x402/catalog.json",
+      "numbers_policy": "Live integers from https://tooloracle.io/data/mesh-truth.json. Refreshed every 5 minutes."
+    },
+    "counts": {
+      "servers_online": 89,
+      "tools_available": 1096,
+      "categories": 10,
+      "chains_supported": 13,
+      "paid_products": 35
+    },
+    "chains": [
+      "ETH",
+      "SOL",
+      "XRP",
+      "ARB",
+      "HBAR",
+      "TON",
+      "SUI",
+      "BNB",
+      "BTC",
+      "APT",
+      "XLM",
+      "BASE",
+      "FLR"
+    ],
+    "verification": {
+      "signing_algorithm": "ES256K",
+      "signing_status": "available_where_supported",
+      "signing_note": "Not every response is signed. New signatures use the dedicated ToolOracle issuer key. The legacy shared FeedOracle key remains in JWKS for historical signature verification.",
+      "issuer_key_state": "dedicated_active",
+      "issuer_key_planned": "did:web:tooloracle.io#keys-1",
+      "jwks_url": "https://tooloracle.io/.well-known/jwks.json",
+      "local_verification": "supported",
+      "issuer_kid": "tooloracle-issuer-keys-1",
+      "issuer_key_did": "did:web:tooloracle.io#keys-1",
+      "issuer_statement": "https://tooloracle.io/.well-known/issuer-statement.json",
+      "legacy_keys": [
+        "fo-ecdsa-v1",
+        "feedoracle-mcp-es256k-1"
+      ],
+      "legacy_key_status": "kept_for_historical_verification"
+    }
+  },
+  "homepage": "https://tooloracle.io/",
+  "contact": {
+    "organization": "FeedOracle Technologies",
+    "url": "https://feedoracle.io",
+    "location": "Herford, Germany"
+  },
+  "oraclenet_signal": {
+    "type": "heartbeat",
+    "alive": true,
+    "last_pulse": "2026-09-20T02:15:01.871815+00:00",
+    "servers_online": 89,
+    "tools_available": 1096,
+    "uptime_pct": 89.0,
+    "mesh_epoch": "5966235",
+    "frequency": "55d9fa746cc076b6",
+    "mesh_nodes": 9,
+    "message": "OracleNet is live. Join: quantum_join via https://tooloracle.io/quantum/mcp/",
+    "manifest": "https://tooloracle.io/.well-known/oraclenet.json",
+    "x402_catalog": "https://tooloracle.io/x402/catalog.json",
+    "x402_discovery": "https://tooloracle.io/.well-known/x402",
+    "agent_pulse": "https://tooloracle.io/.well-known/agent-pulse",
+    "mesh_economics": "https://tooloracle.io/.well-known/mesh-economics"
+  },
+  "catalog_summary": {
+    "total_servers": 89,
+    "total_tools": 1096,
+    "categories": {
+      "compliance": {
+        "servers": 34,
+        "tools": 423,
+        "highlight": "DORA + MiCA + AML + NIS2 + EU AI Act coverage"
+      },
+      "blockchain": {
+        "servers": 25,
+        "tools": 225,
+        "highlight": "13 chains including ETH, SOL, XRP, ARB, HBAR, TON, SUI, BTC"
+      },
+      "business": {
+        "servers": 15,
+        "tools": 141,
+        "highlight": "News, shops, memes, jobs, rankings, reviews"
+      },
+      "trust": {
+        "servers": 12,
+        "tools": 109,
+        "highlight": "AgentGuard, KYA, memory, scheduling, W3C VCs"
+      },
+      "finance": {
+        "servers": 8,
+        "tools": 117,
+        "highlight": "Fed, ECB, OECD macro + corporate finance (CFO, tax, legal)"
+      },
+      "travel": {
+        "servers": 4,
+        "tools": 38,
+        "highlight": "Flights, hotels, weather, maps, preflight"
+      },
+      "sustainability": {
+        "servers": 1,
+        "tools": 12,
+        "highlight": "Supply chain + CBAM + CSRD + LkSG"
+      }
+    },
+    "numbers_policy": "Live integers from /.well-known/agent-pulse. Refreshed approximately every 5 minutes."
+  },
+  "verification": {
+    "signing_algorithm": "ES256K",
+    "signing_status": "available_where_supported",
+    "signing_note": "Not every response is signed. New signatures use the dedicated ToolOracle issuer key. The legacy shared FeedOracle key remains in JWKS for historical signature verification.",
+    "issuer_key_state": "dedicated_active",
+    "issuer_kid": "tooloracle-issuer-keys-1",
+    "issuer_key_did": "did:web:tooloracle.io#keys-1",
+    "issuer_statement": "https://tooloracle.io/.well-known/issuer-statement.json",
+    "legacy_keys": [
+      "fo-ecdsa-v1",
+      "feedoracle-mcp-es256k-1"
+    ],
+    "legacy_key_status": "kept_for_historical_verification",
+    "jwks_url": "https://tooloracle.io/.well-known/jwks.json",
+    "local_verification": "supported"
+  },
+  "securitySchemes": {
+    "apiKeyAuth": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "X-API-Key",
+      "description": "Free tier via kya_register; rate-limited."
+    },
+    "didWba": {
+      "type": "http",
+      "scheme": "bearer",
+      "bearerFormat": "DID-WBA-JWT",
+      "description": "DID:WBA agent identity auth (ES256K)."
+    },
+    "x402Pay": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "PAYMENT-SIGNATURE",
+      "description": "x402 v2 pay-per-call for /v2/* routes (Base USDC, EIP-3009 exact scheme). Challenge: HTTP 402 with PAYMENT-REQUIRED header; retry with the PAYMENT-SIGNATURE header; settlement receipt in the PAYMENT-RESPONSE header. LIVE — inbound payment verified before delivery; settled on Base mainnet (eip155:8453). Legacy /x402/{product}/mcp/ routes use X-PAYMENT (see payment.v1_legacy).",
+      "x-nomos-mode": "live",
+      "x-nomos-settlement_enabled": true
+    }
+  },
+  "security": [
+    {},
+    {
+      "apiKeyAuth": []
+    },
+    {
+      "didWba": []
+    }
+  ],
+  "supportsAuthenticatedExtendedCard": true,
+  "x-nomos-commerce-policy": {
+    "mode": "live_inbound_settlement",
+    "settlement_enabled": true,
+    "x402_live_payment": true,
+    "inbound": {
+      "payment_verification": "live",
+      "delivery_after_verified_payment": "live",
+      "settlement_network": "Base mainnet (eip155:8453) USDC",
+      "scheme": "x402 v2 exact (EIP-3009)"
+    },
+    "outbound": {
+      "autonomous_spend": false,
+      "autonomous_transfer": false,
+      "autonomous_signing": false,
+      "operator_gated": true,
+      "note": "NOMOS receives payments; it does NOT autonomously spend, transfer or sign. Outbound spend-locks remain closed and operator-gated."
+    },
+    "availability": "best-effort; no guarantee of uninterrupted availability",
+    "note": "Inbound x402 settlement is live (receive-side). Discovery/price fields are real, not reference-only. No implication of autonomous outbound value movement."
+  },
+  "x-nomos-proof-capability": {
+    "layer": "S8_proof",
+    "verification_present": true,
+    "signing_present": true,
+    "differentiator": true,
+    "claim": "Signed, independently verifiable responses (ES256K/JWKS) + blockchain anchoring — rare in the agent ecosystem."
+  },
+  "x402_products": {
+    "count": 17,
+    "status": "live — products are priced and the HTTP 402 paywall + Base-mainnet USDC settlement (eip155:8453) are enabled; backend delivery occurs after verified payment. Outbound autonomous spending by NOMOS is disabled (operator-gated). Best-effort availability; no uptime guarantee.",
+    "openapi_ref": "https://tooloracle.io/openapi.json",
+    "x402_manifest_ref": "https://tooloracle.io/.well-known/x402",
+    "generated_from": "small /.well-known/x402 (Surface-A) + /openapi.json (Surface-C)",
+    "products": [
+      {
+        "id": "v2_agent_preflight",
+        "path": "/v2/agent_preflight",
+        "method": "POST",
+        "price": "$0.005",
+        "currency": "USDC",
+        "network": "eip155:8453",
+        "summary": "AI agent decision pre-flight: GO / CAUTION / STOP with cryptographic receipt.",
+        "category": "agent-safety",
+        "mapped_skill": "trust_identity",
+        "schema_ref": "https://tooloracle.io/openapi.json#/paths/~1v2~1agent_preflight",
+        "x402_manifest_ref": "https://tooloracle.io/.well-known/x402",
+        "example_type": "illustrative"
+      },
+      {
+        "id": "v2_cve_lookup",
+        "path": "/v2/cve_lookup",
+        "method": "POST",
+        "price": "$0.005",
+        "currency": "USDC",
+        "network": "eip155:8453",
+        "summary": "NIST NVD CVE search by keyword, vendor, or product — CVSS score, CWE, references.",
+        "category": "security",
+        "mapped_skill": "compliance_regulatory",
+        "schema_ref": "https://tooloracle.io/openapi.json#/paths/~1v2~1cve_lookup",
+        "x402_manifest_ref": "https://tooloracle.io/.well-known/x402",
+        "example_type": "verified_fixture"
+      },
+      {
+        "id": "v2_uvo_quick",
+        "path": "/v2/uvo_quick",
+        "method": "POST",
+        "price": "$0.005",
+        "currency": "USDC",
+        "network": "eip155:8453",
+        "summary": "UVO Action Gate: deterministic validation across up to nine stages, fail-fast. Returns APPROVE/WARN/ESCALATE/BLOCK.",
+        "category": "agent-safety",
+        "mapped_skill": "trust_identity",
+        "schema_ref": "https://tooloracle.io/openapi.json#/paths/~1v2~1uvo_quick",
+        "x402_manifest_ref": "https://tooloracle.io/.well-known/x402",
+        "example_type": "illustrative"
+      },
+      {
+        "id": "v2_compliance_preflight",
+        "path": "/v2/compliance_preflight",
+        "method": "POST",
+        "price": "$0.01",
+        "currency": "USDC",
+        "network": "eip155:8453",
+        "summary": "MiCA stablecoin preflight: ESMA register + peg deviation + reserve quality + custody risk.",
+        "category": "compliance",
+        "mapped_skill": "compliance_regulatory",
+        "schema_ref": "https://tooloracle.io/openapi.json#/paths/~1v2~1compliance_preflight",
+        "x402_manifest_ref": "https://tooloracle.io/.well-known/x402",
+        "example_type": "illustrative"
+      },
+      {
+        "id": "v2_macro_snapshot",
+        "path": "/v2/macro_snapshot",
+        "method": "POST",
+        "price": "$0.01",
+        "currency": "USDC",
+        "network": "eip155:8453",
+        "summary": "US macro snapshot: Fed funds, CPI, PPI, yield curve, unemployment, GDP, housing, sentiment.",
+        "category": "finance",
+        "mapped_skill": "finance_macro",
+        "schema_ref": "https://tooloracle.io/openapi.json#/paths/~1v2~1macro_snapshot",
+        "x402_manifest_ref": "https://tooloracle.io/.well-known/x402",
+        "example_type": "illustrative"
+      },
+      {
+        "id": "v2_mica_stablecoin_check",
+        "path": "/v2/mica_stablecoin_check",
+        "method": "POST",
+        "price": "$0.01",
+        "currency": "USDC",
+        "network": "eip155:8453",
+        "summary": "MiCA full Ampel check across 12 articles + grade A-F. USDC, USDT, EURC, RLUSD, DAI, 40+ stables.",
+        "category": "compliance",
+        "mapped_skill": "compliance_regulatory",
+        "schema_ref": "https://tooloracle.io/openapi.json#/paths/~1v2~1mica_stablecoin_check",
+        "x402_manifest_ref": "https://tooloracle.io/.well-known/x402",
+        "example_type": "illustrative"
+      },
+      {
+        "id": "v2_orderbook_risk",
+        "path": "/v2/orderbook_risk",
+        "method": "POST",
+        "price": "$0.01",
+        "currency": "USDC",
+        "network": "eip155:8453",
+        "summary": "Kalshi orderbook fragility: thin liquidity, penny walls, single-order dominance scoring.",
+        "category": "market-integrity",
+        "mapped_skill": "compliance_regulatory",
+        "schema_ref": "https://tooloracle.io/openapi.json#/paths/~1v2~1orderbook_risk",
+        "x402_manifest_ref": "https://tooloracle.io/.well-known/x402",
+        "example_type": "illustrative"
+      },
+      {
+        "id": "v2_uvo_citation_check",
+        "path": "/v2/uvo_citation_check",
+        "method": "POST",
+        "price": "$0.01",
+        "currency": "USDC",
+        "network": "eip155:8453",
+        "summary": "Citation/source validation: legal articles, statutes, DOIs against authoritative registers.",
+        "category": "agent-safety",
+        "mapped_skill": "trust_identity",
+        "schema_ref": "https://tooloracle.io/openapi.json#/paths/~1v2~1uvo_citation_check",
+        "x402_manifest_ref": "https://tooloracle.io/.well-known/x402",
+        "example_type": "illustrative"
+      },
+      {
+        "id": "v2_integrity_gate",
+        "path": "/v2/integrity_gate",
+        "method": "POST",
+        "price": "$0.02",
+        "currency": "USDC",
+        "network": "eip155:8453",
+        "summary": "Pre-trade prediction-market gate: ALLOW/WARN/BLOCK + risk_level 0-100, ECDSA receipt. Polymarket + Kalshi.",
+        "category": "market-integrity",
+        "mapped_skill": "compliance_regulatory",
+        "schema_ref": "https://tooloracle.io/openapi.json#/paths/~1v2~1integrity_gate",
+        "x402_manifest_ref": "https://tooloracle.io/.well-known/x402",
+        "example_type": "illustrative"
+      },
+      {
+        "id": "v2_meme_rug_check",
+        "path": "/v2/meme_rug_check",
+        "method": "POST",
+        "price": "$0.02",
+        "currency": "USDC",
+        "network": "eip155:8453",
+        "summary": "Memecoin rug-pull check across Base, Solana, ETH, BSC, Arbitrum, Polygon.",
+        "category": "blockchain-risk",
+        "mapped_skill": "blockchain_multichain",
+        "schema_ref": "https://tooloracle.io/openapi.json#/paths/~1v2~1meme_rug_check",
+        "x402_manifest_ref": "https://tooloracle.io/.well-known/x402",
+        "example_type": "illustrative"
+      },
+      {
+        "id": "v2_sanctions_screen",
+        "path": "/v2/sanctions_screen",
+        "method": "POST",
+        "price": "$0.02",
+        "currency": "USDC",
+        "network": "eip155:8453",
+        "summary": "Name screening: EU FSF (14k) + OFAC SDN (69k) + UN (3k) + UK HMT (4k).",
+        "category": "compliance",
+        "mapped_skill": "compliance_regulatory",
+        "schema_ref": "https://tooloracle.io/openapi.json#/paths/~1v2~1sanctions_screen",
+        "x402_manifest_ref": "https://tooloracle.io/.well-known/x402",
+        "example_type": "illustrative"
+      },
+      {
+        "id": "v2_uvo_full",
+        "path": "/v2/uvo_full",
+        "method": "POST",
+        "price": "$0.02",
+        "currency": "USDC",
+        "network": "eip155:8453",
+        "summary": "UVO Action Gate: deterministic validation across up to nine stages, fail-fast. Returns APPROVE/WARN/ESCALATE/BLOCK.",
+        "category": "agent-safety",
+        "mapped_skill": "trust_identity",
+        "schema_ref": "https://tooloracle.io/openapi.json#/paths/~1v2~1uvo_full",
+        "x402_manifest_ref": "https://tooloracle.io/.well-known/x402",
+        "example_type": "illustrative"
+      },
+      {
+        "id": "v2_candidate_conflict_check",
+        "path": "/v2/candidate_conflict_check",
+        "method": "POST",
+        "price": "$0.05",
+        "currency": "USDC",
+        "network": "eip155:8453",
+        "summary": "Kalshi self-interest risk detector — pattern-matches CFTC Rule 5.17(z) signals.",
+        "category": "market-integrity",
+        "mapped_skill": "compliance_regulatory",
+        "schema_ref": "https://tooloracle.io/openapi.json#/paths/~1v2~1candidate_conflict_check",
+        "x402_manifest_ref": "https://tooloracle.io/.well-known/x402",
+        "example_type": "illustrative",
+        "x-required-one-of": [
+          "ticker",
+          "event_ticker"
+        ],
+        "x-input-note": "Provide exactly one of: ticker OR event_ticker."
+      },
+      {
+        "id": "v2_suspicious_timing_scan",
+        "path": "/v2/suspicious_timing_scan",
+        "method": "POST",
+        "price": "$0.05",
+        "currency": "USDC",
+        "network": "eip155:8453",
+        "summary": "Polymarket pre-event flow scan: large positions, wallet-newness, coordinated timing.",
+        "category": "market-integrity",
+        "mapped_skill": "compliance_regulatory",
+        "schema_ref": "https://tooloracle.io/openapi.json#/paths/~1v2~1suspicious_timing_scan",
+        "x402_manifest_ref": "https://tooloracle.io/.well-known/x402",
+        "example_type": "illustrative"
+      },
+      {
+        "id": "v2_uvo_academic_verify",
+        "path": "/v2/uvo_academic_verify",
+        "method": "POST",
+        "price": "$0.10",
+        "currency": "USDC",
+        "network": "eip155:8453",
+        "summary": "Academic citation verification: DOI lookup, author match, journal authenticity.",
+        "category": "agent-safety",
+        "mapped_skill": "trust_identity",
+        "schema_ref": "https://tooloracle.io/openapi.json#/paths/~1v2~1uvo_academic_verify",
+        "x402_manifest_ref": "https://tooloracle.io/.well-known/x402",
+        "example_type": "illustrative"
+      },
+      {
+        "id": "v2_evidence_bundle",
+        "path": "/v2/evidence_bundle",
+        "method": "POST",
+        "price": "$0.15",
+        "currency": "USDC",
+        "network": "eip155:8453",
+        "summary": "Signed forensic dossier for Polymarket markets with JWS receipt anchored on Polygon.",
+        "category": "market-integrity",
+        "mapped_skill": "compliance_regulatory",
+        "schema_ref": "https://tooloracle.io/openapi.json#/paths/~1v2~1evidence_bundle",
+        "x402_manifest_ref": "https://tooloracle.io/.well-known/x402",
+        "example_type": "synthetic",
+        "x-required-one-of": [
+          "slug",
+          "market_id"
+        ],
+        "x-input-note": "Provide exactly one of: slug OR market_id."
+      },
+      {
+        "id": "v2_nomos_preflight",
+        "path": "/v2/nomos/preflight",
+        "method": "POST",
+        "price": "$0.05",
+        "currency": "USDC",
+        "network": "eip155:8453",
+        "summary": "NOMOS cross-border preflight: cached scan + regulatory verdict + protocol match, signed receipt; per-target fields redaction-enforced on BLOCK/ALLOW_PUBLIC_SIGNAL_ONLY.",
+        "category": "cross-border",
+        "mapped_skill": "oraclenet_deal_v1",
+        "schema_ref": "https://tooloracle.io/openapi.json#/paths/~1v2~1nomos~1preflight",
+        "x402_manifest_ref": "https://tooloracle.io/.well-known/x402",
+        "example_type": "illustrative"
+      }
+    ],
+    "example_provenance": "ToolOracle/NOMOS-curated metadata — example_type per product (verified_fixture | illustrative | synthetic); NOT a captured live execution. verified_live_sample requires a separate authorized paid capture run.",
+    "last_curation": {
+      "cp": "CP-NOMOS-P1-PUBLIC-SURFACE-CLOSURE",
+      "at": "2026-07-30",
+      "change": "removed retired product /v2/x402_payment_preflight_v1 (gateway RETIRED_ROUTES -> HTTP 410) and its skill claim",
+      "canonical_source": "this file (agent.json is hand-maintained per build_agentcard_products.py docstring)"
+    }
+  },
+  "last_truth_sync_at": "2026-06-21T11:15:12Z",
+  "trust_passport": {
+    "schema": "nomos.agent_assessment_passport.link.v1",
+    "document_kind": "agent_assessment_passport_reference",
+    "credential_schema": "nomos.agent_assessment_passport.v0.2",
+    "passport_id": "pass_25a7f8cad0743ed54cc5263e0402ec7d",
+    "subject_canonical_target": "ToolOracle",
+    "verify_url": "https://agentnomos.com/verify/pass_25a7f8cad0743ed54cc5263e0402ec7d",
+    "verify_api": "https://agentnomos.com/api/passports/pass_25a7f8cad0743ed54cc5263e0402ec7d/verify",
+    "badge_url": "https://agentnomos.com/api/passports/pass_25a7f8cad0743ed54cc5263e0402ec7d/badge.svg",
+    "state": "VALID",
+    "lifecycle": "BETA",
+    "grade": "C",
+    "score": 61.0,
+    "level": "UNVERIFIED",
+    "issued_at": "2026-06-29T08:54:41Z",
+    "expires_at": "2026-09-27T08:54:41Z",
+    "revocation": {
+      "status": "NO_REVOCATION_RECORDED",
+      "registry_sequence": 4,
+      "registry_freshness": "CURRENT"
+    },
+    "status_read_at": "2026-08-19T03:17:02Z",
+    "disclaimer": "Self-issued agent assessment passport (BETA). Not a certification, not a compliance attestation. Live status MUST be read from verify_api; values above are a snapshot from status_read_at."
+  },
+  "operator_identity": {
+    "schema": "nomos.operator_identity.link.v1",
+    "agent": "NOMOS",
+    "operated_by": "Murat Keskin",
+    "trading_as": "FeedOracle Technologies",
+    "legal_form": "Einzelunternehmen (sole proprietorship, Germany)",
+    "business_contact": "enterprise@feedoracle.io",
+    "identity_url": "https://agentnomos.com/.well-known/nomos-identity.json",
+    "identity_record_digest": "sha256:78c55450f65f03e6f98717c7ac49e7f7fdba473921ccebcf0ebc53ea88cadc26",
+    "delegation_record_digest": "sha256:44c32f255c1191ef324c24cd2a7cdb0065f89fdbf619508fbd766f76c79b1988"
+  }
+}

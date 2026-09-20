@@ -1,0 +1,23 @@
+generated: '2026-09-19'
+method: searched
+source: registry.npmjs.org search (tooloracle, oraclenet), pypi.org/pypi/{tooloracle,oraclenet,feedoracle}/json, https://github.com/ToolOracle (org page + raw README/package.json probes on ToolOracle/rankoracle), https://tooloracle.io/docs/x402-buyer-quickstart/, https://clawhub.ai/tooloracle/skills/oraclenet-mesh
+description: >-
+  FeedOracle Technologies publishes NO first-party client library on any package registry. The GitHub org (github.com/ToolOracle,
+  ~60 repos named after oracles) holds README-only repos that point at the hosted MCP endpoints and recommend the third-party
+  `npx -y mcp-remote <url>` bridge; the x402 buyer quickstart ships four downloadable .mjs/.json files pinned to Coinbase's @x402/*
+  2.19.0 SDK, which is Coinbase's package, not the provider's. The provider-published ClawHub skill is captured under skills/.
+  Recorded as an honest zero; no SDKs pointer is emitted.
+package_count: 0
+packages: []
+searches:
+- {registry: npm, query: 'https://registry.npmjs.org/-/v1/search?text=tooloracle', result: 0 packages}
+- {registry: npm, query: 'https://registry.npmjs.org/-/v1/search?text=oraclenet', result: 0 packages}
+- {registry: pypi, query: https://pypi.org/pypi/tooloracle/json, http_status: 404}
+- {registry: pypi, query: https://pypi.org/pypi/oraclenet/json, http_status: 404}
+- {registry: pypi, query: https://pypi.org/pypi/feedoracle/json, http_status: 404}
+- {registry: github, query: https://github.com/ToolOracle, http_status: 200, note: 'org exists; ToolOracle/rankoracle README.md 200 (docs + npx mcp-remote), package.json 404, server.json 404'}
+- {registry: mcp-registry, query: 'https://registry.modelcontextprotocol.io/v0/servers?search=tooloracle', result: '61 remote-only io.tooloracle/* entries — remotes, no packages block', file: mcp/tooloracle-io-mcp-registry.json}
+third_party_clients_the_provider_recommends:
+- {name: mcp-remote, registry: npm, official: false, install: 'npx -y mcp-remote https://tooloracle.io/rank/mcp/', note: 'bridge for stdio-only MCP clients; not authored by the provider'}
+- {name: '@x402/fetch, @x402/core, @x402/evm', registry: npm, official: false, version: 2.19.0 (pinned in the quickstart package.json), note: 'Coinbase x402 SDK; the quickstart deletes payload.resource for CDP facilitator compatibility'}
+- {name: '@tooloracle/oraclenet-mesh', registry: clawhub, official: true, install: 'openclaw skills install @tooloracle/oraclenet-mesh', version: 3.0.0, published: null, note: 'an Agent Skill (Markdown + stdlib Python scripts, MIT-0), not a client library — see skills/tooloracle-io-oraclenet-mesh-SKILL.md; ClawHub exposes no metadata endpoint that was found, so published is null'}

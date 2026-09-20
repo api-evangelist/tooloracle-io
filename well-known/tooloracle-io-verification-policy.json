@@ -1,0 +1,69 @@
+{
+  "protocol_name": "OracleNet Verification Policy",
+  "version": "1.0.0",
+  "issuer": "did:web:tooloracle.io",
+  "description": "ToolOracle currently publishes an agent-facing verification policy while some key material and controller relationships remain shared with FeedOracle-era infrastructure. A dedicated ToolOracle issuer key is planned. This document is the authoritative policy from the agent's perspective until that migration is announced.",
+  "issuer_status": {
+    "is_dedicated_to_tooloracle": false,
+    "shared_with": "did:web:feedoracle.io",
+    "explanation": "The current JWKS exposed at tooloracle.io contains keys originally provisioned for the FeedOracle layer. The DID document at /.well-known/did.json declares a controller relationship to did:web:feedoracle.io. Verifiers should treat this as a legacy state. A dedicated tooloracle.io issuer with its own keys is planned but not yet deployed.",
+    "migration_status": "planned",
+    "migration_announce_channel": "https://tooloracle.io/.well-known/agent-pulse"
+  },
+  "jwks_url": "https://tooloracle.io/.well-known/jwks.json",
+  "did_document": "https://tooloracle.io/.well-known/did.json",
+  "signature_algorithms": [
+    "ES256K"
+  ],
+  "hash_algorithm": "SHA-256",
+  "timestamp_policy": {
+    "format": "ISO 8601 UTC",
+    "included_where_supported": true,
+    "max_acceptable_clock_skew_seconds_policy": 300,
+    "note": "Where a tool produces a timestamp, it is intended to be ISO 8601 UTC. Not every response is timestamped at the protocol level."
+  },
+  "signed_response": {
+    "available": true,
+    "default": "varies_by_endpoint",
+    "transport_note": "Where supported, signatures may be transported through response headers, response body metadata, or endpoint-specific receipts. Header names and field locations are tool-specific and described in the per-tool MCP card.",
+    "how_to_request": "Where a tool's MCP card declares signing support, follow the per-tool conventions documented there. There is no global request flag that forces signing on every tool."
+  },
+  "verification_endpoint": {
+    "tooloracle_native": null,
+    "tooloracle_native_status": "not_currently_exposed",
+    "tooloracle_native_planned": true,
+    "fallback_legacy_url": "https://feedoracle.io/proof/",
+    "fallback_legacy_status": "may_be_used_for_signatures_under_shared_keys",
+    "fallback_legacy_note": "The legacy proof endpoint at feedoracle.io can verify signatures produced under the shared keys. It is a convenience for existing agents and is not the canonical ToolOracle path. Verifiers are not required to use it; local verification against the published JWKS is sufficient."
+  },
+  "blockchain_anchors": {
+    "available": "for_defined_evidence_flows_only",
+    "purpose": "Independent timestamping and tamper-evidence for high-assurance flows.",
+    "chains_currently_referenced": [
+      "polygon",
+      "base",
+      "xrpl",
+      "hedera",
+      "avalanche"
+    ],
+    "note": "Anchoring is not performed for every call. It is applied to defined evidence flows. When present, the anchor reference is declared in the response body."
+  },
+  "verifier_guidance": {
+    "minimum_check": [
+      "Fetch /.well-known/jwks.json",
+      "Locate the signing key by the kid declared on the response (where present)",
+      "Verify the ES256K signature over the canonical body indicated by the per-tool conventions"
+    ],
+    "recommended_check": [
+      "All of the above",
+      "If a timestamp is present, compare it against current time within the configured clock skew",
+      "If the response references a blockchain anchor, fetch the anchor record and confirm the content hash"
+    ]
+  },
+  "limitations": [
+    "Verification keys are currently shared with the FeedOracle layer. A dedicated tooloracle.io issuer is planned but not yet deployed.",
+    "Not every OracleNet response is signed. Agents should check for signature presence on a per-tool basis rather than assuming it.",
+    "Where signatures exist, they attest to the origin and integrity of the response payload. They do not attest to the truth of any third-party data referenced in the payload.",
+    "Blockchain anchoring is not real-time for every call. Time-to-anchor depends on the underlying chain and the anchoring batch policy."
+  ]
+}

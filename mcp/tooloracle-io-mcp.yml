@@ -1,0 +1,663 @@
+generated: '2026-09-19'
+method: probed
+status: published
+source: https://tooloracle.io/.well-known/mcp.json, https://tooloracle.io/docs/mcp-auth.html, https://tooloracle.io/docs/402-protocol,
+  https://registry.modelcontextprotocol.io/v0/servers?search=tooloracle, and a live POST tools/list against every
+  advertised endpoint (2026-09-19/20)
+docs: https://tooloracle.io/docs/mcp-auth.html
+summary: 'ToolOracle / OracleNet is not one MCP server but a hosted mesh: 92 distinct endpoints under tooloracle.io
+  (plus five on feedoracle.io / mcp.feedoracle.io) answered an anonymous tools/list with 1178 tool entries (919
+  unique tool names; health_check/ping recur on most servers). Every endpoint is MCP over Streamable HTTP (initialize
+  reports protocolVersion 2025-03-26). Free tools run with no credential; paid tools return HTTP 402 with an x402
+  challenge; an API key (kya_register) or an OAuth 2.1 bearer from feedoracle.io lifts anonymous daily limits. The
+  provider registers 61 io.tooloracle/* servers in the official MCP registry.'
+deployment:
+  mode: remote
+  endpoint: https://tooloracle.io/mcp/
+  install: null
+  package: null
+  auth: none
+  verified: probed
+  note: https://tooloracle.io/mcp/ is the endpoint mcp.json and the docs call "main" and the one `claude mcp add
+    --transport http tooloracle https://tooloracle.io/mcp/` connects to; live it identifies itself as RankOracle
+    1.2.0 (13 SEO tools), while the mesh front door — routing, join, trust passport, execute — is https://tooloracle.io/quantum/mcp/
+    (20 tools). auth is none because anonymous tools/list and free tool calls succeed with no credential; api-key
+    (X-API-Key from kya_register), OAuth 2.1 bearer (feedoracle.io, DCR) and x402 payment are optional layers for
+    limits and paid tools. No stdio package exists; the GitHub READMEs show `npx -y mcp-remote <url>`, which is
+    a third-party bridge to the same remote endpoint, not a local server.
+entry_points:
+  main: https://tooloracle.io/mcp/
+  mesh_front_door: https://tooloracle.io/quantum/mcp/
+  preflight: https://tooloracle.io/preflight/mcp/
+  verify: https://tooloracle.io/trust/mcp/
+  handshake_http: POST https://tooloracle.io/handshake (free, ANP JSON-LD routing recommendation)
+protocol:
+  transport: streamable-http
+  protocol_version_observed: '2025-03-26'
+  capabilities_observed:
+    tools: true
+    resources: false
+    prompts: false
+  session: stateless on most servers; uvo/mcp is stateful (Mcp-Session-Id)
+authentication:
+  anonymous: 20 requests/day per RFC 9728 doc; docs/mcp-auth says free tools 100 calls/day
+  api_key: X-API-Key issued by the kya_register tool (feedoracle.io/mcp), key prefix fo_
+  oauth: OAuth 2.1 bearer from https://feedoracle.io (RFC 8414 metadata on both hosts, RFC 7591 dynamic client registration,
+    PKCE S256, client_credentials)
+  x402: 'pay-per-call: HTTP 402 + PAYMENT-REQUIRED header on /v2 routes (x402 v2, PAYMENT-SIGNATURE); legacy X-PAYMENT
+    tx-hash header on /x402/{product}/mcp/ routes'
+  detail: authentication/tooloracle-io-authentication.yml
+tool_schemas:
+  file: mcp/tooloracle-io-tools.json
+  note: verbatim name/description/inputSchema for every tool returned by tools/list, grouped by endpoint
+registry:
+  file: mcp/tooloracle-io-mcp-registry.json
+  count: 61
+  namespace: io.tooloracle/*
+  note: '61 active entries (2026-05-07). Two registry remotes are dead today: io.tooloracle/agentguard -> https://feedoracle.io/guard-oracle/mcp/
+    (404) and io.tooloracle/paymentoracle -> https://tooloracle.io/payments/mcp/ (503). io.tooloracle/rankoracle
+    points at https://tooloracle.io/mcp/ — which is why the main endpoint answers as RankOracle.'
+servers:
+- endpoint: https://tooloracle.io/access/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 10
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/aml/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 12
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/ampel/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 50
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/aptos/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 7
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/arbitrum/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 12
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/base/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 8
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/bnb/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 8
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/btc/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 10
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/carbon/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 11
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/cfo/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 12
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/change/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 10
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/cloud/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 14
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/conductor/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 16
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/contract/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 11
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/crypto/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 12
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/cybershield/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 12
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/dependency/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 10
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/dora/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 15
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/drift/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 15
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/ecommerce/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 8
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/esma/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 8
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/eth/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 10
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/eulaw/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 8
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/eventfabric/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 14
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://feedoracle.io/base/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 8
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://feedoracle.io/bnb/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 8
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://feedoracle.io/mcp
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 25
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://feedoracle.io/predictionguard/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 41
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://feedoracle.io/xrpl/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 31
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/flare/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 12
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/flight/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 8
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/governance/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 11
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/health/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 12
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/hedera/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 9
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/hotel/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 8
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/hr/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 12
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/incident/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 12
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/insurance/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 12
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/invoice/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 10
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/iso20022/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 12
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/job/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 8
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/jobs/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 8
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/law/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 20
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/lead/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 7
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/legal/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 12
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/macro/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 33
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/map/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 12
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://mcp.feedoracle.io/mcp/sse
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 25
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 13
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/meme/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 9
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/mica/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 24
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/movie/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 12
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/news2/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 11
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/news/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 9
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/oecd/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 13
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/policy/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 12
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/predict/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 12
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/preflight/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 7
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/price/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 7
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/psd2/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 12
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/quantum/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 20
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/register/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 10
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/regwatch/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 6
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/reporting/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 16
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/research/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 11
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/reserve/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 11
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/resilience/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 10
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/review/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 8
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/risk/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 13
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/scheduler/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 9
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/seo2/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 7
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/shop/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 11
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/smart/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 8
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/solana/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 12
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/sport/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 12
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/sui/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 9
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/supplychain/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 12
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/support/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 9
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/tax/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 12
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/tlpt/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 17
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/ton/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 11
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/trust/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 10
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/weather/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 10
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/x402/flight/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 8
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/x402/hotel/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 8
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/x402/scheduler/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 9
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/x402/smart/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 8
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/x402/xrpl/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 31
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/xlm/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 7
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/xrpl/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 31
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/yield/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 8
+  status: live
+  probe: POST tools/list -> 200
+- endpoint: https://tooloracle.io/zk/mcp/
+  transport: streamable-http
+  auth: none (anonymous tools/list; paid tools answer 402 x402)
+  tools: 14
+  status: live
+  probe: POST tools/list -> 200
+gated_or_stateful:
+- endpoint: https://tooloracle.io/uvo/mcp/
+  status: live, stateful
+  note: tools/list without a session returns -32600 "Missing session ID"; initialize succeeds (text/event-stream,
+    mcp-session-id issued, serverInfo uvo-action-gate 1.27.1, protocolVersion 2025-03-26). Tool schemas need a session,
+    not credentials.
+- endpoint: https://tooloracle.io/deal/mcp/
+  status: gated
+  note: tools/list returns JSON-RPC -32001 unauthorized (HTTP 401) — DealOracle escrow tools require a credential.
+advertised_but_unreachable:
+- endpoint: https://tooloracle.io/seo/mcp/
+  http_status: 404
+  note: named by the MCP registry / openapi.json / sitemap
+- endpoint: https://tooloracle.io/agentguard/mcp/
+  http_status: 404
+  note: named by docs/402-protocol or mcp.json
+- endpoint: https://tooloracle.io/detective/mcp/
+  http_status: 404
+  note: named by the MCP registry / openapi.json / sitemap
+- endpoint: https://tooloracle.io/memory/mcp/
+  http_status: 404
+  note: named by docs/402-protocol or mcp.json
+- endpoint: https://tooloracle.io/x402/memory/mcp/
+  http_status: 404
+  note: named by docs/402-protocol or mcp.json
+- endpoint: https://tooloracle.io/passport/mcp/
+  http_status: 404
+  note: named by the MCP registry / openapi.json / sitemap
+- endpoint: https://tooloracle.io/nis2/mcp/
+  http_status: 404
+  note: named by the MCP registry / openapi.json / sitemap
+- endpoint: https://tooloracle.io/aiact/mcp/
+  http_status: 404
+  note: named by the MCP registry / openapi.json / sitemap
+- endpoint: https://tooloracle.io/gpu/mcp/
+  http_status: 503
+  note: named by the MCP registry / openapi.json / sitemap
+- endpoint: https://tooloracle.io/vast/mcp/
+  http_status: 404
+  note: named by the MCP registry / openapi.json / sitemap
+- endpoint: https://tooloracle.io/payments/mcp/
+  http_status: 503
+  note: named by the MCP registry / openapi.json / sitemap
+- endpoint: https://tooloracle.io/guard/mcp/
+  http_status: 404
+  note: named by docs/402-protocol or mcp.json
+- endpoint: https://feedoracle.io/guard-oracle/mcp/
+  http_status: 404
+  note: named by docs/402-protocol or mcp.json
+crosswalk: mcp/tooloracle-io-tool-crosswalk.yml
+a2a: a2a/tooloracle-io-a2a.yml

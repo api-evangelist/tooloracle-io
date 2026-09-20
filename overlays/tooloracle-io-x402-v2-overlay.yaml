@@ -1,0 +1,43 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for ToolOracle x402 v2 Compliance, Evidence & Agent-Safety API
+  version: 1.0.0
+extends: openapi/tooloracle-io-x402-v2-openapi.yml
+x-generated: '2026-09-19'
+x-method: generated
+x-source: openapi/tooloracle-io-x402-v2-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist:
+      catalog: https://apis.io/tooloracle-io
+      provider: FeedOracle Technologies
+      maintainer: Kin Lane <kin@apievangelist.com>
+      artifacts:
+      - apis.yml
+      - a2a/tooloracle-io-a2a.yml
+      - mcp/tooloracle-io-mcp.yml
+      - mcp/tooloracle-io-tool-crosswalk.yml
+      - conformance/tooloracle-io-conformance.yml
+      - errors/tooloracle-io-problem-types.yml
+      - lifecycle/tooloracle-io-lifecycle.yml
+      - conventions/tooloracle-io-conventions.yml
+      - authentication/tooloracle-io-authentication.yml
+      - scopes/tooloracle-io-scopes.yml
+      - rate-limits/tooloracle-io-rate-limits.yml
+      - plans/tooloracle-io-plans-pricing.yml
+      - well-known/tooloracle-io-well-known.yml
+      x-provenance: harvested verbatim from the provider (see openapi/_original/), never edited; this overlay layers API Evangelist
+        context only
+- target: $.components.securitySchemes
+  update:
+    x402Pay:
+      type: apiKey
+      in: header
+      name: PAYMENT-SIGNATURE
+      description: x402 v2 payment (Base USDC, EIP-3009 exact). Declared in the agent card securitySchemes but absent from
+        the spec; added here so tooling sees the auth requirement the 402 responses enforce.
+- target: $.paths[*].post.responses
+  update:
+    '500':
+      description: Internal server error — application/problem+json with an instance URN (RFC 9457), per https://tooloracle.io/docs/x402-buyer-quickstart/

@@ -1,0 +1,441 @@
+{
+  "name": "FeedOracle",
+  "description": "EU Compliance Evidence Infrastructure — Verifiable compliance evidence layer for AI agents operating in European financial markets. 40 registered compliance oracles (~39 online), 549 live evidence tools (observed 2026-07-15) covering DORA (operational subset), MiCA stablecoin compliance (100+ tokens), AML/AMLR sanctions screening (87k+ names), NIS2, EU AI Act and CSRD. Runtime security via AgentGuard (20) and PredictionGuard (28). Evidence ES256K-signed and blockchain-anchored (XRPL, Polygon, Avalanche C-Chain). Canonical live metrics: https://feedoracle.io/data/feedoracle-metrics.json. ToolOracle (tooloracle.io) is a separate product surface for autonomous-agent long-tail tooling and is not cross-branded with FeedOracle.",
+  "url": "https://tooloracle.io/a2a/jsonrpc",
+  "version": "8.0.0",
+  "provider": {
+    "organization": "FeedOracle Technologies",
+    "url": "https://feedoracle.io",
+    "location": "Herford, Germany",
+    "name": "FeedOracle Technologies"
+  },
+  "iconUrl": "https://feedoracle.io/logo.png",
+  "documentationUrl": "https://feedoracle.io/docs.html",
+  "capabilities": {
+    "streaming": true,
+    "pushNotifications": false,
+    "stateTransitionHistory": false,
+    "extendedAgentCard": false,
+    "extensions": [
+      {
+        "uri": "urn:oraclenet:signal:v1",
+        "required": false
+      },
+      {
+        "uri": "urn:oraclenet:deal:v1",
+        "required": false
+      },
+      {
+        "uri": "urn:oraclenet:mesh:v1",
+        "required": false
+      },
+      {
+        "uri": "https://agentnomos.com/extensions/nomos-trust-chain-v1",
+        "required": false,
+        "params": {
+          "manifest": "https://agentnomos.com/.well-known/nomos-capabilities.json",
+          "compatibility_map": "https://agentnomos.com/.well-known/nomos-compatibility.json"
+        },
+        "description": "Machine-readable NOMOS S0-S10 trust lifecycle metadata."
+      }
+    ]
+  },
+  "defaultInputModes": [
+    "text/plain",
+    "application/json"
+  ],
+  "defaultOutputModes": [
+    "text/plain",
+    "application/json"
+  ],
+  "skills": [
+    {
+      "id": "compliance_preflight",
+      "name": "Compliance Preflight Check",
+      "description": "Pre-trade compliance check for any token or action. Returns PASS/WARN/BLOCK verdict with MiCA authorization status, peg stability, reserve quality, and custody risk. Covers 105+ stablecoins. July 2026 MiCA deadline enforcement.",
+      "tags": [
+        "compliance",
+        "MiCA",
+        "stablecoin",
+        "preflight",
+        "risk",
+        "pre-trade"
+      ],
+      "examples": [
+        "Check if USDT is compliant for EU trading",
+        "Run compliance preflight on USDC",
+        "Is RLUSD authorized under MiCA?"
+      ]
+    },
+    {
+      "id": "dora_operating_system",
+      "name": "DORA Operating System (DORA operational subset)",
+      "description": "Full DORA compliance automation across the six DORA operational layers: Governance & Reporting, Resilience & Recovery, Asset & Dependency Mapping, Register & Contracts, Third-Party Risk, Threat Intelligence & Incident. Closed-loop finding management with finding→owner→retest→close workflow. Board-level reporting. audit trails prepared for supervisory review. Escalation engine.",
+      "tags": [
+        "DORA",
+        "BaFin",
+        "ICT-risk",
+        "resilience",
+        "incident",
+        "governance",
+        "third-party-risk",
+        "register-of-information",
+        "TLPT",
+        "audit"
+      ],
+      "examples": [
+        "Assess our DORA readiness",
+        "Run DORA gap analysis",
+        "Generate board report for Q1 DORA status",
+        "Check DORA Art. 30 contract clauses",
+        "Register a finding and assign owner"
+      ]
+    },
+    {
+      "id": "evidence_signing",
+      "name": "Evidence Signing & Blockchain Anchoring",
+      "description": "Cryptographically sign any compliance decision with ES256K. Anchor on 5 blockchains: Polygon, XRPL, Avalanche, Hedera, Base. Returns signed evidence bundle with content hash, signature, transaction ID, and independent verification URL. ZK attestations for privacy-preserving proof.",
+      "tags": [
+        "evidence",
+        "signing",
+        "blockchain",
+        "ES256K",
+        "Polygon",
+        "XRPL",
+        "Avalanche",
+        "Hedera",
+        "Base",
+        "ZK",
+        "audit"
+      ],
+      "examples": [
+        "Sign this compliance decision",
+        "Create evidence bundle for our DORA assessment",
+        "Anchor this report on blockchain",
+        "Verify evidence independently"
+      ]
+    },
+    {
+      "id": "sanctions_aml",
+      "name": "Sanctions & AML Screening (87K+ names)",
+      "description": "Screen against EU FSF (14K), OFAC SDN (69K), UN SC (3K), Interpol (13K). PEP checks, adverse media, KYC bundles, GLEIF entity lookup, NatCat risk. Real-time watchlist updates. AMLR Article 35 compliant.",
+      "tags": [
+        "AML",
+        "AMLR",
+        "sanctions",
+        "KYC",
+        "PEP",
+        "OFAC",
+        "EU-FSF",
+        "Interpol",
+        "GLEIF",
+        "screening"
+      ],
+      "examples": [
+        "Screen 'Acme Corp' against sanctions lists",
+        "PEP check for board member",
+        "GLEIF lookup by LEI"
+      ]
+    },
+    {
+      "id": "stablecoin_risk",
+      "name": "Stablecoin Risk Intelligence (105+ tokens)",
+      "description": "7-signal risk scoring: peg deviation (real-time), reserve quality, custody assessment, MiCA authorization, significant issuer check, interest compliance, 30-day peg history. Evidence-grade reports for portfolio compliance.",
+      "tags": [
+        "stablecoin",
+        "risk",
+        "peg",
+        "reserves",
+        "MiCA",
+        "USDT",
+        "USDC",
+        "EURC",
+        "RLUSD",
+        "DAI"
+      ],
+      "examples": [
+        "Risk score for USDT",
+        "Compare USDC vs EURC",
+        "Full MiCA pack for RLUSD",
+        "Peg deviation history for DAI"
+      ]
+    },
+    {
+      "id": "macro_intelligence",
+      "name": "Macro Intelligence (Fed, ECB, OECD)",
+      "description": "Real-time macroeconomic signals: 86 FRED series, ECB indicators, OECD data (38 countries). Recession probability, yield curve, inflation tracking, labor market, composite risk. Gold, silver, oil, gas prices.",
+      "tags": [
+        "macro",
+        "Fed",
+        "ECB",
+        "OECD",
+        "recession",
+        "inflation",
+        "gold",
+        "commodities",
+        "yield-curve"
+      ],
+      "examples": [
+        "Current recession probability",
+        "ECB rate decision impact",
+        "OECD GDP comparison",
+        "Gold price and trend"
+      ]
+    },
+    {
+      "id": "contract_analysis",
+      "name": "DORA Contract Analysis (LLM-powered)",
+      "description": "Automatically check all 15 mandatory DORA Art. 30 clauses (8 standard + 7 CIF). Red-flag scoring, exit readiness, subcontracting chain analysis, concentration risk. LLM-powered via local Gemma 4 for executive summaries.",
+      "tags": [
+        "DORA",
+        "contract",
+        "Art30",
+        "clauses",
+        "exit",
+        "LLM",
+        "Gemma"
+      ],
+      "examples": [
+        "Check cloud contract against DORA Art. 30",
+        "Assess exit readiness for AWS agreement",
+        "LLM summary of contract risks"
+      ]
+    },
+    {
+      "id": "mica_full_compliance",
+      "name": "MiCA Full Compliance Pack",
+      "description": "Complete MiCA compliance evidence across 12 articles for any stablecoin. Authorization status, significant issuer check, reserve quality, interest prohibition, peg monitoring, market overview. Export-ready for supervisory submission.",
+      "tags": [
+        "MiCA",
+        "compliance",
+        "stablecoin",
+        "ESMA",
+        "authorization",
+        "significant-issuer"
+      ],
+      "examples": [
+        "Full MiCA pack for USDC",
+        "MiCA market overview",
+        "Significant issuer check for Tether"
+      ]
+    },
+    {
+      "id": "oraclenet_deal_v1",
+      "name": "OracleNet Deal Discovery Protocol v1",
+      "description": "Advertises support for the OracleNet Deal Discovery Protocol, a permissioned commercial matching layer for autonomous agents. Accepts signed capability_declaration messages (W3C VC format or legacy ES256K-signed JSON) at the inbox linked under rel='deal-policy'. Senders MUST consult the do-not-contact registry and honour the gate chain (readiness tier >= deal_ready, fit score >= 0.5, rate limit 1 thread / counterparty / 30 days). Spec: https://tooloracle.io/docs/deal-protocol/rfc-0001",
+      "tags": [
+        "oraclenet-deal-v1",
+        "deal-protocol",
+        "permissioned-matching",
+        "opt-in",
+        "verifiable-credentials",
+        "agent-to-agent"
+      ],
+      "examples": [
+        "Fetch my deal-policy: GET {base}/.well-known/deal-policy.json",
+        "Send me a signed capability_declaration (VC) to the inbox at rel='deal-policy'.inbox.url",
+        "Read the full spec: https://tooloracle.io/docs/deal-protocol/rfc-0001"
+      ],
+      "inputModes": [
+        "application/json"
+      ],
+      "outputModes": [
+        "application/json"
+      ]
+    }
+  ],
+  "x-waggle-verify": "asv_f527d459a0c0ab087752c151",
+  "product_positioning": "evidence_infrastructure",
+  "schema_reference": "https://tooloracle.io/agent-native/schema-v1.0.json",
+  "links": [
+    {
+      "rel": "deal-policy",
+      "href": "https://feedoracle.io/.well-known/deal-policy.json",
+      "type": "application/json",
+      "description": "OracleNet Deal Discovery Protocol — curated intent (Layer 1)."
+    },
+    {
+      "rel": "do-not-contact",
+      "href": "https://feedoracle.io/.well-known/do-not-contact.json",
+      "type": "application/json",
+      "description": "Signed opt-out registry. Senders MUST consult before any outbound proposal."
+    },
+    {
+      "rel": "deal-feed",
+      "href": "https://tooloracle.io/.well-known/deal-feed.atom",
+      "type": "application/atom+xml",
+      "description": "Subscribable Atom broadcast of capabilities sought across OracleNet origins (Layer 3)."
+    },
+    {
+      "rel": "deal-emergence",
+      "href": "https://feedoracle.io/.well-known/deal-emergence.json",
+      "type": "application/json",
+      "description": "Observed emergent demand signals (Layer 5). Epistemically distinct from deal-policy."
+    },
+    {
+      "rel": "describedBy",
+      "href": "https://tooloracle.io/docs/deal-protocol/rfc-0001",
+      "type": "text/html",
+      "description": "OracleNet Deal Discovery Protocol v1.1-draft specification."
+    },
+    {
+      "rel": "describedBy",
+      "href": "https://tooloracle.io/docs/deal-protocol/rfc-0001.md",
+      "type": "text/markdown",
+      "description": "Specification (Markdown source)."
+    },
+    {
+      "rel": "service-desc",
+      "href": "https://tooloracle.io/docs/deal-protocol/registry/protocol-descriptor.json",
+      "type": "application/json",
+      "description": "Machine-readable protocol descriptor suitable for registry ingestion."
+    }
+  ],
+  "protocolVersion": "0.3.0",
+  "preferredTransport": "JSONRPC",
+  "additionalInterfaces": [
+    {
+      "protocolBinding": "JSONRPC",
+      "url": "https://feedoracle.io/a2a/tasks",
+      "description": "A2A Task endpoint for agent-to-agent communication",
+      "transport": "JSONRPC"
+    }
+  ],
+  "mcpServers": [
+    {
+      "name": "MCP Streamable HTTP",
+      "url": "https://mcp.feedoracle.io/mcp/",
+      "description": "MCP Streamable HTTP — 50 compliance tools (DORA, MiCA, AML)",
+      "transport": "jsonrpc"
+    },
+    {
+      "name": "MCP SSE",
+      "url": "https://mcp.feedoracle.io/mcp/macro/sse",
+      "description": "MCP SSE — Macro intelligence (Fed, ECB, OECD, commodities)",
+      "transport": "jsonrpc"
+    },
+    {
+      "name": "MCP SSE",
+      "url": "https://mcp.feedoracle.io/mcp/risk/sse",
+      "description": "MCP SSE — Stablecoin risk scoring (105+ tokens)",
+      "transport": "jsonrpc"
+    }
+  ],
+  "featureDetails": {
+    "feedoracle:signing": {
+      "algorithm": "ES256K",
+      "jwksUrl": "https://feedoracle.io/.well-known/jwks.json",
+      "independentlyVerifiable": true
+    },
+    "feedoracle:blockchainAnchoring": {
+      "networks": [
+        "Polygon Mainnet",
+        "XRPL",
+        "Avalanche C-Chain",
+        "Hedera Mainnet",
+        "Base"
+      ],
+      "proofUrl": "https://feedoracle.io/proof/"
+    },
+    "updated_at": "2026-04-14T13:00:00Z",
+    "pricing_url": "https://feedoracle.io/pricing.html",
+    "pricing_policy": "canonical_public_pricing_url"
+  },
+  "oraclenet": {
+    "signal": {
+      "type": "heartbeat",
+      "alive": true,
+      "servers_online": "100+",
+      "tools_available": "1,200+",
+      "uptime_pct": 100.0,
+      "manifest": "https://tooloracle.io/manifest.json",
+      "message": "FeedOracle: EU compliance layer. OracleNet: 89 online servers, 1,096 tools, 8 categories. Connect via MCP or A2A."
+    },
+    "bridge": {
+      "description": "FeedOracle is the compliance layer of OracleNet. For the full 89-server, 1,096-tool mesh including blockchain (14 chains), business intelligence, travel, payments, and more, connect to ToolOracle.",
+      "tooloracle_agent_card": "https://tooloracle.io/.well-known/agent-card.json",
+      "tooloracle_manifest": "https://tooloracle.io/manifest.json",
+      "tooloracle_categories": [
+        "compliance",
+        "blockchain",
+        "finance",
+        "business",
+        "travel",
+        "trust",
+        "payments"
+      ],
+      "total_mesh_servers": "100+",
+      "total_mesh_tools": "1,200+"
+    },
+    "dealProtocol": {
+      "protocol": "oraclenet-deal-v1",
+      "status": "draft",
+      "version": "1.1-draft",
+      "spec": "https://tooloracle.io/docs/deal-protocol/rfc-0001",
+      "descriptor": "https://tooloracle.io/docs/deal-protocol/registry/protocol-descriptor.json",
+      "repository": "https://github.com/ToolOracle/oraclenet-deal-protocol",
+      "inbox": "https://feedoracle.io/a2a/inbox",
+      "supports": {
+        "deal_policy": true,
+        "do_not_contact": true,
+        "deal_feed_atom": true,
+        "deal_emergence": true,
+        "vc_proposals": true,
+        "legacy_signed_json_proposals": true
+      },
+      "signing_algorithm": "ES256K",
+      "canonical_json": "keys sorted lexicographically, signature/proof field removed"
+    }
+  },
+  "mesh": {
+    "statistics": {
+      "total_oracles": 100,
+      "total_tools": 1096,
+      "measurement_source": "https://feedoracle.io/beacon/index.json",
+      "catalog_source": "https://feedoracle.io/assets/catalog.json",
+      "refresh_cadence": "5 minutes",
+      "note": "Counts derived from the authoritative ORACLES registry. See beacon for live values."
+    },
+    "feedoracleStats": {
+      "$comment": "FeedOracle subset. For full OracleNet mesh see https://tooloracle.io/data/mesh-truth.json",
+      "mcp_servers": 40,
+      "mcp_tools": 549,
+      "positioning": "Compliance evidence infrastructure (subset of OracleNet)",
+      "parent_mesh_url": "https://tooloracle.io/data/mesh-truth.json",
+      "mcp_servers_online": 39,
+      "observed_at": "2026-07-15",
+      "source": "live-counted; subsets.feedoracle_compliance"
+    }
+  },
+  "homepage": "https://tooloracle.io/",
+  "repository": "https://github.com/ToolOracle",
+  "license": "Proprietary",
+  "contact": {
+    "organization": "FeedOracle Technologies",
+    "url": "https://feedoracle.io",
+    "location": "Herford, Germany"
+  },
+  "oraclenet_signal": {
+    "type": "heartbeat",
+    "alive": true,
+    "last_pulse": "2026-09-20T02:18:43.441545+00:00",
+    "servers_online": 89,
+    "tools_available": 1096,
+    "uptime_pct": 89.0,
+    "mesh_epoch": "5966235",
+    "frequency": "55d9fa746cc076b6",
+    "mesh_nodes": 9,
+    "message": "OracleNet is live. Join: quantum_join via https://tooloracle.io/quantum/mcp/",
+    "manifest": "https://feedoracle.io/.well-known/oraclenet.json",
+    "x402_catalog": "https://tooloracle.io/x402/catalog.json",
+    "x402_discovery": "https://tooloracle.io/.well-known/x402",
+    "agent_pulse": "https://tooloracle.io/.well-known/agent-pulse",
+    "mesh_economics": "https://tooloracle.io/.well-known/mesh-economics"
+  },
+  "pricing_url": "https://feedoracle.io/pricing.html",
+  "pricing_policy": "canonical_public_pricing_url",
+  "x-nomos-trust-chain": {
+    "model": "S0-S10",
+    "manifest": "https://agentnomos.com/.well-known/nomos-capabilities.json"
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "linkset": [
+    {
+      "anchor": "https://tooloracle.io",
+      "service-desc": [
+        {
+          "href": "https://tooloracle.io/openapi.json",
+          "type": "application/json"
+        },
+        {
+          "href": "https://tooloracle.io/.well-known/agent-descriptions",
+          "type": "application/json"
+        },
+        {
+          "href": "https://tooloracle.io/.well-known/agents.json",
+          "type": "application/json"
+        },
+        {
+          "href": "https://tooloracle.io/.well-known/agent.json",
+          "type": "application/json"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://tooloracle.io/docs.html",
+          "type": "text/html"
+        }
+      ],
+      "service-meta": [
+        {
+          "href": "https://tooloracle.io/.well-known/agent-directory.json",
+          "type": "application/json"
+        }
+      ]
+    },
+    {
+      "anchor": "https://feedoracle.io",
+      "service-desc": [
+        {
+          "href": "https://feedoracle.io/openapi.json",
+          "type": "application/json"
+        },
+        {
+          "href": "https://feedoracle.io/.well-known/agent-descriptions",
+          "type": "application/json"
+        },
+        {
+          "href": "https://feedoracle.io/.well-known/agents.json",
+          "type": "application/json"
+        },
+        {
+          "href": "https://feedoracle.io/.well-known/agent.json",
+          "type": "application/json"
+        }
+      ],
+      "service-doc": [
+        {
+          "href": "https://feedoracle.io/docs.html",
+          "type": "text/html"
+        }
+      ],
+      "service-meta": [
+        {
+          "href": "https://feedoracle.io/.well-known/agent-directory.json",
+          "type": "application/json"
+        }
+      ]
+    }
+  ]
+}

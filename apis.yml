@@ -1,23 +1,285 @@
 aid: tooloracle-io
 name: FeedOracle Technologies
-description: 'FeedOracle Technologies is a company surfaced via the API Evangelist harvest backlog (source:
-  a2a-registry) and added to the network as a stub for full-pipeline profiling.'
+description: >-
+  FeedOracle Technologies (Herford, Germany) operates two agent-facing brands on one shared OAuth 2.1 identity layer. ToolOracle / OracleNet at tooloracle.io is a capability router and hosted mesh of about ninety Model Context Protocol servers for autonomous agents (1,178 tool entries across blockchain intelligence, EU regulatory compliance, finance, business intelligence, travel and agent trust), reachable over MCP Streamable HTTP, an A2A 0.3 agent with a published Agent Card, a free ANP soft-handshake router, and x402 v2 pay-per-call settlement in USDC on Base for eighteen priced /v2 compliance and agent-safety REST routes. FeedOracle at feedoracle.io is the sibling compliance-evidence API (227-path OpenAPI 3.1 at api.feedoracle.io, ES256K-signed responses) and hosts the RFC 8414 / RFC 7591 authorization server both brands use.
+image: https://tooloracle.io/favicon.ico
 url: https://raw.githubusercontent.com/api-evangelist/tooloracle-io/refs/heads/main/apis.yml
 x-type: company
 x-source: harvest:a2a-registry
-x-tier: stub
-x-tier-reason: harvest
+x-tier: profiled
+x-tier-reason: full enrichment pass local-v3 on 2026-09-19 (was a harvest stub)
 specificationVersion: '0.20'
 created: '2026-09-19'
 modified: '2026-09-19'
 tags:
 - Company
-apis: []
+- MCP
+- Agent Infrastructure
+- A2A
+- x402
+- Micropayments
+- Compliance
+- RegTech
+- Blockchain
+- Sanctions Screening
+- Agent Discovery
+- Germany
+apis:
+- aid: tooloracle-io:tooloracle-mcp-platform-api
+  name: ToolOracle MCP Platform API
+  description: >-
+    The provider's root OpenAPI 3.0.0 contract (version 4.2.0): a discovery index of forty hosted MCP endpoints (POST /<oracle>/mcp/),
+    nineteen x402-priced /v2 REST routes (agent preflight, MiCA stablecoin checks, sanctions screening, CVE lookup, macro snapshot,
+    prediction-market integrity, XRPL RLUSD integrity), the Mesh Economics ledger API (/economics/api/*) and the mesh discovery
+    documents. Served identically at /openapi.json and /.well-known/openapi.json.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io
+  tags:
+  - MCP
+  - x402
+  - Compliance
+  - Blockchain
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-mcp-platform-openapi.yml
+  - type: OpenAPI
+    name: provider-hosted OpenAPI 3.0.0 (verbatim copy at openapi/_original/tooloracle-io-openapi.json)
+    url: https://tooloracle.io/openapi.json
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: Overlay
+    url: overlays/tooloracle-io-mcp-platform-overlay.yaml
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+- aid: tooloracle-io:tooloracle-x402-v2-api
+  name: ToolOracle x402 v2 Compliance, Evidence & Agent-Safety API
+  description: >-
+    Account-less pay-per-call REST API (OpenAPI 3.1.0 with schemas and examples on every operation): agent action preflight,
+    MiCA stablecoin compliance, AML/sanctions screening, CVE lookup, UVO claim and citation verification, and a US macro snapshot.
+    Every route follows x402 v2 — an unpaid POST returns HTTP 402 with a PAYMENT-REQUIRED challenge (USDC on Base, EIP-3009 exact
+    scheme, CDP facilitator); retry with PAYMENT-SIGNATURE; paid responses carry an Ed25519-signed execution receipt.
+  humanURL: https://tooloracle.io/docs/x402-buyer-quickstart/
+  baseURL: https://tooloracle.io
+  tags:
+  - x402
+  - Compliance
+  - Sanctions Screening
+  - Agent Safety
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-x402-v2-openapi.yml
+  - type: OpenAPI
+    name: provider-hosted OpenAPI 3.1.0 (verbatim copy at openapi/_original/tooloracle-io-v2-openapi.json)
+    url: https://tooloracle.io/v2/openapi.json
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    name: x402 v2 manifest (machine-readable prices per route)
+    url: https://tooloracle.io/.well-known/x402
+  - type: Overlay
+    url: overlays/tooloracle-io-x402-v2-overlay.yaml
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: AgentSkill
+    url: skills/tooloracle-io-pay-per-call-x402-v2.md
+- aid: tooloracle-io:oraclenet-mcp-servers
+  name: OracleNet MCP Servers
+  description: >-
+    The hosted MCP mesh: ninety-two endpoints under tooloracle.io (plus five on feedoracle.io / mcp.feedoracle.io) answered an anonymous
+    tools/list on 2026-09-19/20 with 1,178 tool entries and 919 unique tool names, all over Streamable HTTP at MCP protocol 2025-03-26.
+    The main endpoint https://tooloracle.io/mcp/ identifies as RankOracle (13 SEO tools); the mesh front door is https://tooloracle.io/quantum/mcp/
+    (join, route, trust passport, execute). Free tools need no credential; paid tools answer 402 with an x402 challenge; sixty-one
+    io.tooloracle/* servers are listed in the official MCP registry.
+  humanURL: https://tooloracle.io/docs/mcp-auth.html
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - MCP
+  - Agent Infrastructure
+  - Blockchain
+  - Compliance
+  properties:
+  - type: MCPServer
+    url: mcp/tooloracle-io-mcp.yml
+  - type: MCPServer
+    name: main endpoint (Streamable HTTP)
+    url: https://tooloracle.io/mcp/
+  - type: MCPServer
+    name: OracleNet mesh front door (quantum)
+    url: https://tooloracle.io/quantum/mcp/
+  - type: ToolCrosswalk
+    url: mcp/tooloracle-io-tool-crosswalk.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/mcp-auth.html
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/mcp-auth.html
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+  - type: AgentSkill
+    url: skills/tooloracle-io-free-first-route-and-call.md
+- aid: tooloracle-io:oraclenet-a2a-agent
+  name: OracleNet A2A Agent
+  description: >-
+    A2A 0.3 JSON-RPC agent at https://tooloracle.io/a2a/jsonrpc (message/send, tasks/*, push-notification configs, authenticated
+    extended card) fronting ten category-level skills that route to the MCP mesh, described by a conformant Agent Card served at both
+    /.well-known/agent-card.json and the legacy /.well-known/agent.json; a second card for the FeedOracle brand points at the same endpoint.
+  humanURL: https://tooloracle.io/oraclenet/
+  baseURL: https://tooloracle.io/a2a/jsonrpc
+  tags:
+  - A2A
+  - Agent Discovery
+  - Agent Infrastructure
+  properties:
+  - type: AgentCard
+    url: a2a/tooloracle-io-a2a.yml
+  - type: AgentCard
+    name: provider-hosted card (canonical path)
+    url: https://tooloracle.io/.well-known/agent-card.json
+  - type: Documentation
+    url: https://tooloracle.io/oraclenet/
+  - type: Webhooks
+    url: asyncapi/tooloracle-io-webhooks.yml
+- aid: tooloracle-io:feedoracle-compliance-evidence-api
+  name: FeedOracle Compliance Evidence API
+  description: >-
+    The sibling brand's REST contract (OpenAPI 3.1.0, version 8.4.1, 227 paths at https://api.feedoracle.io): DORA, MiCA, AMLR and CSRD
+    compliance evidence, macro data, carbon and L2 feeds, attestation verification and signed reports. v1 data feeds require an X-API-Key;
+    v2 MOAT/attestation and v3 disclosure routes are public. Same legal entity as ToolOracle (Impressum: FeedOracle Technologies,
+    Inhaber Murat Keskin); info.contact support@feedoracle.io, termsOfService https://feedoracle.io/terms.html.
+  humanURL: https://feedoracle.io/docs.html
+  baseURL: https://api.feedoracle.io
+  tags:
+  - Compliance
+  - RegTech
+  - DORA
+  - MiCA
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-feedoracle-compliance-evidence-openapi.yml
+  - type: OpenAPI
+    name: provider-hosted OpenAPI 3.1.0 (verbatim copy at openapi/_original/tooloracle-io-feedoracle-openapi.json)
+    url: https://feedoracle.io/openapi.json
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Overlay
+    url: overlays/tooloracle-io-feedoracle-compliance-evidence-overlay.yaml
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: VulnerabilityDisclosure
+  url: security/tooloracle-io-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/tooloracle-io-domain-security.yml
 - type: Website
   url: https://tooloracle.io/
+- type: Website
+  name: FeedOracle (sibling brand, same legal entity)
+  url: https://feedoracle.io/
+- type: DeveloperPortal
+  url: https://tooloracle.io/docs/
+- type: Documentation
+  url: https://tooloracle.io/docs/
+- type: APIReference
+  url: https://tooloracle.io/openapi.json
+- type: GettingStarted
+  url: https://tooloracle.io/docs/mcp-auth.html
+- type: Support
+  url: https://feedoracle.io/contact.html
+- type: Blog
+  url: https://tooloracle.io/blog/
+- type: GitHubOrganization
+  url: https://github.com/ToolOracle
+- type: Pricing
+  url: https://tooloracle.io/#pricing
+- type: SignUp
+  url: https://feedoracle.io/console/
+- type: TermsOfService
+  url: https://tooloracle.io/terms.html
+- type: PrivacyPolicy
+  url: https://tooloracle.io/datenschutz.html
+- type: StatusPage
+  url: https://uptime.feedoracle.io/status/feedoracle
+- type: LLMsTxt
+  url: llms/tooloracle-io-llms.txt
+- type: LLMsTxt
+  name: provider-hosted llms.txt
+  url: https://tooloracle.io/llms.txt
+- type: MCPServer
+  url: mcp/tooloracle-io-mcp.yml
+- type: ToolCrosswalk
+  url: mcp/tooloracle-io-tool-crosswalk.yml
+- type: AgentCard
+  url: a2a/tooloracle-io-a2a.yml
+- type: WellKnown
+  url: well-known/tooloracle-io-well-known.yml
+- type: SecurityTxt
+  url: well-known/tooloracle-io-security.txt
+- type: APICatalog
+  url: well-known/tooloracle-io-api-catalog.json
+- type: Authentication
+  url: authentication/tooloracle-io-authentication.yml
+- type: OAuthScopes
+  url: scopes/tooloracle-io-scopes.yml
+- type: Conformance
+  url: conformance/tooloracle-io-conformance.yml
+- type: ErrorCatalog
+  url: errors/tooloracle-io-problem-types.yml
+- type: Lifecycle
+  url: lifecycle/tooloracle-io-lifecycle.yml
+- type: ChangeLog
+  url: changelog/tooloracle-io-changelog.yml
+- type: Conventions
+  url: conventions/tooloracle-io-conventions.yml
+- type: Idempotency
+  url: conventions/tooloracle-io-conventions.yml
+- type: RateLimits
+  url: rate-limits/tooloracle-io-rate-limits.yml
+- type: Plans
+  url: plans/tooloracle-io-plans-pricing.yml
+- type: Sandbox
+  url: sandbox/tooloracle-io-sandbox.yml
+- type: DataModel
+  url: data-model/tooloracle-io-data-model.yml
+- type: Webhooks
+  url: asyncapi/tooloracle-io-webhooks.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: Security
+  url: https://tooloracle.io/responsible-disclosure
+- type: DataSubjectRequest
+  url: https://tooloracle.io/datenschutz.html
+- type: Subprocessors
+  url: https://feedoracle.io/assets/dpa-feedoracle.html
+- type: DataResidency
+  url: https://tooloracle.io/datenschutz.html
+- type: IncidentNotification
+  url: https://feedoracle.io/assets/dpa-feedoracle.html
+- type: AITransparency
+  url: https://tooloracle.io/terms.html
+- type: RegulatoryPosture
+  url: regulatory/tooloracle-io-regulatory-posture.yml
+- type: Packages
+  url: packages/tooloracle-io-packages.yml
+x-enrichment:
+  date: '2026-09-19'
+  status: enriched
+  artifacts_added: 62
+  pass: local-v3

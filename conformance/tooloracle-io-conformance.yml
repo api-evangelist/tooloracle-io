@@ -1,0 +1,127 @@
+generated: '2026-09-19'
+method: searched
+source: >-
+  Live discovery documents on tooloracle.io and feedoracle.io (well-known/), the three saved OpenAPIs (openapi/_original/),
+  the live MCP tools/list capture (mcp/tooloracle-io-tools.json), the A2A card (a2a/), observed HTTP responses
+  (live 402 challenge on POST /v2/cve_lookup, initialize on /mcp/), and the provider's own docs
+  (https://tooloracle.io/docs/402-protocol, /docs/mcp-auth.html, /docs/x402-buyer-quickstart/, https://feedoracle.io/docs/versioning.html).
+  Every `conforms: true` below points at a document or response that was actually fetched; nothing is asserted from marketing copy.
+standards:
+- id: oauth2
+  conforms: true
+  evidence: >-
+    RFC 8414 authorization-server metadata served at https://tooloracle.io/.well-known/oauth-authorization-server (issuer
+    https://feedoracle.io, delegated) and https://feedoracle.io/.well-known/oauth-authorization-server: authorization_code +
+    refresh_token + client_credentials grants, PKCE S256 only, client_secret_post/basic, revocation_endpoint. Saved to well-known/.
+- id: oauth2-dynamic-client-registration
+  conforms: true
+  evidence: registration_endpoint https://feedoracle.io/mcp/register declared in both RFC 8414 documents; llms.txt documents the RFC 7591 one-call register -> client_credentials token flow.
+- id: rfc9728-protected-resource-metadata
+  conforms: true
+  evidence: >-
+    https://tooloracle.io/.well-known/oauth-protected-resource (resource https://tooloracle.io, authorization_servers
+    [https://feedoracle.io], bearer_methods_supported [header], scopes_supported 4) and the feedoracle.io twin. NOT served on
+    api.feedoracle.io or mcp.feedoracle.io (404) — see well-known/ index.
+- id: oidc
+  conforms: partial
+  evidence: >-
+    https://feedoracle.io/.well-known/openid-configuration serves OIDC discovery (openid scope, id_token_signing_alg_values_supported
+    [ES256K], subject_types public, claims sub/iss/iat/exp/scope) but declares no userinfo_endpoint and is served as
+    application/octet-stream; tooloracle.io returns 404 for the same path.
+- id: rfc9116-security-txt
+  conforms: true
+  evidence: https://tooloracle.io/.well-known/security.txt (Contact, Expires 2027-04-26, Policy, Acknowledgments, Canonical, Preferred-Languages) and https://feedoracle.io/.well-known/security.txt (Expires 2027-01-01, Policy https://feedoracle.io/security — which 404s).
+- id: rfc9727-api-catalog
+  conforms: true
+  evidence: https://tooloracle.io/.well-known/api-catalog and https://feedoracle.io/.well-known/api-catalog return application/linkset+json with service-desc / service-doc / service-meta relations for both anchors.
+- id: rfc7517-jwks
+  conforms: true
+  evidence: https://tooloracle.io/.well-known/jwks.json and https://feedoracle.io/.well-known/jwks.json (EC secp256k1 keys, kid tooloracle-issuer-keys-1); a separate Ed25519 set at https://feedoracle.io/.well-known/nomos-execution-jwks.json for paid-route execution receipts.
+- id: rfc7515-jws-es256k-signed-responses
+  conforms: partial
+  evidence: >-
+    verification-policy.json and the agent card state signing is "available where supported — not every response is signed";
+    three TrustOracle tools (get_signed_fact, verify_signature, evidence_anchor) carry "WITHDRAWN (2026-08-09)" descriptions
+    saying they perform no cryptographic verification. The provider is unusually candid that signing is partial.
+- id: a2a-0.3.0
+  conforms: true
+  evidence: Agent card graded conformant in a2a/tooloracle-io-a2a.yml; JSON-RPC endpoint https://tooloracle.io/a2a/jsonrpc lists the 0.3 method set including tasks/pushNotificationConfig/*.
+- id: mcp-2025-03-26
+  conforms: true
+  evidence: >-
+    initialize on https://tooloracle.io/mcp/ returned protocolVersion 2025-03-26 (serverInfo RankOracle 1.2.0); on
+    https://tooloracle.io/uvo/mcp/ it returned 2025-03-26 with an Mcp-Session-Id (uvo-action-gate 1.27.1). tools/list answered on 92 endpoints.
+- id: mcp-registry-server-json
+  conforms: true
+  evidence: 61 io.tooloracle/* entries in registry.modelcontextprotocol.io (mcp/tooloracle-io-mcp-registry.json); https://feedoracle.io/.well-known/mcp/server.json uses the 2025-09-16 server.schema.json.
+- id: x402-v2
+  conforms: true
+  evidence: >-
+    Live unpaid POST https://tooloracle.io/v2/cve_lookup returned HTTP 402 with a base64 PAYMENT-REQUIRED header decoding to
+    {x402Version 2, accepts[{scheme exact, network eip155:8453, amount 5000, asset USDC 0x8335…, payTo 0x11f5…, maxTimeoutSeconds 300}],
+    extensions.bazaar…}; manifest at /.well-known/x402; facilitator https://api.cdp.coinbase.com/platform/v2/x402. Legacy v1 routes
+    (/x402/{product}/mcp/) answer 402 with X-PAYMENT tx-hash semantics and www-authenticate: x402.
+- id: rfc9457-problem-details
+  conforms: partial
+  evidence: >-
+    The x402 buyer quickstart documents HTTP 500 on /v2 routes as application/problem+json with an instance URN. 400 and 402 use
+    provider-specific JSON ({error, code, message}; X402PaymentRequired) per openapi/_original/tooloracle-io-v2-openapi.json, and
+    nginx 401/404/429 are HTML. Not RFC 9457 across the surface.
+- id: did-core-did-web
+  conforms: true
+  evidence: https://tooloracle.io/.well-known/did.json (did:web:tooloracle.io, controller did:web:feedoracle.io per verification-policy.json); oracles carry did:web:tooloracle.io:<oracle> ids in mcp.json and did:wba ids in handshake routing.
+- id: anp-agent-network-protocol
+  conforms: true
+  evidence: https://tooloracle.io/.well-known/agent-descriptions (application/ld+json), /.well-known/anp-agent.json, and POST /handshake returning an anp:HandshakeResponse JSON-LD document (observed live).
+- id: json-ld
+  conforms: true
+  evidence: agent-descriptions, beacon/index.json, manifest.json and the handshake response carry @context/@type.
+- id: w3c-verifiable-credentials
+  conforms: unverified
+  evidence: quantum_trust_passport describes its output as a W3C Verifiable Credential (mcp/tooloracle-io-tools.json); no VC was fetched, so the shape is not verified.
+- id: openapi-3.0
+  conforms: true
+  evidence: https://tooloracle.io/openapi.json is OpenAPI 3.0.0 (70 operations, no components.schemas, no securitySchemes).
+- id: openapi-3.1
+  conforms: true
+  evidence: https://tooloracle.io/v2/openapi.json (3.1.0, 8 operations, 18 schemas, examples on every operation, x-x402 per operation) and https://feedoracle.io/openapi.json (3.1.0, 227 paths, 3 securitySchemes).
+- id: idempotency
+  conforms: partial
+  evidence: >-
+    POST /economics/api/commit documents 409 "Idempotency conflict — this call_uuid already committed" (openapi.json); x402 v2
+    payments are EIP-3009 authorizations with a nonce (replay-safe at the payment layer); /v2/nomos_full_chain_verification takes a
+    client_nonce. No Idempotency-Key header exists and the MCP tool surface declares none. See conventions/tooloracle-io-conventions.yml.
+- id: pagination
+  conforms: false
+  evidence: No list/cursor/offset parameters in any of the three specs (grep 0 hits for cursor/offset/page/limit in the FeedOracle spec); the surfaces are call/verdict shaped.
+- id: rate-limit-headers
+  conforms: false
+  evidence: No RateLimit-*/X-RateLimit-*/Retry-After header on any captured 200, 402 or 429 response; exhaustion surfaced as an nginx 429 HTML page during probing. See rate-limits/.
+- id: rfc8594-sunset-deprecation-headers
+  conforms: false
+  evidence: No Sunset or Deprecation header observed; deprecation is signalled in-band (JSON-RPC -32601 on /a2a/tasks, "WITHDRAWN" tool descriptions, support_changelog tool).
+domain_standards:
+- id: iso-20022
+  conforms: true
+  scope: ISO20022Oracle (https://tooloracle.io/iso20022/mcp/, 12 tools) and xrpl_iso20022 on XRPLOracle
+  evidence: >-
+    The MCP contract itself declares the message types: validate_message "Validate an ISO 20022 XML message (pacs.008, camt.053,
+    pain.001, etc.) for schema compliance, required fields"; generate_pacs008 "Generate a pacs.008 (FI to FI Customer Credit
+    Transfer) ISO 20022 XML message skeleton"; message_catalog, message_convert_check (MT->MX), check_structured_address (SWIFT/SEPA/CHAPS
+    Nov 2026 deadline), swift_deadlines. Location: mcp/tooloracle-io-tools.json, endpoint https://tooloracle.io/iso20022/mcp/.
+    FeedOracle docs also publish https://feedoracle.io/docs/iso20022-validation.html.
+  note: Contract-declared, so it meets the domain_standard_conformance bar; the tools were not executed, so validation correctness is not asserted.
+- id: iso-24165-dti
+  conforms: true
+  scope: ISO20022Oracle dti_lookup
+  evidence: '"Look up Digital Token Identifier (ISO 24165/DTI) for stablecoins and crypto assets. Returns DTI code, ISIN map…" (mcp/tooloracle-io-tools.json).'
+- id: fatf-travel-rule
+  conforms: unverified
+  evidence: travel_rule_check tool validates originator/beneficiary data requirements; a regulatory rule, not an interoperability schema — recorded for context only.
+domain_context:
+  note: >-
+    DORA, MiCA, AMLR, NIS2, PSD2 and the EU AI Act are the regimes the product produces evidence ABOUT (tool names, skill tags,
+    the 402 route descriptions), not standards the API conforms to; they are deliberately not listed as conformances. No SOC 2,
+    ISO 27001, PCI DSS or comparable certification is published anywhere on either domain (privacy policy says "Regular security
+    audits" without naming one); membership of the Blockchain Bundesverband is an association membership, not a certification —
+    so no Compliance pointer is emitted.

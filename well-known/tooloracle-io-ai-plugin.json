@@ -1,0 +1,12 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "ToolOracle",
+  "name_for_model": "tooloracle",
+  "description_for_human": "x402-enabled MCP platform: compliance, stablecoin, market and XRPL/RLUSD intelligence for agents.",
+  "description_for_model": "ToolOracle / OracleNet MCP platform at https://tooloracle.io (FeedOracle Technologies). Paid routes use x402 (USDC on Base) and return HTTP 402. Featured: POST /v2/xrpl_rlusd_integrity (RLUSD integrity, $0.03 USDC on Base). See openapi for all routes.",
+  "auth": { "type": "none" },
+  "api": { "type": "openapi", "url": "https://tooloracle.io/openapi.json" },
+  "logo_url": "https://tooloracle.io/favicon.ico",
+  "contact_email": "murat@feedoracle.io",
+  "legal_info_url": "https://tooloracle.io/"
+}

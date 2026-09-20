@@ -1,0 +1,69 @@
+generated: '2026-09-19'
+method: searched
+source: >-
+  https://tooloracle.io/openapi.json (info.version 4.2.0, x-changelog), https://tooloracle.io/v2/openapi.json (1.0.0),
+  https://tooloracle.io/llms.txt (v1 controlled paid cutover, v2 suite), https://tooloracle.io/terms.html (§9 availability),
+  https://feedoracle.io/docs/versioning.html, https://feedoracle.io/terms.html (§7 service levels), https://feedoracle.io/status.html
+  -> https://uptime.feedoracle.io/status/feedoracle, live probes of /a2a/tasks and the TrustOracle tools/list, 2026-09-19/20.
+versioning:
+  scheme: path-based route generations plus independent document versions
+  current:
+    tooloracle_mcp_platform_openapi: 4.2.0 (2026-04-28)
+    tooloracle_x402_v2_openapi: 1.0.0
+    agent_card: 5.2.0 (protocolVersion 0.3.0)
+    feedoracle_openapi: 8.4.1+truthrepair.r1
+    mcp_protocol: '2025-03-26'
+  path_generations:
+  - {path: '/v2/*', status: current, note: 'x402 v2 routes; only PAYMENT-SIGNATURE accepted, legacy X-PAYMENT rejected'}
+  - {path: '/x402/{product}/mcp/', status: legacy v1 in controlled paid cutover, note: '5 routes enabled for paid operation; others answer route_not_enabled_for_paid_cutover (llms.txt)'}
+  - {path: '/{oracle}/mcp/', status: current, note: free-tier MCP endpoints}
+  - {path: /a2a/jsonrpc, status: current, note: A2A 0.3 JSON-RPC}
+  - {path: /a2a/tasks, status: deprecated, note: answers JSON-RPC -32601 with data.canonical_endpoint = /a2a/jsonrpc}
+  feedoracle_path_versions:
+    docs: https://feedoracle.io/docs/versioning.html
+    v1: Legacy data feeds — Supported (X-API-Key required)
+    v2: MOAT, Attestations, Reports — Current (public)
+    v3: Disclosure API with attestation — Partial (public preview)
+    note: '"Path versions (v1/v2/v3) and product versions (schema_version) are independent."'
+  header: none (no Stripe-Version-style header; no Accept-version negotiation)
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  mechanism: >-
+    In-band only. Observed signals: (1) the legacy A2A endpoint returns a JSON-RPC -32601 naming the canonical replacement;
+    (2) three TrustOracle tools carry "WITHDRAWN (2026-08-09)" in their descriptions but remain listed, stating they perform no
+    cryptographic verification; (3) SupportOracle exposes a support_changelog tool advertised as "Recent changes, new tools,
+    deprecations, breaking changes. Agents check to adapt." No published deprecation policy page, no notice period, no
+    RFC 8594 headers — so no Deprecation pointer is emitted.
+  notice_period: null
+  withdrawn_operations:
+  - {surface: mcp, endpoint: https://tooloracle.io/trust/mcp/, tool: get_signed_fact, since: '2026-08-09'}
+  - {surface: mcp, endpoint: https://tooloracle.io/trust/mcp/, tool: verify_signature, since: '2026-08-09'}
+  - {surface: mcp, endpoint: https://tooloracle.io/trust/mcp/, tool: evidence_anchor, since: '2026-08-09'}
+  - {surface: a2a, endpoint: https://tooloracle.io/a2a/tasks, replacement: https://tooloracle.io/a2a/jsonrpc}
+deprecated_operations: []
+sla:
+  tooloracle:
+    url: https://tooloracle.io/terms.html
+    public_uptime_target: null
+    statement: '"We aim for high availability but do not guarantee uninterrupted service." (§9); x402_products.status in the agent card: "Best-effort availability; no uptime guarantee."'
+  feedoracle:
+    url: https://feedoracle.io/terms.html
+    public_uptime_target: '99.5% target (Enterprise, as per contract)'
+    statement: '"Starter / Growth / Pro: Best-effort, no SLA. Enterprise: SLA as per contract (99.5% target)." (§7)'
+status_page: https://uptime.feedoracle.io/status/feedoracle
+status_surfaces:
+- {url: https://uptime.feedoracle.io/status/feedoracle, kind: 'Uptime-Kuma style status dashboard (JS-rendered)', reached_via: 'https://feedoracle.io/status.html and /status (301)'}
+- {url: https://tooloracle.io/pulse/, kind: 'live mesh heartbeat page (oracles online, calls today, uptime)'}
+- {url: https://tooloracle.io/.well-known/agent-pulse, kind: 'machine-readable mesh snapshot (servers_online, uptime_pct, per-oracle status)'}
+- {url: https://tooloracle.io/x402/health, kind: gateway health JSON}
+- {url: https://tooloracle.io/a2a/health, kind: A2A health JSON}
+- {url: https://tooloracle.io/economics/api/health, kind: 'mesh-economics health JSON (leaks a server-side db path)'}
+changelog: changelog/tooloracle-io-changelog.yml
+rate_limits: rate-limits/tooloracle-io-rate-limits.yml
+observed_drift:
+  note: >-
+    The discovery documents disagree about the size of the surface (mcp.json 100 servers / 1,096 tools; llms.txt 94 registered / 89
+    online; llms-full.txt 138 servers / 1,692 tools; docs/402-protocol 35 products / 275+ paid tools; live tools/list 92 endpoints /
+    1,178 entries) and at least eleven advertised endpoints were 404/503 on the probe day. Treat every count as a snapshot.

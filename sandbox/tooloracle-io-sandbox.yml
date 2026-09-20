@@ -1,0 +1,38 @@
+generated: '2026-09-19'
+method: searched
+source: https://tooloracle.io/ (soft-handshake demo), https://tooloracle.io/.well-known/pricing.json, https://tooloracle.io/docs/x402-buyer-quickstart/, https://tooloracle.io/llms.txt, https://feedoracle.io/trial/, https://feedoracle.io/console/
+docs:
+- https://tooloracle.io/#soft-handshake
+- https://tooloracle.io/docs/x402-buyer-quickstart/
+- https://feedoracle.io/trial/
+description: >-
+  ToolOracle has no separate sandbox environment, no test-mode keys and no magic test values: production is the only environment,
+  and the provider's answer to "try before you pay" is a free discovery tier on the live mesh plus a quoted-before-executed 402
+  challenge. What IS published is recorded here verbatim; nothing below is a test credential.
+modes:
+- name: live (only mode)
+  note: 'Same hosts, same keys (fo_ prefix), same wallet for free and paid calls. Free tier is separated by tool and tier, not by environment.'
+free_discovery:
+  always_free:
+  - 'POST https://tooloracle.io/handshake — ANP soft handshake, classifies an intent and returns a route (observed live, application/ld+json)'
+  - 'tools/list on ~90 MCP endpoints; free tools: ping, health_check, kya_register, quantum_join, quantum_status, quantum_intent, quantum_route (agent card payment.free_tier)'
+  - 'GET discovery documents (pricing.json tier "discovery": free, auth none)'
+  free_test_server: 'https://tooloracle.io/uvo/mcp/ — "MCP server, ping/list_tools/call free for discovery" (llms.txt); requires an MCP session (initialize) — observed'
+  quote_before_pay: 'any unpaid POST to a priced route returns HTTP 402 with the exact price in PAYMENT-REQUIRED and does NOT execute the tool — a spend quote, observed on /v2/cve_lookup ($0.005) and /x402/flight/mcp/ ($0.02)'
+in_browser_playgrounds:
+- {name: Soft handshake demo, url: https://tooloracle.io/#soft-handshake, note: 'form posts an intent to /handshake and renders the routing recommendation ("Try in browser")'}
+- {name: Signal scanner, url: https://tooloracle.io/scan/, note: 'scans a domain''s agent-discovery surfaces (quantum_scan in the browser)'}
+- {name: FeedOracle Trial Lab, url: https://feedoracle.io/trial/, note: 'DORA + MiCA readiness in 5 minutes — "Kein Login · Keine Kreditkarte · 48h gültig" (no login, no card, valid 48 h); creates a trial entity'}
+- {name: FeedOracle Console, url: https://feedoracle.io/console/, note: 'Register Free — 500 units welcome bonus; wallet, usage, API keys'}
+offline_fixtures:
+  x402_buyer_quickstart:
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+    files: [package.json, buyer_quickstart.mjs, receipt_verify.mjs, env.example, test/offline_compat_test.mjs, README.md]
+    offline_test: '"npm test" runs a 21-test offline self-test suite — no network, no payment, no key needed'
+    cheapest_live_purchase: 'POST /v2/nomos_full_chain_verification at 1000 atomic = 0.001 USDC, hard client-side ceiling, exactly one paid retry'
+    verifier: 'receipt_verify.mjs checks the Ed25519 execution receipt against https://feedoracle.io/.well-known/nomos-execution-jwks.json'
+welcome_credits:
+  api_key: '500 units on kya_register / console registration (docs/mcp-auth.html, console)'
+  x402_wallet: 'homepage says 5 free units on first x402 request; llms.txt says 0 under the v1 cutover — conflicting'
+test_values: none published
+time_simulation: none

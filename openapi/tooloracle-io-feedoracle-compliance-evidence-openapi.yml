@@ -1,0 +1,4593 @@
+# Faithful YAML rendering of the provider-published spec saved verbatim at openapi/_original/tooloracle-io-feedoracle-openapi.json
+# generated: 2026-09-19  method: searched  (content unchanged; only the serialization differs)
+openapi: 3.1.0
+info:
+  title: FeedOracle Compliance Evidence API
+  version: 8.4.1+truthrepair.r1
+  description: 'FeedOracle Compliance Evidence Infrastructure — 44 MCP servers, 590+ evidence tools across 17 data sources. DORA, MiCA, AMLR and CSRD compliance evidence APIs. ES256K-signed responses, blockchain-anchored. Canonical metrics: https://feedoracle.io/data/feedoracle-metrics.json.'
+  contact:
+    email: support@feedoracle.io
+    url: https://feedoracle.io/contact.html
+  license:
+    name: Proprietary
+  termsOfService: https://feedoracle.io/terms.html
+servers:
+- url: https://api.feedoracle.io
+  description: Production
+security: []
+tags:
+- name: Verified Reports
+  description: Generate, download, and verify cryptographically signed PDF evidence reports. Each report is hashed (SHA-256), signed (ECDSA secp256k1), and anchored on XRPL blockchain.
+- name: Health
+  description: System health endpoints (Public)
+- name: Disclosure
+  description: v3 Sustainability disclosure (Public)
+- name: L2
+  description: Layer 2 fee oracle (Public)
+- name: Attestation
+  description: DAP attestation (Public)
+- name: MOAT
+- name: RLUSD
+  description: RLUSD stablecoin transparency (Public)
+- name: Legacy
+  description: Merkle Oracle verification (Public)
+- name: Carbon
+  description: Carbon data (Key required)
+- name: Macro
+  description: Macro economic (Key required)
+- name: Trading
+  description: Trading signals (Key required)
+- name: XRP
+  description: XRP/RLUSD feeds (Key required)
+- name: RWA
+  description: Real World Assets (Key required)
+- name: Agents
+  description: AI Agent feeds (Key required)
+- name: Knowledge
+  description: Knowledge base (Key required)
+- name: SupplyChain
+  description: Supply chain tracking (Key required)
+- name: Reports
+  description: PDF reports (Pro+ tier)
+- name: GeoIP
+  description: Geo location (Key required)
+- name: Payment
+  description: Billing (Internal)
+- name: Integrity Suite
+  description: Cross-source validation, baselines, and verifiable credentials
+- name: RWA Risk Scoring
+  description: Multi-vector risk scores with letter grades (A-F) for 60+ tokenized asset protocols
+- name: RWA Registry
+  description: Token metadata, issuer details, underlying asset classification (LEI, ISIN)
+- name: RWA Compliance
+  description: Jurisdiction access, sanctions screening, MiCA/DORA/GENIUS status
+- name: RWA Legal State
+  description: Contract powers, transfer finality, dispute resolution
+- name: RWA Oracle Feeds
+  description: Multi-source consensus price feeds with disagreement detection
+- name: RWA Liquidity
+  description: On-chain DEX liquidity depth and volume analysis
+- name: RWA On-Chain
+  description: Smart contract transparency and activity verification
+- name: RWA ESG
+  description: Chain-weighted carbon footprint scoring
+- name: RWA Events
+  description: Risk events, governance changes, anomaly alerts
+- name: RWA History
+  description: Historical score tracking and trend analysis
+- name: RWA Alerts
+  description: Webhook subscriptions for real-time notifications
+- name: RWA Redemption
+  description: Time-to-Cash / institutional liquidity profiles (settlement, gates, fees)
+- name: RWA Documents
+  description: Compliance document registry with source URLs and integrity hashes
+- name: MiCA Compliance
+  description: MiCA regulatory compliance evidence (Art. 22-58) for stablecoins and token issuers
+- name: Stablecoin
+  description: Stablecoin analytics covering 105+ coins — peg health, reserves, MiCA classification
+- name: Macro Oracle
+  description: US macro-economic data from FRED — health index, inflation, GDP, fed rates, yield curve
+- name: RWA Risk
+  description: RWA protocol risk intelligence across 9 dimensions for 60+ protocols
+- name: Evidence
+  description: Cryptographically signed evidence infrastructure
+- name: DORA
+  description: DORA ICT risk and resilience compliance data
+- name: CSRD
+  description: CSRD/ESG sustainability reporting data
+- name: ESMA
+  description: ESMA CASP register and regulatory status data
+- name: AI Gateway
+- name: Enterprise Trust Layer
+- name: Agent Trust Management
+- name: MCP Auth
+- name: MCP Transport
+- name: USDC Payment
+- name: Billing
+- name: Signature Verification
+- name: Discovery
+- name: Verification
+- name: KYA - Know Your Agent
+- name: Audit Trail
+- name: Market Risk
+- name: Trust
+- name: Wallet
+  description: Unit-based billing — check balance, view packages, purchase units via Stripe
+- name: AgentGuard
+  description: 'Runtime agent security & governance. 20 tools across 4 layers: pre-execution, payload security, governance, post-execution. Agent state machine with automatic escalation.'
+- name: DORA Ampel
+  description: 'DORA traffic-light compliance system — 49 tools, 26 articles, 39 checks, 67 controls, 6 entities. Closed-loop: Control→Finding→Owner→ReTest→Close. Escalation, What-if, Board-View, Dependency Graph, Evidence Packs.'
+- name: MiCA Ampel
+  description: MiCA stablecoin compliance monitoring — 24 tools, 17 tokens, 13 issuers
+- name: AML Oracle
+  description: Anti-money laundering and sanctions screening — 12 tools, 87k+ watchlist entries
+- name: ResearchOracle
+  description: Scientific research intelligence — 200M+ papers, compliance topics
+- name: EULawOracle
+  description: EU financial regulation intelligence — 12 regulations, article lookup, cross-references, deadlines
+- name: RegWatchOracle
+  description: Regulatory watch — US Federal Register + EU regulatory feeds
+- name: ESMAOracle
+  description: Official ESMA MiCA register — CASPs, non-compliant entities, white papers
+- name: MacroOracle
+  description: Macro economic intelligence — ECB + FRED + BLS + World Bank
+- name: LawOracle
+  description: 'Multi-jurisdiction legal intelligence MCP server. 20 tools, 9 data sources, 4 jurisdictions (US, EU, UK, DE). Obligation mapping, article extraction, DORA OS bridge. Endpoint: https://tooloracle.io/law/mcp'
+- name: TestOracle
+  description: DORA Art. 24-27 resilience testing MCP server. 16 tools, 12 scenarios, TLPT tracking, AmpelOracle sync.
+- name: ReportingOracle
+  description: DORA NCA reporting MCP server. 14 tools, incident reports, RoI export, TLPT results, annual reports.
+- name: CloudOracle
+  description: 'DORA cloud monitoring: live AWS/GCP/Azure status, concentration risk, CTPP check.'
+- name: TrainingOracle
+  description: DORA ICT security awareness and training. 13 tools, 7 programmes, phishing simulation.
+- name: PolicyOracle
+  description: DORA ICT policy lifecycle. 12 tools, 12 RTS-required policies, gap check, version control.
+- name: DORA OS Conductor
+  description: Multi-agent orchestrator. 16 tools coordinating all 16 DORA OS oracles. Workflows, event reactions, board briefings, remediation planning.
+- name: DriftOracle
+  description: Self-healing compliance drift detection. Regulatory changes, evidence staleness, cloud drift, auto-remediation.
+- name: EventFabric
+  description: Real-time event processing. Webhook receiver, 12 routing rules, auto-dispatch to Conductor.
+- name: PredictOracle
+  description: Predictive risk engine. Score trajectories, evidence decay, early warnings, what-if scenarios.
+- name: ZKEvidenceOracle
+  description: Zero-knowledge evidence layer. Privacy-preserving proofs, merkle trees, verifiable credentials, selective disclosure.
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Required for v1 data endpoints. Get at /pricing.html
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 Bearer token from POST /mcp/token
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: FeedOracle OAuth 2.1 Bearer token. Obtain via /mcp/register (Dynamic Client Registration, RFC 7591).
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+    MetaEnvelope:
+      type: object
+      properties:
+        api_version:
+          type: string
+        dataset_version:
+          type: string
+        schema_version:
+          type: string
+    RlusdStatusEnvelope:
+      type: object
+      properties:
+        service:
+          type: string
+        meta:
+          $ref: '#/components/schemas/MetaEnvelope'
+        data:
+          type: object
+        warnings:
+          type: array
+          items:
+            type: string
+    RlusdCciCompact:
+      type: object
+      properties:
+        cci_score:
+          type: number
+        grade:
+          type: string
+        components:
+          type: object
+        penalty_log:
+          type: object
+        timestamp:
+          type: string
+    RlusdCciDetailed:
+      type: object
+      properties:
+        cci_score:
+          type: number
+        grade:
+          type: string
+        subscores:
+          type: object
+        weights:
+          type: object
+        timestamp:
+          type: string
+    RlusdEvidencePack:
+      type: object
+      properties:
+        as_of:
+          type: string
+        guard:
+          type: object
+        circuit_breaker:
+          type: object
+        integrity_proof:
+          type: object
+        disclaimer:
+          type: object
+    RlusdHoldersResponse:
+      type: object
+      properties:
+        chains:
+          type: object
+        total_holders:
+          type: integer
+        timestamp:
+          type: string
+    LegacyCircuitStatus:
+      type: object
+      properties:
+        status:
+          type: string
+        action:
+          type: string
+        checks:
+          type: object
+        timestamp:
+          type: string
+    LegacyHealth:
+      type: object
+      properties:
+        status:
+          type: string
+        service:
+          type: string
+    LegacyZkStatus:
+      type: object
+      properties:
+        circuit:
+          type: string
+        runtime_version:
+          type: string
+        status:
+          type: string
+    LegacyZkAttestationLatest:
+      type: object
+      properties:
+        tx_hash:
+          type: string
+        contract:
+          type: string
+        chain_id:
+          type: integer
+        min_ratio_bps:
+          type: integer
+        threshold_passed:
+          type: boolean
+    RlusdSupplyBreakdown:
+      type: object
+      properties:
+        service:
+          type: string
+        data:
+          type: object
+    RlusdPegQuality:
+      type: object
+      properties:
+        service:
+          type: string
+        data:
+          type: object
+    RlusdWebhookCatalog:
+      type: object
+      properties:
+        events:
+          type: array
+        catalog:
+          type: object
+    RlusdVerifyResponse:
+      type: object
+      properties:
+        valid:
+          type: boolean
+    RWAEvidence:
+      type: object
+      description: Response evidence envelope, contract v1.2. payload_hash is genuine and recomputable without any key. The legacy ES256K body signature is NOT produced and is NOT verifiable - it is reported with an explicit status instead of being advertised. Canonical execution and response-hash evidence is the Ed25519 execution receipt referenced by the x-nomos-receipt-url response header.
+      properties:
+        manifest_id:
+          type: string
+          example: RWA-94607EEB
+        payload_hash:
+          type: object
+          description: sha256 over this response with the 'evidence' member removed, JSON encoded with sorted keys and compact separators. Needs no key and no external service.
+          properties:
+            alg:
+              type: string
+              example: SHA-256
+            hex:
+              type: string
+        signature:
+          type: object
+          description: Legacy ES256K body signature. Currently never produced; treat as absent, never as verified.
+          properties:
+            alg:
+              type: string
+              example: ES256K
+            hex:
+              type: string
+              example: ''
+              description: Empty while status is UNAVAILABLE.
+            kid:
+              type:
+              - string
+              - 'null'
+              example: null
+              description: null while no signature exists - a key id names the key that signed, and with no signature it names nothing.
+            status:
+              type: string
+              enum:
+              - UNAVAILABLE
+              - UNVERIFIABLE_NO_PUBLISHED_JWKS
+              - ACTIVE
+              example: UNAVAILABLE
+        verification:
+          type: object
+          description: Verification surface for the legacy ES256K signature above.
+          properties:
+            jwks_url:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: null
+              description: null. The URL formerly advertised here returned 404 and no reachable JWKS publishes the legacy kid.
+            verifier_kit:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: null
+              description: null. The URL formerly advertised here answered 200 with valid:false - an alive-looking surface that verifies nothing.
+            status:
+              type: string
+              enum:
+              - OUT_OF_CONTRACT
+              - ACTIVE
+              example: OUT_OF_CONTRACT
+            reason:
+              type: string
+            self_check:
+              type: string
+              description: How to recompute payload_hash yourself.
+            canonical_execution_evidence:
+              type: object
+              description: Pointer to the evidence that IS verifiable. Ed25519/EdDSA - a different algorithm and a different key than the ES256K field above, and not a replacement JWKS for it.
+              properties:
+                note:
+                  type: string
+                receipt_url_header:
+                  type: string
+                  example: x-nomos-receipt-url
+                receipt_signature_alg:
+                  type: string
+                  example: EdDSA
+                receipt_jwks_url:
+                  type: string
+                  format: uri
+                  example: https://feedoracle.io/.well-known/nomos-execution-jwks.json
+        signature_scope:
+          type: object
+          properties:
+            signed:
+              type: string
+              example: payload_hash.hex
+            payload_excludes:
+              type: array
+              items:
+                type: string
+            canonicalization:
+              type: string
+              example: JSON_canonical_sorted
+        evidence_contract:
+          type: string
+          example: nomos.rwa.evidence.v1.2
+    RWARiskVectors:
+      type: object
+      description: 9-dimensional risk breakdown (0-100 each)
+      properties:
+        tvl_weight:
+          type: integer
+        yield_spread:
+          type: integer
+        diversification:
+          type: integer
+        maturity:
+          type: integer
+        regulatory:
+          type: integer
+        institutional:
+          type: integer
+        dex_liquidity:
+          type: integer
+        onchain_transparency:
+          type: integer
+        esg_carbon:
+          type: integer
+    RWAReasonCode:
+      type: object
+      properties:
+        vector:
+          type: string
+          example: tvl_weight
+        impact:
+          type: string
+          enum:
+          - positive
+          - negative
+        text:
+          type: string
+          example: Strong TVL indicates institutional confidence
+    RWAStablecoinDetail:
+      type: object
+      description: Enhanced fields for regulated_stablecoin assets
+      properties:
+        issuer:
+          type: string
+          example: Ripple
+        custodian:
+          type: string
+        auditor:
+          type: string
+          example: BPM LLP (CPA-attested)
+        peg:
+          type: object
+          properties:
+            target:
+              type: number
+              example: 1.0
+            current:
+              type: number
+            deviation:
+              type: number
+        reserves:
+          type: object
+          properties:
+            ratio:
+              type: number
+              example: 1.042
+            value_usd:
+              type: number
+            outstanding:
+              type: number
+            report_month:
+              type: string
+        compliance:
+          type: object
+          properties:
+            mica:
+              type: string
+            genius:
+              type: string
+        anchoring:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: 1888
+            polygon:
+              type: integer
+            xrpl:
+              type: integer
+        supply:
+          type: object
+          properties:
+            total:
+              type: number
+            chains:
+              type: object
+            change_24h:
+              type: number
+    RWAXrplDetail:
+      type: object
+      description: Enhanced fields for XRPL native assets
+      properties:
+        network:
+          type: object
+          properties:
+            ledger_index:
+              type: integer
+            server_state:
+              type: string
+            peers:
+              type: integer
+        xrp_market:
+          type: object
+          properties:
+            price_usd:
+              type: number
+            change_24h:
+              type: number
+            volume_24h:
+              type: number
+        whale_flows:
+          type: object
+          properties:
+            sentiment:
+              type: string
+              enum:
+              - bullish
+              - bearish
+              - neutral
+            net_flow_24h_xrp:
+              type: number
+        rwa_ecosystem:
+          type: object
+          properties:
+            custody_aum:
+              type: number
+            rlusd_supply:
+              type: number
+            tokenized_assets:
+              type: number
+    RWAProtocolRisk:
+      type: object
+      properties:
+        slug:
+          type: string
+          example: rlusd
+        protocol:
+          type: string
+          example: Ripple RLUSD
+        type:
+          type: string
+          enum:
+          - regulated_stablecoin
+          - treasury
+          - commodity
+          - credit
+          - synthetic
+          - real_estate
+          - equities
+          - insurance
+          - xrpl_infrastructure
+          - xrpl_custody
+          - xrpl_tokenization
+        risk_score:
+          type: integer
+          minimum: 0
+          maximum: 100
+          example: 89
+        risk_grade:
+          type: string
+          enum:
+          - A
+          - B
+          - C
+          - D
+          - F
+        tvl_usd:
+          type: number
+        risk_vectors:
+          $ref: '#/components/schemas/RWARiskVectors'
+        reason_codes:
+          type: object
+          properties:
+            codes:
+              type: array
+              items:
+                $ref: '#/components/schemas/RWAReasonCode'
+            summary:
+              type: string
+        chains:
+          type: object
+        stablecoin_detail:
+          $ref: '#/components/schemas/RWAStablecoinDetail'
+        xrpl_detail:
+          $ref: '#/components/schemas/RWAXrplDetail'
+    RWAWebhookEvent:
+      type: object
+      description: Payload sent to webhook endpoint
+      properties:
+        event:
+          type: string
+          enum:
+          - grade_change
+          - score_threshold
+          - anomaly_detected
+          - peg_deviation
+          - tvl_drop
+        timestamp:
+          type: string
+          format: date-time
+        protocol:
+          type: object
+          properties:
+            slug:
+              type: string
+            name:
+              type: string
+        previous:
+          type: object
+          properties:
+            score:
+              type: integer
+            grade:
+              type: string
+        current:
+          type: object
+          properties:
+            score:
+              type: integer
+            grade:
+              type: string
+        reason_codes:
+          type: array
+          items:
+            $ref: '#/components/schemas/RWAReasonCode'
+        evidence:
+          type: object
+          properties:
+            signature:
+              type: string
+            manifest_id:
+              type: string
+    RWARedemptionProfile:
+      type: object
+      description: Institutional liquidity profile - how fast can you exit to cash?
+      properties:
+        primary_exit:
+          type: string
+          enum:
+          - ISSUER_DIRECT
+          - DEX_ONLY
+          - HYBRID
+          - OTC
+          - NONE
+          description: Primary redemption channel
+        settlement_time:
+          type: string
+          enum:
+          - T+0
+          - T+1
+          - T+2_BUSINESS_DAYS
+          - T+3_BUSINESS_DAYS
+          - VARIABLE
+          - LOCK_PERIOD
+          example: T+0
+        settlement_days_max:
+          type: integer
+          description: Maximum calendar days to settlement
+        redemption_frequency:
+          type: string
+          enum:
+          - ON_DEMAND
+          - DAILY
+          - WEEKLY
+          - MONTHLY
+          - AT_MATURITY
+        notice_period_days:
+          type: integer
+        minimum_redemption_usd:
+          type: number
+          nullable: true
+          example: 100000
+        maximum_daily_redemption_usd:
+          type: number
+          nullable: true
+        fees:
+          type: object
+          nullable: true
+          properties:
+            type:
+              type: string
+              example: bps
+            value:
+              type: number
+              example: 0
+        gates:
+          type: object
+          properties:
+            withdrawal_gate:
+              type: boolean
+              description: Can issuer halt redemptions?
+            suspension_rights:
+              type: boolean
+            conditions:
+              type: string
+              nullable: true
+              description: Under what conditions gates activate
+        kyc_required:
+          type: boolean
+        redemption_currency:
+          type: string
+          example: USD
+        nav_frequency:
+          type: string
+          enum:
+          - REAL_TIME
+          - DAILY
+          - WEEKLY
+          - MONTHLY
+        liquidity_latency_score:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: 'Composite score (0-100): higher = faster exit to cash'
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Data confidence level
+        source:
+          type: string
+        last_verified:
+          type: string
+          format: date
+    RWADocument:
+      type: object
+      description: Compliance/audit document reference with integrity hash
+      properties:
+        category:
+          type: string
+          enum:
+          - attestation
+          - audit
+          - prospectus
+          - legal
+          - whitepaper
+          - factsheet
+          - regulatory
+        title:
+          type: string
+          example: Monthly Attestation Report
+        url:
+          type: string
+          format: uri
+          description: Source URL (issuer/regulator/auditor hosted)
+        issuer:
+          type: string
+          description: Document publisher
+        date:
+          type: string
+          format: date
+        hash_sha256:
+          type: string
+          nullable: true
+          description: SHA-256 for integrity verification
+        format:
+          type: string
+          enum:
+          - pdf
+          - html
+          - json
+        regulatory_relevance:
+          type: string
+          nullable: true
+          enum:
+          - MiCA
+          - DORA
+          - SEC
+          - NYDFS
+          - null
+    NomosExecutionReceipt:
+      type: object
+      description: Ed25519-signed execution receipt. Canonical response-hash evidence.
+      properties:
+        schema:
+          type: string
+        receipt:
+          type: object
+          description: Receipt core. Verify by recomputing the digest over the canonical core (JSON, sorted keys, compact separators) and checking the signature over b'nomos.execution.receipt.v1' + 0x00 + canonical(core).
+          properties:
+            execution_id:
+              type: string
+            request_id:
+              type: string
+            consumer_id:
+              type: string
+            route:
+              type: string
+            method:
+              type: string
+            state:
+              type: string
+              example: EXECUTION_COMPLETED
+            backend:
+              type: object
+              properties:
+                response_sha256:
+                  type: string
+                  description: Signed hash of the delivered response body. Compare against your own hash of the bytes you received and against x-content-hash.
+        receipt_digest:
+          type: string
+        signature:
+          type: object
+          properties:
+            alg:
+              type: string
+              example: EdDSA
+            kid:
+              type: string
+              example: exr1_40c4bc9a9f61988b
+            value:
+              type: string
+        signature_state:
+          type: string
+          example: SIGNED
+    NomosExecutionJwks:
+      type: object
+      properties:
+        keys:
+          type: array
+          items:
+            type: object
+            properties:
+              kty:
+                type: string
+                example: OKP
+              crv:
+                type: string
+                example: Ed25519
+              alg:
+                type: string
+                example: EdDSA
+              use:
+                type: string
+                example: sig
+              kid:
+                type: string
+                example: exr1_40c4bc9a9f61988b
+              x:
+                type: string
+                description: base64url of the 32-byte PUBLIC key
+paths:
+  /api/v1/feeds/health:
+    get:
+      tags:
+      - Health
+      operationId: getFeedsHealth
+      summary: Feed API health
+      responses:
+        '200':
+          description: Feed service status
+      security:
+      - ApiKeyAuth: []
+      description: 'Requires an API key (X-API-Key header). Corrected 2026-08-16: previously published as public.'
+  /api/v1/feeds/health-carbon:
+    get:
+      tags:
+      - Health
+      operationId: getCarbonHealth
+      summary: Carbon feed health
+      responses:
+        '200':
+          description: Carbon service status
+      security:
+      - ApiKeyAuth: []
+      description: 'Requires an API key (X-API-Key header). Corrected 2026-08-16: previously published as public.'
+  /api/v1/macro/health:
+    get:
+      tags:
+      - Macro Core
+      operationId: getMacroHealth
+      summary: 'Macro: Economic Health Index 0-100, status: EXPANSION/STABLE/CAUTION/CONTRACTION'
+      description: 'Economic Health Index 0-100, status: EXPANSION/STABLE/CAUTION/CONTRACTION'
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v3/disclosure/networks:
+    get:
+      tags:
+      - Disclosure
+      operationId: getDisclosureNetworks
+      summary: All networks with sustainability disclosure
+      description: Networks with attestation for MiCA/CSRD
+      responses:
+        '200':
+          description: Disclosure data with disclosure_support, attestation, legal, temporal keys
+        '429':
+          description: Rate limited
+  /api/v3/disclosure/sustainability/{symbol}:
+    get:
+      tags:
+      - Disclosure
+      operationId: getDisclosureSustainability
+      summary: Single network sustainability report
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Full sustainability report
+        '404':
+          description: Network not found
+  /api/v2/l2/cheapest:
+    get:
+      tags:
+      - L2
+      operationId: getL2Cheapest
+      summary: Get cheapest healthy L2 chain
+      description: Returns recommended L2 with full ranking by gas cost
+      responses:
+        '200':
+          description: L2 ranking with gas prices in USD
+  /api/v2/l2/health:
+    get:
+      tags:
+      - L2
+      operationId: getL2Health
+      summary: L2 sequencer health status
+      description: Health for 8 L2 chains (ARB, OP, BASE, etc.)
+      responses:
+        '200':
+          description: Health status array
+  /api/v2/l2/all:
+    get:
+      tags:
+      - L2
+      operationId: getL2All
+      summary: All L2 chain data
+      responses:
+        '200':
+          description: Complete L2 data for all chains
+  /api/v2/l2/status/{chain}:
+    get:
+      tags:
+      - L2
+      operationId: getL2Status
+      summary: Single L2 chain status
+      parameters:
+      - name: chain
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Chain details
+        '404':
+          description: Chain not found
+  /api/v2/attestation/status:
+    get:
+      tags:
+      - Attestation
+      operationId: getAttestationStatus
+      summary: DAP system status
+      description: Returns merkle root and multi-chain anchor status
+      responses:
+        '200':
+          description: DAP operational status
+  /api/v2/attestation/chains:
+    get:
+      tags:
+      - Attestation
+      operationId: getAttestationChains
+      summary: Multi-chain anchor status
+      description: Anchor status on ETH, Polygon, Arbitrum, Base
+      responses:
+        '200':
+          description: Chain anchors with tx hashes
+  /api/v2/attestation/activity:
+    get:
+      tags:
+      - Attestation
+      operationId: getAttestationActivity
+      summary: Recent anchor activity
+      responses:
+        '200':
+          description: Activity log with timestamps
+  /api/v2/attestation/verify/{aid}:
+    get:
+      tags:
+      - Attestation
+      operationId: verifyAttestation
+      summary: Verify attestation by ID
+      parameters:
+      - name: aid
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Attestation ID (dap_*)
+      responses:
+        '200':
+          description: Verification result with merkle proof
+        '404':
+          description: Attestation not found
+  /api/v1/feeds/carbon/chains:
+    get:
+      tags:
+      - Carbon
+      operationId: getCarbonChains
+      summary: Carbon data for all 49 blockchain networks
+      description: Includes CO2, energy, consensus type, carbon score
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Carbon array with 49 chains
+        '401':
+          description: Missing or invalid X-API-Key
+  /api/v1/feeds/carbon/summary:
+    get:
+      tags:
+      - Carbon
+      operationId: getCarbonSummary
+      summary: Carbon summary statistics
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Aggregated carbon stats
+        '401':
+          description: Unauthorized
+  /api/v1/carbon/chains:
+    get:
+      tags:
+      - Carbon
+      operationId: getCarbonChainsAlt
+      summary: Carbon data for 50+ blockchains (public)
+      security: []
+      responses:
+        '200':
+          description: Carbon data
+        '401':
+          description: Unauthorized
+  /api/v1/carbon/summary:
+    get:
+      tags:
+      - Carbon
+      operationId: getCarbonSummaryAlt
+      summary: Carbon summary (alternate path)
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Summary stats
+        '401':
+          description: Unauthorized
+  /api/v1/carbon/mica/{symbol}:
+    get:
+      tags:
+      - Carbon
+      operationId: getCarbonMica
+      summary: MiCA-formatted carbon data
+      description: Article 66 compliant format
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: MiCA format data
+        '401':
+          description: Unauthorized
+  /api/v1/macro/all:
+    get:
+      tags:
+      - Macro Core
+      operationId: getMacroAll
+      summary: 'Macro: All core indicators combined'
+      description: All core indicators combined
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/fed:
+    get:
+      tags:
+      - Macro Core
+      operationId: getMacroFed
+      summary: 'Macro: Fed Funds Rate, FOMC calendar, rate outlook, last change'
+      description: Fed Funds Rate, FOMC calendar, rate outlook, last change
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/inflation:
+    get:
+      tags:
+      - Macro Core
+      operationId: getMacroInflation
+      summary: 'Macro: CPI YoY, Core CPI, PCE, MoM change, target deviation'
+      description: CPI YoY, Core CPI, PCE, MoM change, target deviation
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/yields:
+    get:
+      tags:
+      - Macro Core
+      operationId: getMacroYields
+      summary: 'Macro: Key Treasury yields: 2Y, 10Y, 30Y, 2s10s spread'
+      description: 'Key Treasury yields: 2Y, 10Y, 30Y, 2s10s spread'
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/gdp:
+    get:
+      tags:
+      - Macro Core
+      operationId: getMacroGDP
+      summary: 'Macro: Real GDP growth QoQ annualized, nominal GDP'
+      description: Real GDP growth QoQ annualized, nominal GDP
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/employment:
+    get:
+      tags:
+      - Macro Core
+      operationId: getMacroEmployment
+      summary: 'Macro: Unemployment rate, nonfarm payrolls, labor force participation'
+      description: Unemployment rate, nonfarm payrolls, labor force participation
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/risk:
+    get:
+      tags:
+      - Macro Core
+      operationId: getMacroRisk
+      summary: 'Macro: Recession probability, risk assessment'
+      description: Recession probability, risk assessment
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+        '402':
+          description: Payment Required — API key missing or insufficient units. Returns pricing and registration instructions.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: integer
+                    example: 402
+                  error:
+                    type: string
+                    example: payment_required
+                  protocol:
+                    type: string
+                    example: feedoracle-402
+                  message:
+                    type: string
+                  packages:
+                    type: object
+                  free_tools:
+                    type: array
+                    items:
+                      type: string
+  /api/v1/macro/sentiment:
+    get:
+      tags:
+      - Macro Core
+      operationId: getMacroSentiment
+      summary: 'Macro: Consumer sentiment, Michigan survey'
+      description: Consumer sentiment, Michigan survey
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/proofs:
+    get:
+      tags:
+      - Macro
+      operationId: getMacroProofs
+      summary: Macro data proofs (attestation)
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Verification proofs
+        '401':
+          description: Unauthorized
+  /api/v1/macro/verified/all:
+    get:
+      tags:
+      - Macro
+      operationId: getMacroVerifiedAll
+      summary: All verified macro data
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Verified dataset
+        '401':
+          description: Unauthorized
+  /api/v1/macro/verification-status:
+    get:
+      tags:
+      - Macro
+      operationId: getMacroVerificationStatus
+      summary: Macro verification status
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Verification status
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/trading/radar:
+    get:
+      tags:
+      - Trading
+      operationId: getTradingRadar
+      summary: Trading radar signals
+      description: Real-time trading opportunities
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Radar signals
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/trading/alpha:
+    get:
+      tags:
+      - Trading
+      operationId: getTradingAlpha
+      summary: Alpha signals
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Alpha opportunities
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/trading/bias:
+    get:
+      tags:
+      - Trading
+      operationId: getTradingBias
+      summary: Market bias indicators
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Bias data
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/trading/tokens:
+    get:
+      tags:
+      - Trading
+      operationId: getTradingTokens
+      summary: Tracked tokens list
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Token list
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/trading/asset/{symbol}:
+    get:
+      tags:
+      - Trading
+      operationId: getTradingAsset
+      summary: Single asset trading data
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Asset data
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/rsi:
+    get:
+      tags:
+      - Trading
+      operationId: getRsi
+      summary: RSI indicators
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: RSI data
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/treasury:
+    get:
+      tags:
+      - Trading
+      operationId: getTreasury
+      summary: Treasury data
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Treasury metrics
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/trust/combined:
+    get:
+      tags:
+      - Trading
+      operationId: getTrustCombined
+      summary: Combined trust score
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Trust scores
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/xrp/rlusd:
+    get:
+      tags:
+      - XRP
+      operationId: getXrpRlusd
+      summary: RLUSD stablecoin data
+      description: Ripple USD stablecoin metrics
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: RLUSD data
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/xrp/market:
+    get:
+      tags:
+      - XRP
+      operationId: getXrpMarket
+      summary: XRP market data
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Market data
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/xrp/rwa:
+    get:
+      tags:
+      - XRP
+      operationId: getXrpRwa
+      summary: XRP RWA tokenization data
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: RWA on XRPL
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/xrp/whale:
+    get:
+      tags:
+      - XRP
+      operationId: getXrpWhale
+      summary: XRP whale tracking
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Whale movements
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/xrp/health:
+    get:
+      tags:
+      - XRP
+      operationId: getXrpHealth
+      summary: XRP feed health
+      responses:
+        '200':
+          description: XRP service status
+      security:
+      - ApiKeyAuth: []
+      description: 'Requires an API key (X-API-Key header). Corrected 2026-08-16: previously published as public.'
+  /api/v1/rwa/assets:
+    get:
+      tags:
+      - RWA
+      operationId: getRwaAssets
+      summary: All RWA assets
+      description: Tokenized real world assets
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Asset list
+        '401':
+          description: Unauthorized
+  /api/v1/rwa/assets/{asset_id}:
+    get:
+      tags:
+      - RWA
+      operationId: getRwaAsset
+      summary: Single RWA asset details
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: asset_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Asset details
+        '401':
+          description: Unauthorized
+  /api/v1/rwa/treasuries:
+    get:
+      tags:
+      - RWA
+      operationId: getRwaTreasuries
+      summary: Tokenized treasuries (T-Bills)
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Treasury tokens
+        '401':
+          description: Unauthorized
+  /api/v1/rwa/treasury-trust:
+    get:
+      tags:
+      - RWA
+      operationId: getRwaTreasuryTrust
+      summary: Treasury trust scores
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Trust data
+        '401':
+          description: Unauthorized
+  /api/v1/rwa/redemptions:
+    get:
+      tags:
+      - RWA
+      operationId: getRwaRedemptions
+      summary: RWA redemption data
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Redemption history
+        '401':
+          description: Unauthorized
+  /api/v1/rwa/redemption-stress:
+    get:
+      tags:
+      - RWA
+      operationId: getRwaRedemptionStress
+      summary: Redemption stress test results
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Stress test data
+        '401':
+          description: Unauthorized
+  /api/v1/rwa/classify:
+    get:
+      tags:
+      - RWA
+      operationId: getRwaClassify
+      summary: RWA classification
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Classification
+        '401':
+          description: Unauthorized
+  /api/v1/rwa/status:
+    get:
+      tags:
+      - RWA
+      operationId: getRwaStatus
+      summary: RWA system status
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: System status
+        '401':
+          description: Unauthorized
+  /api/v1/rwa/grant-info:
+    get:
+      tags:
+      - RWA
+      operationId: getRwaGrantInfo
+      summary: RWA grant information
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Grant info
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/agents/ranking:
+    get:
+      tags:
+      - Agents
+      operationId: getAgentsRanking
+      summary: AI agent token ranking
+      description: Rankings for AI agent tokens
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Agent rankings
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/agents/trends:
+    get:
+      tags:
+      - Agents
+      operationId: getAgentsTrends
+      summary: AI agent trends
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Trend data
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/agents/{symbol}:
+    get:
+      tags:
+      - Agents
+      operationId: getAgent
+      summary: Single AI agent data
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Agent data
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/agents/health:
+    get:
+      tags:
+      - Agents
+      operationId: getAgentsHealth
+      summary: Agents feed health
+      responses:
+        '200':
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      description: 'Requires an API key (X-API-Key header). Corrected 2026-08-16: previously published as public.'
+  /api/v1/feeds/knowledge/assets:
+    get:
+      tags:
+      - Knowledge
+      operationId: getKnowledgeAssets
+      summary: Knowledge base assets
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Asset knowledge
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/knowledge/stats:
+    get:
+      tags:
+      - Knowledge
+      operationId: getKnowledgeStats
+      summary: Knowledge statistics
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Stats
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/knowledge/status:
+    get:
+      tags:
+      - Knowledge
+      operationId: getKnowledgeStatus
+      summary: Knowledge system status
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Status
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/knowledge/health:
+    get:
+      tags:
+      - Knowledge
+      operationId: getKnowledgeHealth
+      summary: Knowledge feed health
+      responses:
+        '200':
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      description: 'Requires an API key (X-API-Key header). Corrected 2026-08-16: previously published as public.'
+  /api/v1/feeds/supplychain/status:
+    get:
+      tags:
+      - SupplyChain
+      operationId: getSupplychainStatus
+      summary: Supply chain status
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Status
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/supplychain/stats:
+    get:
+      tags:
+      - SupplyChain
+      operationId: getSupplychainStats
+      summary: Supply chain statistics
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Stats
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/supplychain/carbon:
+    get:
+      tags:
+      - SupplyChain
+      operationId: getSupplychainCarbon
+      summary: Supply chain carbon tracking
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Carbon data
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/supplychain/transfers:
+    get:
+      tags:
+      - SupplyChain
+      operationId: getSupplychainTransfers
+      summary: Supply chain transfers
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Transfer log
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/supplychain/product/{product_id}:
+    get:
+      tags:
+      - SupplyChain
+      operationId: getSupplychainProduct
+      summary: Product tracking
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: product_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Product journey
+        '401':
+          description: Unauthorized
+  /api/v1/feeds/supplychain/health:
+    get:
+      tags:
+      - SupplyChain
+      operationId: getSupplychainHealth
+      summary: Supply chain health
+      responses:
+        '200':
+          description: OK
+      security:
+      - ApiKeyAuth: []
+      description: 'Requires an API key (X-API-Key header). Corrected 2026-08-16: previously published as public.'
+  /api/v2/reports/mica-art66:
+    get:
+      tags:
+      - Reports
+      operationId: getReportMica
+      summary: MiCA Article 66 PDF report
+      description: EU MiCA sustainability disclosure PDF
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: PDF report
+        '401':
+          description: Pro+ tier required
+  /api/v2/reports/csrd-esrs:
+    get:
+      tags:
+      - Reports
+      operationId: getReportCsrd
+      summary: CSRD/ESRS PDF report
+      description: EU CSRD sustainability reporting PDF
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: PDF report
+        '401':
+          description: Pro+ tier required
+  /api/v2/reports/dora-operational:
+    get:
+      tags:
+      - Reports
+      operationId: getReportDora
+      summary: DORA Operational PDF report
+      description: EU DORA operational resilience PDF
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: PDF report
+        '401':
+          description: Pro+ tier required
+  /api/v1/reports/catalog:
+    get:
+      tags:
+      - Reports
+      operationId: getReportsCatalog
+      summary: Available reports catalog
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Report list
+        '401':
+          description: Unauthorized
+  /api/v1/reports/disclosure:
+    get:
+      tags:
+      - Reports
+      operationId: getReportsDisclosure
+      summary: Disclosure report
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Report
+        '401':
+          description: Unauthorized
+  /api/v1/reports/disclosure.json:
+    get:
+      tags:
+      - Reports
+      operationId: getReportsDisclosureJson
+      summary: Disclosure report (JSON)
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: JSON report
+        '401':
+          description: Unauthorized
+  /api/v1/reports/audit-export:
+    get:
+      tags:
+      - Reports
+      operationId: getReportsAuditExport
+      summary: Audit export
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Export data
+        '401':
+          description: Unauthorized
+  /api/v1/events:
+    get:
+      tags:
+      - Health
+      operationId: getEvents
+      summary: System events feed
+      responses:
+        '200':
+          description: Events stream
+  /api/v1/feeds/health/{symbol}:
+    get:
+      tags:
+      - Health
+      operationId: getFeedHealthSymbol
+      summary: Feed health by symbol
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Health status
+      security:
+      - ApiKeyAuth: []
+      description: 'Requires an API key (X-API-Key header). Corrected 2026-08-16: previously published as public.'
+  /api/v3/rlusd/status:
+    get:
+      tags:
+      - RLUSD
+      operationId: getRlusdStatus
+      summary: Service status
+      security: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RlusdStatusEnvelope'
+  /api/v3/rlusd/cci:
+    get:
+      tags:
+      - RLUSD
+      operationId: getCciCompact
+      summary: CCI compact
+      security: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RlusdCciCompact'
+  /api/v3/rlusd/risk/cci:
+    get:
+      tags:
+      - RLUSD
+      operationId: getCciDetailed
+      summary: CCI detailed
+      security: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RlusdCciDetailed'
+  /api/v3/rlusd/supply/breakdown:
+    get:
+      tags:
+      - RLUSD
+      operationId: getSupplyBreakdown
+      summary: Supply by chain
+      security: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RlusdSupplyBreakdown'
+  /api/v3/rlusd/peg/quality:
+    get:
+      tags:
+      - RLUSD
+      operationId: getPegQuality
+      summary: Peg quality
+      security: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RlusdPegQuality'
+  /api/v3/rlusd/evidence/latest:
+    get:
+      tags:
+      - RLUSD
+      operationId: getEvidenceLatest
+      summary: Evidence pack
+      security: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RlusdEvidencePack'
+  /api/v3/rlusd/holders:
+    get:
+      tags:
+      - RLUSD
+      operationId: getHolders
+      summary: Holder distribution
+      security: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RlusdHoldersResponse'
+      description: 'Known issue (2026-08-16): this operation currently returns HTTP 500.'
+  /api/v3/rlusd/webhooks/events:
+    get:
+      tags:
+      - RLUSD
+      operationId: getWebhookEvents
+      summary: Webhook catalog
+      security: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RlusdWebhookCatalog'
+  /api/v3/attestations/{attestation_id}:
+    get:
+      tags:
+      - Attestations
+      operationId: getAttestation
+      summary: Get attestation by ID
+      security: []
+      parameters:
+      - name: attestation_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Attestation data
+        '404':
+          description: Not found
+  /api/v3/attestations/verify/{attestation_id}:
+    get:
+      tags:
+      - Attestations
+      operationId: verifyAttestationV3
+      summary: Verify attestation on-chain
+      security: []
+      parameters:
+      - name: attestation_id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Verification result
+  /api/v3/rlusd/verify/{hash}:
+    get:
+      tags:
+      - RLUSD
+      operationId: verifyHash
+      summary: Verify hash
+      security: []
+      parameters:
+      - name: hash
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RlusdVerifyResponse'
+  /api/v1/vc/verify:
+    post:
+      tags:
+      - Integrity Suite
+      summary: Verify JWS signature
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                jws:
+                  type: string
+      responses:
+        '200':
+          description: Verification result with payload
+  /api/v1/epm/verify:
+    post:
+      tags:
+      - EPM
+      summary: Verify DSSE-wrapped EPM manifest
+      operationId: verifyEPM
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - payloadType
+              - payload
+              - signatures
+              properties:
+                payloadType:
+                  type: string
+                payload:
+                  type: string
+                signatures:
+                  type: array
+      responses:
+        '200':
+          description: Verification passed
+        '400':
+          description: Invalid DSSE or manifest
+        '409':
+          description: Replay detected
+  /api/v1/eu-ets/price:
+    get:
+      tags:
+      - EU Carbon Intelligence
+      summary: EU ETS carbon price
+      responses:
+        '200':
+          description: Current EUA price in EUR/tCO2
+  /api/v1/ember/intensity/{country_code}:
+    get:
+      tags:
+      - EU Carbon Intelligence
+      summary: Grid carbon intensity
+      parameters:
+      - name: country_code
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ISO 3166-1 alpha-3 (DEU, GBR, FRA, etc.)
+      responses:
+        '200':
+          description: CO2 intensity in gCO2/kWh
+  /api/v1/integrity/rlusd:
+    get:
+      tags:
+      - Unified Integrity
+      summary: RLUSD Integrity Check
+      parameters:
+      - name: signed
+        in: query
+        schema:
+          type: boolean
+          default: false
+      responses:
+        '200':
+          description: Integrity report with confidence score
+  /api/v1/integrity/rlusd/baselines:
+    get:
+      tags:
+      - Unified Integrity
+      summary: RLUSD Baselines (peg, reserve, CCI)
+      responses:
+        '200':
+          description: Fixed target baselines
+  /v1/rwa/risk:
+    get:
+      tags:
+      - RWA Risk Scoring
+      summary: All protocol risk scores
+      description: Composite risk scores for 60+ tokenized asset protocols with market summary and grade distribution.
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by asset type
+      responses:
+        '200':
+          description: Risk scores for all protocols
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  protocols_scored:
+                    type: integer
+                    example: 61
+                  total_tvl_usd:
+                    type: number
+                  protocols:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RWAProtocolRisk'
+                  evidence:
+                    $ref: '#/components/schemas/RWAEvidence'
+        '401':
+          description: Missing or invalid API key
+        '429':
+          description: Rate limit exceeded (60 req/min)
+  /v1/rwa/risk/{slug}:
+    get:
+      tags:
+      - RWA Risk Scoring
+      summary: Single protocol - full risk profile + evidence
+      description: Complete risk profile with 9 vector scores, reason codes, compliance, legal state. For regulated stablecoins includes stablecoin_detail. For XRPL assets includes xrpl_detail.
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Protocol identifier (e.g. rlusd, blackrock-buidl, xrpl-ecosystem)
+      responses:
+        '200':
+          description: Full protocol risk profile
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  protocol:
+                    $ref: '#/components/schemas/RWAProtocolRisk'
+                  benchmark:
+                    type: object
+                    properties:
+                      tbill_3m:
+                        type: number
+                        example: 3.6
+                  evidence:
+                    $ref: '#/components/schemas/RWAEvidence'
+        '401':
+          description: Missing or invalid API key
+        '404':
+          description: Protocol not found
+        '429':
+          description: Rate limit exceeded (60 req/min)
+  /v1/rwa/risk/{slug}/pdf:
+    get:
+      tags:
+      - RWA Risk Scoring
+      summary: PDF risk report
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Protocol identifier (e.g. rlusd, blackrock-buidl, xrpl-ecosystem)
+      responses:
+        '200':
+          description: PDF report
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Protocol not found
+  /v1/rwa/market:
+    get:
+      tags:
+      - RWA Risk Scoring
+      summary: Market overview & aggregate stats
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Market overview
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total_tvl_usd:
+                    type: number
+                  protocols_scored:
+                    type: integer
+                  grade_distribution:
+                    type: object
+                  type_breakdown:
+                    type: object
+                  evidence:
+                    $ref: '#/components/schemas/RWAEvidence'
+  /v1/rwa/registry:
+    get:
+      tags:
+      - RWA Registry
+      summary: All protocol identifiers
+      description: Structured identifiers including token metadata, issuer details, LEI, ISIN.
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Registry entries
+          headers:
+            x-request-id:
+              description: Server correlation id. Also bound inside the execution receipt as request_id.
+              schema:
+                type: string
+                example: rq-09f447f0464a91fc
+            x-content-hash:
+              description: sha256 over the exact response body bytes as delivered.
+              schema:
+                type: string
+                example: sha256:4d6bc10b...180a18
+            x-nomos-execution-id:
+              description: Execution id of this call's signed receipt.
+              schema:
+                type: string
+                example: exe1_f426c37db9c42673932ab5bc13e60b3b
+            x-nomos-receipt-digest:
+              description: sha256 digest of the canonical receipt core.
+              schema:
+                type: string
+                example: sha256:...
+            x-nomos-receipt-kid:
+              description: Ed25519 key id the receipt is signed with. Absent while a receipt is still SIGNATURE_PENDING - nothing then claims a signature that does not exist.
+              schema:
+                type: string
+                example: exr1_40c4bc9a9f61988b
+            x-nomos-receipt-url:
+              description: Authenticated HTTPS URL serving the signed receipt for this call. Read the URL from here; do not construct it.
+              schema:
+                type: string
+                format: uri
+      x-nomos-governed-action: true
+    servers:
+    - url: https://feedoracle.io/api
+      description: Public gateway that fronts the NOMOS admission and execution layers
+  /v1/rwa/registry/{slug}:
+    get:
+      tags:
+      - RWA Registry
+      summary: Single protocol identifiers
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Protocol slug
+      responses:
+        '200':
+          description: Registry entry
+        '404':
+          description: Protocol not found
+  /v1/rwa/registry/search:
+    get:
+      tags:
+      - RWA Registry
+      summary: Search by name, symbol, or ISIN
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: q
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Search query
+      responses:
+        '200':
+          description: Matching protocols
+  /v1/rwa/registry/stats:
+    get:
+      tags:
+      - RWA Registry
+      summary: Registry statistics
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Aggregate registry stats
+          headers:
+            x-request-id:
+              description: Server correlation id. Also bound inside the execution receipt as request_id.
+              schema:
+                type: string
+                example: rq-09f447f0464a91fc
+            x-content-hash:
+              description: sha256 over the exact response body bytes as delivered.
+              schema:
+                type: string
+                example: sha256:4d6bc10b...180a18
+            x-nomos-execution-id:
+              description: Execution id of this call's signed receipt.
+              schema:
+                type: string
+                example: exe1_f426c37db9c42673932ab5bc13e60b3b
+            x-nomos-receipt-digest:
+              description: sha256 digest of the canonical receipt core.
+              schema:
+                type: string
+                example: sha256:...
+            x-nomos-receipt-kid:
+              description: Ed25519 key id the receipt is signed with. Absent while a receipt is still SIGNATURE_PENDING - nothing then claims a signature that does not exist.
+              schema:
+                type: string
+                example: exr1_40c4bc9a9f61988b
+            x-nomos-receipt-url:
+              description: Authenticated HTTPS URL serving the signed receipt for this call. Read the URL from here; do not construct it.
+              schema:
+                type: string
+                format: uri
+      x-nomos-governed-action: true
+    servers:
+    - url: https://feedoracle.io/api
+      description: Public gateway that fronts the NOMOS admission and execution layers
+  /v1/rwa/compliance:
+    get:
+      tags:
+      - RWA Compliance
+      summary: All protocols - compliance overview
+      description: MiCA, DORA, sanctions screening, jurisdiction access for all protocols.
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Compliance data
+  /v1/rwa/compliance/{slug}:
+    get:
+      tags:
+      - RWA Compliance
+      summary: Single protocol - compliance profile
+      description: Jurisdiction access, sanctions screening, investor requirements, KYC level.
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Protocol slug
+      responses:
+        '200':
+          description: Compliance profile
+        '404':
+          description: Protocol not found
+  /v1/rwa/compliance/jurisdiction/{code}:
+    get:
+      tags:
+      - RWA Compliance
+      summary: Filter by jurisdiction
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: code
+        in: path
+        required: true
+        schema:
+          type: string
+        description: ISO jurisdiction code (US, EU, SG)
+      responses:
+        '200':
+          description: Protocols in jurisdiction
+  /v1/rwa/compliance/check:
+    get:
+      tags:
+      - RWA Compliance
+      summary: Cross-border compliance check
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: slug
+        in: query
+        required: true
+        schema:
+          type: string
+      - name: from
+        in: query
+        schema:
+          type: string
+        description: Source jurisdiction
+      - name: to
+        in: query
+        schema:
+          type: string
+        description: Target jurisdiction
+      responses:
+        '200':
+          description: Compliance check result
+  /v1/rwa/compliance/stats:
+    get:
+      tags:
+      - RWA Compliance
+      summary: Compliance statistics
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Aggregate compliance stats
+  /v1/rwa/legal-state:
+    get:
+      tags:
+      - RWA Legal State
+      summary: All protocols - legal structure
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Legal state overview
+          headers:
+            x-request-id:
+              description: Server correlation id. Also bound inside the execution receipt as request_id.
+              schema:
+                type: string
+                example: rq-09f447f0464a91fc
+            x-content-hash:
+              description: sha256 over the exact response body bytes as delivered.
+              schema:
+                type: string
+                example: sha256:4d6bc10b...180a18
+            x-nomos-execution-id:
+              description: Execution id of this call's signed receipt.
+              schema:
+                type: string
+                example: exe1_f426c37db9c42673932ab5bc13e60b3b
+            x-nomos-receipt-digest:
+              description: sha256 digest of the canonical receipt core.
+              schema:
+                type: string
+                example: sha256:...
+            x-nomos-receipt-kid:
+              description: Ed25519 key id the receipt is signed with. Absent while a receipt is still SIGNATURE_PENDING - nothing then claims a signature that does not exist.
+              schema:
+                type: string
+                example: exr1_40c4bc9a9f61988b
+            x-nomos-receipt-url:
+              description: Authenticated HTTPS URL serving the signed receipt for this call. Read the URL from here; do not construct it.
+              schema:
+                type: string
+                format: uri
+      x-nomos-governed-action: true
+    servers:
+    - url: https://feedoracle.io/api
+      description: Public gateway that fronts the NOMOS admission and execution layers
+  /v1/rwa/legal-state/{slug}:
+    get:
+      tags:
+      - RWA Legal State
+      summary: Single protocol - legal details
+      description: Contract powers, transfer finality, dispute resolution, governance.
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Protocol slug
+      responses:
+        '200':
+          description: Legal state details
+        '404':
+          description: Protocol not found
+  /v1/rwa/legal-state/search:
+    get:
+      tags:
+      - RWA Legal State
+      summary: Search legal states
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: q
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Keyword (e.g. multisig, timelock, arbitration)
+      responses:
+        '200':
+          description: Matching entries
+  /v1/rwa/legal-state/stats:
+    get:
+      tags:
+      - RWA Legal State
+      summary: Legal state statistics
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Aggregate legal stats
+          headers:
+            x-request-id:
+              description: Server correlation id. Also bound inside the execution receipt as request_id.
+              schema:
+                type: string
+                example: rq-09f447f0464a91fc
+            x-content-hash:
+              description: sha256 over the exact response body bytes as delivered.
+              schema:
+                type: string
+                example: sha256:4d6bc10b...180a18
+            x-nomos-execution-id:
+              description: Execution id of this call's signed receipt.
+              schema:
+                type: string
+                example: exe1_f426c37db9c42673932ab5bc13e60b3b
+            x-nomos-receipt-digest:
+              description: sha256 digest of the canonical receipt core.
+              schema:
+                type: string
+                example: sha256:...
+            x-nomos-receipt-kid:
+              description: Ed25519 key id the receipt is signed with. Absent while a receipt is still SIGNATURE_PENDING - nothing then claims a signature that does not exist.
+              schema:
+                type: string
+                example: exr1_40c4bc9a9f61988b
+            x-nomos-receipt-url:
+              description: Authenticated HTTPS URL serving the signed receipt for this call. Read the URL from here; do not construct it.
+              schema:
+                type: string
+                format: uri
+      x-nomos-governed-action: true
+    servers:
+    - url: https://feedoracle.io/api
+      description: Public gateway that fronts the NOMOS admission and execution layers
+  /v1/rwa/oracle/feeds/{slug}:
+    get:
+      tags:
+      - RWA Oracle Feeds
+      summary: Consensus price feed
+      description: Multi-source aggregation (median/weighted median) with outlier removal. Sources include Chainlink, Pyth, CoinGecko.
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Protocol slug
+      responses:
+        '200':
+          description: Oracle feed data
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  oracle:
+                    type: object
+                    properties:
+                      value_str:
+                        type: string
+                        example: '5054.88000000'
+                      precision:
+                        type: integer
+                      base_asset:
+                        type: string
+                      consensus:
+                        type: object
+                        properties:
+                          rule:
+                            type: string
+                            example: weighted_median
+                          sources:
+                            type: integer
+                          agreement_pct:
+                            type: number
+                      staleness:
+                        type: object
+                        properties:
+                          oldest_source_age_s:
+                            type: integer
+                          is_stale:
+                            type: boolean
+        '404':
+          description: Protocol not found
+  /v1/rwa/oracle/status:
+    get:
+      tags:
+      - RWA Oracle Feeds
+      summary: Oracle infrastructure status
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Oracle status overview
+  /v1/rwa/liquidity:
+    get:
+      tags:
+      - RWA Liquidity
+      summary: All protocols - liquidity overview
+      description: 'DEX liquidity summaries. Note: many RWA tokens trade via mint/redeem on primary markets.'
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Liquidity overview
+  /v1/rwa/liquidity/{slug}:
+    get:
+      tags:
+      - RWA Liquidity
+      summary: Single protocol - detailed liquidity
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Protocol slug
+      responses:
+        '200':
+          description: Liquidity details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: object
+                    properties:
+                      m:
+                        type: object
+                        properties:
+                          total_liq_usd:
+                            type: number
+                          vol_24h_usd:
+                            type: number
+                          pair_count:
+                            type: integer
+                      liq:
+                        type: object
+                        properties:
+                          score:
+                            type: integer
+                          cat:
+                            type: string
+                            enum:
+                            - DEEP
+                            - MODERATE
+                            - THIN
+                            - NO_DEX
+        '404':
+          description: Protocol not found
+  /v1/rwa/onchain:
+    get:
+      tags:
+      - RWA On-Chain
+      summary: All protocols - transparency overview
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: On-chain overview
+  /v1/rwa/onchain/{slug}:
+    get:
+      tags:
+      - RWA On-Chain
+      summary: Single protocol - on-chain analysis
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Protocol slug
+      responses:
+        '200':
+          description: On-chain details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  verification_status:
+                    type: string
+                    enum:
+                    - TRANSPARENT
+                    - PARTIAL
+                    - OPAQUE
+                  score:
+                    type: integer
+                  proxy_detected:
+                    type: boolean
+        '404':
+          description: Protocol not found
+  /v1/rwa/esg/{slug}:
+    get:
+      tags:
+      - RWA ESG
+      summary: ESG / carbon score
+      description: Chain-weighted carbon footprint scoring with data provenance.
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Protocol slug
+      responses:
+        '200':
+          description: ESG score
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  score:
+                    type: integer
+                  category:
+                    type: string
+                    enum:
+                    - EXCELLENT
+                    - GOOD
+                    - MODERATE
+                    - POOR
+                  chains_matched:
+                    type: integer
+        '404':
+          description: Protocol not found
+  /v1/rwa/events:
+    get:
+      tags:
+      - RWA Events
+      summary: All protocols - recent events
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Risk events
+  /v1/rwa/events/{slug}:
+    get:
+      tags:
+      - RWA Events
+      summary: Single protocol - events
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Protocol slug
+      responses:
+        '200':
+          description: Protocol events
+        '404':
+          description: Protocol not found
+  /v1/rwa/events/stats:
+    get:
+      tags:
+      - RWA Events
+      summary: Event statistics
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Event type distribution
+  /v1/rwa/history:
+    get:
+      tags:
+      - RWA History
+      summary: All protocols - score history
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Historical scores
+          headers:
+            x-request-id:
+              description: Server correlation id. Also bound inside the execution receipt as request_id.
+              schema:
+                type: string
+                example: rq-09f447f0464a91fc
+            x-content-hash:
+              description: sha256 over the exact response body bytes as delivered.
+              schema:
+                type: string
+                example: sha256:4d6bc10b...180a18
+            x-nomos-execution-id:
+              description: Execution id of this call's signed receipt.
+              schema:
+                type: string
+                example: exe1_f426c37db9c42673932ab5bc13e60b3b
+            x-nomos-receipt-digest:
+              description: sha256 digest of the canonical receipt core.
+              schema:
+                type: string
+                example: sha256:...
+            x-nomos-receipt-kid:
+              description: Ed25519 key id the receipt is signed with. Absent while a receipt is still SIGNATURE_PENDING - nothing then claims a signature that does not exist.
+              schema:
+                type: string
+                example: exr1_40c4bc9a9f61988b
+            x-nomos-receipt-url:
+              description: Authenticated HTTPS URL serving the signed receipt for this call. Read the URL from here; do not construct it.
+              schema:
+                type: string
+                format: uri
+      x-nomos-governed-action: true
+    servers:
+    - url: https://feedoracle.io/api
+      description: Public gateway that fronts the NOMOS admission and execution layers
+  /v1/rwa/history/{slug}:
+    get:
+      tags:
+      - RWA History
+      summary: Single protocol - score timeline
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Protocol slug
+      responses:
+        '200':
+          description: Score history
+        '404':
+          description: Protocol not found
+  /v1/rwa/discovery:
+    get:
+      tags:
+      - RWA Risk Scoring
+      summary: Newly discovered protocols
+      description: Auto-discovered on-chain RWA protocols not yet in scored registry.
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Discovered protocols
+  /v1/rwa/alerts:
+    get:
+      tags:
+      - RWA Alerts
+      summary: List webhook subscriptions
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Active subscriptions
+  /v1/rwa/alerts/subscribe:
+    post:
+      tags:
+      - RWA Alerts
+      summary: Create webhook subscription
+      security:
+      - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - webhook_url
+              properties:
+                webhook_url:
+                  type: string
+                  format: uri
+                events:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                    - grade_change
+                    - score_threshold
+                    - anomaly_detected
+                    - peg_deviation
+                    - tvl_drop
+                slugs:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '201':
+          description: Subscription created
+      callbacks:
+        onEvent:
+          '{$request.body#/webhook_url}':
+            post:
+              summary: Webhook event delivery
+              requestBody:
+                content:
+                  application/json:
+                    schema:
+                      $ref: '#/components/schemas/RWAWebhookEvent'
+              responses:
+                '200':
+                  description: Acknowledged
+  /v1/rwa/alerts/{id}:
+    delete:
+      tags:
+      - RWA Alerts
+      summary: Delete webhook subscription
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Deleted
+  /v1/rwa/redemption:
+    get:
+      tags:
+      - RWA Redemption
+      summary: All protocols - liquidity profiles
+      description: 'Institutional exit analysis: settlement times, gates, minimum amounts, fees. Data expanded progressively.'
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Redemption profiles
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  protocols_count:
+                    type: integer
+                  protocols:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RWARedemptionProfile'
+                  evidence:
+                    $ref: '#/components/schemas/RWAEvidence'
+        '401':
+          description: Missing or invalid API key
+  /v1/rwa/redemption/{slug}:
+    get:
+      tags:
+      - RWA Redemption
+      summary: Single protocol - liquidity profile
+      description: 'Complete Time-to-Cash analysis: settlement time, gates, fees, minimum amounts, liquidity latency score.'
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Protocol slug
+      responses:
+        '200':
+          description: Redemption profile
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  redemption_profile:
+                    $ref: '#/components/schemas/RWARedemptionProfile'
+                  evidence:
+                    $ref: '#/components/schemas/RWAEvidence'
+        '404':
+          description: Protocol not found or no data available yet (progressive expansion)
+        '401':
+          description: Missing or invalid API key
+  /v1/rwa/documents:
+    get:
+      tags:
+      - RWA Documents
+      summary: All protocols - document registry overview
+      description: Summary of available compliance documents per protocol. Source URLs point to issuer-hosted originals.
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Document registry overview
+        '401':
+          description: Missing or invalid API key
+  /v1/rwa/documents/{slug}:
+    get:
+      tags:
+      - RWA Documents
+      summary: Single protocol - full document list
+      description: Attestation reports, prospectuses, audit reports, legal documents. URLs point to issuer/auditor sources. SHA-256 hashes for integrity verification where available.
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Protocol slug
+      responses:
+        '200':
+          description: Document list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  slug:
+                    type: string
+                  documents:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RWADocument'
+                  total_documents:
+                    type: integer
+                  last_updated:
+                    type: string
+                    format: date
+                  evidence:
+                    $ref: '#/components/schemas/RWAEvidence'
+        '404':
+          description: Protocol not found or no data available yet (progressive expansion)
+        '401':
+          description: Missing or invalid API key
+  /api/v1/macro/yield-curve:
+    get:
+      tags:
+      - Yields
+      operationId: getYieldCurve
+      summary: Full Treasury yield curve 1M-30Y
+      description: '11 tenors: 1M,3M,6M,1Y,2Y,3Y,5Y,7Y,10Y,20Y,30Y with shape analysis'
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/yield-curve/spreads:
+    get:
+      tags:
+      - Yields
+      operationId: getYieldSpreads
+      summary: Yield curve spreads
+      description: 2s10s, 3M-10Y, 5s30s, term premium, inversion signals
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/yield-curve/tips:
+    get:
+      tags:
+      - Yields
+      operationId: getYieldTIPS
+      summary: TIPS real yields
+      description: 5Y,10Y,20Y,30Y TIPS and breakeven inflation
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/sofr:
+    get:
+      tags:
+      - Credit
+      operationId: getSOFR
+      summary: SOFR rate
+      description: Secured Overnight Financing Rate, benchmark status
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/credit:
+    get:
+      tags:
+      - Credit
+      operationId: getCreditSpreads
+      summary: Credit spreads
+      description: AAA/BAA yields, BAA-AAA spread, prime rate
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/lending:
+    get:
+      tags:
+      - Credit
+      operationId: getLending
+      summary: Bank lending
+      description: C&I loan rates, lending standards, tightening index
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/fed-rates:
+    get:
+      tags:
+      - Credit
+      operationId: getFedRates
+      summary: Fed overnight rates
+      description: EFFR, OBFR, Reverse Repo ON RRP
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/commodities:
+    get:
+      tags:
+      - Commodities
+      operationId: getCommodities
+      summary: All commodities
+      description: Energy + metals overview
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/commodities/energy:
+    get:
+      tags:
+      - Commodities
+      operationId: getEnergy
+      summary: Energy prices
+      description: WTI, Brent, natgas, gasoline, propane
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/commodities/metals:
+    get:
+      tags:
+      - Commodities
+      operationId: getMetals
+      summary: Precious metals
+      description: Gold, silver, copper indices
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/equities:
+    get:
+      tags:
+      - Equities
+      operationId: getEquities
+      summary: Stock indices
+      description: S&P 500, NASDAQ, Dow Jones
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/equities/{symbol}:
+    get:
+      tags:
+      - Equities
+      operationId: getEquity
+      summary: Single index
+      description: By symbol
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+        description: sp500, nasdaq, dow
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/crypto:
+    get:
+      tags:
+      - Crypto
+      operationId: getCrypto
+      summary: Crypto prices
+      description: BTC/USD, ETH/USD via FRED
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/crypto/{symbol}:
+    get:
+      tags:
+      - Crypto
+      operationId: getCryptoSingle
+      summary: Single crypto
+      description: By symbol
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+        description: btc or eth
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/stress:
+    get:
+      tags:
+      - Stress
+      operationId: getStress
+      summary: Financial stress
+      description: Composite score, VIX, STLFSI, TED, HY spread
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/volatility:
+    get:
+      tags:
+      - Stress
+      operationId: getVolatility
+      summary: VIX detail
+      description: CBOE VIX, regime classification
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/expectations:
+    get:
+      tags:
+      - Stress
+      operationId: getExpectations
+      summary: Inflation expectations
+      description: Michigan inflation expectations
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/realestate:
+    get:
+      tags:
+      - Real Estate
+      operationId: getRealEstate
+      summary: Housing overview
+      description: Prices, rates, activity metrics
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/realestate/prices:
+    get:
+      tags:
+      - Real Estate
+      operationId: getREPrices
+      summary: Home prices
+      description: Case-Shiller, FHFA HPI, median price
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/realestate/mortgage:
+    get:
+      tags:
+      - Real Estate
+      operationId: getMortgage
+      summary: Mortgage rates
+      description: 30Y, 15Y fixed, ARM rates
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/fiscal:
+    get:
+      tags:
+      - Fiscal
+      operationId: getFiscal
+      summary: Federal debt overview
+      description: Total debt, deficit, debt-to-GDP, foreign holdings
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/fiscal/debt:
+    get:
+      tags:
+      - Fiscal
+      operationId: getFiscalDebt
+      summary: Federal debt
+      description: Debt total, foreign held, Debt/GDP ratio
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/fiscal/trade:
+    get:
+      tags:
+      - Fiscal
+      operationId: getFiscalTrade
+      summary: Trade balance
+      description: Trade balance, USD index, monetary base
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/business:
+    get:
+      tags:
+      - Business
+      operationId: getBusiness
+      summary: Business overview
+      description: Production, utilization, credit, delinquency
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/business/production:
+    get:
+      tags:
+      - Business
+      operationId: getProduction
+      summary: Industrial production
+      description: Industrial production index, capacity utilization
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/business/credit:
+    get:
+      tags:
+      - Business
+      operationId: getBizCredit
+      summary: Business credit
+      description: Commercial loans, consumer credit, delinquency
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/international/bonds:
+    get:
+      tags:
+      - International
+      operationId: getIntlBonds
+      summary: International bonds
+      description: Germany 10Y, UK 10Y, Japan 10Y yields
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/international/fx:
+    get:
+      tags:
+      - International
+      operationId: getIntlFX
+      summary: FX rates (FRED)
+      description: EUR,GBP,JPY,CHF,CNY,KRW,MXN,INR,BRL vs USD
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/international/spreads:
+    get:
+      tags:
+      - International
+      operationId: getIntlSpreads
+      summary: Sovereign spreads
+      description: US-DE, US-UK, US-JP yield spreads
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/ecb:
+    get:
+      tags:
+      - ECB
+      operationId: getECB
+      summary: ECB overview
+      description: 'Key rates, EUR/USD, HICP inflation, GDP, unemployment. Source: ECB Data Portal'
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/ecb/rates:
+    get:
+      tags:
+      - ECB
+      operationId: getECBRates
+      summary: ECB interest rates
+      description: Refi, deposit, marginal lending, eSTR, EURIBOR 3M/6M/12M
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/ecb/fx:
+    get:
+      tags:
+      - ECB
+      operationId: getECBFX
+      summary: ECB exchange rates
+      description: EUR vs USD,GBP,JPY,CHF,CNY + EUR strength index
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/ecb/inflation:
+    get:
+      tags:
+      - ECB
+      operationId: getECBInflation
+      summary: Eurozone inflation
+      description: EA HICP, core HICP, Germany HICP, target assessment
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/ecb/economy:
+    get:
+      tags:
+      - ECB
+      operationId: getECBEconomy
+      summary: Eurozone economy
+      description: GDP growth, unemployment, M3 money supply
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/ecb/yields:
+    get:
+      tags:
+      - ECB
+      operationId: getECBYields
+      summary: EA bond yields
+      description: 10Y AAA government bond yield, real yield
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /api/v1/macro/ecb/series/{series_id}:
+    get:
+      tags:
+      - ECB
+      operationId: getECBSeries
+      summary: Single ECB series
+      description: Any of the 20 ECB series
+      parameters:
+      - name: series_id
+        in: path
+        required: true
+        schema:
+          type: string
+        description: e.g. eur_usd, deposit_rate, hicp_ea, gdp_ea
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+  /reports/api/report/generate:
+    post:
+      tags:
+      - Verified Reports
+      summary: Generate a cryptographically signed evidence report
+      description: Generates a PDF report with SHA-256 hash, ECDSA signature, and XRPL blockchain anchor.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - type
+              properties:
+                type:
+                  type: string
+                  enum:
+                  - rwa_risk
+                  - macro_risk
+                  - mica
+                  - dora
+      responses:
+        '200':
+          description: Report generated with proof chain
+  /api/v1/esma/:
+    get:
+      tags:
+      - ESMA Register
+      summary: ESMA Register service root with available endpoints
+      responses:
+        '200':
+          description: OK
+  /api/v1/esma/casps:
+    get:
+      tags:
+      - ESMA Register
+      summary: Authorized Crypto-Asset Service Providers (20 entities across 11 EU jurisdictions)
+      responses:
+        '200':
+          description: List of authorized CASPs with LEI, NCA, services, authorization date
+      parameters:
+      - name: country
+        in: query
+        schema:
+          type: string
+        description: Filter by country code (DE, FR, IE, AT, etc.)
+      - name: service
+        in: query
+        schema:
+          type: string
+        description: Filter by service type (exchange, custody, transfer, portfolio_management)
+  /api/v1/esma/emt-issuers:
+    get:
+      tags:
+      - ESMA Register
+      summary: 'E-Money Token issuers (7 entities: 5 EUR, 2 USD stablecoins)'
+      responses:
+        '200':
+          description: List of EMT issuers with token details, license type, reserve model
+      parameters:
+      - name: currency
+        in: query
+        schema:
+          type: string
+        description: Filter by peg currency (EUR, USD)
+  /api/v1/esma/non-compliant:
+    get:
+      tags:
+      - ESMA Register
+      summary: Non-compliant entities flagged for MiCA violations (5 entities)
+      responses:
+        '200':
+          description: List of non-compliant entities with issue type and severity
+  /api/v1/esma/pending:
+    get:
+      tags:
+      - ESMA Register
+      summary: Pending MiCA applications (3 entities)
+      responses:
+        '200':
+          description: List of pending applications with type and NCA
+  /api/v1/esma/search:
+    get:
+      tags:
+      - ESMA Register
+      summary: Full-text search across all register entities
+      responses:
+        '200':
+          description: Search results with entity type and matching fields
+      parameters:
+      - name: q
+        in: query
+        required: true
+        schema:
+          type: string
+        description: Search query (e.g., coinbase, tether, circle)
+  /api/v1/esma/stats:
+    get:
+      tags:
+      - ESMA Register
+      summary: Aggregated register statistics by country, service type, currency
+      responses:
+        '200':
+          description: Statistical breakdown of registered entities
+  /api/v1/esma/summary:
+    get:
+      tags:
+      - ESMA Register
+      summary: 'Register summary: CASPs, EMT issuers, non-compliant, pending counts with MiCA deadline countdown'
+      responses:
+        '200':
+          description: Register summary with entity counts and MiCA days remaining
+  /api/v1/eu-energy/generation/{country}:
+    get:
+      tags:
+      - EU Energy
+      summary: Real-time electricity generation by source from ENTSO-E Transparency Platform
+      parameters:
+      - name: country
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Country code (e.g., DE, FR, ES, IT)
+      responses:
+        '200':
+          description: Generation by type with renewable percentage, updated every 15 minutes
+  /api/v1/feeds/mica/custody-risk/{protocol}:
+    get:
+      summary: MiCA Custody Risk Feed
+      description: 'Feed-format custody risk analysis per Art. 26/27/54.
+
+
+        Requires an API key (X-API-Key header). Corrected 2026-08-16: previously published as public.'
+      tags:
+      - MiCA Compliance
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+      parameters:
+      - name: protocol
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Protocol slug
+      security:
+      - ApiKeyAuth: []
+  /api/v1/feeds/mica/document-compliance/{symbol}:
+    get:
+      summary: MiCA Document Compliance Feed
+      description: 'Feed-format document compliance check per Art. 29/30/37/55.
+
+
+        Requires an API key (X-API-Key header). Corrected 2026-08-16: previously published as public.'
+      tags:
+      - MiCA Compliance
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Stablecoin symbol (e.g. usdc, usdt, dai)
+      security:
+      - ApiKeyAuth: []
+  /api/v1/feeds/mica/full-pack/{symbol}:
+    get:
+      summary: MiCA Full Evidence Pack Feed
+      description: 'Feed-format complete MiCA evidence pack covering Art. 22-58.
+
+
+        Requires an API key (X-API-Key header). Corrected 2026-08-16: previously published as public.'
+      tags:
+      - MiCA Compliance
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Stablecoin symbol (e.g. usdc, usdt, dai)
+      security:
+      - ApiKeyAuth: []
+  /api/v1/feeds/mica/interest-check/{symbol}:
+    get:
+      summary: MiCA Interest Check Feed
+      description: 'Feed-format interest prohibition check per Art. 23/52.
+
+
+        Requires an API key (X-API-Key header). Corrected 2026-08-16: previously published as public.'
+      tags:
+      - MiCA Compliance
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Stablecoin symbol (e.g. usdc, usdt, dai)
+      security:
+      - ApiKeyAuth: []
+  /api/v1/feeds/mica/reserve-quality/{symbol}:
+    get:
+      summary: MiCA Reserve Quality Feed
+      description: 'Feed-format reserve quality assessment per Art. 24/25/36/53.
+
+
+        Requires an API key (X-API-Key header). Corrected 2026-08-16: previously published as public.'
+      tags:
+      - MiCA Compliance
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Stablecoin symbol (e.g. usdc, usdt, dai)
+      security:
+      - ApiKeyAuth: []
+  /api/v1/feeds/mica/significant-issuer/{symbol}:
+    get:
+      summary: MiCA Significant Issuer Feed
+      description: 'Feed-format significant issuer detection per Art. 45/58.
+
+
+        Requires an API key (X-API-Key header). Corrected 2026-08-16: previously published as public.'
+      tags:
+      - MiCA Compliance
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Stablecoin symbol (e.g. usdc, usdt, dai)
+      security:
+      - ApiKeyAuth: []
+  /api/v1/feeds/stablecoin:
+    get:
+      summary: Stablecoin Universe
+      description: 'Returns comprehensive data for 105+ stablecoins including market cap, peg status, reserve composition, MiCA classification, and risk scores.
+
+
+        Requires an API key (X-API-Key header). Corrected 2026-08-16: previously published as public.'
+      tags:
+      - Stablecoin
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+      - ApiKeyAuth: []
+  /api/v1/feeds/stablecoin/meta:
+    get:
+      summary: Stablecoin Metadata
+      description: 'Returns metadata for the stablecoin feed including data sources, update frequency, and coverage.
+
+
+        Requires an API key (X-API-Key header). Corrected 2026-08-16: previously published as public.'
+      tags:
+      - Stablecoin
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+      security:
+      - ApiKeyAuth: []
+  /api/v1/feeds/stablecoin/{symbol}:
+    get:
+      summary: Single Stablecoin Status
+      description: 'Enterprise-grade single stablecoin status including peg health, reserve analysis, issuer details, MiCA classification, and compliance scores.
+
+
+        Requires an API key (X-API-Key header). Corrected 2026-08-16: previously published as public.'
+      tags:
+      - Stablecoin
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Stablecoin symbol (e.g. usdc, usdt, dai)
+      security:
+      - ApiKeyAuth: []
+  /api/v1/mica/:
+    get:
+      summary: MiCA Endpoints Index
+      description: Lists all available MiCA compliance REST API endpoints.
+      tags:
+      - MiCA Compliance
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+  /api/v1/macro/defi-relevant:
+    get:
+      tags:
+      - Macro Oracle
+      summary: DeFi Macro Bundle
+      description: Curated macro-economic data bundle for DeFi/RWA protocols. Includes SOFR lending rates, VIX/credit spreads, BTC/ETH reference prices, yield curve, inflation expectations, EUR/USD, and S&P 500 — with computed risk level.
+      operationId: getDefiMacroBundle
+      responses:
+        '200':
+          description: DeFi-relevant macro bundle with risk level
+  /api/v1/macro/ecb/mica-reserve:
+    get:
+      tags:
+      - MiCA Compliance
+      summary: ECB MiCA Reserve Intelligence
+      description: MiCA Art. 36/38 reserve management intelligence for EUR stablecoins. ECB policy rates, EURIBOR benchmarks, real yield analysis, currency stability, and compliance signals — sourced from ECB Data Portal.
+      operationId: getEcbMicaReserve
+      responses:
+        '200':
+          description: MiCA reserve intelligence with compliance signals
+  /ai/query:
+    post:
+      summary: Natural Language → Evidence Bundle
+      description: Submit a natural language question, receive a cryptographically signed evidence bundle. Two-tier intent classification (regex + DeepSeek fallback). Every response includes evidence{}, jws{}, sla{}, trust{}, schema_ref.
+      tags:
+      - AI Gateway
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                question:
+                  type: string
+                  example: Is USDC MiCA compliant?
+                symbol:
+                  type: string
+                  example: USDC
+              required:
+              - question
+      responses:
+        '200':
+          description: Signed evidence bundle with JWS, SLA, trust metadata
+  /ai/explain:
+    post:
+      summary: Grade Explainability
+      description: Explain why an asset received a specific compliance grade. Returns per-dimension scoring with regulatory article references.
+      tags:
+      - AI Gateway
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                symbol:
+                  type: string
+                evidence_pack_id:
+                  type: string
+      responses:
+        '200':
+          description: Dimension-level scoring explanation
+  /ai/provenance:
+    post:
+      summary: Data Provenance Graph
+      description: Full provenance chain from source data to evidence bundle. Every node individually hashed, Merkle-chained.
+      tags:
+      - AI Gateway
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                symbol:
+                  type: string
+                frameworks:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Provenance graph with upstream hashes
+  /evidence/bundle:
+    post:
+      summary: Multi-Framework Evidence Bundle
+      description: Aggregate evidence across multiple frameworks (mica, dora, rwa, macro, stablecoin_risk) in a single request.
+      tags:
+      - AI Gateway
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                asset:
+                  type: string
+                  example: USDC
+                frameworks:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - mica
+                  - macro
+      responses:
+        '200':
+          description: Multi-framework evidence bundle with JWS, SLA
+  /ai/agent/register:
+    post:
+      summary: Register AI Agent
+      description: Register a new AI agent. Returns agent_id, API key (90-day lifecycle), and initial reputation score (50/100).
+      tags:
+      - Agent Trust Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - agent_name
+              properties:
+                agent_name:
+                  type: string
+                organization:
+                  type: string
+                purpose:
+                  type: string
+                  enum:
+                  - compliance
+                  - trading
+                  - audit
+                  - risk_management
+                  - general
+                frameworks:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '201':
+          description: Agent registered with API key
+  /ai/agent/{agent_id}/rotate-key:
+    post:
+      summary: Rotate Agent API Key
+      description: Rotate agent API key. Old key invalidated immediately. +5 reputation bonus. New 90-day lifecycle.
+      tags:
+      - Agent Trust Management
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - current_api_key
+              properties:
+                current_api_key:
+                  type: string
+      responses:
+        '200':
+          description: New API key with reputation update
+  /verify/sdk:
+    get:
+      summary: Validation SDK Info
+      description: SDK installation instructions, supported languages (Python available, TS/Rust/Go planned), and 7 verification checks.
+      tags:
+      - Enterprise Trust Layer
+      responses:
+        '200':
+          description: SDK info and check descriptions
+  /verify/self-test:
+    get:
+      summary: SDK Self-Test
+      description: 'Run live self-test: generates evidence, verifies with SDK (7 checks: hash, JWS, key, freshness, schema, SLA confidence, SLA freshness).'
+      tags:
+      - Enterprise Trust Layer
+      responses:
+        '200':
+          description: Self-test result with per-check status
+  /mcp/register:
+    post:
+      tags:
+      - MCP Auth
+      summary: Dynamic Client Registration (RFC 7591)
+      description: Register an M2M client. Pass grant_types=["client_credentials"] for agent use.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                client_name:
+                  type: string
+                grant_types:
+                  type: array
+                  items:
+                    type: string
+                  example:
+                  - client_credentials
+                redirect_uris:
+                  type: array
+                  items:
+                    type: string
+                scope:
+                  type: string
+                  example: mcp:read
+              required:
+              - client_name
+              - grant_types
+              - redirect_uris
+      responses:
+        '201':
+          description: Client registered
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  client_id:
+                    type: string
+                  client_secret:
+                    type: string
+                  grant_types:
+                    type: array
+                    items:
+                      type: string
+  /mcp/token:
+    post:
+      tags:
+      - MCP Auth
+      summary: OAuth 2.0 Token (client_credentials + authorization_code)
+      description: 'Issue Bearer token. For M2M: grant_type=client_credentials, no browser required.'
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                grant_type:
+                  type: string
+                  enum:
+                  - client_credentials
+                  - authorization_code
+                  - refresh_token
+                client_id:
+                  type: string
+                client_secret:
+                  type: string
+                scope:
+                  type: string
+                code:
+                  type: string
+                  description: For authorization_code flow only
+              required:
+              - grant_type
+              example:
+                grant_type: client_credentials
+                client_id: fo_client_abc123
+                client_secret: fo_secret_xyz
+                scope: mcp:read
+      responses:
+        '200':
+          description: Bearer token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                  token_type:
+                    type: string
+                    example: Bearer
+                  expires_in:
+                    type: integer
+                    example: 3600
+                  tier:
+                    type: string
+                example:
+                  access_token: fo_cc_...
+                  token_type: Bearer
+                  expires_in: 3600
+                  tier: free
+  /mcp/revoke:
+    post:
+      tags:
+      - MCP Auth
+      summary: Token Revocation (RFC 7009)
+      description: Revoke an access token. Returns HTTP 200 + empty body on success (RFC 7009).
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                client_id:
+                  type: string
+                client_secret:
+                  type: string
+              required:
+              - token
+      responses:
+        '200':
+          description: Revoked (empty body)
+  /mcp/sse:
+    get:
+      tags:
+      - MCP Transport
+      summary: Compliance MCP — SSE stream (18 tools)
+      description: 'Server-Sent Events transport. Connect with Bearer token. Tools: MiCA, DORA, RWA, stablecoin risk.'
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: SSE stream — session_id in first event
+  /mcp/messages:
+    post:
+      tags:
+      - MCP Transport
+      summary: Compliance MCP — JSON-RPC message endpoint
+      description: Send JSON-RPC 2.0 messages to active SSE session.
+      parameters:
+      - name: session_id
+        in: query
+        required: true
+        schema:
+          type: string
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                jsonrpc:
+                  type: string
+                  example: '2.0'
+                id:
+                  type: integer
+                method:
+                  type: string
+                  example: tools/call
+                params:
+                  type: object
+      responses:
+        '202':
+          description: Accepted — result delivered via SSE
+  /mcp/risk/sse:
+    get:
+      tags:
+      - MCP Transport
+      summary: Stablecoin Risk MCP — SSE stream (13 tools)
+      description: 'Risk intelligence tools: SAFE/CAUTION/AVOID assessments, peg monitoring, reserve analysis.'
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: SSE stream
+  /api/billing/register:
+    post:
+      tags:
+      - Billing
+      summary: Free API key — no credit card, no browser
+      description: Self-service registration. Returns API key immediately. 500 welcome units, no credit card required.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+              required:
+              - email
+      responses:
+        '200':
+          description: API key issued
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  api_key:
+                    type: string
+                    example: fo_f_...
+                  tier:
+                    type: string
+                    example: free
+  /mcp/kya/register:
+    post:
+      summary: Register AI agent identity (KYA)
+      description: Register agent metadata (name, purpose, org) to receive trust score and access level. Required for trust-gated tools.
+      tags:
+      - KYA - Know Your Agent
+      operationId: kya_register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                agent_name:
+                  type: string
+                agent_purpose:
+                  type: string
+                owner_email:
+                  type: string
+                owner_org:
+                  type: string
+                owner_jurisdiction:
+                  type: string
+                risk_appetite:
+                  type: string
+                  enum:
+                  - conservative
+                  - moderate
+                  - aggressive
+              required:
+              - agent_name
+              - agent_purpose
+              - owner_email
+              - owner_org
+      responses:
+        '200':
+          description: Agent registered with trust score and access level
+  /mcp/audit/log:
+    post:
+      summary: Log a compliance decision to tamper-proof audit trail
+      description: Creates chain-linked audit entry with evidence snapshots. Returns trail_id and chain_hash.
+      tags:
+      - Audit Trail
+      operationId: audit_log
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                decision:
+                  type: string
+                  enum:
+                  - PASS
+                  - BLOCK
+                  - WARN
+                  - HOLD
+                evidence_request_ids:
+                  type: array
+                  items:
+                    type: string
+                reasoning:
+                  type: string
+                target_asset:
+                  type: string
+                jurisdiction:
+                  type: string
+                  default: EU
+              required:
+              - decision
+              - evidence_request_ids
+              - reasoning
+      responses:
+        '200':
+          description: Audit entry with trail_id and chain_hash
+  /wallet/balance:
+    get:
+      summary: Check wallet balance
+      description: Returns current unit balance for the authenticated API key.
+      tags:
+      - Wallet
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Balance returned
+        '401':
+          description: Invalid or missing API key
+  /wallet/stripe/checkout:
+    post:
+      summary: Create Stripe checkout session
+      description: Creates a Stripe checkout session for purchasing a unit package. Redirects to Stripe.
+      tags:
+      - Wallet
+      security:
+      - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                package:
+                  type: string
+                  enum:
+                  - starter
+                  - growth
+                  - pro
+                  - enterprise
+                  - starter_annual
+                  - growth_annual
+                  - pro_annual
+                  - enterprise_annual
+                  description: Package to purchase
+              required:
+              - package
+      responses:
+        '302':
+          description: Redirect to Stripe checkout
+        '401':
+          description: Invalid API key
+  /guard/mcp:
+    post:
+      tags:
+      - AgentGuard
+      summary: AgentGuard MCP Server (20 tools)
+      description: 'JSON-RPC 2.0 MCP endpoint. Methods: initialize, tools/list, tools/call. Tools include policy_preflight, tool_risk_score, output_safety_scan, emergency_kill, tool_manifest_verify, and 15 more. Bearer token required for non-public tools.'
+      operationId: agentguardMcp
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                jsonrpc:
+                  type: string
+                  example: '2.0'
+                id:
+                  type: integer
+                  example: 1
+                method:
+                  type: string
+                  enum:
+                  - initialize
+                  - tools/list
+                  - tools/call
+                params:
+                  type: object
+      responses:
+        '200':
+          description: MCP JSON-RPC response
+        '401':
+          description: Bearer token required
+      security:
+      - bearerAuth: []
+  /ampel/mcp/:
+    post:
+      tags:
+      - DORA Ampel
+      summary: DORA AmpelOracle MCP endpoint (49 tools)
+      description: 'DORA compliance traffic-light system via MCP protocol. Tools: readiness_check, assess_all, onboard_entity, bridge_resolve, gap_report, generate_report, audit_trail, freshness_check. AgentGuard-integrated.'
+      operationId: doraAmpelMcp
+      responses:
+        '200':
+          description: MCP JSON-RPC response
+  /mica-ampel/mcp/:
+    post:
+      tags:
+      - MiCA Ampel
+      summary: MiCA AmpelOracle MCP endpoint (24 tools)
+      description: 'MiCA stablecoin compliance via MCP protocol. Tools: readiness_check, assess_token, assess_entity, validate_whitepaper, insider_escalation, stor_workflow, generate_report. 17 tokens, 13 issuers.'
+      operationId: micaAmpelMcp
+      responses:
+        '200':
+          description: MCP JSON-RPC response
+  /aml-oracle/mcp/:
+    post:
+      tags:
+      - AML Oracle
+      summary: AML Oracle MCP endpoint (12 tools)
+      description: Sanctions screening (EU FSF, OFAC SDN, UN SC, Interpol), PEP checks, KYC bundles, adverse media, country risk, transaction risk scoring. 87k+ watchlist entries.
+      operationId: amlOracleMcp
+      responses:
+        '200':
+          description: MCP JSON-RPC response
+  /guard-oracle/mcp/:
+    post:
+      tags:
+      - AgentGuard
+      summary: AgentGuard MCP endpoint (20 security tools)
+      description: 'Runtime security for AI agent workflows. Policy preflight, output safety scan, audit logging, emergency kill, rate limiting, scope checking. Agent states: active/monitoring/approval_required/suspended/killed.'
+      operationId: agentGuardMcp
+      responses:
+        '200':
+          description: MCP JSON-RPC response
+  /research-oracle/mcp/:
+    post:
+      tags:
+      - ResearchOracle
+      summary: ResearchOracle MCP (11 tools) — 200M+ papers, arXiv, Crossref
+      operationId: researchOracleMcp
+      responses:
+        '200':
+          description: MCP response
+  /eulaw-oracle/mcp/:
+    post:
+      tags:
+      - EULawOracle
+      summary: EULawOracle MCP (8 tools) — 12 EU regulations, article-level, cross-references
+      operationId: euLawOracleMcp
+      responses:
+        '200':
+          description: MCP response
+  /regwatch-oracle/mcp/:
+    post:
+      tags:
+      - RegWatchOracle
+      summary: RegWatchOracle MCP (6 tools) — US Federal Register + EU RSS
+      operationId: regWatchOracleMcp
+      responses:
+        '200':
+          description: MCP response
+  /esma-oracle/mcp/:
+    post:
+      tags:
+      - ESMAOracle
+      summary: ESMAOracle MCP (8 tools) — 177 CASPs, authorization checks
+      operationId: esmaOracleMcp
+      responses:
+        '200':
+          description: MCP response
+  /macro/mcp/:
+    post:
+      tags:
+      - MacroOracle
+      summary: MacroOracle MCP (22 tools) — FRED+ECB+WorldBank+BLS
+      operationId: macroOracleMcp
+      responses:
+        '200':
+          description: MCP response
+  /law/mcp/:
+    post:
+      tags:
+      - LawOracle
+      summary: LawOracle MCP (20 tools) - Multi-jurisdiction legal intelligence
+      description: 'Multi-jurisdiction legal search, obligation mapping (DORA/MiCA/AMLR), article extraction, DORA OS bridge. Tools: multi_jurisdiction_search, obligation_search, obligation_trace, article_extract, federal_register_search, sec_filing_search, court_opinion_search, congress_bill_search, regulations_gov_search, eurlex_search, uk_legislation_search, de_law_list, de_law_lookup, sec_company_filings, federal_register_document, congress_bill_detail, uk_act_content, jurisdiction_list, health_check, ping.'
+      operationId: lawOracleMcp
+      responses:
+        '200':
+          description: MCP JSON-RPC response
+  /test/mcp/:
+    post:
+      tags:
+      - TestOracle
+      summary: TestOracle MCP (16 tools) — DORA Resilience Testing
+      description: 'Art. 24-27 testing management: create_test_programme, register_test, scenario_library, tlpt_status, tester_qualification, test_coverage, sync_to_ampel, evidence_pack, obligation_map.'
+      operationId: testOracleMcp
+      responses:
+        '200':
+          description: MCP JSON-RPC response
+  /reporting/mcp/:
+    post:
+      tags:
+      - ReportingOracle
+      summary: ReportingOracle MCP (14 tools)
+      operationId: reportingOracleMcp
+      responses:
+        '200':
+          description: MCP response
+  /cloud/mcp/:
+    post:
+      tags:
+      - CloudOracle
+      summary: CloudOracle MCP (14 tools)
+      operationId: cloudOracleMcp
+      responses:
+        '200':
+          description: MCP response
+  /training/mcp/:
+    post:
+      tags:
+      - TrainingOracle
+      summary: TrainingOracle MCP (13 tools) — DORA ICT Security Training
+      operationId: trainingOracleMcp
+      responses:
+        '200':
+          description: MCP response
+  /policy/mcp/:
+    post:
+      tags:
+      - PolicyOracle
+      summary: PolicyOracle MCP (12 tools) — DORA ICT Policy Governance
+      operationId: policyOracleMcp
+      responses:
+        '200':
+          description: MCP response
+  /conductor/mcp/:
+    post:
+      tags:
+      - DORA OS Conductor
+      summary: DORA OS Conductor (16 tools) — Master Orchestrator
+      operationId: conductorMcp
+      responses:
+        '200':
+          description: MCP response
+  /drift/mcp/:
+    post:
+      tags:
+      - DriftOracle
+      summary: DriftOracle MCP (14 tools) — Self-Healing Drift Detection
+      operationId: driftOracleMcp
+      responses:
+        '200':
+          description: MCP response
+  /eventfabric/mcp/:
+    post:
+      tags:
+      - EventFabric
+      summary: EventFabric MCP (14 tools)
+      operationId: eventFabricMcp
+      responses:
+        '200':
+          description: MCP response
+  /predict/mcp/:
+    post:
+      tags:
+      - PredictOracle
+      summary: PredictOracle MCP (12 tools) — Predictive Risk
+      operationId: predictOracleMcp
+      responses:
+        '200':
+          description: MCP response
+  /zk/mcp/:
+    post:
+      tags:
+      - ZKEvidenceOracle
+      summary: ZKEvidenceOracle MCP (14 tools)
+      operationId: zkOracleMcp
+      responses:
+        '200':
+          description: MCP response
+  /v1/nomos/execution-receipts/{execution_id}:
+    servers:
+    - url: https://feedoracle.io/api
+      description: Public gateway that fronts the NOMOS admission and execution layers
+    get:
+      tags:
+      - NOMOS Execution Receipts
+      summary: Read the signed execution receipt for one call
+      description: 'Returns the Ed25519-signed execution receipt for a single earlier request. Take the URL from that request''s x-nomos-receipt-url response header rather than building it.
+
+
+        The receipt is served only to the consumer that owns it. Unknown, foreign, malformed and not-yet-signed ids are deliberately indistinguishable from outside: all four answer 404 RECEIPT_NOT_AVAILABLE. There is no listing endpoint.
+
+
+        A receipt read performs no business call: it creates no execution, no decision and no new receipt (measured: 12 reads, row delta 0/0/0).'
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: execution_id
+        in: path
+        required: true
+        schema:
+          type: string
+          example: exe1_f426c37db9c42673932ab5bc13e60b3b
+      responses:
+        '200':
+          description: Signed, terminal execution receipt
+          headers:
+            Cache-Control:
+              description: no-store
+              schema:
+                type: string
+                example: no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NomosExecutionReceipt'
+        '401':
+          description: Missing, malformed, unknown, expired or revoked credential
+        '404':
+          description: RECEIPT_NOT_AVAILABLE - uniform answer for unknown, foreign, malformed and unsigned ids
+        '405':
+          description: Method not allowed (GET and HEAD only)
+        '429':
+          description: Rate limited (receipt reads are limited per key, separately from the business routes)
+x-nomos-trust-chain:
+  model: S0-S10
+  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

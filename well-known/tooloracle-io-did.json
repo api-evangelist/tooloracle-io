@@ -1,0 +1,77 @@
+{
+  "@context": [
+    "https://www.w3.org/ns/did/v1",
+    "https://w3id.org/security/suites/jws-2020/v1"
+  ],
+  "id": "did:web:tooloracle.io",
+  "controller": "did:web:feedoracle.io",
+  "verificationMethod": [
+    {
+      "id": "did:web:tooloracle.io#key-1",
+      "type": "JsonWebKey2020",
+      "controller": "did:web:feedoracle.io",
+      "publicKeyJwk": {
+        "kty": "EC",
+        "crv": "secp256k1",
+        "x": "BXBcnC0toDevcwQWT3A35ytfuoquX_b_Ti7oSK2i858",
+        "y": "HgPx1iNDgRy70a910JxG-qrAfkTo9EgZz2MdlDCEtlI",
+        "kid": "fo-ecdsa-v1",
+        "alg": "ES256K",
+        "use": "sig"
+      }
+    }
+  ],
+  "authentication": [
+    "did:web:tooloracle.io#key-1"
+  ],
+  "assertionMethod": [
+    "did:web:tooloracle.io#key-1"
+  ],
+  "service": [
+    {
+      "id": "did:web:tooloracle.io#mcp-gateway",
+      "type": "MCPServer",
+      "serviceEndpoint": "https://tooloracle.io/mcp/"
+    },
+    {
+      "id": "did:web:tooloracle.io#agentguard",
+      "type": "MCPServer",
+      "serviceEndpoint": "https://tooloracle.io/agentguard/mcp/"
+    },
+    {
+      "id": "did:web:tooloracle.io#conductor",
+      "type": "MCPServer",
+      "serviceEndpoint": "https://tooloracle.io/conductor/mcp"
+    },
+    {
+      "id": "did:web:tooloracle.io#deal",
+      "type": "MCPServer",
+      "serviceEndpoint": "https://tooloracle.io/deal/mcp/"
+    },
+    {
+      "id": "did:web:tooloracle.io#x402",
+      "type": "PaymentGateway",
+      "serviceEndpoint": "https://tooloracle.io/x402/"
+    },
+    {
+      "id": "did:web:tooloracle.io#registry",
+      "type": "AgentRegistry",
+      "serviceEndpoint": "https://tooloracle.io/registry/api/"
+    },
+    {
+      "id": "did:web:tooloracle.io#agent-card",
+      "type": "AgentCard",
+      "serviceEndpoint": "https://tooloracle.io/.well-known/agent.json"
+    },
+    {
+      "id": "did:web:tooloracle.io#beacon",
+      "type": "OracleNetBeacon",
+      "serviceEndpoint": "https://tooloracle.io/beacon/"
+    },
+    {
+      "id": "did:web:tooloracle.io#mesh",
+      "type": "OracleNetMeshRegistry",
+      "serviceEndpoint": "https://tooloracle.io/mesh/registry.json"
+    }
+  ]
+}

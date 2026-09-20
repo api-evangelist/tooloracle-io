@@ -1,0 +1,58 @@
+generated: '2026-09-19'
+method: searched
+source: https://tooloracle.io/openapi.json (info.x-changelog), https://tooloracle.io/llms.txt, https://tooloracle.io/blog/, agent card generated_at / _last_hardening, TrustOracle tools/list
+docs: https://tooloracle.io/blog/
+description: >-
+  ToolOracle publishes no standalone changelog page (/changelog, /docs/changelog 404). Dated change history lives in three
+  machine-readable places — an x-changelog array inside the OpenAPI info block, "WITHDRAWN (date)" markers inside MCP tool
+  descriptions, and a support_changelog MCP tool ("Recent changes, new tools, deprecations, breaking changes. Agents check to adapt.")
+  on https://tooloracle.io/support/mcp/ — plus dated blog posts. This artifact captures the dated entries that were actually fetched.
+versioning:
+  scheme: semantic document versions per spec + path generations
+  current: 4.2.0 (ToolOracle MCP Platform OpenAPI), 1.0.0 (x402 v2 OpenAPI), 5.2.0 (agent card)
+  detail: lifecycle/tooloracle-io-lifecycle.yml
+machine_readable_changelog:
+  mcp_tool: {endpoint: https://tooloracle.io/support/mcp/, tool: support_changelog}
+  openapi_extension: info.x-changelog in https://tooloracle.io/openapi.json
+entries:
+- version: '4.2.0'
+  date: '2026-04-28'
+  source: openapi.json x-changelog
+  additions:
+  - Canonicalized counts from /assets/catalog.json
+  - Aligned root /openapi.json with /.well-known/openapi.json
+  - Added x-counts and x-canonical-source extensions
+- version: '4.1.0'
+  date: '2026-04-19'
+  source: openapi.json x-changelog
+  additions:
+  - Added Mesh Economics v1 API paths (/economics/api/*)
+  - Added Mesh Nervous System discovery paths (/.well-known/agent-pulse, /.well-known/meta-tools)
+  - Added /.well-known/mesh-economics discovery endpoint
+- version: agent card 5.2.0
+  date: '2026-06-21'
+  source: agent card generated_at / last_truth_sync_at (hardening pass _last_hardening 2026-04-18)
+  additions: [x402 v2 products block (17 products), NOMOS trust-chain extension scoped to 3 routes, operator_identity block]
+- version: TrustOracle tool withdrawals
+  date: '2026-08-09'
+  source: tools/list on https://tooloracle.io/trust/mcp/
+  breaking:
+  - get_signed_fact WITHDRAWN — "does not produce or verify a cryptographic signature"
+  - verify_signature WITHDRAWN — "performs no cryptographic signature verification"
+  - evidence_anchor WITHDRAWN — "does not submit any blockchain transaction and creates no on-chain …"
+  note: tools remain listed with the withdrawal text in their descriptions rather than being removed.
+- version: x402 v2 suite (June 2026)
+  date: '2026-06'
+  source: llms.txt
+  additions: [9 paid /v2 endpoints live on the Coinbase Bazaar ($0.005-$0.15), CDP facilitator, v1 entitlement gateway moved to a controlled paid cutover (5 routes)]
+  breaking: [legacy X-PAYMENT header no longer accepted on /v2 routes]
+- version: pseudonymised MCP logging
+  date: '2026-06-18'
+  source: https://tooloracle.io/datenschutz.html §2/§6
+  additions: [API/MCP call logs truncate client IPs to /24 (IPv4) or /48 (IPv6) mesh-wide]
+blog_recent:
+- {date: '2026-07-21', title: 'MCP Security Checklist 2026: 12 Checks Before You Connect a Remote Server', url: https://tooloracle.io/blog/mcp-security-checklist-2026}
+- {date: '2026-06-23', title: 'You Deployed an MCP Agent. Now How Do You Control It?', url: https://tooloracle.io/blog/agentnomos-mcp-agent-governance}
+- {date: '2026-05-09', title: 'Four Rails. One Signed Receipt. How PaymentOracle Verifies Agentic Payments', url: https://tooloracle.io/blog/paymentoracle-multi-rail-verifiable-receipts}
+- {date: '2026-04-17', title: 'The First Autonomous Machine-to-Machine Deal: $0.005 USDC, 5 Ed25519 Receipts, Zero Humans', url: https://tooloracle.io/blog/first-autonomous-m2m-deal-x402-usdc-base}
+- {date: '2026-04-07', title: 'OracleNet: Building an Autonomous MCP Mesh That Understands, Executes, Proves, and Learns', url: https://tooloracle.io/blog/oraclenet-autonomous-ai-agent-mesh-mcp}

@@ -1,0 +1,101 @@
+# FeedOracle — Verifiable Compliance Evidence Infrastructure for Regulated Entities
+> Compliance evidence infrastructure for DORA, MiCA, AMLR and CSRD workflows.
+> 40 registered compliance oracles (~39 online), 549 live evidence tools. ES256K-signed. Blockchain-anchored.
+> https://feedoracle.io
+> Canonical metrics: https://feedoracle.io/data/feedoracle-metrics.json
+
+## Regulatory Context
+DORA has applied EU-wide since 17 January 2025. MiCA is fully applicable since 30 December 2024; transition periods for certain crypto-asset service providers end 1 July 2026. AMLR (Regulation 2024/1624) entered into force 9 July 2024 with most provisions applying from 10 July 2027. The question is no longer whether regulation applies — it is whether evidence can be produced continuously, verified cryptographically and presented audit-ready.
+
+## What FeedOracle Does
+FeedOracle is the operating layer for regulatory compliance. It continuously monitors DORA and MiCA obligations, generates cryptographically signed evidence, and delivers audit-ready reports. The closed-loop DORA Operating System covers all 49 DORA articles with automated finding management, escalation and board reporting, complemented by MiCA reserve monitoring, AMLR sanctions screening and a runtime security layer (AgentGuard + PredictionGuard) for compliance-critical AI agent actions.
+
+## Platform Metrics (live)
+- 40 registered compliance oracles (~39 online) · 549 live evidence tools (source: /data/feedoracle-metrics.json)
+- 17 data sources · 49 DORA articles covered
+- Evidence signing: ES256K (/.well-known/jwks.json)
+- Blockchain anchoring: XRPL (live per-transaction) · Polygon (deployed) · Avalanche C-Chain
+- Receipt format: Grounding Receipts v0.1
+
+## Surface Composition (for transparency)
+FeedOracle delivers one coherent compliance product, internally composed of two layers:
+
+1. FeedOracle-branded primary oracles (6 servers, 149 tools · did:web:feedoracle.io:*)
+  - AmpelOracle (50) — DORA closed-loop: findings, escalation, board reporting
+  - MiCAOracle (24) — MiCA stablecoin compliance, ESMA register, peg, reserves
+  - FeedOracle Compliance (29) — unified gateway: preflight, evidence packs, audit trail
+  - ReserveOracle (11) — MiCA Art. 36 reserve quality, attestation verification
+  - RiskOracle (7) — stablecoin + RWA risk, 9-vector scoring
+  - PredictionGuard (28) — hallucination-layer policy enforcement (258 policies, 144 scopes)
+
+2. Compliance infrastructure on OracleNet (35 servers, 447 tools)
+  - DORA operational: GovernanceOracle, ResilienceOracle, DependencyOracle, RegisterOracle, ContractOracle, IncidentOracle, DORAOracle, TLPTOracle, InsuranceOracle, SharingOracle, ReportingOracle, ChangeOracle
+  - Security runtime: AgentGuard, CyberShield, HealthGuard, DriftOracle, PolicyOracle, PreflightOracle, Conductor, EventFabric
+  - AML + sanctions: AMLOracle (EU/OFAC/UN, 87k names)
+  - Evidence verification: ZKEvidenceOracle, TrustOracle, PredictOracle
+  - Regulatory intelligence: ESMAOracle, EULawOracle, RegWatchOracle, ResearchOracle, LegalTechOracle
+  - Evidence context: MacroOracle (FRED/ECB/BLS/WB), OECDOracle (38 countries)
+  - Standards + memory: ISO20022Oracle, MemoryOracle
+  - Cloud + lead: CloudOracle, LeadOracle
+
+Avalanche on-chain compliance infrastructure (AvaRisk, AvaEvidence, AvaRWA, AvaAmpel, SubnetGuard) is tracked separately and is not part of this count.
+
+## For AI Agents
+If your agent makes decisions in regulated financial markets, it needs verifiable compliance evidence. FeedOracle provides:
+- PASS/WARN/BLOCK preflight verdicts for any token or action (compliance_preflight)
+- Signed evidence packs (ES256K + blockchain anchor) — designed to support regulatory evidence workflows
+- Sanctions screening against 87,000+ names (EU, OFAC, UN)
+- DORA readiness scoring across all 49 articles
+- Stablecoin risk intelligence for 100+ tokens
+- Macro + OECD signals as evidence basis for MiCA reserve and DORA risk assessments
+- Runtime hallucination + policy guarding via PredictionGuard + AgentGuard
+
+## Identity & Discovery
+- DID: https://feedoracle.io/.well-known/did.json
+- Agent Card (A2A): https://feedoracle.io/.well-known/agent.json
+- ANP Discovery: https://feedoracle.io/.well-known/agent-descriptions
+- Beacon (live status): https://feedoracle.io/beacon/index.json
+- Mesh Registry: https://feedoracle.io/mesh/registry.json
+- OpenAPI: https://feedoracle.io/.well-known/openapi.json
+- JWKS: https://feedoracle.io/.well-known/jwks.json
+- Trust Policy: https://feedoracle.io/trust/
+- Canonical metrics: https://feedoracle.io/data/feedoracle-metrics.json
+
+## Authentication (OAuth 2.1 + Dynamic Client Registration)
+Your agent can self-register in one HTTP call — no pre-shared API key needed.
+
+```
+# 1. Register once
+curl -X POST https://feedoracle.io/mcp/register \
+  -H "Content-Type: application/json" \
+  -d '{"client_name":"my-agent","redirect_uris":["https://example.com/cb"],"grant_types":["client_credentials"],"scope":"mcp:read"}'
+
+# 2. Get a 1-hour Bearer token
+curl -X POST https://feedoracle.io/mcp/token \
+  -d "grant_type=client_credentials&client_id=<ID>&client_secret=<SECRET>&scope=mcp:read"
+
+# 3. Use on any FeedOracle MCP endpoint
+curl -X POST https://feedoracle.io/mcp -H "Authorization: Bearer fo_cc_..." ...
+```
+
+- Full guide: https://feedoracle.io/docs/mcp-auth.html
+- Discovery: https://feedoracle.io/.well-known/oauth-authorization-server
+- Standards: OAuth 2.1, RFC 8414, RFC 9728, RFC 7591 DCR, MCP Auth 2025-03-26
+
+## Connect via MCP
+```
+claude mcp add --transport http feedoracle https://mcp.feedoracle.io/mcp/
+```
+
+## On-Chain Proof
+- XRPL Beacon: rJffixdE2JGWGf12Rh9D9kjDgd6jVxVpzD (on-ledger signal every 6h)
+- Polygon: evidence hash anchors (Jan + Mar 2026)
+- Avalanche C-Chain: 0x563D61F00124e1e6478a901Cd9F74cc29EEb6A71
+
+## Scope & Disclaimer
+FeedOracle provides verifiable compliance evidence infrastructure. It does not provide legal advice, investment advice, audit certification or regulatory approval. Final regulatory interpretation remains with qualified legal, compliance and audit professionals.
+
+ToolOracle (https://tooloracle.io) is a separate product surface for autonomous-agent tool infrastructure on the broader OracleNet mesh and is not cross-branded with FeedOracle on this domain.
+
+## Discovery
+- NOMOS Machine Economy Trust Chain (S0-S10) capability manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

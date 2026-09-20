@@ -1,0 +1,69 @@
+{
+  "resource": "https://feedoracle.io",
+  "authorization_servers": [
+    "https://feedoracle.io"
+  ],
+  "bearer_methods_supported": [
+    "header"
+  ],
+  "scopes_supported": [
+    "mcp:read",
+    "mcp:risk:read",
+    "mcp:macro:read",
+    "mcp:compliance:read",
+    "mcp:verified-reports:read"
+  ],
+  "resource_documentation": "https://feedoracle.io/docs/mcp",
+  "resource_signing_alg_values_supported": [
+    "ES256K"
+  ],
+  "mcp_endpoints": {
+    "compliance": "https://feedoracle.io/mcp/sse",
+    "risk": "https://feedoracle.io/mcp/risk/sse",
+    "macro": "https://feedoracle.io/mcp/macro/sse",
+    "streamable_http": "https://feedoracle.io/mcp"
+  },
+  "tiers": {
+    "anonymous": {
+      "daily_limit": 20,
+      "note": "No registration needed"
+    },
+    "free": {
+      "daily_limit": 100,
+      "note": "Dynamic client registration"
+    },
+    "pro": {
+      "daily_limit": 5000,
+      "price": "$49/mo"
+    },
+    "agent": {
+      "daily_limit": 50000,
+      "price": "$299/mo"
+    },
+    "enterprise": {
+      "daily_limit": "unlimited",
+      "price": "custom"
+    }
+  },
+  "x_feedoracle_upgrade": {
+    "pricing_url": "https://feedoracle.io/pricing",
+    "usdc_pricing_url": "https://feedoracle.io/usdc/pricing",
+    "free_registration": "https://feedoracle.io/api/billing/register",
+    "oauth_register": "https://feedoracle.io/mcp/register",
+    "oauth_token_url": "https://feedoracle.io/mcp/token",
+    "supported_grants": [
+      "client_credentials",
+      "authorization_code"
+    ],
+    "payment_chains": [
+      "polygon"
+    ],
+    "agent_journey_docs": "https://feedoracle.io/llms.txt"
+  },
+  "x_feedoracle_evidence": {
+    "signatures": "ES256K (secp256k1)",
+    "jwks_url": "https://feedoracle.io/.well-known/jwks.json",
+    "verify_url": "https://feedoracle.io/verify",
+    "independently_verifiable": true
+  }
+}

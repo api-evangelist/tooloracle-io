@@ -1,0 +1,173 @@
+generated: '2026-09-19'
+method: probed
+source: https://tooloracle.io/.well-known/agent-card.json
+card:
+  file: a2a/tooloracle-io-agent-card.json
+discovery:
+  path: /.well-known/agent-card.json
+  canonical: true
+  host: tooloracle.io
+  note: >-
+    Served byte-identically at the canonical /.well-known/agent-card.json and the legacy /.well-known/agent.json
+    (49,968 bytes each, application/json). The card itself lists agent-card.json under `aliases`, and the
+    provider's llms.txt and robots.txt name agent.json as canonical — the legacy path is the one the provider
+    treats as primary, but the A2A canonical path is live and identical. www.tooloracle.io 301s to the apex.
+    Ownership is not in question: provider.organization is "FeedOracle Technologies", the Impressum on
+    tooloracle.io states "ToolOracle ist eine Marke und ein Produkt von FeedOracle Technologies, Inhaber Murat
+    Keskin", and the card's url https://tooloracle.io/a2a/jsonrpc is on the same host that serves the OpenAPI
+    (servers[] https://tooloracle.io) and every MCP endpoint.
+x-evidence:
+  fetched: '2026-09-19'
+  url: https://tooloracle.io/.well-known/agent-card.json
+  http_status: 200
+  content_type: application/json
+  body_bytes: 49968
+  body_parses_as: JSON object with AgentCard shape (name, url, version, protocolVersion, capabilities, skills all present)
+  corroborating_probes:
+  - url: https://tooloracle.io/.well-known/agent.json
+    http_status: 200
+    note: identical body
+  - url: https://tooloracle.io/a2a/jsonrpc
+    http_status: 200
+    note: >-
+      GET returns a JSON info card naming protocolVersion 0.3.0 and 11 JSON-RPC methods (message/send, tasks/get,
+      tasks/cancel, agent/getAuthenticatedExtendedCard, tasks/pushNotificationConfig/{set,get,list,delete}, tasks/submit,
+      tasks/continue, tasks/cancelAsync) and says POST is the real transport — a callable agent surface, not a docs page.
+  - url: https://tooloracle.io/a2a/tasks
+    http_status: 200
+    note: legacy endpoint answers JSON-RPC -32601 pointing at the canonical /a2a/jsonrpc — a live deprecation signal.
+  - url: https://tooloracle.io/a2a/health
+    http_status: 200
+    note: >-
+      reports service "FeedOracle A2A", protocol "A2A v0.2", skills 8 and agent_card https://feedoracle.io/.well-known/agent.json —
+      the health endpoint describes the sibling brand's card and an older protocol label than the card it sits next to.
+  - url: https://feedoracle.io/.well-known/agent-card.json
+    http_status: 200
+    note: a SECOND card ("FeedOracle", version 8.0.0, 9 skills) for the sibling brand, also pointing its url at https://tooloracle.io/a2a/jsonrpc; saved verbatim to a2a/tooloracle-io-feedoracle-agent-card.json and graded below.
+  - url: https://mcp.feedoracle.io/.well-known/agent-card.json
+    http_status: 200
+    note: same FeedOracle card
+  - url: https://api.feedoracle.io/.well-known/agent-card.json
+    http_status: 404
+agent_card:
+  name: ToolOracle
+  description: >-
+    OracleNet is a mesh capability router for autonomous agents — not a product, not a marketplace, not a tool list.
+    Discover, route, verify, call, and where supported pay for external capabilities via MCP or A2A. Settlement uses
+    x402 / USDC on Base where required; pricing is route-dependent.
+  url: https://tooloracle.io/a2a/jsonrpc
+  version: 5.2.0
+  protocol_version: 0.3.0
+  preferred_transport: JSONRPC
+  documentation_url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  provider:
+    organization: FeedOracle Technologies
+    url: https://tooloracle.io
+    location: Herford, Germany
+  capabilities:
+    streaming: true
+    push_notifications: true
+    state_transition_history: false
+    extensions:
+    - urn:oraclenet:signal:v1
+    - urn:oraclenet:deal:v1
+    - urn:oraclenet:mesh:v1
+    - https://agentnomos.com/extensions/nomos-trust-chain-v1 (scoped to 3 proven routes, explicitly not portfolio-wide)
+  default_input_modes: [text/plain, application/json]
+  default_output_modes: [text/plain, application/json]
+  security_schemes:
+    apiKeyAuth: {type: apiKey, in: header, name: X-API-Key, note: free tier via kya_register}
+    didWba: {type: http, scheme: bearer, bearerFormat: DID-WBA-JWT, note: DID:WBA agent identity (ES256K)}
+    x402Pay: {type: apiKey, in: header, name: PAYMENT-SIGNATURE, note: x402 v2 pay-per-call on /v2/* (Base USDC, EIP-3009 exact)}
+  security: '[{}, {apiKeyAuth: []}, {didWba: []}] — the empty first requirement means anonymous calls are allowed'
+  supports_authenticated_extended_card: true
+  skill_count: 10
+  skills:
+  - {id: nomos_preflight, name: NOMOS Cross-Border Preflight, paid: 'x402 $0.05 via POST /v2/nomos/preflight'}
+  - {id: intent_router, name: OracleNet Intent Router}
+  - {id: blockchain_multichain, name: Multi-Chain Blockchain Intelligence (14 chains)}
+  - {id: compliance_regulatory, name: EU Regulatory Compliance (35 servers, 462 tools)}
+  - {id: finance_macro, name: Finance, Macro & Markets (7 servers, 86 tools)}
+  - {id: business_intelligence, name: Business Intelligence & Growth (9 servers, 85 tools)}
+  - {id: travel_lifestyle, name: Travel, Jobs & Entertainment (8 servers, 76 tools)}
+  - {id: trust_identity, name: Agent Trust, Identity & Orchestration (7 servers, 83 tools)}
+  - {id: payments_settlement, name: Payments & Settlement (4 servers, 48 tools)}
+  - {id: oraclenet_deal_v1, name: OracleNet Deal Discovery Protocol v1}
+  payment_block: >-
+    Non-spec `payment` object declaring x402 v2 on Base (chain 8453), USDC asset 0x8335…2913, payTo 0x11f5…125D,
+    free-tier tool examples (ping, health_check, kya_register, quantum_join, quantum_status) and both payment flows
+    (v2 PAYMENT-SIGNATURE on /v2, legacy X-PAYMENT tx hash on /x402/{product}/mcp/).
+conformance:
+  spec: A2A 1.0.0 hard checks, card written to A2A 0.3.0
+  grade: conformant
+  protocol_version: 0.3.0
+  preferred_transport: JSONRPC
+  hard_checks:
+    capabilities_is_object: true
+    protocol_version_present: true
+    skills_is_array: true
+  optional_fields:
+    default_input_modes: true
+    default_output_modes: true
+    preferred_transport: true
+  grade_basis: >-
+    capabilities is an OBJECT with streaming, pushNotifications, stateTransitionHistory and an extensions[] array;
+    protocolVersion "0.3.0" is present at the top level; skills is an ARRAY of ten fully-populated skills (id, name,
+    description, tags, examples, and inputModes/outputModes on the paid skill). All three optional discriminators
+    (preferredTransport, defaultInputModes, defaultOutputModes) are declared. Nothing fails a hard check.
+  deviations:
+  - field: top-level extras
+    observed: >-
+      27 non-spec top-level keys — payment, links, mesh, oraclenet, oraclenet_signal, catalog_summary, verification,
+      x402_products, trust_passport, operator_identity, featureDetails, mcpServers (empty), aliases, canonical_source,
+      generated_at, _last_hardening, last_truth_sync_at, homepage, contact, repository, license, x-nomos-commerce-policy,
+      x-nomos-proof-capability — alongside the spec fields.
+    note: >-
+      A2A readers ignore unknown keys, so this is not a conformance failure, but the card is 50 KB and roughly 90% of it
+      is mesh telemetry (live counts, heartbeat epochs) that changes on every fetch. Several counts disagree with each
+      other inside one document (catalog_summary 89 servers / 1,096 tools; mesh.statistics "100 canonical … 94 registered … 89 online";
+      skills quote 35+7+9+8+7+4 = 70 servers).
+  - field: url
+    observed: https://tooloracle.io/a2a/jsonrpc answers GET with an informational JSON card, not the agent
+    note: Correct per spec (JSON-RPC is POST), and the GET body helpfully says so; noted because the same URL is also the `url` of the FeedOracle card.
+  - field: security
+    observed: '[{}, {apiKeyAuth: []}, {didWba: []}]'
+    note: An empty requirement object first means the agent is callable anonymously; x402Pay is declared in securitySchemes but not referenced in security[] — payment is signalled per-route by HTTP 402 instead.
+  - field: securitySchemes
+    observed: flat OpenAPI-style scheme objects with x-nomos-* extension keys inside x402Pay
+    note: Valid 0.3-era shape; a 1.0 reader expecting the protobuf-JSON oneof wrapper will not find it.
+  - field: documentationUrl
+    observed: https://tooloracle.io/docs/x402-buyer-quickstart/
+    note: Points at the paid-route buyer quickstart rather than general agent documentation (https://tooloracle.io/docs/ or /oraclenet/).
+  - field: provider
+    observed: extra keys location, name, support_contact
+    note: harmless; support_contact is a URL (https://feedoracle.io), not a contact.
+  - field: skills[nomos_preflight].x402
+    observed: per-skill x402 offer block (offer_id, product_id, url, method, price, amount_atomic)
+    note: Non-spec but the most useful extension in the card — it binds a skill to a priced HTTP route.
+  - field: consistency with /a2a/health
+    observed: health reports "A2A v0.2", 8 skills and the feedoracle.io card
+    note: Two cards, two protocol labels and two skill counts describe one endpoint; an agent reconciling them cannot tell which is authoritative.
+additional_cards:
+- name: FeedOracle
+  file: a2a/tooloracle-io-feedoracle-agent-card.json
+  source: https://feedoracle.io/.well-known/agent-card.json
+  also_served_at: [https://feedoracle.io/.well-known/agent.json, https://mcp.feedoracle.io/.well-known/agent-card.json, https://mcp.feedoracle.io/.well-known/agent.json]
+  http_status: 200
+  content_type: application/json
+  body_bytes: 16445
+  url: https://tooloracle.io/a2a/jsonrpc
+  version: 8.0.0
+  protocol_version: 0.3.0
+  preferred_transport: JSONRPC
+  skill_count: 9
+  skills: [compliance_preflight, dora_operating_system, evidence_signing, sanctions_aml, stablecoin_risk, macro_intelligence, contract_analysis, mica_full_compliance, oraclenet_deal_v1]
+  grade: conformant
+  grade_basis: capabilities is an object (streaming true, pushNotifications false, extendedAgentCard false, extensions[]); protocolVersion 0.3.0 present; skills is an array of 9; defaultInputModes/defaultOutputModes/preferredTransport all declared. securitySchemes and security are null — the card declares no auth at all.
+  note: Same company, sibling brand; its JSON-RPC url is the ToolOracle endpoint, so one A2A server fronts both cards.
+surface_relationship:
+  note: >-
+    The A2A card is the broadest of ToolOracle's three agent surfaces in scope and the thinnest in contract: ten
+    category-level skills that route to ~90 MCP servers (mcp/tooloracle-io-mcp.yml, 1,178 tool entries with real
+    inputSchemas) and to 18 priced /v2 REST routes (openapi/tooloracle-io-x402-v2-openapi.yml). An agent that reads only
+    the card sees the categories and the payment terms; the callable contracts live in MCP and the x402 manifest.

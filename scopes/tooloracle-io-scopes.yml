@@ -1,0 +1,42 @@
+generated: '2026-09-19'
+method: searched
+source: https://tooloracle.io/.well-known/oauth-authorization-server, https://tooloracle.io/.well-known/oauth-protected-resource, https://feedoracle.io/.well-known/oauth-authorization-server, https://feedoracle.io/.well-known/openid-configuration, https://feedoracle.io/.well-known/oauth-protected-resource, https://tooloracle.io/llms.txt
+docs: https://feedoracle.io/docs/mcp-auth.html
+note: >-
+  None of the three OpenAPIs declares an oauth2 securityScheme (derive-oauth-scopes.py found 0), so this file is built from the
+  RFC 8414 / RFC 9728 discovery documents both brands serve. The scopes are NAMED in scopes_supported but the provider publishes
+  no per-scope description anywhere that was fetched; `meaning` below is what the name states and nothing more.
+schemes:
+- name: OAuth 2.1 (feedoracle.io issuer, used by both brands)
+  issuer: https://feedoracle.io
+  source: well-known/tooloracle-io-oauth-authorization-server.json
+  flows:
+  - flow: authorizationCode
+    authorizationUrl: https://feedoracle.io/mcp/authorize
+    tokenUrl: https://feedoracle.io/mcp/token
+    pkce: S256 (only method supported)
+  - flow: clientCredentials
+    tokenUrl: https://feedoracle.io/mcp/token
+    note: 'documented one-call flow in llms.txt: register at /mcp/register, then grant_type=client_credentials&scope=mcp:read -> 1-hour bearer (prefix fo_cc_)'
+  - flow: refreshToken
+    tokenUrl: https://feedoracle.io/mcp/token
+  registration: https://feedoracle.io/mcp/register (RFC 7591 dynamic client registration)
+  revocation: https://feedoracle.io/mcp/revoke
+  token_endpoint_auth_methods: [client_secret_post, client_secret_basic]
+  jwks: https://feedoracle.io/.well-known/jwks.json
+scopes:
+- {scope: 'mcp:read', meaning: baseline MCP read access; the scope llms.txt uses in its example, resources: [tooloracle.io, feedoracle.io], sources: [tooloracle.io AS, feedoracle.io AS, both PRM docs]}
+- {scope: 'mcp:tools:read', meaning: read/list tools (name only), resources: [tooloracle.io], sources: [tooloracle.io AS, tooloracle.io PRM]}
+- {scope: 'mcp:oracles:read', meaning: read oracle catalog (name only), resources: [tooloracle.io], sources: [tooloracle.io AS, tooloracle.io PRM]}
+- {scope: 'mcp:compliance:read', meaning: compliance oracle tools (name only), resources: [tooloracle.io, feedoracle.io], sources: [both AS, both PRM]}
+- {scope: 'mcp:risk:read', meaning: stablecoin/RWA risk server (name only), resources: [feedoracle.io], sources: [tooloracle.io AS, feedoracle.io AS, feedoracle.io PRM]}
+- {scope: 'mcp:macro:read', meaning: macro intelligence server (name only), resources: [feedoracle.io], sources: [tooloracle.io AS, feedoracle.io AS, feedoracle.io PRM]}
+- {scope: 'mcp:verified-reports:read', meaning: verified reports API (name only), resources: [feedoracle.io], sources: [tooloracle.io AS, feedoracle.io AS, feedoracle.io PRM]}
+- {scope: openid, meaning: OIDC id_token (ES256K), resources: [feedoracle.io], sources: [feedoracle.io openid-configuration]}
+resource_scope_matrix:
+  note: The tooloracle.io protected-resource document accepts only mcp:read, mcp:tools:read, mcp:oracles:read and mcp:compliance:read; a token carrying mcp:risk:read or mcp:macro:read is meaningful only on feedoracle.io resources.
+other_scope_systems:
+- name: AgentGuard role scopes
+  note: '"6 role scopes (admin/compliance/trader/auditor/developer/readonly)" and "144 scopes" (homepage, /trust/) — an AgentGuard policy vocabulary, not OAuth scopes; the AgentGuard endpoints were 404 on the probe day so it could not be captured.'
+- name: KYA trust levels
+  note: 'docs/mcp-auth.html: 0 UNVERIFIED (free tools), 1 KNOWN (all tools), 2 TRUSTED (+reports), 3 CERTIFIED (+priority SLA) — gates access alongside scopes.'

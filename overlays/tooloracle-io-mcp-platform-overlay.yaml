@@ -1,0 +1,42 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for ToolOracle MCP Platform API
+  version: 1.0.0
+extends: openapi/tooloracle-io-mcp-platform-openapi.yml
+x-generated: '2026-09-19'
+x-method: generated
+x-source: openapi/tooloracle-io-mcp-platform-openapi.yml
+actions:
+- target: $.info
+  update:
+    x-apievangelist:
+      catalog: https://apis.io/tooloracle-io
+      provider: FeedOracle Technologies
+      maintainer: Kin Lane <kin@apievangelist.com>
+      artifacts:
+      - apis.yml
+      - a2a/tooloracle-io-a2a.yml
+      - mcp/tooloracle-io-mcp.yml
+      - mcp/tooloracle-io-tool-crosswalk.yml
+      - conformance/tooloracle-io-conformance.yml
+      - errors/tooloracle-io-problem-types.yml
+      - lifecycle/tooloracle-io-lifecycle.yml
+      - conventions/tooloracle-io-conventions.yml
+      - authentication/tooloracle-io-authentication.yml
+      - scopes/tooloracle-io-scopes.yml
+      - rate-limits/tooloracle-io-rate-limits.yml
+      - plans/tooloracle-io-plans-pricing.yml
+      - well-known/tooloracle-io-well-known.yml
+      x-provenance: harvested verbatim from the provider (see openapi/_original/), never edited; this overlay layers API Evangelist
+        context only
+- target: $.info
+  update:
+    x-apievangelist-note: 40 of the 70 operations are MCP transport endpoints (POST /<oracle>/mcp/); their real contract is
+      tools/list — see mcp/tooloracle-io-tools.json and mcp/tooloracle-io-tool-crosswalk.yml. 20 of the 70 operations carry
+      no operationId.
+- target: $.paths[*][?(@.summary =~ /MCP/)]
+  update:
+    x-apievangelist-surface: mcp-endpoint
+- target: $.paths['/v2/*'][*]
+  update:
+    x-apievangelist-payment: x402 v2 — HTTP 402 + PAYMENT-REQUIRED; see conventions/tooloracle-io-conventions.yml#payments
