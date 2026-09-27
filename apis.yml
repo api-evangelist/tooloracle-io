@@ -25,77 +25,15 @@ tags:
 - Agent Discovery
 - Germany
 apis:
-- aid: tooloracle-io:tooloracle-mcp-platform-api
-  name: ToolOracle MCP Platform API
-  description: >-
-    The provider's root OpenAPI 3.0.0 contract (version 4.2.0): a discovery index of forty hosted MCP endpoints (POST /<oracle>/mcp/),
-    nineteen x402-priced /v2 REST routes (agent preflight, MiCA stablecoin checks, sanctions screening, CVE lookup, macro snapshot,
-    prediction-market integrity, XRPL RLUSD integrity), the Mesh Economics ledger API (/economics/api/*) and the mesh discovery
-    documents. Served identically at /openapi.json and /.well-known/openapi.json.
-  humanURL: https://tooloracle.io/docs/
-  baseURL: https://tooloracle.io
-  tags:
-  - MCP
-  - x402
-  - Compliance
-  - Blockchain
-  properties:
-  - type: OpenAPI
-    url: openapi/tooloracle-io-mcp-platform-openapi.yml
-  - type: OpenAPI
-    name: provider-hosted OpenAPI 3.0.0 (verbatim copy at openapi/_original/tooloracle-io-openapi.json)
-    url: https://tooloracle.io/openapi.json
-  - type: Documentation
-    url: https://tooloracle.io/docs/
-  - type: APIReference
-    url: https://tooloracle.io/docs/402-protocol
-  - type: Overlay
-    url: overlays/tooloracle-io-mcp-platform-overlay.yaml
-  - type: ErrorCatalog
-    url: errors/tooloracle-io-problem-types.yml
-  - type: Conventions
-    url: conventions/tooloracle-io-conventions.yml
-- aid: tooloracle-io:tooloracle-x402-v2-api
-  name: ToolOracle x402 v2 Compliance, Evidence & Agent-Safety API
-  description: >-
-    Account-less pay-per-call REST API (OpenAPI 3.1.0 with schemas and examples on every operation): agent action preflight,
-    MiCA stablecoin compliance, AML/sanctions screening, CVE lookup, UVO claim and citation verification, and a US macro snapshot.
-    Every route follows x402 v2 — an unpaid POST returns HTTP 402 with a PAYMENT-REQUIRED challenge (USDC on Base, EIP-3009 exact
-    scheme, CDP facilitator); retry with PAYMENT-SIGNATURE; paid responses carry an Ed25519-signed execution receipt.
-  humanURL: https://tooloracle.io/docs/x402-buyer-quickstart/
-  baseURL: https://tooloracle.io
-  tags:
-  - x402
-  - Compliance
-  - Sanctions Screening
-  - Agent Safety
-  properties:
-  - type: OpenAPI
-    url: openapi/tooloracle-io-x402-v2-openapi.yml
-  - type: OpenAPI
-    name: provider-hosted OpenAPI 3.1.0 (verbatim copy at openapi/_original/tooloracle-io-v2-openapi.json)
-    url: https://tooloracle.io/v2/openapi.json
-  - type: Documentation
-    url: https://tooloracle.io/docs/x402-buyer-quickstart/
-  - type: GettingStarted
-    url: https://tooloracle.io/docs/x402-buyer-quickstart/
-  - type: Pricing
-    name: x402 v2 manifest (machine-readable prices per route)
-    url: https://tooloracle.io/.well-known/x402
-  - type: Overlay
-    url: overlays/tooloracle-io-x402-v2-overlay.yaml
-  - type: ErrorCatalog
-    url: errors/tooloracle-io-problem-types.yml
-  - type: AgentSkill
-    url: skills/tooloracle-io-pay-per-call-x402-v2.md
 - aid: tooloracle-io:oraclenet-mcp-servers
   name: OracleNet MCP Servers
   description: >-
-    The hosted MCP mesh: ninety-two endpoints under tooloracle.io (plus five on feedoracle.io / mcp.feedoracle.io) answered an anonymous
-    tools/list on 2026-09-19/20 with 1,178 tool entries and 919 unique tool names, all over Streamable HTTP at MCP protocol 2025-03-26.
-    The main endpoint https://tooloracle.io/mcp/ identifies as RankOracle (13 SEO tools); the mesh front door is https://tooloracle.io/quantum/mcp/
-    (join, route, trust passport, execute). Free tools need no credential; paid tools answer 402 with an x402 challenge; sixty-one
-    io.tooloracle/* servers are listed in the official MCP registry.
+    The hosted MCP mesh: ninety-two endpoints under tooloracle.io (plus five on feedoracle.io / mcp.feedoracle.io)
+    answered an anonymous tools/list on 2026-09-19/20 with 1,178 tool entries and 919 unique tool names,
+    all over Streamable HTTP at MCP protocol 2025-03-26. The main endpoint https://tooloracle.io/mcp/
+    identifies as RankOracle (13 SEO tools); the mesh front door is https://tooloracle.io/quantum/mcp/
+    (join, route, trust passport, execute). Free tools need no credential; paid tools answer 402 with
+    an x402 challenge; sixty-one io.tooloracle/* servers are listed in the official MCP registry.
   humanURL: https://tooloracle.io/docs/mcp-auth.html
   baseURL: https://tooloracle.io/mcp/
   tags:
@@ -125,9 +63,10 @@ apis:
 - aid: tooloracle-io:oraclenet-a2a-agent
   name: OracleNet A2A Agent
   description: >-
-    A2A 0.3 JSON-RPC agent at https://tooloracle.io/a2a/jsonrpc (message/send, tasks/*, push-notification configs, authenticated
-    extended card) fronting ten category-level skills that route to the MCP mesh, described by a conformant Agent Card served at both
-    /.well-known/agent-card.json and the legacy /.well-known/agent.json; a second card for the FeedOracle brand points at the same endpoint.
+    A2A 0.3 JSON-RPC agent at https://tooloracle.io/a2a/jsonrpc (message/send, tasks/*, push-notification
+    configs, authenticated extended card) fronting ten category-level skills that route to the MCP mesh,
+    described by a conformant Agent Card served at both /.well-known/agent-card.json and the legacy /.well-known/agent.json;
+    a second card for the FeedOracle brand points at the same endpoint.
   humanURL: https://tooloracle.io/oraclenet/
   baseURL: https://tooloracle.io/a2a/jsonrpc
   tags:
@@ -144,26 +83,31 @@ apis:
     url: https://tooloracle.io/oraclenet/
   - type: Webhooks
     url: asyncapi/tooloracle-io-webhooks.yml
-- aid: tooloracle-io:feedoracle-compliance-evidence-api
-  name: FeedOracle Compliance Evidence API
+- aid: tooloracle-io:tooloracle-io-agent-readiness-api
+  name: FeedOracle Technologies Agent Readiness API
   description: >-
-    The sibling brand's REST contract (OpenAPI 3.1.0, version 8.4.1, 227 paths at https://api.feedoracle.io): DORA, MiCA, AMLR and CSRD
-    compliance evidence, macro data, carbon and L2 feeds, attestation verification and signed reports. v1 data feeds require an X-API-Key;
-    v2 MOAT/attestation and v3 disclosure routes are public. Same legal entity as ToolOracle (Impressum: FeedOracle Technologies,
-    Inhaber Murat Keskin); info.contact support@feedoracle.io, termsOfService https://feedoracle.io/terms.html.
-  humanURL: https://feedoracle.io/docs.html
-  baseURL: https://api.feedoracle.io
+    The agent-readiness API from FeedOracle Technologies — 1 operation(s) for agent-readiness.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
   tags:
-  - Compliance
-  - RegTech
-  - DORA
-  - MiCA
+  - agent-readiness
   properties:
   - type: OpenAPI
-    url: openapi/tooloracle-io-feedoracle-compliance-evidence-openapi.yml
-  - type: OpenAPI
-    name: provider-hosted OpenAPI 3.1.0 (verbatim copy at openapi/_original/tooloracle-io-feedoracle-openapi.json)
-    url: https://feedoracle.io/openapi.json
+    url: openapi/tooloracle-io-agent-readiness-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
   - type: Documentation
     url: https://feedoracle.io/docs.html
   - type: APIReference
@@ -174,8 +118,4255 @@ apis:
     url: https://feedoracle.io/console/
   - type: LLMsTxt
     url: llms/tooloracle-io-feedoracle-llms.txt
-  - type: Overlay
-    url: overlays/tooloracle-io-feedoracle-compliance-evidence-overlay.yaml
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-agent-safety-api
+  name: FeedOracle Technologies Agent Safety API
+  description: The agent-safety API from FeedOracle Technologies — 5 operation(s) for agent-safety.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - agent-safety
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-agent-safety-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-agent-trust-management-api
+  name: FeedOracle Technologies Agent Trust Management API
+  description: >-
+    The Agent Trust Management API from FeedOracle Technologies — 2 operation(s) for agent trust management.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Agent Trust Management
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-agent-trust-management-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-agentguard-api
+  name: FeedOracle Technologies Agent Guard API
+  description: >-
+    Runtime agent security & governance. 20 tools across 4 layers: pre-execution, payload security, governance,
+    post-execution. Agent state machine with automatic escalation.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - AgentGuard
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-agentguard-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-agents-api
+  name: FeedOracle Technologies Agents API
+  description: AI Agent feeds (Key required)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Agents
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-agents-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-ai-gateway-api
+  name: FeedOracle Technologies AI Gateway API
+  description: The AI Gateway API from FeedOracle Technologies — 4 operation(s) for ai gateway.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - AI Gateway
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-ai-gateway-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-aml-oracle-api
+  name: FeedOracle Technologies AML Oracle API
+  description: Anti-money laundering and sanctions screening — 12 tools, 87k+ watchlist entries
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - AML Oracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-aml-oracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-amloracle-api
+  name: FeedOracle Technologies AML Oracle API
+  description: Sanctions, PEP, KYC (12 tools)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - AMLOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-amloracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-ampeloracle-api
+  name: FeedOracle Technologies Ampel Oracle API
+  description: DORA traffic light system (25 tools)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - AmpelOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-ampeloracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-attestation-api
+  name: FeedOracle Technologies Attestation API
+  description: DAP attestation (Public)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Attestation
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-attestation-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-attestations-api
+  name: FeedOracle Technologies Attestations API
+  description: The Attestations API from FeedOracle Technologies — 2 operation(s) for attestations.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Attestations
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-attestations-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-audit-trail-api
+  name: FeedOracle Technologies Audit Trail API
+  description: The Audit Trail API from FeedOracle Technologies — 1 operation(s) for audit trail.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Audit Trail
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-audit-trail-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-billing-api
+  name: FeedOracle Technologies Billing API
+  description: The Billing API from FeedOracle Technologies — 1 operation(s) for billing.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Billing
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-billing-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-blockchain-api
+  name: FeedOracle Technologies Blockchain API
+  description: >-
+    13 blockchain oracles: Arbitrum, Solana, TON, Sui, ETH, XLM, XRPL, BNB, Aptos, Base, Hedera, BTC,
+    Flare
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Blockchain
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-blockchain-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-blockchain-risk-api
+  name: FeedOracle Technologies Blockchain Risk API
+  description: >-
+    The blockchain-risk API from FeedOracle Technologies — 1 operation(s) for blockchain-risk.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - blockchain-risk
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-blockchain-risk-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-business-api
+  name: FeedOracle Technologies Business API
+  description: The Business API from FeedOracle Technologies — 3 operation(s) for business.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Business
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-business-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-carbon-api
+  name: FeedOracle Technologies Carbon API
+  description: Carbon data (Key required)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Carbon
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-carbon-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-carbonoracle-api
+  name: FeedOracle Technologies Carbon Oracle API
+  description: EU ETS, grid intensity (11 tools)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - CarbonOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-carbonoracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-cloudoracle-api
+  name: FeedOracle Technologies Cloud Oracle API
+  description: 'DORA cloud monitoring: live AWS/GCP/Azure status, concentration risk, CTPP check.'
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - CloudOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-cloudoracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-commodities-api
+  name: FeedOracle Technologies Commodities API
+  description: The Commodities API from FeedOracle Technologies — 3 operation(s) for commodities.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Commodities
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-commodities-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-compliance-api
+  name: FeedOracle Technologies Compliance API
+  description: The compliance API from FeedOracle Technologies — 4 operation(s) for compliance.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - compliance
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-compliance-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-credit-api
+  name: FeedOracle Technologies Credit API
+  description: The Credit API from FeedOracle Technologies — 4 operation(s) for credit.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Credit
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-credit-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-cross-border-api
+  name: FeedOracle Technologies Cross Border API
+  description: The cross-border API from FeedOracle Technologies — 1 operation(s) for cross-border.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - cross-border
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-cross-border-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-crypto-api
+  name: FeedOracle Technologies Crypto API
+  description: The Crypto API from FeedOracle Technologies — 2 operation(s) for crypto.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Crypto
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-crypto-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-disclosure-api
+  name: FeedOracle Technologies Disclosure API
+  description: v3 Sustainability disclosure (Public)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Disclosure
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-disclosure-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-discovery-api
+  name: FeedOracle Technologies Discovery API
+  description: Well-known endpoints for agent discovery (ANP/A2A-compatible).
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Discovery
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-discovery-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-dora-ampel-api
+  name: FeedOracle Technologies DORA Ampel API
+  description: >-
+    DORA traffic-light compliance system — 49 tools, 26 articles, 39 checks, 67 controls, 6 entities.
+    Closed-loop: Control→Finding→Owner→ReTest→Close. Escalation, What-if, Board-View, Dependency Graph,
+    Evidence Packs.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - DORA Ampel
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-dora-ampel-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-dora-os-conductor-api
+  name: FeedOracle Technologies DORA OS Conductor API
+  description: >-
+    Multi-agent orchestrator. 16 tools coordinating all 16 DORA OS oracles. Workflows, event reactions,
+    board briefings, remediation planning.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - DORA OS Conductor
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-dora-os-conductor-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-doraoracle-api
+  name: FeedOracle Technologies DORA Oracle API
+  description: CVE/KEV, CERT-Bund, cloud status (15 tools)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - DORAOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-doraoracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-driftoracle-api
+  name: FeedOracle Technologies Drift Oracle API
+  description: >-
+    Self-healing compliance drift detection. Regulatory changes, evidence staleness, cloud drift, auto-remediation.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - DriftOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-driftoracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-ecb-api
+  name: FeedOracle Technologies ECB API
+  description: The ECB API from FeedOracle Technologies — 7 operation(s) for ecb.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - ECB
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-ecb-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-enterprise-trust-layer-api
+  name: FeedOracle Technologies Enterprise Trust Layer API
+  description: >-
+    The Enterprise Trust Layer API from FeedOracle Technologies — 2 operation(s) for enterprise trust
+    layer.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Enterprise Trust Layer
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-enterprise-trust-layer-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-epm-api
+  name: FeedOracle Technologies EPM API
+  description: The EPM API from FeedOracle Technologies — 1 operation(s) for epm.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - EPM
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-epm-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-equities-api
+  name: FeedOracle Technologies Equities API
+  description: The Equities API from FeedOracle Technologies — 2 operation(s) for equities.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Equities
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-equities-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-esma-register-api
+  name: FeedOracle Technologies ESMA Register API
+  description: The ESMA Register API from FeedOracle Technologies — 8 operation(s) for esma register.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - ESMA Register
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-esma-register-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-esmaoracle-api
+  name: FeedOracle Technologies ESMA Oracle API
+  description: Official ESMA MiCA register — CASPs, non-compliant entities, white papers
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - ESMAOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-esmaoracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-eu-carbon-intelligence-api
+  name: FeedOracle Technologies EU Carbon Intelligence API
+  description: >-
+    The EU Carbon Intelligence API from FeedOracle Technologies — 2 operation(s) for eu carbon intelligence.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - EU Carbon Intelligence
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-eu-carbon-intelligence-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-eu-energy-api
+  name: FeedOracle Technologies EU Energy API
+  description: The EU Energy API from FeedOracle Technologies — 1 operation(s) for eu energy.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - EU Energy
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-eu-energy-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-eulaworacle-api
+  name: FeedOracle Technologies EU Law Oracle API
+  description: >-
+    EU financial regulation intelligence — 12 regulations, article lookup, cross-references, deadlines
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - EULawOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-eulaworacle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-eventfabric-api
+  name: FeedOracle Technologies Event Fabric API
+  description: >-
+    Real-time event processing. Webhook receiver, 12 routing rules, auto-dispatch to Conductor.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - EventFabric
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-eventfabric-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-finance-api
+  name: FeedOracle Technologies Finance API
+  description: The finance API from FeedOracle Technologies — 1 operation(s) for finance.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - finance
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-finance-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-fiscal-api
+  name: FeedOracle Technologies Fiscal API
+  description: The Fiscal API from FeedOracle Technologies — 3 operation(s) for fiscal.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Fiscal
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-fiscal-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-flightoracle-api
+  name: FeedOracle Technologies Flight Oracle API
+  description: Flight search (8 tools)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - FlightOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-flightoracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-health-api
+  name: FeedOracle Technologies Health API
+  description: System health endpoints (Public)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Health
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-health-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-hoteloracle-api
+  name: FeedOracle Technologies Hotel Oracle API
+  description: Hotel search (8 tools)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - HotelOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-hoteloracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-insuranceoracle-api
+  name: FeedOracle Technologies Insurance Oracle API
+  description: NatCat, GLEIF (12 tools)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - InsuranceOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-insuranceoracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-integrity-suite-api
+  name: FeedOracle Technologies Integrity Suite API
+  description: Cross-source validation, baselines, and verifiable credentials
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Integrity Suite
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-integrity-suite-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-international-api
+  name: FeedOracle Technologies International API
+  description: The International API from FeedOracle Technologies — 3 operation(s) for international.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - International
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-international-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-iso20022oracle-api
+  name: FeedOracle Technologies ISO20022 Oracle API
+  description: Financial messaging (12 tools)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - ISO20022Oracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-iso20022oracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-joboracle-api
+  name: FeedOracle Technologies Job Oracle API
+  description: Job market (8 tools)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - JobOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-joboracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-knowledge-api
+  name: FeedOracle Technologies Knowledge API
+  description: Knowledge base (Key required)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Knowledge
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-knowledge-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-kya-know-your-agent-api
+  name: FeedOracle Technologies KYA - Know Your Agent API
+  description: >-
+    The KYA - Know Your Agent API from FeedOracle Technologies — 1 operation(s) for kya - know your agent.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - KYA - Know Your Agent
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-kya-know-your-agent-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-l2-api
+  name: FeedOracle Technologies L2 API
+  description: Layer 2 fee oracle (Public)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - L2
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-l2-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-laworacle-api
+  name: FeedOracle Technologies Law Oracle API
+  description: >-
+    Multi-jurisdiction legal intelligence MCP server. 20 tools, 9 data sources, 4 jurisdictions (US, EU,
+    UK, DE). Obligation mapping, article extraction, DORA OS bridge. Endpoint: https://tooloracle.io/law/mcp
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - LawOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-laworacle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-leadoracle-api
+  name: FeedOracle Technologies Lead Oracle API
+  description: Lead enrichment (7 tools)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - LeadOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-leadoracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-macro-api
+  name: FeedOracle Technologies Macro API
+  description: Macro economic (Key required)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Macro
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-macro-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-macro-core-api
+  name: FeedOracle Technologies Macro Core API
+  description: The Macro Core API from FeedOracle Technologies — 9 operation(s) for macro core.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Macro Core
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-macro-core-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-macro-oracle-api
+  name: FeedOracle Technologies Macro Oracle API
+  description: US macro-economic data from FRED — health index, inflation, GDP, fed rates, yield curve
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Macro Oracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-macro-oracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-macrooracle-api
+  name: FeedOracle Technologies Macro Oracle API
+  description: Macro economic intelligence — ECB + FRED + BLS + World Bank
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - MacroOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-macrooracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-maporacle-api
+  name: FeedOracle Technologies Map Oracle API
+  description: Location intelligence (12 tools)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - MapOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-maporacle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-market-integrity-api
+  name: FeedOracle Technologies Market Integrity API
+  description: >-
+    The market-integrity API from FeedOracle Technologies — 3 operation(s) for market-integrity.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - market-integrity
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-market-integrity-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-mcp-auth-api
+  name: FeedOracle Technologies MCP Auth API
+  description: The MCP Auth API from FeedOracle Technologies — 3 operation(s) for mcp auth.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - MCP Auth
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-mcp-auth-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-mcp-transport-api
+  name: FeedOracle Technologies MCP Transport API
+  description: The MCP Transport API from FeedOracle Technologies — 3 operation(s) for mcp transport.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - MCP Transport
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-mcp-transport-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-mesh-economics-api
+  name: FeedOracle Technologies Mesh Economics API
+  description: >-
+    Agent-native economic layer: append-only ledger, fresh/cached pricing, originator + referrer rewards.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Mesh Economics
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-mesh-economics-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-mesh-nervous-system-api
+  name: FeedOracle Technologies Mesh Nervous System API
+  description: >-
+    Live mesh signals for autonomous agents: gravity, emergent patterns, meta-tool candidates.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Mesh Nervous System
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-mesh-nervous-system-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-mica-ampel-api
+  name: FeedOracle Technologies MiCA Ampel API
+  description: MiCA stablecoin compliance monitoring — 24 tools, 17 tokens, 13 issuers
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - MiCA Ampel
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-mica-ampel-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-mica-compliance-api
+  name: FeedOracle Technologies MiCA Compliance API
+  description: MiCA regulatory compliance evidence (Art. 22-58) for stablecoins and token issuers
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - MiCA Compliance
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-mica-compliance-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-micaoracle-api
+  name: FeedOracle Technologies Mi CA Oracle API
+  description: MiCA stablecoin compliance (24 tools)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - MiCAOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-micaoracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-movieoracle-api
+  name: FeedOracle Technologies Movie Oracle API
+  description: Film & entertainment (12 tools)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - MovieOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-movieoracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-newsoracle-api
+  name: FeedOracle Technologies News Oracle API
+  description: News & trends (9 tools)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - NewsOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-newsoracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-nomos-api
+  name: FeedOracle Technologies Nomos API
+  description: The nomos API from FeedOracle Technologies — 1 operation(s) for nomos.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - nomos
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-nomos-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-nomos-execution-receipts-api
+  name: FeedOracle Technologies NOMOS Execution Receipts API
+  description: >-
+    The NOMOS Execution Receipts API from FeedOracle Technologies — 1 operation(s) for nomos execution
+    receipts.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - NOMOS Execution Receipts
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-nomos-execution-receipts-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-oraclenet-api
+  name: FeedOracle Technologies Oracle Net API
+  description: >-
+    Self-learning agent mesh protocol. Neural routing, W3C DIDs, VCs, on-chain escrow (Base + XRPL), PROV-O
+    provenance.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - OracleNet
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-oraclenet-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-policyoracle-api
+  name: FeedOracle Technologies Policy Oracle API
+  description: >-
+    DORA ICT policy lifecycle. 12 tools, 12 RTS-required policies, gap check, version control.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - PolicyOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-policyoracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-predictoracle-api
+  name: FeedOracle Technologies Predict Oracle API
+  description: >-
+    Predictive risk engine. Score trajectories, evidence decay, early warnings, what-if scenarios.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - PredictOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-predictoracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-priceoracle-api
+  name: FeedOracle Technologies Price Oracle API
+  description: Price comparison (7 tools)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - PriceOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-priceoracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-real-estate-api
+  name: FeedOracle Technologies Real Estate API
+  description: The Real Estate API from FeedOracle Technologies — 3 operation(s) for real estate.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Real Estate
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-real-estate-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-regwatchoracle-api
+  name: FeedOracle Technologies Reg Watch Oracle API
+  description: Regulatory watch — US Federal Register + EU regulatory feeds
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - RegWatchOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-regwatchoracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-reportingoracle-api
+  name: FeedOracle Technologies Reporting Oracle API
+  description: >-
+    DORA NCA reporting MCP server. 14 tools, incident reports, RoI export, TLPT results, annual reports.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - ReportingOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-reportingoracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-reports-api
+  name: FeedOracle Technologies Reports API
+  description: PDF reports (Pro+ tier)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Reports
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-reports-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-researchoracle-api
+  name: FeedOracle Technologies Research Oracle API
+  description: Scientific research intelligence — 200M+ papers, compliance topics
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - ResearchOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-researchoracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-reserveoracle-api
+  name: FeedOracle Technologies Reserve Oracle API
+  description: Gold/silver, RWA tokens (11 tools)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - ReserveOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-reserveoracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-revieworacle-api
+  name: FeedOracle Technologies Review Oracle API
+  description: Product reviews (8 tools)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - ReviewOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-revieworacle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-rlusd-api
+  name: FeedOracle Technologies RLUSD API
+  description: RLUSD stablecoin transparency (Public)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - RLUSD
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-rlusd-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-rwa-alerts-api
+  name: FeedOracle Technologies RWA Alerts API
+  description: Webhook subscriptions for real-time notifications
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - RWA Alerts
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-rwa-alerts-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-rwa-api
+  name: FeedOracle Technologies RWA API
+  description: Real World Assets (Key required)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - RWA
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-rwa-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-rwa-compliance-api
+  name: FeedOracle Technologies RWA Compliance API
+  description: Jurisdiction access, sanctions screening, MiCA/DORA/GENIUS status
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - RWA Compliance
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-rwa-compliance-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-rwa-documents-api
+  name: FeedOracle Technologies RWA Documents API
+  description: Compliance document registry with source URLs and integrity hashes
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - RWA Documents
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-rwa-documents-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-rwa-esg-api
+  name: FeedOracle Technologies RWA ESG API
+  description: Chain-weighted carbon footprint scoring
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - RWA ESG
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-rwa-esg-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-rwa-events-api
+  name: FeedOracle Technologies RWA Events API
+  description: Risk events, governance changes, anomaly alerts
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - RWA Events
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-rwa-events-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-rwa-history-api
+  name: FeedOracle Technologies RWA History API
+  description: Historical score tracking and trend analysis
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - RWA History
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-rwa-history-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-rwa-legal-state-api
+  name: FeedOracle Technologies RWA Legal State API
+  description: Contract powers, transfer finality, dispute resolution
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - RWA Legal State
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-rwa-legal-state-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-rwa-liquidity-api
+  name: FeedOracle Technologies RWA Liquidity API
+  description: On-chain DEX liquidity depth and volume analysis
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - RWA Liquidity
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-rwa-liquidity-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-rwa-on-chain-api
+  name: FeedOracle Technologies RWA On-Chain API
+  description: Smart contract transparency and activity verification
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - RWA On-Chain
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-rwa-on-chain-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-rwa-oracle-feeds-api
+  name: FeedOracle Technologies RWA Oracle Feeds API
+  description: Multi-source consensus price feeds with disagreement detection
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - RWA Oracle Feeds
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-rwa-oracle-feeds-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-rwa-redemption-api
+  name: FeedOracle Technologies RWA Redemption API
+  description: Time-to-Cash / institutional liquidity profiles (settlement, gates, fees)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - RWA Redemption
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-rwa-redemption-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-rwa-registry-api
+  name: FeedOracle Technologies RWA Registry API
+  description: Token metadata, issuer details, underlying asset classification (LEI, ISIN)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - RWA Registry
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-rwa-registry-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-rwa-risk-scoring-api
+  name: FeedOracle Technologies RWA Risk Scoring API
+  description: Multi-vector risk scores with letter grades (A-F) for 60+ tokenized asset protocols
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - RWA Risk Scoring
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-rwa-risk-scoring-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-security-api
+  name: FeedOracle Technologies Security API
+  description: The security API from FeedOracle Technologies — 1 operation(s) for security.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - security
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-security-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-seooracle-api
+  name: FeedOracle Technologies SEO Oracle API
+  description: SEO intelligence (7 tools)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - SEOOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-seooracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-sportoracle-api
+  name: FeedOracle Technologies Sport Oracle API
+  description: Live sports data (12 tools)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - SportOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-sportoracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-stablecoin-api
+  name: FeedOracle Technologies Stablecoin API
+  description: Stablecoin analytics covering 105+ coins — peg health, reserves, MiCA classification
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Stablecoin
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-stablecoin-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-stress-api
+  name: FeedOracle Technologies Stress API
+  description: The Stress API from FeedOracle Technologies — 3 operation(s) for stress.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Stress
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-stress-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-supplychain-api
+  name: FeedOracle Technologies Supply Chain API
+  description: Supply chain tracking (Key required)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - SupplyChain
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-supplychain-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-testoracle-api
+  name: FeedOracle Technologies Test Oracle API
+  description: >-
+    DORA Art. 24-27 resilience testing MCP server. 16 tools, 12 scenarios, TLPT tracking, AmpelOracle
+    sync.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - TestOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-testoracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-trading-api
+  name: FeedOracle Technologies Trading API
+  description: Trading signals (Key required)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Trading
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-trading-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-trainingoracle-api
+  name: FeedOracle Technologies Training Oracle API
+  description: DORA ICT security awareness and training. 13 tools, 7 programmes, phishing simulation.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - TrainingOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-trainingoracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-trust-api
+  name: FeedOracle Technologies Trust API
+  description: The Trust API from FeedOracle Technologies — 1 operation(s) for trust.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Trust
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-trust-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-unified-integrity-api
+  name: FeedOracle Technologies Unified Integrity API
+  description: >-
+    The Unified Integrity API from FeedOracle Technologies — 2 operation(s) for unified integrity.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Unified Integrity
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-unified-integrity-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-uvo-api
+  name: FeedOracle Technologies Uvo API
+  description: 'Universal Verifiable Output: claim/citation/action validation.'
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - uvo
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-uvo-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-verified-reports-api
+  name: FeedOracle Technologies Verified Reports API
+  description: >-
+    Generate, download, and verify cryptographically signed PDF evidence reports. Each report is hashed
+    (SHA-256), signed (ECDSA secp256k1), and anchored on XRPL blockchain.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Verified Reports
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-verified-reports-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-wallet-api
+  name: FeedOracle Technologies Wallet API
+  description: Unit-based billing — check balance, view packages, purchase units via Stripe
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Wallet
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-wallet-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-weatheroracle-api
+  name: FeedOracle Technologies Weather Oracle API
+  description: Real-time weather (10 tools)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - WeatherOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-weatheroracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-x402-api
+  name: FeedOracle Technologies X402 API
+  description: The x402 API from FeedOracle Technologies — 1 operation(s) for x402.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - x402
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-x402-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-xrp-api
+  name: FeedOracle Technologies XRP API
+  description: XRP/RLUSD feeds (Key required)
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - XRP
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-xrp-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-xrpl-api
+  name: FeedOracle Technologies XRPL API
+  description: The XRPL API from FeedOracle Technologies — 2 operation(s) for xrpl.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - XRPL
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-xrpl-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-yields-api
+  name: FeedOracle Technologies Yields API
+  description: The Yields API from FeedOracle Technologies — 3 operation(s) for yields.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - Yields
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-yields-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
+  - type: Authentication
+    url: authentication/tooloracle-io-authentication.yml
+- aid: tooloracle-io:tooloracle-io-zkevidenceoracle-api
+  name: FeedOracle Technologies ZK Evidence Oracle API
+  description: >-
+    Zero-knowledge evidence layer. Privacy-preserving proofs, merkle trees, verifiable credentials, selective
+    disclosure.
+  humanURL: https://tooloracle.io/docs/
+  baseURL: https://tooloracle.io/mcp/
+  tags:
+  - ZKEvidenceOracle
+  properties:
+  - type: OpenAPI
+    url: openapi/tooloracle-io-zkevidenceoracle-api-openapi.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/
+  - type: APIReference
+    url: https://tooloracle.io/docs/402-protocol
+  - type: ErrorCatalog
+    url: errors/tooloracle-io-problem-types.yml
+  - type: Conventions
+    url: conventions/tooloracle-io-conventions.yml
+  - type: Documentation
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: GettingStarted
+    url: https://tooloracle.io/docs/x402-buyer-quickstart/
+  - type: Pricing
+    url: https://tooloracle.io/.well-known/x402
+  - type: Documentation
+    url: https://feedoracle.io/docs.html
+  - type: APIReference
+    url: https://feedoracle.io/docs.html
+  - type: Versioning
+    url: https://feedoracle.io/docs/versioning.html
+  - type: Console
+    url: https://feedoracle.io/console/
+  - type: LLMsTxt
+    url: llms/tooloracle-io-feedoracle-llms.txt
   - type: Authentication
     url: authentication/tooloracle-io-authentication.yml
 maintainers:
@@ -184,6 +4375,14 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/tooloracle-io-mcp-platform-overlay.yaml
+- type: Overlay
+  url: overlays/tooloracle-io-x402-v2-overlay.yaml
+- type: AgentSkill
+  url: skills/tooloracle-io-pay-per-call-x402-v2.md
+- type: Overlay
+  url: overlays/tooloracle-io-feedoracle-compliance-evidence-overlay.yaml
 - type: VulnerabilityDisclosure
   url: security/tooloracle-io-vulnerability-disclosure.yml
 - type: DomainSecurity
@@ -283,3 +4482,10 @@ x-enrichment:
   status: enriched
   artifacts_added: 62
   pass: local-v3
+x-a2a:
+  verified: true
+  probed: '2026-09-26'
+  url: "https://tooloracle.io/.well-known/agent-card.json"
+  grade: "conformant"
+  protocol_version: "0.3.0"
+  control: 404

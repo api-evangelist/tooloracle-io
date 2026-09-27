@@ -1,3 +1,5 @@
+# x-archived-from: tooloracle-io-x402-v2-openapi.yml
+# x-archived-on: 2026-09-26
 # Faithful YAML rendering of the provider-published spec saved verbatim at openapi/_original/tooloracle-io-v2-openapi.json
 # generated: 2026-09-19  method: searched  (content unchanged; only the serialization differs)
 openapi: 3.1.0

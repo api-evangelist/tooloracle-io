@@ -1,0 +1,91 @@
+openapi: 3.2.0
+info:
+  title: Tooloracle Io Agent Readiness API
+  version: 4.2.0
+  x-canonical-source: https://tooloracle.io/assets/catalog.json
+  x-changelog:
+  - version: 4.2.0
+    date: '2026-04-28'
+    changes:
+    - Canonicalized counts from /assets/catalog.json
+    - Aligned root /openapi.json with /.well-known/openapi.json
+    - Added x-counts and x-canonical-source extensions
+  - version: 4.1.0
+    date: '2026-04-19'
+    changes:
+    - Added Mesh Economics v1 API paths (/economics/api/*)
+    - Added Mesh Nervous System discovery paths (/.well-known/agent-pulse, /.well-known/meta-tools)
+    - Added /.well-known/mesh-economics discovery endpoint
+  x-counts:
+    servers_online: 89
+    tools_available: 1096
+    categories: 7
+    chains_supported: 13
+    paid_products: 18
+  x-generated-at: '2026-09-20T02:13:01+00:00'
+  x-hedera-mainnet:
+    contract: 0.0.10420310
+    beacon_topic: 0.0.10420280
+    join_topic: 0.0.10420282
+  description: 'Operations tagged agent-readiness across 2 of this provider''s published API definitions: tooloracle-io-openapi.json, tooloracle-io-mcp-platform-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://tooloracle.io
+tags:
+- name: agent-readiness
+paths:
+  /v2/agent_card_a2a_readiness_v1:
+    post:
+      operationId: v2_agent_card_a2a_readiness_v1
+      tags:
+      - agent-readiness
+      summary: Automated agent-card & A2A readiness check (signed evidence)
+      description: 'AgentNOMOS Agent-Card & A2A Readiness Check: Deterministic assessment of a public agent card or A2A discovery URL across eight dimensions — fetch/parse, identity, skills, protocol, auth, commercial, trust and privacy. Returns decision READY, WARN or NOT_READY, a readiness_level, findings with severity critical or warn, and machine-readable improvement suggestions, delivered with an Ed25519-signed evidence record. Assessment service only: it does not conclude a contract, does not perform outreach, does not guarantee a deal and is NOT a certification, NOT regulator-approved, NOT an AI-Act conformity statement and NOT a penetration test.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                job_id:
+                  type: string
+                  description: Job id from the x402 challenge binding
+                quote_id:
+                  type: string
+                  description: Quote id from the x402 challenge binding
+            example:
+              job_id: a2aj_...
+              quote_id: x402q_...
+      responses:
+        '200':
+          description: Success (synthetic example)
+          content:
+            application/json:
+              example:
+                job_id: a2aj_...
+                status: COMPLETED_WITH_WARNINGS
+                decision: WARN
+                readiness_level: 3
+                credential_id: a2ard_...
+                record_digest: sha256:...
+        '402':
+          description: 'Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes.'
+        '400':
+          description: Bad Request — invalid or missing parameters.
+      x-x402:
+        price: $0.10
+        currency: USDC
+        network: eip155:8453
+        method: POST
+        example_type: synthetic
+    servers:
+    - url: https://tooloracle.io
+externalDocs:
+  description: x402 v2 buyer quickstart (pay one /v2 route and verify the signed NOMOS execution receipt)
+  url: https://tooloracle.io/docs/x402-buyer-quickstart/
+x-refined-from:
+- tooloracle-io-openapi.json
+- tooloracle-io-mcp-platform-openapi.yml
+x-nomos-trust-chain:
+  model: S0-S10
+  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

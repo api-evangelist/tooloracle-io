@@ -1,0 +1,81 @@
+openapi: 3.2.0
+info:
+  title: Tooloracle Io XRPL API
+  version: 4.2.0
+  x-canonical-source: https://tooloracle.io/assets/catalog.json
+  x-changelog:
+  - version: 4.2.0
+    date: '2026-04-28'
+    changes:
+    - Canonicalized counts from /assets/catalog.json
+    - Aligned root /openapi.json with /.well-known/openapi.json
+    - Added x-counts and x-canonical-source extensions
+  - version: 4.1.0
+    date: '2026-04-19'
+    changes:
+    - Added Mesh Economics v1 API paths (/economics/api/*)
+    - Added Mesh Nervous System discovery paths (/.well-known/agent-pulse, /.well-known/meta-tools)
+    - Added /.well-known/mesh-economics discovery endpoint
+  x-counts:
+    servers_online: 89
+    tools_available: 1096
+    categories: 7
+    chains_supported: 13
+    paid_products: 18
+  x-generated-at: '2026-09-20T02:13:01+00:00'
+  x-hedera-mainnet:
+    contract: 0.0.10420310
+    beacon_topic: 0.0.10420280
+    join_topic: 0.0.10420282
+  description: 'Operations tagged XRPL across 2 of this provider''s published API definitions: tooloracle-io-openapi.json, tooloracle-io-mcp-platform-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://tooloracle.io
+tags:
+- name: XRPL
+paths:
+  /xrpl/mcp/:
+    post:
+      summary: XRPLOracle — XRP Ledger Intelligence + RLUSD Stablecoin Compliance (31 tools)
+      description: 'MCP endpoint for XRPLOracle — 31 tools for XRP Ledger intelligence and RLUSD stablecoin compliance. Groups: 15 XRPL intelligence (xrpl_overview, xrpl_account_intel, xrpl_dex_orderbook, xrpl_amm_pools, xrpl_payment_intel, xrpl_token_check, xrpl_escrow_monitor, xrpl_nft_intel, xrpl_nft_offers, xrpl_trust_lines, xrpl_server_state, xrpl_gateway_balances, xrpl_path_find, xrpl_ledger_data, xrpl_compliance_check); 9 RLUSD compliance (xrpl_rlusd, xrpl_rlusd_supply, xrpl_rlusd_cci, xrpl_rlusd_integrity, xrpl_rlusd_holders, xrpl_rlusd_service, xrpl_rlusd_anchor, xrpl_rlusd_webhook, xrpl_rlusd_enterprise); ISO 20022 + RWA scoring (xrpl_iso20022, xrpl_rwa_scoring); 5 OracleNet settlement (xrpl_quantum_join, xrpl_beacon_pulse, xrpl_settlement_status, xrpl_escrow_create, xrpl_escrow_check). Hero tools: xrpl_rlusd_integrity, xrpl_rlusd_cci, xrpl_rlusd_holders, xrpl_compliance_check, xrpl_token_check. Use case: autonomous agents performing RLUSD peg/reserve/holder due diligence and XRPL counterparty/token risk checks before settlement. Endpoint https://tooloracle.io/xrpl/mcp/ — free tier 100 calls/day, x402 USDC on Base for higher volume.'
+      tags:
+      - XRPL
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MCPRequest'
+      responses:
+        '200':
+          description: MCP JSON-RPC response
+      operationId: postXrplMcp
+      x-operation-id-source: derived
+    servers:
+    - url: https://tooloracle.io
+  /x402/xrpl/mcp/:
+    post:
+      operationId: xrplPaidMcp
+      summary: XRPLOracle paid hero — RLUSD integrity ($0.03/call, x402 USDC on Base)
+      description: 'Paid x402 mirror of xrpl_rlusd_integrity. Multi-source RLUSD integrity: peg deviation, reserve ratio, on-chain vs reported supply, DEX liquidity; auto-flags peg/supply anomalies. $0.03/call USDC on Base (eip155:8453), payTo 0x11f591C3496C0632e7B173184f5Bc71dC941125D. Free discovery: tools/list + health_check. The other 30 XRPL tools stay free on /xrpl/mcp/.'
+      tags:
+      - XRPL
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MCPRequest'
+      responses:
+        '200':
+          description: MCP JSON-RPC response (after payment)
+        '402':
+          description: Payment required — x402 challenge with accepts[] (USDC on Base, $0.03)
+    servers:
+    - url: https://tooloracle.io
+externalDocs:
+  description: x402 v2 buyer quickstart (pay one /v2 route and verify the signed NOMOS execution receipt)
+  url: https://tooloracle.io/docs/x402-buyer-quickstart/
+x-refined-from:
+- tooloracle-io-openapi.json
+- tooloracle-io-mcp-platform-openapi.yml
+x-nomos-trust-chain:
+  model: S0-S10
+  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

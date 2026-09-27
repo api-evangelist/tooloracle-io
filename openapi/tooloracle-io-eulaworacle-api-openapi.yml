@@ -1,0 +1,70 @@
+openapi: 3.2.0
+info:
+  title: Tooloracle Io EU Law Oracle API
+  x-refined-note:
+  - x-canonical-source differs across the merged source definitions and was not carried
+  - x-changelog differs across the merged source definitions and was not carried
+  - x-counts differs across the merged source definitions and was not carried
+  - x-generated-at differs across the merged source definitions and was not carried
+  - x-hedera-mainnet differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged EULawOracle across 4 of this provider''s published API definitions: tooloracle-io-feedoracle-openapi.json, tooloracle-io-openapi.json, tooloracle-io-feedoracle-compliance-evidence-openapi.yml, tooloracle-io-mcp-platform-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.feedoracle.io
+  description: Production
+- url: https://tooloracle.io
+tags:
+- name: EULawOracle
+  description: EU financial regulation intelligence — 12 regulations, article lookup, cross-references, deadlines
+paths:
+  /eulaw-oracle/mcp/:
+    post:
+      tags:
+      - EULawOracle
+      summary: EULawOracle MCP (8 tools) — 12 EU regulations, article-level, cross-references
+      operationId: euLawOracleMcp
+      responses:
+        '200':
+          description: MCP response
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /eulaw/mcp/:
+    post:
+      tags:
+      - EULawOracle
+      summary: EULawOracle MCP (8 tools)
+      description: 12 EU regulations, article-level, cross-references
+      operationId: eulawMcp
+      responses:
+        '200':
+          description: MCP JSON-RPC response
+    servers:
+    - url: https://tooloracle.io
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Required for v1 data endpoints. Get at /pricing.html
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 Bearer token from POST /mcp/token
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: FeedOracle OAuth 2.1 Bearer token. Obtain via /mcp/register (Dynamic Client Registration, RFC 7591).
+externalDocs:
+  description: x402 v2 buyer quickstart (pay one /v2 route and verify the signed NOMOS execution receipt)
+  url: https://tooloracle.io/docs/x402-buyer-quickstart/
+x-refined-from:
+- tooloracle-io-feedoracle-openapi.json
+- tooloracle-io-openapi.json
+- tooloracle-io-feedoracle-compliance-evidence-openapi.yml
+- tooloracle-io-mcp-platform-openapi.yml
+x-nomos-trust-chain:
+  model: S0-S10
+  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

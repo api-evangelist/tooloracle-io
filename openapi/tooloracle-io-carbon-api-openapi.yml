@@ -1,0 +1,128 @@
+openapi: 3.2.0
+info:
+  title: Tooloracle Io Carbon API
+  version: 8.4.1+truthrepair.r1
+  contact:
+    email: support@feedoracle.io
+    url: https://feedoracle.io/contact.html
+  license:
+    name: Proprietary
+  termsOfService: https://feedoracle.io/terms.html
+  description: 'Operations tagged Carbon across 2 of this provider''s published API definitions: tooloracle-io-feedoracle-openapi.json, tooloracle-io-feedoracle-compliance-evidence-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.feedoracle.io
+  description: Production
+security: []
+tags:
+- name: Carbon
+  description: Carbon data (Key required)
+paths:
+  /api/v1/feeds/carbon/chains:
+    get:
+      tags:
+      - Carbon
+      operationId: getCarbonChains
+      summary: Carbon data for all 49 blockchain networks
+      description: Includes CO2, energy, consensus type, carbon score
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Carbon array with 49 chains
+        '401':
+          description: Missing or invalid X-API-Key
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v1/feeds/carbon/summary:
+    get:
+      tags:
+      - Carbon
+      operationId: getCarbonSummary
+      summary: Carbon summary statistics
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Aggregated carbon stats
+        '401':
+          description: Unauthorized
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v1/carbon/chains:
+    get:
+      tags:
+      - Carbon
+      operationId: getCarbonChainsAlt
+      summary: Carbon data for 50+ blockchains (public)
+      security: []
+      responses:
+        '200':
+          description: Carbon data
+        '401':
+          description: Unauthorized
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v1/carbon/summary:
+    get:
+      tags:
+      - Carbon
+      operationId: getCarbonSummaryAlt
+      summary: Carbon summary (alternate path)
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Summary stats
+        '401':
+          description: Unauthorized
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v1/carbon/mica/{symbol}:
+    get:
+      tags:
+      - Carbon
+      operationId: getCarbonMica
+      summary: MiCA-formatted carbon data
+      description: Article 66 compliant format
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: MiCA format data
+        '401':
+          description: Unauthorized
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Required for v1 data endpoints. Get at /pricing.html
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 Bearer token from POST /mcp/token
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: FeedOracle OAuth 2.1 Bearer token. Obtain via /mcp/register (Dynamic Client Registration, RFC 7591).
+x-refined-from:
+- tooloracle-io-feedoracle-openapi.json
+- tooloracle-io-feedoracle-compliance-evidence-openapi.yml
+x-nomos-trust-chain:
+  model: S0-S10
+  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

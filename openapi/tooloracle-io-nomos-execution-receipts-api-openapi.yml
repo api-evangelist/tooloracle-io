@@ -1,0 +1,133 @@
+openapi: 3.2.0
+info:
+  title: Tooloracle Io NOMOS Execution Receipts API
+  version: 8.4.1+truthrepair.r1
+  contact:
+    email: support@feedoracle.io
+    url: https://feedoracle.io/contact.html
+  license:
+    name: Proprietary
+  termsOfService: https://feedoracle.io/terms.html
+  description: 'Operations tagged NOMOS Execution Receipts across 2 of this provider''s published API definitions: tooloracle-io-feedoracle-openapi.json, tooloracle-io-feedoracle-compliance-evidence-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.feedoracle.io
+  description: Production
+security: []
+tags:
+- name: NOMOS Execution Receipts
+paths:
+  /v1/nomos/execution-receipts/{execution_id}:
+    servers:
+    - url: https://feedoracle.io/api
+      description: Public gateway that fronts the NOMOS admission and execution layers
+    get:
+      tags:
+      - NOMOS Execution Receipts
+      summary: Read the signed execution receipt for one call
+      description: 'Returns the Ed25519-signed execution receipt for a single earlier request. Take the URL from that request''s x-nomos-receipt-url response header rather than building it.
+
+
+        The receipt is served only to the consumer that owns it. Unknown, foreign, malformed and not-yet-signed ids are deliberately indistinguishable from outside: all four answer 404 RECEIPT_NOT_AVAILABLE. There is no listing endpoint.
+
+
+        A receipt read performs no business call: it creates no execution, no decision and no new receipt (measured: 12 reads, row delta 0/0/0).'
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: execution_id
+        in: path
+        required: true
+        schema:
+          type: string
+          example: exe1_f426c37db9c42673932ab5bc13e60b3b
+      responses:
+        '200':
+          description: Signed, terminal execution receipt
+          headers:
+            Cache-Control:
+              description: no-store
+              schema:
+                type: string
+                example: no-store
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NomosExecutionReceipt'
+        '401':
+          description: Missing, malformed, unknown, expired or revoked credential
+        '404':
+          description: RECEIPT_NOT_AVAILABLE - uniform answer for unknown, foreign, malformed and unsigned ids
+        '405':
+          description: Method not allowed (GET and HEAD only)
+        '429':
+          description: Rate limited (receipt reads are limited per key, separately from the business routes)
+      operationId: getV1NomosExecutionReceiptsByExecutionId
+      x-operation-id-source: derived
+components:
+  schemas:
+    NomosExecutionReceipt:
+      type: object
+      description: Ed25519-signed execution receipt. Canonical response-hash evidence.
+      properties:
+        schema:
+          type: string
+        receipt:
+          type: object
+          description: Receipt core. Verify by recomputing the digest over the canonical core (JSON, sorted keys, compact separators) and checking the signature over b'nomos.execution.receipt.v1' + 0x00 + canonical(core).
+          properties:
+            execution_id:
+              type: string
+            request_id:
+              type: string
+            consumer_id:
+              type: string
+            route:
+              type: string
+            method:
+              type: string
+            state:
+              type: string
+              example: EXECUTION_COMPLETED
+            backend:
+              type: object
+              properties:
+                response_sha256:
+                  type: string
+                  description: Signed hash of the delivered response body. Compare against your own hash of the bytes you received and against x-content-hash.
+        receipt_digest:
+          type: string
+        signature:
+          type: object
+          properties:
+            alg:
+              type: string
+              example: EdDSA
+            kid:
+              type: string
+              example: exr1_40c4bc9a9f61988b
+            value:
+              type: string
+        signature_state:
+          type: string
+          example: SIGNED
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Required for v1 data endpoints. Get at /pricing.html
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 Bearer token from POST /mcp/token
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: FeedOracle OAuth 2.1 Bearer token. Obtain via /mcp/register (Dynamic Client Registration, RFC 7591).
+x-refined-from:
+- tooloracle-io-feedoracle-openapi.json
+- tooloracle-io-feedoracle-compliance-evidence-openapi.yml
+x-nomos-trust-chain:
+  model: S0-S10
+  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

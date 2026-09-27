@@ -1,0 +1,298 @@
+openapi: 3.2.0
+info:
+  title: Tooloracle Io RLUSD API
+  version: 8.4.1+truthrepair.r1
+  contact:
+    email: support@feedoracle.io
+    url: https://feedoracle.io/contact.html
+  license:
+    name: Proprietary
+  termsOfService: https://feedoracle.io/terms.html
+  description: 'Operations tagged RLUSD across 2 of this provider''s published API definitions: tooloracle-io-feedoracle-openapi.json, tooloracle-io-feedoracle-compliance-evidence-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.feedoracle.io
+  description: Production
+security: []
+tags:
+- name: RLUSD
+  description: RLUSD stablecoin transparency (Public)
+paths:
+  /api/v3/rlusd/status:
+    get:
+      tags:
+      - RLUSD
+      operationId: getRlusdStatus
+      summary: Service status
+      security: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RlusdStatusEnvelope'
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v3/rlusd/cci:
+    get:
+      tags:
+      - RLUSD
+      operationId: getCciCompact
+      summary: CCI compact
+      security: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RlusdCciCompact'
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v3/rlusd/risk/cci:
+    get:
+      tags:
+      - RLUSD
+      operationId: getCciDetailed
+      summary: CCI detailed
+      security: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RlusdCciDetailed'
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v3/rlusd/supply/breakdown:
+    get:
+      tags:
+      - RLUSD
+      operationId: getSupplyBreakdown
+      summary: Supply by chain
+      security: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RlusdSupplyBreakdown'
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v3/rlusd/peg/quality:
+    get:
+      tags:
+      - RLUSD
+      operationId: getPegQuality
+      summary: Peg quality
+      security: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RlusdPegQuality'
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v3/rlusd/evidence/latest:
+    get:
+      tags:
+      - RLUSD
+      operationId: getEvidenceLatest
+      summary: Evidence pack
+      security: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RlusdEvidencePack'
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v3/rlusd/holders:
+    get:
+      tags:
+      - RLUSD
+      operationId: getHolders
+      summary: Holder distribution
+      security: []
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RlusdHoldersResponse'
+      description: 'Known issue (2026-08-16): this operation currently returns HTTP 500.'
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v3/rlusd/webhooks/events:
+    get:
+      tags:
+      - RLUSD
+      operationId: getWebhookEvents
+      summary: Webhook catalog
+      security: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RlusdWebhookCatalog'
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v3/rlusd/verify/{hash}:
+    get:
+      tags:
+      - RLUSD
+      operationId: verifyHash
+      summary: Verify hash
+      security: []
+      parameters:
+      - name: hash
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RlusdVerifyResponse'
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+components:
+  schemas:
+    MetaEnvelope:
+      type: object
+      properties:
+        api_version:
+          type: string
+        dataset_version:
+          type: string
+        schema_version:
+          type: string
+    RlusdStatusEnvelope:
+      type: object
+      properties:
+        service:
+          type: string
+        meta:
+          $ref: '#/components/schemas/MetaEnvelope'
+        data:
+          type: object
+        warnings:
+          type: array
+          items:
+            type: string
+    RlusdCciCompact:
+      type: object
+      properties:
+        cci_score:
+          type: number
+        grade:
+          type: string
+        components:
+          type: object
+        penalty_log:
+          type: object
+        timestamp:
+          type: string
+    RlusdCciDetailed:
+      type: object
+      properties:
+        cci_score:
+          type: number
+        grade:
+          type: string
+        subscores:
+          type: object
+        weights:
+          type: object
+        timestamp:
+          type: string
+    RlusdVerifyResponse:
+      type: object
+      properties:
+        valid:
+          type: boolean
+    RlusdPegQuality:
+      type: object
+      properties:
+        service:
+          type: string
+        data:
+          type: object
+    RlusdSupplyBreakdown:
+      type: object
+      properties:
+        service:
+          type: string
+        data:
+          type: object
+    RlusdEvidencePack:
+      type: object
+      properties:
+        as_of:
+          type: string
+        guard:
+          type: object
+        circuit_breaker:
+          type: object
+        integrity_proof:
+          type: object
+        disclaimer:
+          type: object
+    RlusdWebhookCatalog:
+      type: object
+      properties:
+        events:
+          type: array
+        catalog:
+          type: object
+    RlusdHoldersResponse:
+      type: object
+      properties:
+        chains:
+          type: object
+        total_holders:
+          type: integer
+        timestamp:
+          type: string
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Required for v1 data endpoints. Get at /pricing.html
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 Bearer token from POST /mcp/token
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: FeedOracle OAuth 2.1 Bearer token. Obtain via /mcp/register (Dynamic Client Registration, RFC 7591).
+x-refined-from:
+- tooloracle-io-feedoracle-openapi.json
+- tooloracle-io-feedoracle-compliance-evidence-openapi.yml
+x-nomos-trust-chain:
+  model: S0-S10
+  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

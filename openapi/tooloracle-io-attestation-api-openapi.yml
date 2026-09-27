@@ -1,0 +1,100 @@
+openapi: 3.2.0
+info:
+  title: Tooloracle Io Attestation API
+  version: 8.4.1+truthrepair.r1
+  contact:
+    email: support@feedoracle.io
+    url: https://feedoracle.io/contact.html
+  license:
+    name: Proprietary
+  termsOfService: https://feedoracle.io/terms.html
+  description: 'Operations tagged Attestation across 2 of this provider''s published API definitions: tooloracle-io-feedoracle-openapi.json, tooloracle-io-feedoracle-compliance-evidence-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.feedoracle.io
+  description: Production
+security: []
+tags:
+- name: Attestation
+  description: DAP attestation (Public)
+paths:
+  /api/v2/attestation/status:
+    get:
+      tags:
+      - Attestation
+      operationId: getAttestationStatus
+      summary: DAP system status
+      description: Returns merkle root and multi-chain anchor status
+      responses:
+        '200':
+          description: DAP operational status
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v2/attestation/chains:
+    get:
+      tags:
+      - Attestation
+      operationId: getAttestationChains
+      summary: Multi-chain anchor status
+      description: Anchor status on ETH, Polygon, Arbitrum, Base
+      responses:
+        '200':
+          description: Chain anchors with tx hashes
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v2/attestation/activity:
+    get:
+      tags:
+      - Attestation
+      operationId: getAttestationActivity
+      summary: Recent anchor activity
+      responses:
+        '200':
+          description: Activity log with timestamps
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v2/attestation/verify/{aid}:
+    get:
+      tags:
+      - Attestation
+      operationId: verifyAttestation
+      summary: Verify attestation by ID
+      parameters:
+      - name: aid
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Attestation ID (dap_*)
+      responses:
+        '200':
+          description: Verification result with merkle proof
+        '404':
+          description: Attestation not found
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Required for v1 data endpoints. Get at /pricing.html
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 Bearer token from POST /mcp/token
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: FeedOracle OAuth 2.1 Bearer token. Obtain via /mcp/register (Dynamic Client Registration, RFC 7591).
+x-refined-from:
+- tooloracle-io-feedoracle-openapi.json
+- tooloracle-io-feedoracle-compliance-evidence-openapi.yml
+x-nomos-trust-chain:
+  model: S0-S10
+  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

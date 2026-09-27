@@ -1,0 +1,185 @@
+openapi: 3.2.0
+info:
+  title: Tooloracle Io Market Integrity API
+  version: 4.2.0
+  x-canonical-source: https://tooloracle.io/assets/catalog.json
+  x-changelog:
+  - version: 4.2.0
+    date: '2026-04-28'
+    changes:
+    - Canonicalized counts from /assets/catalog.json
+    - Aligned root /openapi.json with /.well-known/openapi.json
+    - Added x-counts and x-canonical-source extensions
+  - version: 4.1.0
+    date: '2026-04-19'
+    changes:
+    - Added Mesh Economics v1 API paths (/economics/api/*)
+    - Added Mesh Nervous System discovery paths (/.well-known/agent-pulse, /.well-known/meta-tools)
+    - Added /.well-known/mesh-economics discovery endpoint
+  x-counts:
+    servers_online: 89
+    tools_available: 1096
+    categories: 7
+    chains_supported: 13
+    paid_products: 18
+  x-generated-at: '2026-09-20T02:13:01+00:00'
+  x-hedera-mainnet:
+    contract: 0.0.10420310
+    beacon_topic: 0.0.10420280
+    join_topic: 0.0.10420282
+  description: 'Operations tagged market-integrity across 2 of this provider''s published API definitions: tooloracle-io-openapi.json, tooloracle-io-mcp-platform-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://tooloracle.io
+tags:
+- name: market-integrity
+paths:
+  /v2/orderbook_risk:
+    post:
+      operationId: v2_orderbook_risk
+      tags:
+      - market-integrity
+      summary: 'Kalshi orderbook fragility: thin liquidity, penny walls, single-order dominance…'
+      description: 'Detects thin liquidity, penny walls, spread risk, and fragile orderbook structures in Kalshi markets. Returns 0-100 manipulation-vulnerability score plus signal-level evidence: wide spread (>$0.10), shallow depth (80% in top level), penny-wall pattern (large bids at ≤$0.005, common in wash trading). For agents that need to detect fragile order books before placing orders.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ticker:
+                  type: string
+                  description: Kalshi market ticker (e.g. KXG7LEADEROUT-45JAN01-FMER)
+              required:
+              - ticker
+            example:
+              ticker: KXG7LEADEROUT-45JAN01-FMER
+      responses:
+        '200':
+          description: Success (synthetic example)
+          content:
+            application/json:
+              example:
+                score: 20
+                severity: LOW
+                manipulation_flags:
+                - signal: penny_wall_pattern
+                  points: 20
+        '402':
+          description: 'Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes.'
+        '400':
+          description: Bad Request — invalid or missing parameters.
+      x-x402:
+        price: $0.01
+        currency: USDC
+        network: eip155:8453
+        method: POST
+        example_type: synthetic
+    servers:
+    - url: https://tooloracle.io
+  /v2/candidate_conflict_check:
+    post:
+      operationId: v2_candidate_conflict_check
+      tags:
+      - market-integrity
+      summary: Kalshi self-interest risk detector — pattern-matches CFTC Rule 5.17(z) signals
+      description: 'Detects candidate self-interest risk in Kalshi prediction markets. Pattern-matches CFTC Rule 5.17(z) signals: election/candidacy markets, named individuals, legislative or policy decisions, regulatory enforcement, sports outcomes. Calibrated against Kalshi April 2026 cases (Moran, Klein, Enriquez — all fined for trading own elections). Returns ALLOW/MONITOR/WARN/BLOCK + 0-100 score + reference cases.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                ticker:
+                  type: string
+                  description: Kalshi market ticker (provide this or event_ticker — at least one required)
+                event_ticker:
+                  type: string
+                  description: Kalshi event ticker (provide this or ticker — at least one required)
+                candidate_name:
+                  type: string
+                  description: Optional name to match against market
+            example:
+              event_ticker: KXPRESNOMR-28
+              candidate_name: Marjorie Taylor Greene
+      responses:
+        '200':
+          description: Success (synthetic example)
+          content:
+            application/json:
+              example:
+                score: 95
+                severity: CRITICAL
+                recommendation: BLOCK — high CFTC Rule 5.17(z) exposure
+        '402':
+          description: 'Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes.'
+        '400':
+          description: Bad Request — invalid or missing parameters.
+      x-x402:
+        price: $0.05
+        currency: USDC
+        network: eip155:8453
+        method: POST
+        example_type: synthetic
+    servers:
+    - url: https://tooloracle.io
+  /v2/suspicious_timing_scan:
+    post:
+      operationId: v2_suspicious_timing_scan
+      tags:
+      - market-integrity
+      summary: 'Polymarket pre-event flow scan: large positions, wallet-newness, coordinated…'
+      description: 'Suspicious-timing risk scan for Polymarket markets. Multi-signal scan: large pre-event positions, ratio of wallets new to this market, coordinated timing clusters, one-sided positioning, sensitive-keyword categories (military, regime change, intel, monetary policy). Returns 0-100 score, severity, triggered signals with evidence, top 5 positioners with new-wallet flags. Calibrated against publicly reported cases. Statistical signal only — not legal determination.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                slug:
+                  type: string
+                  description: Polymarket market slug (provide this or market_id — at least one required)
+                market_id:
+                  type: string
+                  description: Polymarket conditionId (provide this or slug — at least one required)
+                window_hours:
+                  type: integer
+                  description: Pre-event window in hours (default 72)
+                min_position_usd:
+                  type: number
+                  description: Min notional to flag (default $1000)
+            example:
+              slug: will-israel-launch-a-ground-operation-in-iran-by-may-31-2026
+              window_hours: 72
+      responses:
+        '200':
+          description: Success (synthetic example)
+          content:
+            application/json:
+              example:
+                score: 50
+                severity: MEDIUM
+                window_trades_analyzed: 482
+        '402':
+          description: 'Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes.'
+        '400':
+          description: Bad Request — invalid or missing parameters.
+      x-x402:
+        price: $0.05
+        currency: USDC
+        network: eip155:8453
+        method: POST
+        example_type: synthetic
+    servers:
+    - url: https://tooloracle.io
+externalDocs:
+  description: x402 v2 buyer quickstart (pay one /v2 route and verify the signed NOMOS execution receipt)
+  url: https://tooloracle.io/docs/x402-buyer-quickstart/
+x-refined-from:
+- tooloracle-io-openapi.json
+- tooloracle-io-mcp-platform-openapi.yml
+x-nomos-trust-chain:
+  model: S0-S10
+  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

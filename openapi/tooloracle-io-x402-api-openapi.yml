@@ -1,0 +1,63 @@
+openapi: 3.2.0
+info:
+  title: Tooloracle Io X402 API
+  version: 4.2.0
+  x-canonical-source: https://tooloracle.io/assets/catalog.json
+  x-changelog:
+  - version: 4.2.0
+    date: '2026-04-28'
+    changes:
+    - Canonicalized counts from /assets/catalog.json
+    - Aligned root /openapi.json with /.well-known/openapi.json
+    - Added x-counts and x-canonical-source extensions
+  - version: 4.1.0
+    date: '2026-04-19'
+    changes:
+    - Added Mesh Economics v1 API paths (/economics/api/*)
+    - Added Mesh Nervous System discovery paths (/.well-known/agent-pulse, /.well-known/meta-tools)
+    - Added /.well-known/mesh-economics discovery endpoint
+  x-counts:
+    servers_online: 89
+    tools_available: 1096
+    categories: 7
+    chains_supported: 13
+    paid_products: 18
+  x-generated-at: '2026-09-20T02:13:01+00:00'
+  x-hedera-mainnet:
+    contract: 0.0.10420310
+    beacon_topic: 0.0.10420280
+    join_topic: 0.0.10420282
+  description: 'Operations tagged x402 across 2 of this provider''s published API definitions: tooloracle-io-openapi.json, tooloracle-io-mcp-platform-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://tooloracle.io
+tags:
+- name: X402
+paths:
+  /x402/xrpl/mcp/:
+    post:
+      operationId: xrplPaidMcp
+      summary: XRPLOracle paid hero — RLUSD integrity ($0.03/call, x402 USDC on Base)
+      description: 'Paid x402 mirror of xrpl_rlusd_integrity. Multi-source RLUSD integrity: peg deviation, reserve ratio, on-chain vs reported supply, DEX liquidity; auto-flags peg/supply anomalies. $0.03/call USDC on Base (eip155:8453), payTo 0x11f591C3496C0632e7B173184f5Bc71dC941125D. Free discovery: tools/list + health_check. The other 30 XRPL tools stay free on /xrpl/mcp/.'
+      tags:
+      - X402
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MCPRequest'
+      responses:
+        '200':
+          description: MCP JSON-RPC response (after payment)
+        '402':
+          description: Payment required — x402 challenge with accepts[] (USDC on Base, $0.03)
+    servers:
+    - url: https://tooloracle.io
+externalDocs:
+  description: x402 v2 buyer quickstart (pay one /v2 route and verify the signed NOMOS execution receipt)
+  url: https://tooloracle.io/docs/x402-buyer-quickstart/
+x-refined-from:
+- tooloracle-io-openapi.json
+- tooloracle-io-mcp-platform-openapi.yml
+x-nomos-trust-chain:
+  model: S0-S10
+  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

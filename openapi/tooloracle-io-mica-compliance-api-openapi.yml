@@ -1,0 +1,252 @@
+openapi: 3.2.0
+info:
+  title: Tooloracle Io MiCA Compliance API
+  version: 8.4.1+truthrepair.r1
+  contact:
+    email: support@feedoracle.io
+    url: https://feedoracle.io/contact.html
+  license:
+    name: Proprietary
+  termsOfService: https://feedoracle.io/terms.html
+  description: 'Operations tagged MiCA Compliance across 2 of this provider''s published API definitions: tooloracle-io-feedoracle-openapi.json, tooloracle-io-feedoracle-compliance-evidence-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.feedoracle.io
+  description: Production
+security: []
+tags:
+- name: MiCA Compliance
+  description: MiCA regulatory compliance evidence (Art. 22-58) for stablecoins and token issuers
+paths:
+  /api/v1/feeds/mica/custody-risk/{protocol}:
+    get:
+      summary: MiCA Custody Risk Feed
+      description: 'Feed-format custody risk analysis per Art. 26/27/54.
+
+
+        Requires an API key (X-API-Key header). Corrected 2026-08-16: previously published as public.'
+      tags:
+      - MiCA Compliance
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+      parameters:
+      - name: protocol
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Protocol slug
+      security:
+      - ApiKeyAuth: []
+      operationId: getApiV1FeedsMicaCustodyRiskByProtocol
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v1/feeds/mica/document-compliance/{symbol}:
+    get:
+      summary: MiCA Document Compliance Feed
+      description: 'Feed-format document compliance check per Art. 29/30/37/55.
+
+
+        Requires an API key (X-API-Key header). Corrected 2026-08-16: previously published as public.'
+      tags:
+      - MiCA Compliance
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Stablecoin symbol (e.g. usdc, usdt, dai)
+      security:
+      - ApiKeyAuth: []
+      operationId: getApiV1FeedsMicaDocumentComplianceBySymbol
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v1/feeds/mica/full-pack/{symbol}:
+    get:
+      summary: MiCA Full Evidence Pack Feed
+      description: 'Feed-format complete MiCA evidence pack covering Art. 22-58.
+
+
+        Requires an API key (X-API-Key header). Corrected 2026-08-16: previously published as public.'
+      tags:
+      - MiCA Compliance
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Stablecoin symbol (e.g. usdc, usdt, dai)
+      security:
+      - ApiKeyAuth: []
+      operationId: getApiV1FeedsMicaFullPackBySymbol
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v1/feeds/mica/interest-check/{symbol}:
+    get:
+      summary: MiCA Interest Check Feed
+      description: 'Feed-format interest prohibition check per Art. 23/52.
+
+
+        Requires an API key (X-API-Key header). Corrected 2026-08-16: previously published as public.'
+      tags:
+      - MiCA Compliance
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Stablecoin symbol (e.g. usdc, usdt, dai)
+      security:
+      - ApiKeyAuth: []
+      operationId: getApiV1FeedsMicaInterestCheckBySymbol
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v1/feeds/mica/reserve-quality/{symbol}:
+    get:
+      summary: MiCA Reserve Quality Feed
+      description: 'Feed-format reserve quality assessment per Art. 24/25/36/53.
+
+
+        Requires an API key (X-API-Key header). Corrected 2026-08-16: previously published as public.'
+      tags:
+      - MiCA Compliance
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Stablecoin symbol (e.g. usdc, usdt, dai)
+      security:
+      - ApiKeyAuth: []
+      operationId: getApiV1FeedsMicaReserveQualityBySymbol
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v1/feeds/mica/significant-issuer/{symbol}:
+    get:
+      summary: MiCA Significant Issuer Feed
+      description: 'Feed-format significant issuer detection per Art. 45/58.
+
+
+        Requires an API key (X-API-Key header). Corrected 2026-08-16: previously published as public.'
+      tags:
+      - MiCA Compliance
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+      parameters:
+      - name: symbol
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Stablecoin symbol (e.g. usdc, usdt, dai)
+      security:
+      - ApiKeyAuth: []
+      operationId: getApiV1FeedsMicaSignificantIssuerBySymbol
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v1/mica/:
+    get:
+      summary: MiCA Endpoints Index
+      description: Lists all available MiCA compliance REST API endpoints.
+      tags:
+      - MiCA Compliance
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+      operationId: getApiV1Mica
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v1/macro/ecb/mica-reserve:
+    get:
+      tags:
+      - MiCA Compliance
+      summary: ECB MiCA Reserve Intelligence
+      description: MiCA Art. 36/38 reserve management intelligence for EUR stablecoins. ECB policy rates, EURIBOR benchmarks, real yield analysis, currency stability, and compliance signals — sourced from ECB Data Portal.
+      operationId: getEcbMicaReserve
+      responses:
+        '200':
+          description: MiCA reserve intelligence with compliance signals
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Required for v1 data endpoints. Get at /pricing.html
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 Bearer token from POST /mcp/token
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: FeedOracle OAuth 2.1 Bearer token. Obtain via /mcp/register (Dynamic Client Registration, RFC 7591).
+x-refined-from:
+- tooloracle-io-feedoracle-openapi.json
+- tooloracle-io-feedoracle-compliance-evidence-openapi.yml
+x-nomos-trust-chain:
+  model: S0-S10
+  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

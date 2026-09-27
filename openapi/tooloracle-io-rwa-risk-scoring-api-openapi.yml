@@ -1,0 +1,498 @@
+openapi: 3.2.0
+info:
+  title: Tooloracle Io RWA Risk Scoring API
+  version: 8.4.1+truthrepair.r1
+  contact:
+    email: support@feedoracle.io
+    url: https://feedoracle.io/contact.html
+  license:
+    name: Proprietary
+  termsOfService: https://feedoracle.io/terms.html
+  description: 'Operations tagged RWA Risk Scoring across 2 of this provider''s published API definitions: tooloracle-io-feedoracle-openapi.json, tooloracle-io-feedoracle-compliance-evidence-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.feedoracle.io
+  description: Production
+security: []
+tags:
+- name: RWA Risk Scoring
+  description: Multi-vector risk scores with letter grades (A-F) for 60+ tokenized asset protocols
+paths:
+  /v1/rwa/risk:
+    get:
+      tags:
+      - RWA Risk Scoring
+      summary: All protocol risk scores
+      description: Composite risk scores for 60+ tokenized asset protocols with market summary and grade distribution.
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: type
+        in: query
+        required: false
+        schema:
+          type: string
+        description: Filter by asset type
+      responses:
+        '200':
+          description: Risk scores for all protocols
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  protocols_scored:
+                    type: integer
+                    example: 61
+                  total_tvl_usd:
+                    type: number
+                  protocols:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RWAProtocolRisk'
+                  evidence:
+                    $ref: '#/components/schemas/RWAEvidence'
+        '401':
+          description: Missing or invalid API key
+        '429':
+          description: Rate limit exceeded (60 req/min)
+      operationId: getV1RwaRisk
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /v1/rwa/risk/{slug}:
+    get:
+      tags:
+      - RWA Risk Scoring
+      summary: Single protocol - full risk profile + evidence
+      description: Complete risk profile with 9 vector scores, reason codes, compliance, legal state. For regulated stablecoins includes stablecoin_detail. For XRPL assets includes xrpl_detail.
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Protocol identifier (e.g. rlusd, blackrock-buidl, xrpl-ecosystem)
+      responses:
+        '200':
+          description: Full protocol risk profile
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  protocol:
+                    $ref: '#/components/schemas/RWAProtocolRisk'
+                  benchmark:
+                    type: object
+                    properties:
+                      tbill_3m:
+                        type: number
+                        example: 3.6
+                  evidence:
+                    $ref: '#/components/schemas/RWAEvidence'
+        '401':
+          description: Missing or invalid API key
+        '404':
+          description: Protocol not found
+        '429':
+          description: Rate limit exceeded (60 req/min)
+      operationId: getV1RwaRiskBySlug
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /v1/rwa/risk/{slug}/pdf:
+    get:
+      tags:
+      - RWA Risk Scoring
+      summary: PDF risk report
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Protocol identifier (e.g. rlusd, blackrock-buidl, xrpl-ecosystem)
+      responses:
+        '200':
+          description: PDF report
+          content:
+            application/pdf:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Protocol not found
+      operationId: getV1RwaRiskBySlugPdf
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /v1/rwa/market:
+    get:
+      tags:
+      - RWA Risk Scoring
+      summary: Market overview & aggregate stats
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Market overview
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total_tvl_usd:
+                    type: number
+                  protocols_scored:
+                    type: integer
+                  grade_distribution:
+                    type: object
+                  type_breakdown:
+                    type: object
+                  evidence:
+                    $ref: '#/components/schemas/RWAEvidence'
+      operationId: getV1RwaMarket
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /v1/rwa/discovery:
+    get:
+      tags:
+      - RWA Risk Scoring
+      summary: Newly discovered protocols
+      description: Auto-discovered on-chain RWA protocols not yet in scored registry.
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Discovered protocols
+      operationId: getV1RwaDiscovery
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+components:
+  schemas:
+    RWAXrplDetail:
+      type: object
+      description: Enhanced fields for XRPL native assets
+      properties:
+        network:
+          type: object
+          properties:
+            ledger_index:
+              type: integer
+            server_state:
+              type: string
+            peers:
+              type: integer
+        xrp_market:
+          type: object
+          properties:
+            price_usd:
+              type: number
+            change_24h:
+              type: number
+            volume_24h:
+              type: number
+        whale_flows:
+          type: object
+          properties:
+            sentiment:
+              type: string
+              enum:
+              - bullish
+              - bearish
+              - neutral
+            net_flow_24h_xrp:
+              type: number
+        rwa_ecosystem:
+          type: object
+          properties:
+            custody_aum:
+              type: number
+            rlusd_supply:
+              type: number
+            tokenized_assets:
+              type: number
+    RWAProtocolRisk:
+      type: object
+      properties:
+        slug:
+          type: string
+          example: rlusd
+        protocol:
+          type: string
+          example: Ripple RLUSD
+        type:
+          type: string
+          enum:
+          - regulated_stablecoin
+          - treasury
+          - commodity
+          - credit
+          - synthetic
+          - real_estate
+          - equities
+          - insurance
+          - xrpl_infrastructure
+          - xrpl_custody
+          - xrpl_tokenization
+        risk_score:
+          type: integer
+          minimum: 0
+          maximum: 100
+          example: 89
+        risk_grade:
+          type: string
+          enum:
+          - A
+          - B
+          - C
+          - D
+          - F
+        tvl_usd:
+          type: number
+        risk_vectors:
+          $ref: '#/components/schemas/RWARiskVectors'
+        reason_codes:
+          type: object
+          properties:
+            codes:
+              type: array
+              items:
+                $ref: '#/components/schemas/RWAReasonCode'
+            summary:
+              type: string
+        chains:
+          type: object
+        stablecoin_detail:
+          $ref: '#/components/schemas/RWAStablecoinDetail'
+        xrpl_detail:
+          $ref: '#/components/schemas/RWAXrplDetail'
+    RWARiskVectors:
+      type: object
+      description: 9-dimensional risk breakdown (0-100 each)
+      properties:
+        tvl_weight:
+          type: integer
+        yield_spread:
+          type: integer
+        diversification:
+          type: integer
+        maturity:
+          type: integer
+        regulatory:
+          type: integer
+        institutional:
+          type: integer
+        dex_liquidity:
+          type: integer
+        onchain_transparency:
+          type: integer
+        esg_carbon:
+          type: integer
+    RWAStablecoinDetail:
+      type: object
+      description: Enhanced fields for regulated_stablecoin assets
+      properties:
+        issuer:
+          type: string
+          example: Ripple
+        custodian:
+          type: string
+        auditor:
+          type: string
+          example: BPM LLP (CPA-attested)
+        peg:
+          type: object
+          properties:
+            target:
+              type: number
+              example: 1.0
+            current:
+              type: number
+            deviation:
+              type: number
+        reserves:
+          type: object
+          properties:
+            ratio:
+              type: number
+              example: 1.042
+            value_usd:
+              type: number
+            outstanding:
+              type: number
+            report_month:
+              type: string
+        compliance:
+          type: object
+          properties:
+            mica:
+              type: string
+            genius:
+              type: string
+        anchoring:
+          type: object
+          properties:
+            total:
+              type: integer
+              example: 1888
+            polygon:
+              type: integer
+            xrpl:
+              type: integer
+        supply:
+          type: object
+          properties:
+            total:
+              type: number
+            chains:
+              type: object
+            change_24h:
+              type: number
+    RWAReasonCode:
+      type: object
+      properties:
+        vector:
+          type: string
+          example: tvl_weight
+        impact:
+          type: string
+          enum:
+          - positive
+          - negative
+        text:
+          type: string
+          example: Strong TVL indicates institutional confidence
+    RWAEvidence:
+      type: object
+      description: Response evidence envelope, contract v1.2. payload_hash is genuine and recomputable without any key. The legacy ES256K body signature is NOT produced and is NOT verifiable - it is reported with an explicit status instead of being advertised. Canonical execution and response-hash evidence is the Ed25519 execution receipt referenced by the x-nomos-receipt-url response header.
+      properties:
+        manifest_id:
+          type: string
+          example: RWA-94607EEB
+        payload_hash:
+          type: object
+          description: sha256 over this response with the 'evidence' member removed, JSON encoded with sorted keys and compact separators. Needs no key and no external service.
+          properties:
+            alg:
+              type: string
+              example: SHA-256
+            hex:
+              type: string
+        signature:
+          type: object
+          description: Legacy ES256K body signature. Currently never produced; treat as absent, never as verified.
+          properties:
+            alg:
+              type: string
+              example: ES256K
+            hex:
+              type: string
+              example: ''
+              description: Empty while status is UNAVAILABLE.
+            kid:
+              type:
+              - string
+              - 'null'
+              example: null
+              description: null while no signature exists - a key id names the key that signed, and with no signature it names nothing.
+            status:
+              type: string
+              enum:
+              - UNAVAILABLE
+              - UNVERIFIABLE_NO_PUBLISHED_JWKS
+              - ACTIVE
+              example: UNAVAILABLE
+        verification:
+          type: object
+          description: Verification surface for the legacy ES256K signature above.
+          properties:
+            jwks_url:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: null
+              description: null. The URL formerly advertised here returned 404 and no reachable JWKS publishes the legacy kid.
+            verifier_kit:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: null
+              description: null. The URL formerly advertised here answered 200 with valid:false - an alive-looking surface that verifies nothing.
+            status:
+              type: string
+              enum:
+              - OUT_OF_CONTRACT
+              - ACTIVE
+              example: OUT_OF_CONTRACT
+            reason:
+              type: string
+            self_check:
+              type: string
+              description: How to recompute payload_hash yourself.
+            canonical_execution_evidence:
+              type: object
+              description: Pointer to the evidence that IS verifiable. Ed25519/EdDSA - a different algorithm and a different key than the ES256K field above, and not a replacement JWKS for it.
+              properties:
+                note:
+                  type: string
+                receipt_url_header:
+                  type: string
+                  example: x-nomos-receipt-url
+                receipt_signature_alg:
+                  type: string
+                  example: EdDSA
+                receipt_jwks_url:
+                  type: string
+                  format: uri
+                  example: https://feedoracle.io/.well-known/nomos-execution-jwks.json
+        signature_scope:
+          type: object
+          properties:
+            signed:
+              type: string
+              example: payload_hash.hex
+            payload_excludes:
+              type: array
+              items:
+                type: string
+            canonicalization:
+              type: string
+              example: JSON_canonical_sorted
+        evidence_contract:
+          type: string
+          example: nomos.rwa.evidence.v1.2
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Required for v1 data endpoints. Get at /pricing.html
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 Bearer token from POST /mcp/token
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: FeedOracle OAuth 2.1 Bearer token. Obtain via /mcp/register (Dynamic Client Registration, RFC 7591).
+x-refined-from:
+- tooloracle-io-feedoracle-openapi.json
+- tooloracle-io-feedoracle-compliance-evidence-openapi.yml
+x-nomos-trust-chain:
+  model: S0-S10
+  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

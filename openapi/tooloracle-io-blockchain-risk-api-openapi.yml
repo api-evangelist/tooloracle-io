@@ -1,0 +1,90 @@
+openapi: 3.2.0
+info:
+  title: Tooloracle Io Blockchain Risk API
+  version: 4.2.0
+  x-canonical-source: https://tooloracle.io/assets/catalog.json
+  x-changelog:
+  - version: 4.2.0
+    date: '2026-04-28'
+    changes:
+    - Canonicalized counts from /assets/catalog.json
+    - Aligned root /openapi.json with /.well-known/openapi.json
+    - Added x-counts and x-canonical-source extensions
+  - version: 4.1.0
+    date: '2026-04-19'
+    changes:
+    - Added Mesh Economics v1 API paths (/economics/api/*)
+    - Added Mesh Nervous System discovery paths (/.well-known/agent-pulse, /.well-known/meta-tools)
+    - Added /.well-known/mesh-economics discovery endpoint
+  x-counts:
+    servers_online: 89
+    tools_available: 1096
+    categories: 7
+    chains_supported: 13
+    paid_products: 18
+  x-generated-at: '2026-09-20T02:13:01+00:00'
+  x-hedera-mainnet:
+    contract: 0.0.10420310
+    beacon_topic: 0.0.10420280
+    join_topic: 0.0.10420282
+  description: 'Operations tagged blockchain-risk across 2 of this provider''s published API definitions: tooloracle-io-openapi.json, tooloracle-io-mcp-platform-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://tooloracle.io
+tags:
+- name: blockchain-risk
+paths:
+  /v2/meme_rug_check:
+    post:
+      operationId: v2_meme_rug_check
+      tags:
+      - blockchain-risk
+      summary: Memecoin rug-pull check across Base, Solana, ETH, BSC, Arbitrum, Polygon
+      description: Memecoin rug-pull check + token risk assessment + scam detection — liquidity depth, holder concentration, contract age, volume patterns, LP lockup status, mint authority, honeypot detection. Multi-chain (Base, Solana, Ethereum, BSC, Arbitrum, Polygon). Live DexScreener + on-chain analysis. For DeFi trading agents, copy-trading bots, alpha discovery, MEV protection, treasury due diligence, crypto safety screening, agent token validation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: Token contract address (0x... or solana base58)
+                chain:
+                  type: string
+                  description: 'Chain: base, ethereum, solana, bsc, etc.'
+              required:
+              - token
+            example:
+              token: 0x1234...
+              chain: base
+      responses:
+        '200':
+          description: Success (synthetic example)
+          content:
+            application/json:
+              example:
+                risk_score: 0.23
+                verdict: LOW_RISK
+                liquidity_locked: true
+        '402':
+          description: 'Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes.'
+        '400':
+          description: Bad Request — invalid or missing parameters.
+      x-x402:
+        price: $0.02
+        currency: USDC
+        network: eip155:8453
+        method: POST
+        example_type: synthetic
+    servers:
+    - url: https://tooloracle.io
+externalDocs:
+  description: x402 v2 buyer quickstart (pay one /v2 route and verify the signed NOMOS execution receipt)
+  url: https://tooloracle.io/docs/x402-buyer-quickstart/
+x-refined-from:
+- tooloracle-io-openapi.json
+- tooloracle-io-mcp-platform-openapi.yml
+x-nomos-trust-chain:
+  model: S0-S10
+  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

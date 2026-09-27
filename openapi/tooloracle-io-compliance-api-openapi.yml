@@ -1,0 +1,319 @@
+openapi: 3.2.0
+info:
+  title: Tooloracle Io Compliance API
+  x-refined-note:
+  - x-canonical-source differs across the merged source definitions and was not carried
+  - x-changelog differs across the merged source definitions and was not carried
+  - x-counts differs across the merged source definitions and was not carried
+  - x-generated-at differs across the merged source definitions and was not carried
+  - x-hedera-mainnet differs across the merged source definitions and was not carried
+  - x-payment-protocol differs across the merged source definitions and was not carried
+  - x-provider differs across the merged source definitions and was not carried
+  version: '1.0'
+  description: 'Operations tagged compliance across 3 of this provider''s published API definitions: tooloracle-io-openapi.json, tooloracle-io-mcp-platform-openapi.yml, tooloracle-io-x402-v2-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://tooloracle.io
+tags:
+- name: Compliance
+paths:
+  /v2/compliance_preflight:
+    post:
+      operationId: v2_compliance_preflight
+      tags:
+      - Compliance
+      summary: MiCA stablecoin compliance preflight — PASS/WARN/BLOCK + grade A-F + signed…
+      description: EU stablecoin MiCA pre-flight verdict (PASS/WARN/BLOCK) with grade A-F and a signed MiCA status evidence snapshot (source and as-of metadata). Supports USDC, USDT, EURC, RLUSD, DAI and 40+ stablecoins. Required EU regulatory due diligence for CASPs, exchanges, payment & e-money agents.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: Stablecoin symbol e.g. USDC, USDT, EURC, RLUSD, DAI
+                issuer:
+                  type: string
+                  description: Optional issuer e.g. Circle, Tether, Ripple
+              required:
+              - token
+            example:
+              token: USDC
+      responses:
+        '200':
+          description: Success (synthetic example)
+          content:
+            application/json:
+              example:
+                verdict: PASS
+                score: 87.4
+                grade: A
+                mica_status: AUTHORIZED
+                signed: true
+        '402':
+          description: 'Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes.'
+        '400':
+          description: Bad Request — invalid or missing parameters.
+      x-x402:
+        price: $0.01
+        currency: USDC
+        network: eip155:8453
+        method: POST
+        example_type: synthetic
+        status: live
+        value_prop: 'Check a token before interacting: receive a machine-readable PASS/WARN/BLOCK compliance preflight for $0.01.'
+    servers:
+    - url: https://tooloracle.io
+  /v2/mica_stablecoin_check:
+    post:
+      operationId: v2_mica_stablecoin_check
+      tags:
+      - Compliance
+      summary: MiCA full Ampel check across 12 articles + grade A-F.
+      description: EU stablecoin MiCA compliance audit + regulatory readiness — full Ampel traffic-light check (RED/YELLOW/GREEN) across all 12 MiCA articles (Title III EMT + Title IV ART). Grade A-F + signed MiCA status evidence snapshot (source and as-of metadata). Supports USDC, USDT, EURC, RLUSD, DAI, FDUSD, PYUSD and 40+ stablecoins. Required regulatory due diligence for CASPs, EU exchanges, payment service providers, e-money institutions, fintech agents. BaFin / ESMA / AMF / FINMA / CySEC aligned. July 2026 CASP deadline.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: Stablecoin symbol (USDC, USDT, EURC, RLUSD, DAI, etc.)
+                issuer:
+                  type: string
+                  description: Optional issuer name (Circle, Tether, Ripple, etc.)
+              required:
+              - token
+            example:
+              token: USDC
+              issuer: Circle
+      responses:
+        '200':
+          description: Success (synthetic example)
+          content:
+            application/json:
+              example:
+                verdict: PASS
+                score: 87.4
+                grade: A
+                mica_status: AUTHORIZED
+        '402':
+          description: 'Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes.'
+        '400':
+          description: Bad Request — invalid or missing parameters.
+      x-x402:
+        price: $0.01
+        currency: USDC
+        network: eip155:8453
+        method: POST
+        example_type: synthetic
+    servers:
+    - url: https://tooloracle.io
+  /v2/sanctions_screen:
+    post:
+      operationId: v2_sanctions_screen
+      tags:
+      - Compliance
+      summary: 'Name screening: EU FSF (14k) + OFAC SDN (69k) + UN (3k) + UK HMT (4k)'
+      description: Sanctions screening + AML compliance check — real-time name screening against EU FSF (14k entities), US OFAC SDN (69k), UN Security Council (3k), UK HMT (4k). Hit/no-hit verdict with entity details, confidence score, matched-list breakdown. For KYC, KYB, CDD, AML, transaction monitoring, agent payment pre-flight, payments compliance, regtech workflows. EU AMLR Art. 21 + FinCEN BSA + FATF Rec. 6 + BaFin GwG compliant.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: Person or entity name to screen
+                country:
+                  type: string
+                  description: Optional ISO country code
+                dob:
+                  type: string
+                  description: Optional date of birth YYYY-MM-DD
+              required:
+              - name
+            example:
+              name: John Doe
+              country: RU
+      responses:
+        '200':
+          description: Success (synthetic example)
+          content:
+            application/json:
+              example:
+                hit: false
+                matched_lists: []
+                confidence: 0
+        '402':
+          description: 'Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes.'
+        '400':
+          description: Bad Request — invalid or missing parameters.
+      x-x402:
+        price: $0.02
+        currency: USDC
+        network: eip155:8453
+        method: POST
+        example_type: synthetic
+    servers:
+    - url: https://tooloracle.io
+  /v2/xrpl_rlusd_integrity:
+    post:
+      operationId: v2_xrpl_rlusd_integrity
+      tags:
+      - Compliance
+      summary: 'RLUSD integrity: peg + on-chain supply + XRPL DEX liquidity cross-check'
+      description: 'AgentNOMOS XRPL RLUSD Integrity Check: Cross-verifies Ripple USD (RLUSD) across three sources in one call — DeFiLlama peg price and market cap, XRPL on-chain circulating supply via gateway_balances on the issuer account, and live XRPL DEX orderbook offers. Returns per-source results, an integrity summary with sources_checked and sources_ok, and flags such as SUPPLY_MISMATCH with severity and detail. Automated data cross-check — not investment advice and not a regulatory assessment.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties: {}
+            example: {}
+      responses:
+        '200':
+          description: Success (synthetic example)
+          content:
+            application/json:
+              example:
+                sources:
+                  defillama:
+                    price: 1.0
+                    ok: true
+                  xrpl_onchain:
+                    circulating: 0
+                    issuer: rMxCKbEDwqr76QuheSUMdEGf4B9xJ8m5De
+                    ok: true
+                  xrpl_dex:
+                    active_offers: 0
+                    dex_liquidity: false
+                    ok: true
+                flags: []
+                timestamp: '1970-01-01T00:00:00Z'
+        '402':
+          description: 'Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes.'
+        '400':
+          description: Bad Request — invalid or missing parameters.
+      x-x402:
+        price: $0.03
+        currency: USDC
+        network: eip155:8453
+        method: POST
+        example_type: synthetic
+    servers:
+    - url: https://tooloracle.io
+components:
+  schemas:
+    X402PaymentRequired:
+      type: object
+      description: Standard x402 v2 Payment-Required challenge.
+      properties:
+        x402Version:
+          type: integer
+          examples:
+          - 2
+        accepts:
+          type: array
+          items:
+            type: object
+            properties:
+              scheme:
+                type: string
+                examples:
+                - exact
+              network:
+                type: string
+                examples:
+                - eip155:8453
+              maxAmountRequired:
+                type: string
+                description: Atomic USDC units (6 decimals).
+              price:
+                type: string
+                examples:
+                - $0.01
+              asset:
+                type: string
+                examples:
+                - '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+              payTo:
+                type: string
+                examples:
+                - '0x11f591C3496C0632e7B173184f5Bc71dC941125D'
+        error:
+          type: string
+    micaStablecoinCheckInput:
+      type: object
+      properties:
+        token:
+          type: string
+          description: Stablecoin symbol (USDC, USDT, EURC, RLUSD, DAI, etc.).
+        issuer:
+          type: string
+          description: Optional issuer name (Circle, Tether, Ripple, etc.).
+      required:
+      - token
+      additionalProperties: false
+    micaStablecoinCheckOutput:
+      type: object
+      properties:
+        verdict:
+          type: string
+        score:
+          type: number
+        grade:
+          type: string
+        mica_status:
+          type: string
+        signed:
+          type: boolean
+    sanctionsScreenOutput:
+      type: object
+      properties:
+        hit:
+          type: boolean
+        matched_lists:
+          type: array
+          items: {}
+        confidence:
+          type: number
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        code:
+          type: string
+        message:
+          type: string
+    sanctionsScreenInput:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Person or entity name to screen.
+        country:
+          type: string
+          description: Optional ISO country code.
+        dob:
+          type: string
+          description: Optional date of birth YYYY-MM-DD.
+      required:
+      - name
+      additionalProperties: false
+externalDocs:
+  description: x402 v2 buyer quickstart (pay one /v2 route and verify the signed NOMOS execution receipt)
+  url: https://tooloracle.io/docs/x402-buyer-quickstart/
+x-refined-from:
+- tooloracle-io-openapi.json
+- tooloracle-io-mcp-platform-openapi.yml
+- tooloracle-io-x402-v2-openapi.yml
+x-nomos-trust-chain:
+  model: S0-S10
+  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

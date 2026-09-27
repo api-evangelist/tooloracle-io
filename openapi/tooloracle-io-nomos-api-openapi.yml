@@ -1,0 +1,109 @@
+openapi: 3.2.0
+info:
+  title: Tooloracle Io Nomos API
+  version: 4.2.0
+  x-canonical-source: https://tooloracle.io/assets/catalog.json
+  x-changelog:
+  - version: 4.2.0
+    date: '2026-04-28'
+    changes:
+    - Canonicalized counts from /assets/catalog.json
+    - Aligned root /openapi.json with /.well-known/openapi.json
+    - Added x-counts and x-canonical-source extensions
+  - version: 4.1.0
+    date: '2026-04-19'
+    changes:
+    - Added Mesh Economics v1 API paths (/economics/api/*)
+    - Added Mesh Nervous System discovery paths (/.well-known/agent-pulse, /.well-known/meta-tools)
+    - Added /.well-known/mesh-economics discovery endpoint
+  x-counts:
+    servers_online: 89
+    tools_available: 1096
+    categories: 7
+    chains_supported: 13
+    paid_products: 18
+  x-generated-at: '2026-09-20T02:13:01+00:00'
+  x-hedera-mainnet:
+    contract: 0.0.10420310
+    beacon_topic: 0.0.10420280
+    join_topic: 0.0.10420282
+  description: 'Operations tagged nomos across 2 of this provider''s published API definitions: tooloracle-io-openapi.json, tooloracle-io-mcp-platform-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://tooloracle.io
+tags:
+- name: nomos
+paths:
+  /v2/nomos_full_chain_verification:
+    post:
+      operationId: v2_nomos_full_chain_verification
+      tags:
+      - nomos
+      summary: One safe action through the full governed NOMOS chain - signed, verifiable…
+      description: 'Full-Chain Governed Verification: run one safe, read-only machine action through the complete NOMOS Machine Economy Trust Chain and get back a cryptographically verifiable execution proof. The call binds your payment, a stated intent, a pinned capability and offer, a NOMOS admission decision (which enforces current CISA-KEV-derived OracleNet security-freshness evidence), the execution and the response bytes into one Ed25519-signed execution receipt you can verify yourself against the public JWKS (https://feedoracle.io/.well-known/nomos-execution-jwks.json). Read-only; no asset movement besides the x402 payment itself. Request size limit (separate from schema validation): the request object is rejected when its re-serialised JSON exceeds 2048 UTF-8 bytes; this is measured on the parsed-and-re-serialised object, so whitespace and key order in the raw HTTP body do not count towards it. Claim boundary: EXECUTION_BOUND_PROOF (estate-signed evidence, not an independent third-party attestation, not a certification).'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                intent:
+                  type: string
+                  description: Fixed action selector. The only accepted value is verify_full_chain.
+                  enum:
+                  - verify_full_chain
+                client_nonce:
+                  type: string
+                  description: Your correlation nonce; echoed and bound into the signed intent digest. 8-64 characters, letters, digits, underscore and hyphen only.
+                  pattern: ^[A-Za-z0-9_-]{8,64}$
+                requested_capability:
+                  type: string
+                  description: 'Optional legacy compatibility field. Omit it: normal callers do not need it. If sent, it must equal the canonical capability id, otherwise the request is rejected. It carries no caller authority - it neither selects nor widens the executed capability, and the value is discarded after validation; execution always uses the server-side capability constant.'
+                  enum:
+                  - nomos_full_chain_verification
+              required:
+              - intent
+              - client_nonce
+              additionalProperties: false
+            example:
+              intent: verify_full_chain
+              client_nonce: agent-nonce-12345678
+      responses:
+        '200':
+          description: Success (synthetic example)
+          content:
+            application/json:
+              example:
+                schema: nomos.full_chain_verification.result.v1
+                claim_ceiling: EXECUTION_BOUND_PROOF
+                chain:
+                  admission:
+                    policy_version: 2026-08-10.r2.oraclenet-secfresh
+                  execution:
+                    execution_id: exe1_903914429d846a487679d42aa866d07b
+                    state: EXECUTION_COMPLETED
+                  receipt:
+                    kid: exr1_40c4bc9a9f61988b
+                verification:
+                  jwks_url: https://feedoracle.io/.well-known/nomos-execution-jwks.json
+        '402':
+          description: 'Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes.'
+        '400':
+          description: Bad Request — invalid or missing parameters.
+      x-x402:
+        price: $0.001
+        currency: USDC
+        network: eip155:8453
+        method: POST
+        example_type: synthetic
+    servers:
+    - url: https://tooloracle.io
+externalDocs:
+  description: x402 v2 buyer quickstart (pay one /v2 route and verify the signed NOMOS execution receipt)
+  url: https://tooloracle.io/docs/x402-buyer-quickstart/
+x-refined-from:
+- tooloracle-io-openapi.json
+- tooloracle-io-mcp-platform-openapi.yml
+x-nomos-trust-chain:
+  model: S0-S10
+  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

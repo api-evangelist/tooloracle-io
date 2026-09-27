@@ -1,0 +1,79 @@
+openapi: 3.2.0
+info:
+  title: Tooloracle Io Stress API
+  version: 8.4.1+truthrepair.r1
+  contact:
+    email: support@feedoracle.io
+    url: https://feedoracle.io/contact.html
+  license:
+    name: Proprietary
+  termsOfService: https://feedoracle.io/terms.html
+  description: 'Operations tagged Stress across 2 of this provider''s published API definitions: tooloracle-io-feedoracle-openapi.json, tooloracle-io-feedoracle-compliance-evidence-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.feedoracle.io
+  description: Production
+security: []
+tags:
+- name: Stress
+paths:
+  /api/v1/macro/stress:
+    get:
+      tags:
+      - Stress
+      operationId: getStress
+      summary: Financial stress
+      description: Composite score, VIX, STLFSI, TED, HY spread
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v1/macro/volatility:
+    get:
+      tags:
+      - Stress
+      operationId: getVolatility
+      summary: VIX detail
+      description: CBOE VIX, regime classification
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /api/v1/macro/expectations:
+    get:
+      tags:
+      - Stress
+      operationId: getExpectations
+      summary: Inflation expectations
+      description: Michigan inflation expectations
+      responses:
+        '200':
+          description: JSON with oracle_ready flag
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Required for v1 data endpoints. Get at /pricing.html
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 Bearer token from POST /mcp/token
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: FeedOracle OAuth 2.1 Bearer token. Obtain via /mcp/register (Dynamic Client Registration, RFC 7591).
+x-refined-from:
+- tooloracle-io-feedoracle-openapi.json
+- tooloracle-io-feedoracle-compliance-evidence-openapi.yml
+x-nomos-trust-chain:
+  model: S0-S10
+  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

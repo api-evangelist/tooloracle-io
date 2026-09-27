@@ -1,0 +1,95 @@
+openapi: 3.2.0
+info:
+  title: Tooloracle Io RWA On-Chain API
+  version: 8.4.1+truthrepair.r1
+  contact:
+    email: support@feedoracle.io
+    url: https://feedoracle.io/contact.html
+  license:
+    name: Proprietary
+  termsOfService: https://feedoracle.io/terms.html
+  description: 'Operations tagged RWA On-Chain across 2 of this provider''s published API definitions: tooloracle-io-feedoracle-openapi.json, tooloracle-io-feedoracle-compliance-evidence-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.feedoracle.io
+  description: Production
+security: []
+tags:
+- name: RWA On-Chain
+  description: Smart contract transparency and activity verification
+paths:
+  /v1/rwa/onchain:
+    get:
+      tags:
+      - RWA On-Chain
+      summary: All protocols - transparency overview
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: On-chain overview
+      operationId: getV1RwaOnchain
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /v1/rwa/onchain/{slug}:
+    get:
+      tags:
+      - RWA On-Chain
+      summary: Single protocol - on-chain analysis
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Protocol slug
+      responses:
+        '200':
+          description: On-chain details
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  verification_status:
+                    type: string
+                    enum:
+                    - TRANSPARENT
+                    - PARTIAL
+                    - OPAQUE
+                  score:
+                    type: integer
+                  proxy_detected:
+                    type: boolean
+        '404':
+          description: Protocol not found
+      operationId: getV1RwaOnchainBySlug
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Required for v1 data endpoints. Get at /pricing.html
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 Bearer token from POST /mcp/token
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: FeedOracle OAuth 2.1 Bearer token. Obtain via /mcp/register (Dynamic Client Registration, RFC 7591).
+x-refined-from:
+- tooloracle-io-feedoracle-openapi.json
+- tooloracle-io-feedoracle-compliance-evidence-openapi.yml
+x-nomos-trust-chain:
+  model: S0-S10
+  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

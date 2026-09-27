@@ -1,0 +1,114 @@
+openapi: 3.2.0
+info:
+  title: Tooloracle Io MCP Transport API
+  version: 8.4.1+truthrepair.r1
+  contact:
+    email: support@feedoracle.io
+    url: https://feedoracle.io/contact.html
+  license:
+    name: Proprietary
+  termsOfService: https://feedoracle.io/terms.html
+  description: 'Operations tagged MCP Transport across 2 of this provider''s published API definitions: tooloracle-io-feedoracle-openapi.json, tooloracle-io-feedoracle-compliance-evidence-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.feedoracle.io
+  description: Production
+security: []
+tags:
+- name: MCP Transport
+paths:
+  /mcp/sse:
+    get:
+      tags:
+      - MCP Transport
+      summary: Compliance MCP — SSE stream (18 tools)
+      description: 'Server-Sent Events transport. Connect with Bearer token. Tools: MiCA, DORA, RWA, stablecoin risk.'
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: SSE stream — session_id in first event
+      operationId: getMcpSse
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /mcp/messages:
+    post:
+      tags:
+      - MCP Transport
+      summary: Compliance MCP — JSON-RPC message endpoint
+      description: Send JSON-RPC 2.0 messages to active SSE session.
+      parameters:
+      - name: session_id
+        in: query
+        required: true
+        schema:
+          type: string
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                jsonrpc:
+                  type: string
+                  example: '2.0'
+                id:
+                  type: integer
+                method:
+                  type: string
+                  example: tools/call
+                params:
+                  type: object
+      responses:
+        '202':
+          description: Accepted — result delivered via SSE
+      operationId: postMcpMessages
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /mcp/risk/sse:
+    get:
+      tags:
+      - MCP Transport
+      summary: Stablecoin Risk MCP — SSE stream (13 tools)
+      description: 'Risk intelligence tools: SAFE/CAUTION/AVOID assessments, peg monitoring, reserve analysis.'
+      security:
+      - BearerAuth: []
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: SSE stream
+      operationId: getMcpRiskSse
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Required for v1 data endpoints. Get at /pricing.html
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 Bearer token from POST /mcp/token
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: FeedOracle OAuth 2.1 Bearer token. Obtain via /mcp/register (Dynamic Client Registration, RFC 7591).
+x-refined-from:
+- tooloracle-io-feedoracle-openapi.json
+- tooloracle-io-feedoracle-compliance-evidence-openapi.yml
+x-nomos-trust-chain:
+  model: S0-S10
+  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

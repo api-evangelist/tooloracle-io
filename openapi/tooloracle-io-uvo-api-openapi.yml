@@ -1,0 +1,152 @@
+openapi: 3.2.0
+info:
+  title: ToolOracle — Compliance, Evidence & Agent-Safety Oracle for…
+  version: 1.0.0
+  description: Pay-per-call x402 API on Base (USDC), no API key, no account.
+  contact:
+    name: ToolOracle / FeedOracle Technologies
+    url: https://tooloracle.io
+  license:
+    name: Proprietary
+  x-provider: ToolOracle
+  x-payment-protocol: x402-v2
+servers:
+- url: https://tooloracle.io
+  description: ToolOracle production (Base Mainnet, USDC)
+tags:
+- name: uvo
+  description: 'Universal Verifiable Output: claim/citation/action validation.'
+paths:
+  /v2/uvo_citation_check:
+    post:
+      operationId: uvoCitationCheck
+      summary: Legal/academic citation verification + phantom-citation detection
+      description: Legal citation verification + phantom detection — catches fabricated EU/US statute references, hallucinated case law, fake academic papers, made-up section numbers in AI-generated regulatory text. EU MiCA, GDPR, DORA, AMLR, NIS2, BaFin German codes (BGB, KWG) + US FINRA, SEC, FinCEN citations supported. For legal research, compliance audit, regulatory drafting, AI hallucination defense. Sub-200ms.
+      tags:
+      - uvo
+      x-x402:
+        price: $0.01
+        maxAmountRequired: '10000'
+        asset: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+        assetName: USD Coin
+        network: eip155:8453
+        scheme: exact
+        payTo: '0x11f591C3496C0632e7B173184f5Bc71dC941125D'
+        facilitator: https://api.cdp.coinbase.com/platform/v2/x402
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/uvoCitationCheckInput'
+            examples:
+              default:
+                value:
+                  claim: Per MiCA Article 4(99), all stablecoin issuers must...
+      responses:
+        '200':
+          description: Successful result.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/uvoCitationCheckOutput'
+              examples:
+                default:
+                  value:
+                    verdict: BLOCK
+                    score: 1.0
+                    reasoning: phantom citation detected
+                    elapsed_ms: 12
+        '402':
+          description: Payment Required (x402 v2). Retry with the PAYMENT-SIGNATURE header. See x-x402.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/X402PaymentRequired'
+        '400':
+          description: Bad request (missing/invalid field).
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    uvoCitationCheckInput:
+      type: object
+      properties:
+        claim:
+          type: string
+          description: Text potentially containing citations to verify.
+        references:
+          type: array
+          description: Optional list of reference URLs/IDs.
+          items:
+            type: string
+      required:
+      - claim
+      additionalProperties: false
+    uvoCitationCheckOutput:
+      type: object
+      properties:
+        verdict:
+          type: string
+        score:
+          type: number
+        reasoning:
+          type: string
+        elapsed_ms:
+          type: integer
+    X402PaymentRequired:
+      type: object
+      description: Standard x402 v2 Payment-Required challenge.
+      properties:
+        x402Version:
+          type: integer
+          examples:
+          - 2
+        accepts:
+          type: array
+          items:
+            type: object
+            properties:
+              scheme:
+                type: string
+                examples:
+                - exact
+              network:
+                type: string
+                examples:
+                - eip155:8453
+              maxAmountRequired:
+                type: string
+                description: Atomic USDC units (6 decimals).
+              price:
+                type: string
+                examples:
+                - $0.01
+              asset:
+                type: string
+                examples:
+                - '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+              payTo:
+                type: string
+                examples:
+                - '0x11f591C3496C0632e7B173184f5Bc71dC941125D'
+        error:
+          type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        code:
+          type: string
+        message:
+          type: string
+x-x402-global:
+  protocol: x402-v2
+  network: eip155:8453
+  asset: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
+  payTo: '0x11f591C3496C0632e7B173184f5Bc71dC941125D'
+  facilitator: https://api.cdp.coinbase.com/platform/v2/x402
+  manifest: https://tooloracle.io/.well-known/x402

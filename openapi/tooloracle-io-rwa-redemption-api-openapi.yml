@@ -1,0 +1,302 @@
+openapi: 3.2.0
+info:
+  title: Tooloracle Io RWA Redemption API
+  version: 8.4.1+truthrepair.r1
+  contact:
+    email: support@feedoracle.io
+    url: https://feedoracle.io/contact.html
+  license:
+    name: Proprietary
+  termsOfService: https://feedoracle.io/terms.html
+  description: 'Operations tagged RWA Redemption across 2 of this provider''s published API definitions: tooloracle-io-feedoracle-openapi.json, tooloracle-io-feedoracle-compliance-evidence-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.feedoracle.io
+  description: Production
+security: []
+tags:
+- name: RWA Redemption
+  description: Time-to-Cash / institutional liquidity profiles (settlement, gates, fees)
+paths:
+  /v1/rwa/redemption:
+    get:
+      tags:
+      - RWA Redemption
+      summary: All protocols - liquidity profiles
+      description: 'Institutional exit analysis: settlement times, gates, minimum amounts, fees. Data expanded progressively.'
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Redemption profiles
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  protocols_count:
+                    type: integer
+                  protocols:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RWARedemptionProfile'
+                  evidence:
+                    $ref: '#/components/schemas/RWAEvidence'
+        '401':
+          description: Missing or invalid API key
+      operationId: getV1RwaRedemption
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /v1/rwa/redemption/{slug}:
+    get:
+      tags:
+      - RWA Redemption
+      summary: Single protocol - liquidity profile
+      description: 'Complete Time-to-Cash analysis: settlement time, gates, fees, minimum amounts, liquidity latency score.'
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Protocol slug
+      responses:
+        '200':
+          description: Redemption profile
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  redemption_profile:
+                    $ref: '#/components/schemas/RWARedemptionProfile'
+                  evidence:
+                    $ref: '#/components/schemas/RWAEvidence'
+        '404':
+          description: Protocol not found or no data available yet (progressive expansion)
+        '401':
+          description: Missing or invalid API key
+      operationId: getV1RwaRedemptionBySlug
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+components:
+  schemas:
+    RWARedemptionProfile:
+      type: object
+      description: Institutional liquidity profile - how fast can you exit to cash?
+      properties:
+        primary_exit:
+          type: string
+          enum:
+          - ISSUER_DIRECT
+          - DEX_ONLY
+          - HYBRID
+          - OTC
+          - NONE
+          description: Primary redemption channel
+        settlement_time:
+          type: string
+          enum:
+          - T+0
+          - T+1
+          - T+2_BUSINESS_DAYS
+          - T+3_BUSINESS_DAYS
+          - VARIABLE
+          - LOCK_PERIOD
+          example: T+0
+        settlement_days_max:
+          type: integer
+          description: Maximum calendar days to settlement
+        redemption_frequency:
+          type: string
+          enum:
+          - ON_DEMAND
+          - DAILY
+          - WEEKLY
+          - MONTHLY
+          - AT_MATURITY
+        notice_period_days:
+          type: integer
+        minimum_redemption_usd:
+          type: number
+          nullable: true
+          example: 100000
+        maximum_daily_redemption_usd:
+          type: number
+          nullable: true
+        fees:
+          type: object
+          nullable: true
+          properties:
+            type:
+              type: string
+              example: bps
+            value:
+              type: number
+              example: 0
+        gates:
+          type: object
+          properties:
+            withdrawal_gate:
+              type: boolean
+              description: Can issuer halt redemptions?
+            suspension_rights:
+              type: boolean
+            conditions:
+              type: string
+              nullable: true
+              description: Under what conditions gates activate
+        kyc_required:
+          type: boolean
+        redemption_currency:
+          type: string
+          example: USD
+        nav_frequency:
+          type: string
+          enum:
+          - REAL_TIME
+          - DAILY
+          - WEEKLY
+          - MONTHLY
+        liquidity_latency_score:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: 'Composite score (0-100): higher = faster exit to cash'
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Data confidence level
+        source:
+          type: string
+        last_verified:
+          type: string
+          format: date
+    RWAEvidence:
+      type: object
+      description: Response evidence envelope, contract v1.2. payload_hash is genuine and recomputable without any key. The legacy ES256K body signature is NOT produced and is NOT verifiable - it is reported with an explicit status instead of being advertised. Canonical execution and response-hash evidence is the Ed25519 execution receipt referenced by the x-nomos-receipt-url response header.
+      properties:
+        manifest_id:
+          type: string
+          example: RWA-94607EEB
+        payload_hash:
+          type: object
+          description: sha256 over this response with the 'evidence' member removed, JSON encoded with sorted keys and compact separators. Needs no key and no external service.
+          properties:
+            alg:
+              type: string
+              example: SHA-256
+            hex:
+              type: string
+        signature:
+          type: object
+          description: Legacy ES256K body signature. Currently never produced; treat as absent, never as verified.
+          properties:
+            alg:
+              type: string
+              example: ES256K
+            hex:
+              type: string
+              example: ''
+              description: Empty while status is UNAVAILABLE.
+            kid:
+              type:
+              - string
+              - 'null'
+              example: null
+              description: null while no signature exists - a key id names the key that signed, and with no signature it names nothing.
+            status:
+              type: string
+              enum:
+              - UNAVAILABLE
+              - UNVERIFIABLE_NO_PUBLISHED_JWKS
+              - ACTIVE
+              example: UNAVAILABLE
+        verification:
+          type: object
+          description: Verification surface for the legacy ES256K signature above.
+          properties:
+            jwks_url:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: null
+              description: null. The URL formerly advertised here returned 404 and no reachable JWKS publishes the legacy kid.
+            verifier_kit:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: null
+              description: null. The URL formerly advertised here answered 200 with valid:false - an alive-looking surface that verifies nothing.
+            status:
+              type: string
+              enum:
+              - OUT_OF_CONTRACT
+              - ACTIVE
+              example: OUT_OF_CONTRACT
+            reason:
+              type: string
+            self_check:
+              type: string
+              description: How to recompute payload_hash yourself.
+            canonical_execution_evidence:
+              type: object
+              description: Pointer to the evidence that IS verifiable. Ed25519/EdDSA - a different algorithm and a different key than the ES256K field above, and not a replacement JWKS for it.
+              properties:
+                note:
+                  type: string
+                receipt_url_header:
+                  type: string
+                  example: x-nomos-receipt-url
+                receipt_signature_alg:
+                  type: string
+                  example: EdDSA
+                receipt_jwks_url:
+                  type: string
+                  format: uri
+                  example: https://feedoracle.io/.well-known/nomos-execution-jwks.json
+        signature_scope:
+          type: object
+          properties:
+            signed:
+              type: string
+              example: payload_hash.hex
+            payload_excludes:
+              type: array
+              items:
+                type: string
+            canonicalization:
+              type: string
+              example: JSON_canonical_sorted
+        evidence_contract:
+          type: string
+          example: nomos.rwa.evidence.v1.2
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Required for v1 data endpoints. Get at /pricing.html
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 Bearer token from POST /mcp/token
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: FeedOracle OAuth 2.1 Bearer token. Obtain via /mcp/register (Dynamic Client Registration, RFC 7591).
+x-refined-from:
+- tooloracle-io-feedoracle-openapi.json
+- tooloracle-io-feedoracle-compliance-evidence-openapi.yml
+x-nomos-trust-chain:
+  model: S0-S10
+  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

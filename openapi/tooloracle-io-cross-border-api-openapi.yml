@@ -1,0 +1,145 @@
+openapi: 3.2.0
+info:
+  title: Tooloracle Io Cross Border API
+  version: 4.2.0
+  x-canonical-source: https://tooloracle.io/assets/catalog.json
+  x-changelog:
+  - version: 4.2.0
+    date: '2026-04-28'
+    changes:
+    - Canonicalized counts from /assets/catalog.json
+    - Aligned root /openapi.json with /.well-known/openapi.json
+    - Added x-counts and x-canonical-source extensions
+  - version: 4.1.0
+    date: '2026-04-19'
+    changes:
+    - Added Mesh Economics v1 API paths (/economics/api/*)
+    - Added Mesh Nervous System discovery paths (/.well-known/agent-pulse, /.well-known/meta-tools)
+    - Added /.well-known/mesh-economics discovery endpoint
+  x-counts:
+    servers_online: 89
+    tools_available: 1096
+    categories: 7
+    chains_supported: 13
+    paid_products: 18
+  x-generated-at: '2026-09-20T02:13:01+00:00'
+  x-hedera-mainnet:
+    contract: 0.0.10420310
+    beacon_topic: 0.0.10420280
+    join_topic: 0.0.10420282
+  description: 'Operations tagged cross-border across 2 of this provider''s published API definitions: tooloracle-io-openapi.json, tooloracle-io-mcp-platform-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://tooloracle.io
+tags:
+- name: cross-border
+paths:
+  /v2/nomos/preflight:
+    post:
+      operationId: v2_nomos_preflight
+      tags:
+      - cross-border
+      summary: 'Cross-border transfer preflight: one call returns ALLOW /…'
+      description: AgentNOMOS Cross-Border Regulatory Compliance Preflight. Checks a planned cross-border data transfer between EU, India, Japan, Korea, Singapore and China against GDPR, DPDP, PIPL, FSA and MAS. Returns one verdict for the request (ALLOW, ALLOW_PUBLIC_SIGNAL_ONLY, REVIEW or BLOCK) inside `preflight_summary`, together with adequacy_status, risk_level, sccs_required, requires_human_review, blocked_fields and evidence_hash, plus scanned target candidates and a SHA-256 receipt_hash. Target-specific fields are withheld automatically when the verdict does not permit them. Classification only, not legal advice.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                source_regime:
+                  type: string
+                  description: Origin regime of the data transfer. Auto-detected from `intent` when omitted.
+                target_regime:
+                  type: string
+                  description: Destination regime. Auto-detected from `intent` when omitted.
+                region:
+                  type: string
+                  description: Target-scan region filter. Derived from source_regime when omitted.
+                data_category:
+                  type: string
+                  description: Category of the data to be transferred. Drives the verdict; personal and payment categories resolve to BLOCK.
+                query:
+                  type: string
+                  description: Free-text target search query.
+                intent:
+                  type: string
+                  description: Free-text intent; used to auto-detect regimes, capability and data category when the explicit fields are absent.
+                max_results:
+                  type: integer
+                  description: Maximum scanned targets returned.
+                min_score:
+                  type: integer
+                  description: Minimum target score for a candidate to be included.
+            example:
+              source_regime: EU
+              target_regime: JAPAN
+              region: japan
+              data_category: mcp_capability_signal
+              query: MCP-ready AI agent
+              max_results: 5
+      responses:
+        '200':
+          description: Success (synthetic example)
+          content:
+            application/json:
+              example:
+                broker: NOMOS
+                version: 0.1.0
+                envelope_id: env_0123456789abcdef
+                envelope_hash: sha256:…
+                timestamp: '2026-07-28T09:00:00Z'
+                elapsed_ms: 1
+                query:
+                  source_regime: EU
+                  target_regime: JAPAN
+                  data_category: mcp_capability_signal
+                  region: japan
+                  requested_capability: null
+                  risk_policy: standard
+                scan_meta:
+                  scan_id: …
+                  scan_time: '2026-07-28T04:00:02Z'
+                  cache_age_s: 17567
+                  total_before_filter: 40
+                  after_filter: 2
+                  region_filter: japan
+                preflight_summary:
+                  verdict: ALLOW
+                  adequacy_status: recognized
+                  risk_level: low
+                  sccs_required: false
+                  requires_human_review: false
+                  blocked_fields: []
+                  note: …
+                  evidence_hash: sha256:…
+                results: []
+                receipt_hash: sha256:19e7f52a…
+                pricing:
+                  price: $0.05
+                  currency: USDC
+                  network: eip155:8453
+                  scheme: exact
+                  payTo: '0x11f591C3496C0632e7B173184f5Bc71dC941125D'
+                disclaimer: Preflight classification only. Not legal advice. Not a legal compliance certificate. Engage qualified counsel before actual data transfer.
+        '402':
+          description: 'Payment Required (x402 v2): payment requirements are in the PAYMENT-REQUIRED response header (accepts[]); retry with the PAYMENT-SIGNATURE header (USDC on Base, eip155:8453). Success carries the PAYMENT-RESPONSE settlement header. The legacy X-PAYMENT header is not accepted on /v2 routes.'
+        '400':
+          description: Bad Request — invalid or missing parameters.
+      x-x402:
+        price: $0.05
+        currency: USDC
+        network: eip155:8453
+        method: POST
+        example_type: synthetic
+    servers:
+    - url: https://tooloracle.io
+externalDocs:
+  description: x402 v2 buyer quickstart (pay one /v2 route and verify the signed NOMOS execution receipt)
+  url: https://tooloracle.io/docs/x402-buyer-quickstart/
+x-refined-from:
+- tooloracle-io-openapi.json
+- tooloracle-io-mcp-platform-openapi.yml
+x-nomos-trust-chain:
+  model: S0-S10
+  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

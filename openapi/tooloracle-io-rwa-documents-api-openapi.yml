@@ -1,0 +1,252 @@
+openapi: 3.2.0
+info:
+  title: Tooloracle Io RWA Documents API
+  version: 8.4.1+truthrepair.r1
+  contact:
+    email: support@feedoracle.io
+    url: https://feedoracle.io/contact.html
+  license:
+    name: Proprietary
+  termsOfService: https://feedoracle.io/terms.html
+  description: 'Operations tagged RWA Documents across 2 of this provider''s published API definitions: tooloracle-io-feedoracle-openapi.json, tooloracle-io-feedoracle-compliance-evidence-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://api.feedoracle.io
+  description: Production
+security: []
+tags:
+- name: RWA Documents
+  description: Compliance document registry with source URLs and integrity hashes
+paths:
+  /v1/rwa/documents:
+    get:
+      tags:
+      - RWA Documents
+      summary: All protocols - document registry overview
+      description: Summary of available compliance documents per protocol. Source URLs point to issuer-hosted originals.
+      security:
+      - ApiKeyAuth: []
+      responses:
+        '200':
+          description: Document registry overview
+        '401':
+          description: Missing or invalid API key
+      operationId: getV1RwaDocuments
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+  /v1/rwa/documents/{slug}:
+    get:
+      tags:
+      - RWA Documents
+      summary: Single protocol - full document list
+      description: Attestation reports, prospectuses, audit reports, legal documents. URLs point to issuer/auditor sources. SHA-256 hashes for integrity verification where available.
+      security:
+      - ApiKeyAuth: []
+      parameters:
+      - name: slug
+        in: path
+        required: true
+        schema:
+          type: string
+        description: Protocol slug
+      responses:
+        '200':
+          description: Document list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  slug:
+                    type: string
+                  documents:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RWADocument'
+                  total_documents:
+                    type: integer
+                  last_updated:
+                    type: string
+                    format: date
+                  evidence:
+                    $ref: '#/components/schemas/RWAEvidence'
+        '404':
+          description: Protocol not found or no data available yet (progressive expansion)
+        '401':
+          description: Missing or invalid API key
+      operationId: getV1RwaDocumentsBySlug
+      x-operation-id-source: derived
+    servers:
+    - url: https://api.feedoracle.io
+      description: Production
+components:
+  schemas:
+    RWADocument:
+      type: object
+      description: Compliance/audit document reference with integrity hash
+      properties:
+        category:
+          type: string
+          enum:
+          - attestation
+          - audit
+          - prospectus
+          - legal
+          - whitepaper
+          - factsheet
+          - regulatory
+        title:
+          type: string
+          example: Monthly Attestation Report
+        url:
+          type: string
+          format: uri
+          description: Source URL (issuer/regulator/auditor hosted)
+        issuer:
+          type: string
+          description: Document publisher
+        date:
+          type: string
+          format: date
+        hash_sha256:
+          type: string
+          nullable: true
+          description: SHA-256 for integrity verification
+        format:
+          type: string
+          enum:
+          - pdf
+          - html
+          - json
+        regulatory_relevance:
+          type: string
+          nullable: true
+          enum:
+          - MiCA
+          - DORA
+          - SEC
+          - NYDFS
+          - null
+    RWAEvidence:
+      type: object
+      description: Response evidence envelope, contract v1.2. payload_hash is genuine and recomputable without any key. The legacy ES256K body signature is NOT produced and is NOT verifiable - it is reported with an explicit status instead of being advertised. Canonical execution and response-hash evidence is the Ed25519 execution receipt referenced by the x-nomos-receipt-url response header.
+      properties:
+        manifest_id:
+          type: string
+          example: RWA-94607EEB
+        payload_hash:
+          type: object
+          description: sha256 over this response with the 'evidence' member removed, JSON encoded with sorted keys and compact separators. Needs no key and no external service.
+          properties:
+            alg:
+              type: string
+              example: SHA-256
+            hex:
+              type: string
+        signature:
+          type: object
+          description: Legacy ES256K body signature. Currently never produced; treat as absent, never as verified.
+          properties:
+            alg:
+              type: string
+              example: ES256K
+            hex:
+              type: string
+              example: ''
+              description: Empty while status is UNAVAILABLE.
+            kid:
+              type:
+              - string
+              - 'null'
+              example: null
+              description: null while no signature exists - a key id names the key that signed, and with no signature it names nothing.
+            status:
+              type: string
+              enum:
+              - UNAVAILABLE
+              - UNVERIFIABLE_NO_PUBLISHED_JWKS
+              - ACTIVE
+              example: UNAVAILABLE
+        verification:
+          type: object
+          description: Verification surface for the legacy ES256K signature above.
+          properties:
+            jwks_url:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: null
+              description: null. The URL formerly advertised here returned 404 and no reachable JWKS publishes the legacy kid.
+            verifier_kit:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: null
+              description: null. The URL formerly advertised here answered 200 with valid:false - an alive-looking surface that verifies nothing.
+            status:
+              type: string
+              enum:
+              - OUT_OF_CONTRACT
+              - ACTIVE
+              example: OUT_OF_CONTRACT
+            reason:
+              type: string
+            self_check:
+              type: string
+              description: How to recompute payload_hash yourself.
+            canonical_execution_evidence:
+              type: object
+              description: Pointer to the evidence that IS verifiable. Ed25519/EdDSA - a different algorithm and a different key than the ES256K field above, and not a replacement JWKS for it.
+              properties:
+                note:
+                  type: string
+                receipt_url_header:
+                  type: string
+                  example: x-nomos-receipt-url
+                receipt_signature_alg:
+                  type: string
+                  example: EdDSA
+                receipt_jwks_url:
+                  type: string
+                  format: uri
+                  example: https://feedoracle.io/.well-known/nomos-execution-jwks.json
+        signature_scope:
+          type: object
+          properties:
+            signed:
+              type: string
+              example: payload_hash.hex
+            payload_excludes:
+              type: array
+              items:
+                type: string
+            canonicalization:
+              type: string
+              example: JSON_canonical_sorted
+        evidence_contract:
+          type: string
+          example: nomos.rwa.evidence.v1.2
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Required for v1 data endpoints. Get at /pricing.html
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: OAuth 2.0 Bearer token from POST /mcp/token
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: FeedOracle OAuth 2.1 Bearer token. Obtain via /mcp/register (Dynamic Client Registration, RFC 7591).
+x-refined-from:
+- tooloracle-io-feedoracle-openapi.json
+- tooloracle-io-feedoracle-compliance-evidence-openapi.yml
+x-nomos-trust-chain:
+  model: S0-S10
+  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

@@ -1,0 +1,261 @@
+openapi: 3.2.0
+info:
+  title: Tooloracle Io Mesh Economics API
+  version: 4.2.0
+  x-canonical-source: https://tooloracle.io/assets/catalog.json
+  x-changelog:
+  - version: 4.2.0
+    date: '2026-04-28'
+    changes:
+    - Canonicalized counts from /assets/catalog.json
+    - Aligned root /openapi.json with /.well-known/openapi.json
+    - Added x-counts and x-canonical-source extensions
+  - version: 4.1.0
+    date: '2026-04-19'
+    changes:
+    - Added Mesh Economics v1 API paths (/economics/api/*)
+    - Added Mesh Nervous System discovery paths (/.well-known/agent-pulse, /.well-known/meta-tools)
+    - Added /.well-known/mesh-economics discovery endpoint
+  x-counts:
+    servers_online: 89
+    tools_available: 1096
+    categories: 7
+    chains_supported: 13
+    paid_products: 18
+  x-generated-at: '2026-09-20T02:13:01+00:00'
+  x-hedera-mainnet:
+    contract: 0.0.10420310
+    beacon_topic: 0.0.10420280
+    join_topic: 0.0.10420282
+  description: 'Operations tagged Mesh Economics across 2 of this provider''s published API definitions: tooloracle-io-openapi.json, tooloracle-io-mcp-platform-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://tooloracle.io
+tags:
+- name: Mesh Economics
+  description: 'Agent-native economic layer: append-only ledger, fresh/cached pricing, originator + referrer rewards.'
+paths:
+  /economics/api/health:
+    get:
+      summary: Mesh Economics API health check
+      description: Returns service health, pricing version, and DB path.
+      tags:
+      - Mesh Economics
+      responses:
+        '200':
+          description: Service healthy
+          content:
+            application/json:
+              example:
+                ok: true
+                service: mesh-economics-api
+                version: v1
+                pricing_version: v1.0.0
+      operationId: getEconomicsApiHealth
+      x-operation-id-source: derived
+    servers:
+    - url: https://tooloracle.io
+  /economics/api/price:
+    post:
+      summary: Decide pricing for an incoming call (fresh vs cached)
+      description: Returns a CallDecision. No ledger events are written — caller must follow up with /commit.
+      tags:
+      - Mesh Economics
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - tool_id
+              - wallet
+              properties:
+                tool_id:
+                  type: string
+                  example: btc_overview
+                args:
+                  type: object
+                  example: {}
+                wallet:
+                  type: string
+                  example: 0xabc...
+                referrer_wallet:
+                  type: string
+                agent_id:
+                  type: string
+                api_key_hash:
+                  type: string
+                verify_only:
+                  type: boolean
+                  default: false
+      responses:
+        '200':
+          description: Pricing decision returned
+        '400':
+          description: Missing/invalid fields
+        '403':
+          description: Wallet blocked
+      operationId: postEconomicsApiPrice
+      x-operation-id-source: derived
+    servers:
+    - url: https://tooloracle.io
+  /economics/api/commit:
+    post:
+      summary: Commit a call to the ledger after execution
+      description: Book the call into the append-only ledger. Writes debit for caller, fee for treasury, and reward events for originator/referrer if applicable.
+      tags:
+      - Mesh Economics
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - decision
+              - wallet
+              - kind
+              properties:
+                decision:
+                  type: object
+                  description: CallDecision returned by /price
+                wallet:
+                  type: string
+                kind:
+                  type: string
+                  enum:
+                  - fresh
+                  - cached
+                  - verify_only
+                result_signed:
+                  type: string
+                  description: Full signed result (for fresh calls)
+                output_hash:
+                  type: string
+                signature_hash:
+                  type: string
+                referrer_wallet:
+                  type: string
+                referrer_agent_id:
+                  type: string
+                agent_id:
+                  type: string
+      responses:
+        '200':
+          description: Call committed
+        '400':
+          description: Malformed decision
+        '409':
+          description: Idempotency conflict — this call_uuid already committed
+      operationId: postEconomicsApiCommit
+      x-operation-id-source: derived
+    servers:
+    - url: https://tooloracle.io
+  /economics/api/balance/{wallet}:
+    get:
+      summary: Get wallet balance (live view over append-only ledger)
+      description: Balance is computed as SUM over confirmed ledger events. Returns 0-balance for unknown wallets.
+      tags:
+      - Mesh Economics
+      parameters:
+      - name: wallet
+        in: path
+        required: true
+        schema:
+          type: string
+        example: 0xabc...
+      responses:
+        '200':
+          description: Wallet balance
+          content:
+            application/json:
+              example:
+                ok: true
+                balance:
+                  wallet: 0xabc...
+                  balance_credits: 0
+                  pending_credits: 0
+                  lifetime_earned: 0
+                  lifetime_spent: 0
+      operationId: getEconomicsApiBalanceByWallet
+      x-operation-id-source: derived
+    servers:
+    - url: https://tooloracle.io
+  /economics/api/referral:
+    post:
+      summary: Register a direct (1-hop) referral
+      description: Self-referrals are blocked at registration (same wallet, same owner cluster, or same api_key_hash). Only direct referrals — no MLM.
+      tags:
+      - Mesh Economics
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+              - referrer_wallet
+              - referee_wallet
+              properties:
+                referrer_wallet:
+                  type: string
+                referee_wallet:
+                  type: string
+                referrer_agent_id:
+                  type: string
+                referee_agent_id:
+                  type: string
+      responses:
+        '200':
+          description: Registration result (ok:true if accepted, ok:false if self-referral/duplicate)
+      operationId: postEconomicsApiReferral
+      x-operation-id-source: derived
+    servers:
+    - url: https://tooloracle.io
+  /economics/api/stats:
+    get:
+      summary: Live mesh economics statistics
+      description: Same payload as /.well-known/mesh-economics but generated live (not cached by the 5-min dashboard cron).
+      tags:
+      - Mesh Economics
+      responses:
+        '200':
+          description: Full stats payload
+      operationId: getEconomicsApiStats
+      x-operation-id-source: derived
+    servers:
+    - url: https://tooloracle.io
+  /.well-known/mesh-economics:
+    get:
+      summary: Mesh economics public dashboard payload (JSON)
+      description: Machine-readable pricing, activity, rewards, treasury, agents, referrals, audit. Updated every 5 minutes.
+      tags:
+      - Mesh Economics
+      responses:
+        '200':
+          description: Full mesh economics snapshot
+      operationId: getWellKnownMeshEconomics
+      x-operation-id-source: derived
+    servers:
+    - url: https://tooloracle.io
+  /economics.html:
+    get:
+      summary: Human-readable mesh economics dashboard
+      tags:
+      - Mesh Economics
+      responses:
+        '200':
+          description: HTML dashboard
+      operationId: getEconomicsHtml
+      x-operation-id-source: derived
+    servers:
+    - url: https://tooloracle.io
+externalDocs:
+  description: x402 v2 buyer quickstart (pay one /v2 route and verify the signed NOMOS execution receipt)
+  url: https://tooloracle.io/docs/x402-buyer-quickstart/
+x-refined-from:
+- tooloracle-io-openapi.json
+- tooloracle-io-mcp-platform-openapi.yml
+x-nomos-trust-chain:
+  model: S0-S10
+  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json
