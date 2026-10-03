@@ -1,16 +1,33 @@
 openapi: 3.2.0
 info:
-  title: Tooloracle Io Agent Safety API
-  x-refined-note:
-  - x-canonical-source differs across the merged source definitions and was not carried
-  - x-changelog differs across the merged source definitions and was not carried
-  - x-counts differs across the merged source definitions and was not carried
-  - x-generated-at differs across the merged source definitions and was not carried
-  - x-hedera-mainnet differs across the merged source definitions and was not carried
-  - x-payment-protocol differs across the merged source definitions and was not carried
-  - x-provider differs across the merged source definitions and was not carried
-  version: '1.0'
-  description: 'Operations tagged agent-safety across 3 of this provider''s published API definitions: tooloracle-io-openapi.json, tooloracle-io-mcp-platform-openapi.yml, tooloracle-io-x402-v2-openapi.yml. Each path carries the servers of the definition it was published in.'
+  title: ToolOracle MCP Platform Agent Safety API
+  version: 4.2.0
+  description: ToolOracle MCP Platform — 89 servers, 1096 tools, OracleNet self-learning agent mesh. Neural routing, W3C DIDs, Verifiable Credentials, escrow-free x402 USDC settlement on Base + XRPL native escrow.
+  x-hedera-mainnet:
+    contract: 0.0.10420310
+    beacon_topic: 0.0.10420280
+    join_topic: 0.0.10420282
+  x-changelog:
+  - version: 4.2.0
+    date: '2026-04-28'
+    changes:
+    - Canonicalized counts from /assets/catalog.json
+    - Aligned root /openapi.json with /.well-known/openapi.json
+    - Added x-counts and x-canonical-source extensions
+  - version: 4.1.0
+    date: '2026-04-19'
+    changes:
+    - Added Mesh Economics v1 API paths (/economics/api/*)
+    - Added Mesh Nervous System discovery paths (/.well-known/agent-pulse, /.well-known/meta-tools)
+    - Added /.well-known/mesh-economics discovery endpoint
+  x-counts:
+    servers_online: 89
+    tools_available: 1096
+    categories: 7
+    chains_supported: 13
+    paid_products: 18
+  x-canonical-source: https://tooloracle.io/assets/catalog.json
+  x-generated-at: '2026-09-20T02:13:01+00:00'
 servers:
 - url: https://tooloracle.io
 tags:
@@ -59,8 +76,6 @@ paths:
         network: eip155:8453
         method: POST
         example_type: synthetic
-    servers:
-    - url: https://tooloracle.io
   /v2/uvo_quick:
     post:
       operationId: v2_uvo_quick
@@ -155,8 +170,6 @@ paths:
         network: eip155:8453
         method: POST
         example_type: synthetic
-    servers:
-    - url: https://tooloracle.io
   /v2/uvo_citation_check:
     post:
       operationId: v2_uvo_citation_check
@@ -203,8 +216,6 @@ paths:
         network: eip155:8453
         method: POST
         example_type: synthetic
-    servers:
-    - url: https://tooloracle.io
   /v2/uvo_full:
     post:
       operationId: v2_uvo_full
@@ -299,8 +310,6 @@ paths:
         network: eip155:8453
         method: POST
         example_type: synthetic
-    servers:
-    - url: https://tooloracle.io
   /v2/uvo_academic_verify:
     post:
       operationId: v2_uvo_academic_verify
@@ -346,187 +355,6 @@ paths:
         network: eip155:8453
         method: POST
         example_type: synthetic
-    servers:
-    - url: https://tooloracle.io
-components:
-  schemas:
-    uvoFullInput:
-      type: object
-      properties:
-        proposal:
-          type: object
-          description: Agent action proposal to validate.
-          properties:
-            action_type:
-              type: string
-              description: Kind of action (e.g. tool_call, payment, publish, deploy).
-            target:
-              type: string
-              description: Target of the action.
-            claim:
-              type: string
-              description: Claim/justification the agent asserts.
-            expected_outcome:
-              type: string
-              description: Expected result if executed.
-            success_metric:
-              type: string
-              description: How success is measured.
-            args:
-              type: object
-              description: Action arguments.
-              additionalProperties: true
-            idempotent:
-              type: boolean
-              description: Whether the action is safely repeatable.
-            declared_sandbox:
-              type: boolean
-              description: Whether the action runs in a sandbox.
-          additionalProperties: true
-      required:
-      - proposal
-      additionalProperties: false
-    uvoQuickInput:
-      type: object
-      properties:
-        proposal:
-          type: object
-          description: Agent action proposal to validate.
-          properties:
-            action_type:
-              type: string
-              description: Kind of action (e.g. tool_call, payment, publish, deploy).
-            target:
-              type: string
-              description: Target of the action.
-            claim:
-              type: string
-              description: Claim/justification the agent asserts.
-            expected_outcome:
-              type: string
-              description: Expected result if executed.
-            success_metric:
-              type: string
-              description: How success is measured.
-            args:
-              type: object
-              description: Action arguments.
-              additionalProperties: true
-            idempotent:
-              type: boolean
-              description: Whether the action is safely repeatable.
-            declared_sandbox:
-              type: boolean
-              description: Whether the action runs in a sandbox.
-          additionalProperties: true
-      required:
-      - proposal
-      additionalProperties: false
-    X402PaymentRequired:
-      type: object
-      description: Standard x402 v2 Payment-Required challenge.
-      properties:
-        x402Version:
-          type: integer
-          examples:
-          - 2
-        accepts:
-          type: array
-          items:
-            type: object
-            properties:
-              scheme:
-                type: string
-                examples:
-                - exact
-              network:
-                type: string
-                examples:
-                - eip155:8453
-              maxAmountRequired:
-                type: string
-                description: Atomic USDC units (6 decimals).
-              price:
-                type: string
-                examples:
-                - $0.01
-              asset:
-                type: string
-                examples:
-                - '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
-              payTo:
-                type: string
-                examples:
-                - '0x11f591C3496C0632e7B173184f5Bc71dC941125D'
-        error:
-          type: string
-    uvoQuickOutput:
-      type: object
-      properties:
-        decision:
-          type: string
-        risk_score:
-          type: number
-        blocking_layer:
-          type: string
-        reasoning:
-          type: string
-        elapsed_ms:
-          type: integer
-        receipt_id:
-          type: string
-    agentPreflightOutput:
-      type: object
-      properties:
-        verdict:
-          type: string
-        cost_units:
-          type: integer
-        evidence:
-          type: array
-          items:
-            type: object
-            properties:
-              source:
-                type: string
-    uvoFullOutput:
-      type: object
-      properties:
-        decision:
-          type: string
-        risk_score:
-          type: number
-        elapsed_ms:
-          type: integer
-    agentPreflightInput:
-      type: object
-      properties:
-        intent:
-          type: string
-          description: Description of what the agent wants to do.
-        context:
-          type: object
-          description: Optional agent context (agent_id, session_id, etc.).
-          additionalProperties: true
-      required:
-      - intent
-      additionalProperties: false
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        code:
-          type: string
-        message:
-          type: string
 externalDocs:
   description: x402 v2 buyer quickstart (pay one /v2 route and verify the signed NOMOS execution receipt)
   url: https://tooloracle.io/docs/x402-buyer-quickstart/
-x-refined-from:
-- tooloracle-io-openapi.json
-- tooloracle-io-mcp-platform-openapi.yml
-- tooloracle-io-x402-v2-openapi.yml
-x-nomos-trust-chain:
-  model: S0-S10
-  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

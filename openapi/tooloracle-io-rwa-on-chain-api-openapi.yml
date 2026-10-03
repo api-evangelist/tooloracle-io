@@ -1,14 +1,14 @@
 openapi: 3.2.0
 info:
-  title: Tooloracle Io RWA On-Chain API
+  title: FeedOracle Compliance Evidence RWA On-Chain API
   version: 8.4.1+truthrepair.r1
+  description: 'FeedOracle Compliance Evidence Infrastructure — 44 MCP servers, 590+ evidence tools across 17 data sources. DORA, MiCA, AMLR and CSRD compliance evidence APIs. ES256K-signed responses, blockchain-anchored. Canonical metrics: https://feedoracle.io/data/feedoracle-metrics.json.'
   contact:
     email: support@feedoracle.io
     url: https://feedoracle.io/contact.html
   license:
     name: Proprietary
   termsOfService: https://feedoracle.io/terms.html
-  description: 'Operations tagged RWA On-Chain across 2 of this provider''s published API definitions: tooloracle-io-feedoracle-openapi.json, tooloracle-io-feedoracle-compliance-evidence-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.feedoracle.io
   description: Production
@@ -29,9 +29,6 @@ paths:
           description: On-chain overview
       operationId: getV1RwaOnchain
       x-operation-id-source: derived
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /v1/rwa/onchain/{slug}:
     get:
       tags:
@@ -68,9 +65,6 @@ paths:
           description: Protocol not found
       operationId: getV1RwaOnchainBySlug
       x-operation-id-source: derived
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -87,9 +81,6 @@ components:
       type: http
       scheme: bearer
       description: FeedOracle OAuth 2.1 Bearer token. Obtain via /mcp/register (Dynamic Client Registration, RFC 7591).
-x-refined-from:
-- tooloracle-io-feedoracle-openapi.json
-- tooloracle-io-feedoracle-compliance-evidence-openapi.yml
 x-nomos-trust-chain:
   model: S0-S10
   manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

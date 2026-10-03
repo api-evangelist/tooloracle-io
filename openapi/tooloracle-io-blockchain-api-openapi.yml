@@ -1,8 +1,12 @@
 openapi: 3.2.0
 info:
-  title: Tooloracle Io Blockchain API
+  title: ToolOracle MCP Platform Blockchain API
   version: 4.2.0
-  x-canonical-source: https://tooloracle.io/assets/catalog.json
+  description: ToolOracle MCP Platform — 89 servers, 1096 tools, OracleNet self-learning agent mesh. Neural routing, W3C DIDs, Verifiable Credentials, escrow-free x402 USDC settlement on Base + XRPL native escrow.
+  x-hedera-mainnet:
+    contract: 0.0.10420310
+    beacon_topic: 0.0.10420280
+    join_topic: 0.0.10420282
   x-changelog:
   - version: 4.2.0
     date: '2026-04-28'
@@ -22,12 +26,8 @@ info:
     categories: 7
     chains_supported: 13
     paid_products: 18
+  x-canonical-source: https://tooloracle.io/assets/catalog.json
   x-generated-at: '2026-09-20T02:13:01+00:00'
-  x-hedera-mainnet:
-    contract: 0.0.10420310
-    beacon_topic: 0.0.10420280
-    join_topic: 0.0.10420282
-  description: 'Operations tagged Blockchain across 2 of this provider''s published API definitions: tooloracle-io-openapi.json, tooloracle-io-mcp-platform-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://tooloracle.io
 tags:
@@ -43,8 +43,6 @@ paths:
       responses:
         '200':
           description: MCP response
-    servers:
-    - url: https://tooloracle.io
   /solana/mcp/:
     post:
       tags:
@@ -54,8 +52,6 @@ paths:
       responses:
         '200':
           description: MCP response
-    servers:
-    - url: https://tooloracle.io
   /ton/mcp/:
     post:
       tags:
@@ -65,8 +61,6 @@ paths:
       responses:
         '200':
           description: MCP response
-    servers:
-    - url: https://tooloracle.io
   /sui/mcp/:
     post:
       tags:
@@ -76,8 +70,6 @@ paths:
       responses:
         '200':
           description: MCP response
-    servers:
-    - url: https://tooloracle.io
   /eth/mcp/:
     post:
       tags:
@@ -87,8 +79,6 @@ paths:
       responses:
         '200':
           description: MCP response
-    servers:
-    - url: https://tooloracle.io
   /xlm/mcp/:
     post:
       tags:
@@ -98,8 +88,6 @@ paths:
       responses:
         '200':
           description: MCP response
-    servers:
-    - url: https://tooloracle.io
   /xrpl/mcp/:
     post:
       summary: XRPLOracle — XRP Ledger Intelligence + RLUSD Stablecoin Compliance (31 tools)
@@ -116,8 +104,6 @@ paths:
           description: MCP JSON-RPC response
       operationId: postXrplMcp
       x-operation-id-source: derived
-    servers:
-    - url: https://tooloracle.io
   /bnb/mcp/:
     post:
       tags:
@@ -127,8 +113,6 @@ paths:
       responses:
         '200':
           description: MCP response
-    servers:
-    - url: https://tooloracle.io
   /aptos/mcp/:
     post:
       tags:
@@ -138,8 +122,6 @@ paths:
       responses:
         '200':
           description: MCP response
-    servers:
-    - url: https://tooloracle.io
   /base/mcp/:
     post:
       tags:
@@ -149,8 +131,6 @@ paths:
       responses:
         '200':
           description: MCP response
-    servers:
-    - url: https://tooloracle.io
   /hedera/mcp/:
     post:
       tags:
@@ -160,8 +140,6 @@ paths:
       responses:
         '200':
           description: MCP response
-    servers:
-    - url: https://tooloracle.io
   /btc/mcp/:
     post:
       tags:
@@ -171,8 +149,6 @@ paths:
       responses:
         '200':
           description: MCP response
-    servers:
-    - url: https://tooloracle.io
   /flare/mcp/:
     post:
       tags:
@@ -182,14 +158,6 @@ paths:
       responses:
         '200':
           description: MCP response
-    servers:
-    - url: https://tooloracle.io
 externalDocs:
   description: x402 v2 buyer quickstart (pay one /v2 route and verify the signed NOMOS execution receipt)
   url: https://tooloracle.io/docs/x402-buyer-quickstart/
-x-refined-from:
-- tooloracle-io-openapi.json
-- tooloracle-io-mcp-platform-openapi.yml
-x-nomos-trust-chain:
-  model: S0-S10
-  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

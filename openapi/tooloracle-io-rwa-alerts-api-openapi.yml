@@ -1,14 +1,14 @@
 openapi: 3.2.0
 info:
-  title: Tooloracle Io RWA Alerts API
+  title: FeedOracle Compliance Evidence RWA Alerts API
   version: 8.4.1+truthrepair.r1
+  description: 'FeedOracle Compliance Evidence Infrastructure — 44 MCP servers, 590+ evidence tools across 17 data sources. DORA, MiCA, AMLR and CSRD compliance evidence APIs. ES256K-signed responses, blockchain-anchored. Canonical metrics: https://feedoracle.io/data/feedoracle-metrics.json.'
   contact:
     email: support@feedoracle.io
     url: https://feedoracle.io/contact.html
   license:
     name: Proprietary
   termsOfService: https://feedoracle.io/terms.html
-  description: 'Operations tagged RWA Alerts across 2 of this provider''s published API definitions: tooloracle-io-feedoracle-openapi.json, tooloracle-io-feedoracle-compliance-evidence-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.feedoracle.io
   description: Production
@@ -29,9 +29,6 @@ paths:
           description: Active subscriptions
       operationId: getV1RwaAlerts
       x-operation-id-source: derived
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /v1/rwa/alerts/subscribe:
     post:
       tags:
@@ -83,9 +80,6 @@ paths:
                   description: Acknowledged
       operationId: postV1RwaAlertsSubscribe
       x-operation-id-source: derived
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /v1/rwa/alerts/{id}:
     delete:
       tags:
@@ -104,25 +98,8 @@ paths:
           description: Deleted
       operationId: deleteV1RwaAlertsById
       x-operation-id-source: derived
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
 components:
   schemas:
-    RWAReasonCode:
-      type: object
-      properties:
-        vector:
-          type: string
-          example: tvl_weight
-        impact:
-          type: string
-          enum:
-          - positive
-          - negative
-        text:
-          type: string
-          example: Strong TVL indicates institutional confidence
     RWAWebhookEvent:
       type: object
       description: Payload sent to webhook endpoint
@@ -170,6 +147,20 @@ components:
               type: string
             manifest_id:
               type: string
+    RWAReasonCode:
+      type: object
+      properties:
+        vector:
+          type: string
+          example: tvl_weight
+        impact:
+          type: string
+          enum:
+          - positive
+          - negative
+        text:
+          type: string
+          example: Strong TVL indicates institutional confidence
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
@@ -185,9 +176,6 @@ components:
       type: http
       scheme: bearer
       description: FeedOracle OAuth 2.1 Bearer token. Obtain via /mcp/register (Dynamic Client Registration, RFC 7591).
-x-refined-from:
-- tooloracle-io-feedoracle-openapi.json
-- tooloracle-io-feedoracle-compliance-evidence-openapi.yml
 x-nomos-trust-chain:
   model: S0-S10
   manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

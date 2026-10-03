@@ -8,7 +8,7 @@ info:
   - x-generated-at differs across the merged source definitions and was not carried
   - x-hedera-mainnet differs across the merged source definitions and was not carried
   version: '1.0'
-  description: 'Operations tagged ESMAOracle across 4 of this provider''s published API definitions: tooloracle-io-feedoracle-openapi.json, tooloracle-io-openapi.json, tooloracle-io-feedoracle-compliance-evidence-openapi.yml, tooloracle-io-mcp-platform-openapi.yml. Each path carries the servers of the definition it was published in.'
+  description: 'Operations tagged ESMAOracle across 2 of this provider''s published API definitions: tooloracle-io-feedoracle-compliance-evidence-openapi.yml, tooloracle-io-mcp-platform-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.feedoracle.io
   description: Production
@@ -61,8 +61,6 @@ externalDocs:
   description: x402 v2 buyer quickstart (pay one /v2 route and verify the signed NOMOS execution receipt)
   url: https://tooloracle.io/docs/x402-buyer-quickstart/
 x-refined-from:
-- tooloracle-io-feedoracle-openapi.json
-- tooloracle-io-openapi.json
 - tooloracle-io-feedoracle-compliance-evidence-openapi.yml
 - tooloracle-io-mcp-platform-openapi.yml
 x-nomos-trust-chain:

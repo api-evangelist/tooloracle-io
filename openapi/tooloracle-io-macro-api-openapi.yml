@@ -1,18 +1,18 @@
 openapi: 3.2.0
 info:
-  title: Tooloracle Io Macro API
+  title: FeedOracle Compliance Evidence Macro API
+  version: 8.4.1+truthrepair.r1
+  description: 'FeedOracle Compliance Evidence Infrastructure — 44 MCP servers, 590+ evidence tools across 17 data sources. DORA, MiCA, AMLR and CSRD compliance evidence APIs. ES256K-signed responses, blockchain-anchored. Canonical metrics: https://feedoracle.io/data/feedoracle-metrics.json.'
+  contact:
+    email: support@feedoracle.io
+    url: https://feedoracle.io/contact.html
   license:
     name: Proprietary
-  x-refined-note:
-  - x-payment-protocol differs across the merged source definitions and was not carried
-  - x-provider differs across the merged source definitions and was not carried
-  version: '1.0'
-  description: 'Operations tagged Macro across 3 of this provider''s published API definitions: tooloracle-io-feedoracle-openapi.json, tooloracle-io-feedoracle-compliance-evidence-openapi.yml, tooloracle-io-x402-v2-openapi.yml. Each path carries the servers of the definition it was published in.'
+  termsOfService: https://feedoracle.io/terms.html
 servers:
 - url: https://api.feedoracle.io
   description: Production
-- url: https://tooloracle.io
-  description: ToolOracle production (Base Mainnet, USDC)
+security: []
 tags:
 - name: Macro
   description: Macro economic (Key required)
@@ -30,9 +30,6 @@ paths:
           description: Verification proofs
         '401':
           description: Unauthorized
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v1/macro/verified/all:
     get:
       tags:
@@ -46,9 +43,6 @@ paths:
           description: Verified dataset
         '401':
           description: Unauthorized
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v1/macro/verification-status:
     get:
       tags:
@@ -62,127 +56,7 @@ paths:
           description: Verification status
         '401':
           description: Unauthorized
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
-  /v2/macro_snapshot:
-    post:
-      operationId: macroSnapshot
-      summary: 'US macro dashboard: Fed + CPI + yields + jobs + GDP in one call'
-      description: US macro economic snapshot + trading signals + market data — Fed funds rate, CPI inflation, PPI, yield curve (10Y-2Y spread), unemployment, GDP growth, housing index, consumer sentiment in single API call. Real-time from FRED + BLS + BEA. For trading agents, risk models, portfolio rebalancing, economic forecasting, market commentary, research workflows, autonomous treasury management, DeFi macro hedging.
-      tags:
-      - Macro
-      x-x402:
-        price: $0.01
-        maxAmountRequired: '10000'
-        asset: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
-        assetName: USD Coin
-        network: eip155:8453
-        scheme: exact
-        payTo: '0x11f591C3496C0632e7B173184f5Bc71dC941125D'
-        facilitator: https://api.cdp.coinbase.com/platform/v2/x402
-      requestBody:
-        required: false
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/macroSnapshotInput'
-            examples:
-              default:
-                value: {}
-      responses:
-        '200':
-          description: Successful result.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/macroSnapshotOutput'
-              examples:
-                default:
-                  value:
-                    fed_funds_rate: 4.5
-                    cpi_yoy: 2.7
-                    unemployment: 4.1
-                    gdp_yoy: 2.3
-        '402':
-          description: Payment Required (x402 v2). Retry with the PAYMENT-SIGNATURE header. See x-x402.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/X402PaymentRequired'
-        '400':
-          description: Bad request (missing/invalid field).
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-    servers:
-    - url: https://tooloracle.io
-      description: ToolOracle production (Base Mainnet, USDC)
 components:
-  schemas:
-    macroSnapshotInput:
-      type: object
-      properties: {}
-      additionalProperties: true
-    macroSnapshotOutput:
-      type: object
-      properties:
-        fed_funds_rate:
-          type: number
-        cpi_yoy:
-          type: number
-        unemployment:
-          type: number
-        gdp_yoy:
-          type: number
-    X402PaymentRequired:
-      type: object
-      description: Standard x402 v2 Payment-Required challenge.
-      properties:
-        x402Version:
-          type: integer
-          examples:
-          - 2
-        accepts:
-          type: array
-          items:
-            type: object
-            properties:
-              scheme:
-                type: string
-                examples:
-                - exact
-              network:
-                type: string
-                examples:
-                - eip155:8453
-              maxAmountRequired:
-                type: string
-                description: Atomic USDC units (6 decimals).
-              price:
-                type: string
-                examples:
-                - $0.01
-              asset:
-                type: string
-                examples:
-                - '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913'
-              payTo:
-                type: string
-                examples:
-                - '0x11f591C3496C0632e7B173184f5Bc71dC941125D'
-        error:
-          type: string
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        code:
-          type: string
-        message:
-          type: string
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
@@ -198,10 +72,6 @@ components:
       type: http
       scheme: bearer
       description: FeedOracle OAuth 2.1 Bearer token. Obtain via /mcp/register (Dynamic Client Registration, RFC 7591).
-x-refined-from:
-- tooloracle-io-feedoracle-openapi.json
-- tooloracle-io-feedoracle-compliance-evidence-openapi.yml
-- tooloracle-io-x402-v2-openapi.yml
 x-nomos-trust-chain:
   model: S0-S10
   manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

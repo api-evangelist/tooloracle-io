@@ -1,8 +1,12 @@
 openapi: 3.2.0
 info:
-  title: Tooloracle Io Mesh Economics API
+  title: ToolOracle MCP Platform Mesh Economics API
   version: 4.2.0
-  x-canonical-source: https://tooloracle.io/assets/catalog.json
+  description: ToolOracle MCP Platform — 89 servers, 1096 tools, OracleNet self-learning agent mesh. Neural routing, W3C DIDs, Verifiable Credentials, escrow-free x402 USDC settlement on Base + XRPL native escrow.
+  x-hedera-mainnet:
+    contract: 0.0.10420310
+    beacon_topic: 0.0.10420280
+    join_topic: 0.0.10420282
   x-changelog:
   - version: 4.2.0
     date: '2026-04-28'
@@ -22,12 +26,8 @@ info:
     categories: 7
     chains_supported: 13
     paid_products: 18
+  x-canonical-source: https://tooloracle.io/assets/catalog.json
   x-generated-at: '2026-09-20T02:13:01+00:00'
-  x-hedera-mainnet:
-    contract: 0.0.10420310
-    beacon_topic: 0.0.10420280
-    join_topic: 0.0.10420282
-  description: 'Operations tagged Mesh Economics across 2 of this provider''s published API definitions: tooloracle-io-openapi.json, tooloracle-io-mcp-platform-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://tooloracle.io
 tags:
@@ -52,8 +52,6 @@ paths:
                 pricing_version: v1.0.0
       operationId: getEconomicsApiHealth
       x-operation-id-source: derived
-    servers:
-    - url: https://tooloracle.io
   /economics/api/price:
     post:
       summary: Decide pricing for an incoming call (fresh vs cached)
@@ -97,8 +95,6 @@ paths:
           description: Wallet blocked
       operationId: postEconomicsApiPrice
       x-operation-id-source: derived
-    servers:
-    - url: https://tooloracle.io
   /economics/api/commit:
     post:
       summary: Commit a call to the ledger after execution
@@ -149,8 +145,6 @@ paths:
           description: Idempotency conflict — this call_uuid already committed
       operationId: postEconomicsApiCommit
       x-operation-id-source: derived
-    servers:
-    - url: https://tooloracle.io
   /economics/api/balance/{wallet}:
     get:
       summary: Get wallet balance (live view over append-only ledger)
@@ -179,8 +173,6 @@ paths:
                   lifetime_spent: 0
       operationId: getEconomicsApiBalanceByWallet
       x-operation-id-source: derived
-    servers:
-    - url: https://tooloracle.io
   /economics/api/referral:
     post:
       summary: Register a direct (1-hop) referral
@@ -210,8 +202,6 @@ paths:
           description: Registration result (ok:true if accepted, ok:false if self-referral/duplicate)
       operationId: postEconomicsApiReferral
       x-operation-id-source: derived
-    servers:
-    - url: https://tooloracle.io
   /economics/api/stats:
     get:
       summary: Live mesh economics statistics
@@ -223,8 +213,6 @@ paths:
           description: Full stats payload
       operationId: getEconomicsApiStats
       x-operation-id-source: derived
-    servers:
-    - url: https://tooloracle.io
   /.well-known/mesh-economics:
     get:
       summary: Mesh economics public dashboard payload (JSON)
@@ -236,8 +224,6 @@ paths:
           description: Full mesh economics snapshot
       operationId: getWellKnownMeshEconomics
       x-operation-id-source: derived
-    servers:
-    - url: https://tooloracle.io
   /economics.html:
     get:
       summary: Human-readable mesh economics dashboard
@@ -248,14 +234,6 @@ paths:
           description: HTML dashboard
       operationId: getEconomicsHtml
       x-operation-id-source: derived
-    servers:
-    - url: https://tooloracle.io
 externalDocs:
   description: x402 v2 buyer quickstart (pay one /v2 route and verify the signed NOMOS execution receipt)
   url: https://tooloracle.io/docs/x402-buyer-quickstart/
-x-refined-from:
-- tooloracle-io-openapi.json
-- tooloracle-io-mcp-platform-openapi.yml
-x-nomos-trust-chain:
-  model: S0-S10
-  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

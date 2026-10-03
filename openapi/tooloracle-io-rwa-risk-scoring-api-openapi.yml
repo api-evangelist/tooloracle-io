@@ -1,14 +1,14 @@
 openapi: 3.2.0
 info:
-  title: Tooloracle Io RWA Risk Scoring API
+  title: FeedOracle Compliance Evidence RWA Risk Scoring API
   version: 8.4.1+truthrepair.r1
+  description: 'FeedOracle Compliance Evidence Infrastructure — 44 MCP servers, 590+ evidence tools across 17 data sources. DORA, MiCA, AMLR and CSRD compliance evidence APIs. ES256K-signed responses, blockchain-anchored. Canonical metrics: https://feedoracle.io/data/feedoracle-metrics.json.'
   contact:
     email: support@feedoracle.io
     url: https://feedoracle.io/contact.html
   license:
     name: Proprietary
   termsOfService: https://feedoracle.io/terms.html
-  description: 'Operations tagged RWA Risk Scoring across 2 of this provider''s published API definitions: tooloracle-io-feedoracle-openapi.json, tooloracle-io-feedoracle-compliance-evidence-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.feedoracle.io
   description: Production
@@ -57,9 +57,6 @@ paths:
           description: Rate limit exceeded (60 req/min)
       operationId: getV1RwaRisk
       x-operation-id-source: derived
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /v1/rwa/risk/{slug}:
     get:
       tags:
@@ -101,9 +98,6 @@ paths:
           description: Rate limit exceeded (60 req/min)
       operationId: getV1RwaRiskBySlug
       x-operation-id-source: derived
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /v1/rwa/risk/{slug}/pdf:
     get:
       tags:
@@ -130,9 +124,6 @@ paths:
           description: Protocol not found
       operationId: getV1RwaRiskBySlugPdf
       x-operation-id-source: derived
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /v1/rwa/market:
     get:
       tags:
@@ -160,9 +151,6 @@ paths:
                     $ref: '#/components/schemas/RWAEvidence'
       operationId: getV1RwaMarket
       x-operation-id-source: derived
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /v1/rwa/discovery:
     get:
       tags:
@@ -176,130 +164,8 @@ paths:
           description: Discovered protocols
       operationId: getV1RwaDiscovery
       x-operation-id-source: derived
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
 components:
   schemas:
-    RWAXrplDetail:
-      type: object
-      description: Enhanced fields for XRPL native assets
-      properties:
-        network:
-          type: object
-          properties:
-            ledger_index:
-              type: integer
-            server_state:
-              type: string
-            peers:
-              type: integer
-        xrp_market:
-          type: object
-          properties:
-            price_usd:
-              type: number
-            change_24h:
-              type: number
-            volume_24h:
-              type: number
-        whale_flows:
-          type: object
-          properties:
-            sentiment:
-              type: string
-              enum:
-              - bullish
-              - bearish
-              - neutral
-            net_flow_24h_xrp:
-              type: number
-        rwa_ecosystem:
-          type: object
-          properties:
-            custody_aum:
-              type: number
-            rlusd_supply:
-              type: number
-            tokenized_assets:
-              type: number
-    RWAProtocolRisk:
-      type: object
-      properties:
-        slug:
-          type: string
-          example: rlusd
-        protocol:
-          type: string
-          example: Ripple RLUSD
-        type:
-          type: string
-          enum:
-          - regulated_stablecoin
-          - treasury
-          - commodity
-          - credit
-          - synthetic
-          - real_estate
-          - equities
-          - insurance
-          - xrpl_infrastructure
-          - xrpl_custody
-          - xrpl_tokenization
-        risk_score:
-          type: integer
-          minimum: 0
-          maximum: 100
-          example: 89
-        risk_grade:
-          type: string
-          enum:
-          - A
-          - B
-          - C
-          - D
-          - F
-        tvl_usd:
-          type: number
-        risk_vectors:
-          $ref: '#/components/schemas/RWARiskVectors'
-        reason_codes:
-          type: object
-          properties:
-            codes:
-              type: array
-              items:
-                $ref: '#/components/schemas/RWAReasonCode'
-            summary:
-              type: string
-        chains:
-          type: object
-        stablecoin_detail:
-          $ref: '#/components/schemas/RWAStablecoinDetail'
-        xrpl_detail:
-          $ref: '#/components/schemas/RWAXrplDetail'
-    RWARiskVectors:
-      type: object
-      description: 9-dimensional risk breakdown (0-100 each)
-      properties:
-        tvl_weight:
-          type: integer
-        yield_spread:
-          type: integer
-        diversification:
-          type: integer
-        maturity:
-          type: integer
-        regulatory:
-          type: integer
-        institutional:
-          type: integer
-        dex_liquidity:
-          type: integer
-        onchain_transparency:
-          type: integer
-        esg_carbon:
-          type: integer
     RWAStablecoinDetail:
       type: object
       description: Enhanced fields for regulated_stablecoin assets
@@ -360,6 +226,28 @@ components:
               type: object
             change_24h:
               type: number
+    RWARiskVectors:
+      type: object
+      description: 9-dimensional risk breakdown (0-100 each)
+      properties:
+        tvl_weight:
+          type: integer
+        yield_spread:
+          type: integer
+        diversification:
+          type: integer
+        maturity:
+          type: integer
+        regulatory:
+          type: integer
+        institutional:
+          type: integer
+        dex_liquidity:
+          type: integer
+        onchain_transparency:
+          type: integer
+        esg_carbon:
+          type: integer
     RWAReasonCode:
       type: object
       properties:
@@ -374,6 +262,103 @@ components:
         text:
           type: string
           example: Strong TVL indicates institutional confidence
+    RWAProtocolRisk:
+      type: object
+      properties:
+        slug:
+          type: string
+          example: rlusd
+        protocol:
+          type: string
+          example: Ripple RLUSD
+        type:
+          type: string
+          enum:
+          - regulated_stablecoin
+          - treasury
+          - commodity
+          - credit
+          - synthetic
+          - real_estate
+          - equities
+          - insurance
+          - xrpl_infrastructure
+          - xrpl_custody
+          - xrpl_tokenization
+        risk_score:
+          type: integer
+          minimum: 0
+          maximum: 100
+          example: 89
+        risk_grade:
+          type: string
+          enum:
+          - A
+          - B
+          - C
+          - D
+          - F
+        tvl_usd:
+          type: number
+        risk_vectors:
+          $ref: '#/components/schemas/RWARiskVectors'
+        reason_codes:
+          type: object
+          properties:
+            codes:
+              type: array
+              items:
+                $ref: '#/components/schemas/RWAReasonCode'
+            summary:
+              type: string
+        chains:
+          type: object
+        stablecoin_detail:
+          $ref: '#/components/schemas/RWAStablecoinDetail'
+        xrpl_detail:
+          $ref: '#/components/schemas/RWAXrplDetail'
+    RWAXrplDetail:
+      type: object
+      description: Enhanced fields for XRPL native assets
+      properties:
+        network:
+          type: object
+          properties:
+            ledger_index:
+              type: integer
+            server_state:
+              type: string
+            peers:
+              type: integer
+        xrp_market:
+          type: object
+          properties:
+            price_usd:
+              type: number
+            change_24h:
+              type: number
+            volume_24h:
+              type: number
+        whale_flows:
+          type: object
+          properties:
+            sentiment:
+              type: string
+              enum:
+              - bullish
+              - bearish
+              - neutral
+            net_flow_24h_xrp:
+              type: number
+        rwa_ecosystem:
+          type: object
+          properties:
+            custody_aum:
+              type: number
+            rlusd_supply:
+              type: number
+            tokenized_assets:
+              type: number
     RWAEvidence:
       type: object
       description: Response evidence envelope, contract v1.2. payload_hash is genuine and recomputable without any key. The legacy ES256K body signature is NOT produced and is NOT verifiable - it is reported with an explicit status instead of being advertised. Canonical execution and response-hash evidence is the Ed25519 execution receipt referenced by the x-nomos-receipt-url response header.
@@ -490,9 +475,6 @@ components:
       type: http
       scheme: bearer
       description: FeedOracle OAuth 2.1 Bearer token. Obtain via /mcp/register (Dynamic Client Registration, RFC 7591).
-x-refined-from:
-- tooloracle-io-feedoracle-openapi.json
-- tooloracle-io-feedoracle-compliance-evidence-openapi.yml
 x-nomos-trust-chain:
   model: S0-S10
   manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

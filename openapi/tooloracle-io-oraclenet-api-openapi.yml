@@ -1,8 +1,12 @@
 openapi: 3.2.0
 info:
-  title: Tooloracle Io Oracle Net API
+  title: ToolOracle MCP Platform Oracle Net API
   version: 4.2.0
-  x-canonical-source: https://tooloracle.io/assets/catalog.json
+  description: ToolOracle MCP Platform — 89 servers, 1096 tools, OracleNet self-learning agent mesh. Neural routing, W3C DIDs, Verifiable Credentials, escrow-free x402 USDC settlement on Base + XRPL native escrow.
+  x-hedera-mainnet:
+    contract: 0.0.10420310
+    beacon_topic: 0.0.10420280
+    join_topic: 0.0.10420282
   x-changelog:
   - version: 4.2.0
     date: '2026-04-28'
@@ -22,12 +26,8 @@ info:
     categories: 7
     chains_supported: 13
     paid_products: 18
+  x-canonical-source: https://tooloracle.io/assets/catalog.json
   x-generated-at: '2026-09-20T02:13:01+00:00'
-  x-hedera-mainnet:
-    contract: 0.0.10420310
-    beacon_topic: 0.0.10420280
-    join_topic: 0.0.10420282
-  description: 'Operations tagged OracleNet across 2 of this provider''s published API definitions: tooloracle-io-openapi.json, tooloracle-io-mcp-platform-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://tooloracle.io
 tags:
@@ -50,8 +50,6 @@ paths:
           description: MCP JSON-RPC response
       operationId: postXrplMcp
       x-operation-id-source: derived
-    servers:
-    - url: https://tooloracle.io
   /x402/xrpl/mcp/:
     post:
       operationId: xrplPaidMcp
@@ -69,8 +67,6 @@ paths:
           description: MCP JSON-RPC response (after payment)
         '402':
           description: Payment required — x402 challenge with accepts[] (USDC on Base, $0.03)
-    servers:
-    - url: https://tooloracle.io
   /quantum/mcp:
     post:
       summary: QuantumOracle — OracleNet Join & Trust Layer
@@ -87,8 +83,6 @@ paths:
           description: MCP JSON-RPC response
       operationId: postQuantumMcp
       x-operation-id-source: derived
-    servers:
-    - url: https://tooloracle.io
   /oraclenet/beacon:
     get:
       summary: OracleNet Beacon — Live mesh status
@@ -102,8 +96,6 @@ paths:
             application/json: {}
       operationId: getOraclenetBeacon
       x-operation-id-source: derived
-    servers:
-    - url: https://tooloracle.io
   /mesh/registry.json:
     get:
       summary: OracleNet Mesh Registry — Oracle discovery
@@ -115,14 +107,6 @@ paths:
           description: Mesh registry JSON
       operationId: getMeshRegistryJson
       x-operation-id-source: derived
-    servers:
-    - url: https://tooloracle.io
 externalDocs:
   description: x402 v2 buyer quickstart (pay one /v2 route and verify the signed NOMOS execution receipt)
   url: https://tooloracle.io/docs/x402-buyer-quickstart/
-x-refined-from:
-- tooloracle-io-openapi.json
-- tooloracle-io-mcp-platform-openapi.yml
-x-nomos-trust-chain:
-  model: S0-S10
-  manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

@@ -1,14 +1,14 @@
 openapi: 3.2.0
 info:
-  title: Tooloracle Io Trading API
+  title: FeedOracle Compliance Evidence Trading API
   version: 8.4.1+truthrepair.r1
+  description: 'FeedOracle Compliance Evidence Infrastructure — 44 MCP servers, 590+ evidence tools across 17 data sources. DORA, MiCA, AMLR and CSRD compliance evidence APIs. ES256K-signed responses, blockchain-anchored. Canonical metrics: https://feedoracle.io/data/feedoracle-metrics.json.'
   contact:
     email: support@feedoracle.io
     url: https://feedoracle.io/contact.html
   license:
     name: Proprietary
   termsOfService: https://feedoracle.io/terms.html
-  description: 'Operations tagged Trading across 2 of this provider''s published API definitions: tooloracle-io-feedoracle-openapi.json, tooloracle-io-feedoracle-compliance-evidence-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.feedoracle.io
   description: Production
@@ -31,9 +31,6 @@ paths:
           description: Radar signals
         '401':
           description: Unauthorized
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v1/feeds/trading/alpha:
     get:
       tags:
@@ -47,9 +44,6 @@ paths:
           description: Alpha opportunities
         '401':
           description: Unauthorized
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v1/feeds/trading/bias:
     get:
       tags:
@@ -63,9 +57,6 @@ paths:
           description: Bias data
         '401':
           description: Unauthorized
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v1/feeds/trading/tokens:
     get:
       tags:
@@ -79,9 +70,6 @@ paths:
           description: Token list
         '401':
           description: Unauthorized
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v1/feeds/trading/asset/{symbol}:
     get:
       tags:
@@ -101,9 +89,6 @@ paths:
           description: Asset data
         '401':
           description: Unauthorized
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v1/feeds/rsi:
     get:
       tags:
@@ -117,9 +102,6 @@ paths:
           description: RSI data
         '401':
           description: Unauthorized
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v1/feeds/treasury:
     get:
       tags:
@@ -133,9 +115,6 @@ paths:
           description: Treasury metrics
         '401':
           description: Unauthorized
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v1/feeds/trust/combined:
     get:
       tags:
@@ -149,9 +128,6 @@ paths:
           description: Trust scores
         '401':
           description: Unauthorized
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -168,9 +144,6 @@ components:
       type: http
       scheme: bearer
       description: FeedOracle OAuth 2.1 Bearer token. Obtain via /mcp/register (Dynamic Client Registration, RFC 7591).
-x-refined-from:
-- tooloracle-io-feedoracle-openapi.json
-- tooloracle-io-feedoracle-compliance-evidence-openapi.yml
 x-nomos-trust-chain:
   model: S0-S10
   manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

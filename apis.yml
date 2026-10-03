@@ -4041,42 +4041,6 @@ apis:
     url: llms/tooloracle-io-feedoracle-llms.txt
   - type: Authentication
     url: authentication/tooloracle-io-authentication.yml
-- aid: tooloracle-io:tooloracle-io-uvo-api
-  name: FeedOracle Technologies Uvo API
-  description: 'Universal Verifiable Output: claim/citation/action validation.'
-  humanURL: https://tooloracle.io/docs/
-  baseURL: https://tooloracle.io/mcp/
-  tags:
-  - uvo
-  properties:
-  - type: OpenAPI
-    url: openapi/tooloracle-io-uvo-api-openapi.yml
-  - type: Documentation
-    url: https://tooloracle.io/docs/
-  - type: APIReference
-    url: https://tooloracle.io/docs/402-protocol
-  - type: ErrorCatalog
-    url: errors/tooloracle-io-problem-types.yml
-  - type: Conventions
-    url: conventions/tooloracle-io-conventions.yml
-  - type: Documentation
-    url: https://tooloracle.io/docs/x402-buyer-quickstart/
-  - type: GettingStarted
-    url: https://tooloracle.io/docs/x402-buyer-quickstart/
-  - type: Pricing
-    url: https://tooloracle.io/.well-known/x402
-  - type: Documentation
-    url: https://feedoracle.io/docs.html
-  - type: APIReference
-    url: https://feedoracle.io/docs.html
-  - type: Versioning
-    url: https://feedoracle.io/docs/versioning.html
-  - type: Console
-    url: https://feedoracle.io/console/
-  - type: LLMsTxt
-    url: llms/tooloracle-io-feedoracle-llms.txt
-  - type: Authentication
-    url: authentication/tooloracle-io-authentication.yml
 - aid: tooloracle-io:tooloracle-io-verified-reports-api
   name: FeedOracle Technologies Verified Reports API
   description: >-

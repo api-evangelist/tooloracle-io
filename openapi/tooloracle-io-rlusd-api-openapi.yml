@@ -1,14 +1,14 @@
 openapi: 3.2.0
 info:
-  title: Tooloracle Io RLUSD API
+  title: FeedOracle Compliance Evidence RLUSD API
   version: 8.4.1+truthrepair.r1
+  description: 'FeedOracle Compliance Evidence Infrastructure — 44 MCP servers, 590+ evidence tools across 17 data sources. DORA, MiCA, AMLR and CSRD compliance evidence APIs. ES256K-signed responses, blockchain-anchored. Canonical metrics: https://feedoracle.io/data/feedoracle-metrics.json.'
   contact:
     email: support@feedoracle.io
     url: https://feedoracle.io/contact.html
   license:
     name: Proprietary
   termsOfService: https://feedoracle.io/terms.html
-  description: 'Operations tagged RLUSD across 2 of this provider''s published API definitions: tooloracle-io-feedoracle-openapi.json, tooloracle-io-feedoracle-compliance-evidence-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.feedoracle.io
   description: Production
@@ -31,9 +31,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RlusdStatusEnvelope'
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v3/rlusd/cci:
     get:
       tags:
@@ -48,9 +45,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RlusdCciCompact'
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v3/rlusd/risk/cci:
     get:
       tags:
@@ -65,9 +59,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RlusdCciDetailed'
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v3/rlusd/supply/breakdown:
     get:
       tags:
@@ -82,9 +73,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RlusdSupplyBreakdown'
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v3/rlusd/peg/quality:
     get:
       tags:
@@ -99,9 +87,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RlusdPegQuality'
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v3/rlusd/evidence/latest:
     get:
       tags:
@@ -116,9 +101,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RlusdEvidencePack'
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v3/rlusd/holders:
     get:
       tags:
@@ -134,9 +116,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/RlusdHoldersResponse'
       description: 'Known issue (2026-08-16): this operation currently returns HTTP 500.'
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v3/rlusd/webhooks/events:
     get:
       tags:
@@ -151,9 +130,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RlusdWebhookCatalog'
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v3/rlusd/verify/{hash}:
     get:
       tags:
@@ -174,46 +150,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RlusdVerifyResponse'
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
 components:
   schemas:
-    MetaEnvelope:
-      type: object
-      properties:
-        api_version:
-          type: string
-        dataset_version:
-          type: string
-        schema_version:
-          type: string
-    RlusdStatusEnvelope:
-      type: object
-      properties:
-        service:
-          type: string
-        meta:
-          $ref: '#/components/schemas/MetaEnvelope'
-        data:
-          type: object
-        warnings:
-          type: array
-          items:
-            type: string
-    RlusdCciCompact:
-      type: object
-      properties:
-        cci_score:
-          type: number
-        grade:
-          type: string
-        components:
-          type: object
-        penalty_log:
-          type: object
-        timestamp:
-          type: string
     RlusdCciDetailed:
       type: object
       properties:
@@ -232,20 +170,6 @@ components:
       properties:
         valid:
           type: boolean
-    RlusdPegQuality:
-      type: object
-      properties:
-        service:
-          type: string
-        data:
-          type: object
-    RlusdSupplyBreakdown:
-      type: object
-      properties:
-        service:
-          type: string
-        data:
-          type: object
     RlusdEvidencePack:
       type: object
       properties:
@@ -266,6 +190,13 @@ components:
           type: array
         catalog:
           type: object
+    RlusdSupplyBreakdown:
+      type: object
+      properties:
+        service:
+          type: string
+        data:
+          type: object
     RlusdHoldersResponse:
       type: object
       properties:
@@ -274,6 +205,48 @@ components:
         total_holders:
           type: integer
         timestamp:
+          type: string
+    RlusdPegQuality:
+      type: object
+      properties:
+        service:
+          type: string
+        data:
+          type: object
+    RlusdCciCompact:
+      type: object
+      properties:
+        cci_score:
+          type: number
+        grade:
+          type: string
+        components:
+          type: object
+        penalty_log:
+          type: object
+        timestamp:
+          type: string
+    RlusdStatusEnvelope:
+      type: object
+      properties:
+        service:
+          type: string
+        meta:
+          $ref: '#/components/schemas/MetaEnvelope'
+        data:
+          type: object
+        warnings:
+          type: array
+          items:
+            type: string
+    MetaEnvelope:
+      type: object
+      properties:
+        api_version:
+          type: string
+        dataset_version:
+          type: string
+        schema_version:
           type: string
   securitySchemes:
     ApiKeyAuth:
@@ -290,9 +263,6 @@ components:
       type: http
       scheme: bearer
       description: FeedOracle OAuth 2.1 Bearer token. Obtain via /mcp/register (Dynamic Client Registration, RFC 7591).
-x-refined-from:
-- tooloracle-io-feedoracle-openapi.json
-- tooloracle-io-feedoracle-compliance-evidence-openapi.yml
 x-nomos-trust-chain:
   model: S0-S10
   manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

@@ -1,14 +1,14 @@
 openapi: 3.2.0
 info:
-  title: Tooloracle Io ESMA Register API
+  title: FeedOracle Compliance Evidence ESMA Register API
   version: 8.4.1+truthrepair.r1
+  description: 'FeedOracle Compliance Evidence Infrastructure — 44 MCP servers, 590+ evidence tools across 17 data sources. DORA, MiCA, AMLR and CSRD compliance evidence APIs. ES256K-signed responses, blockchain-anchored. Canonical metrics: https://feedoracle.io/data/feedoracle-metrics.json.'
   contact:
     email: support@feedoracle.io
     url: https://feedoracle.io/contact.html
   license:
     name: Proprietary
   termsOfService: https://feedoracle.io/terms.html
-  description: 'Operations tagged ESMA Register across 2 of this provider''s published API definitions: tooloracle-io-feedoracle-openapi.json, tooloracle-io-feedoracle-compliance-evidence-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.feedoracle.io
   description: Production
@@ -26,9 +26,6 @@ paths:
           description: OK
       operationId: getApiV1Esma
       x-operation-id-source: derived
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v1/esma/casps:
     get:
       tags:
@@ -50,9 +47,6 @@ paths:
         description: Filter by service type (exchange, custody, transfer, portfolio_management)
       operationId: getApiV1EsmaCasps
       x-operation-id-source: derived
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v1/esma/emt-issuers:
     get:
       tags:
@@ -69,9 +63,6 @@ paths:
         description: Filter by peg currency (EUR, USD)
       operationId: getApiV1EsmaEmtIssuers
       x-operation-id-source: derived
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v1/esma/non-compliant:
     get:
       tags:
@@ -82,9 +73,6 @@ paths:
           description: List of non-compliant entities with issue type and severity
       operationId: getApiV1EsmaNonCompliant
       x-operation-id-source: derived
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v1/esma/pending:
     get:
       tags:
@@ -95,9 +83,6 @@ paths:
           description: List of pending applications with type and NCA
       operationId: getApiV1EsmaPending
       x-operation-id-source: derived
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v1/esma/search:
     get:
       tags:
@@ -115,9 +100,6 @@ paths:
         description: Search query (e.g., coinbase, tether, circle)
       operationId: getApiV1EsmaSearch
       x-operation-id-source: derived
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v1/esma/stats:
     get:
       tags:
@@ -128,9 +110,6 @@ paths:
           description: Statistical breakdown of registered entities
       operationId: getApiV1EsmaStats
       x-operation-id-source: derived
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /api/v1/esma/summary:
     get:
       tags:
@@ -141,9 +120,6 @@ paths:
           description: Register summary with entity counts and MiCA days remaining
       operationId: getApiV1EsmaSummary
       x-operation-id-source: derived
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -160,9 +136,6 @@ components:
       type: http
       scheme: bearer
       description: FeedOracle OAuth 2.1 Bearer token. Obtain via /mcp/register (Dynamic Client Registration, RFC 7591).
-x-refined-from:
-- tooloracle-io-feedoracle-openapi.json
-- tooloracle-io-feedoracle-compliance-evidence-openapi.yml
 x-nomos-trust-chain:
   model: S0-S10
   manifest: https://agentnomos.com/.well-known/nomos-capabilities.json

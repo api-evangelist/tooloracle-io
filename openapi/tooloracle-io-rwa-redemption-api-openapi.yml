@@ -1,14 +1,14 @@
 openapi: 3.2.0
 info:
-  title: Tooloracle Io RWA Redemption API
+  title: FeedOracle Compliance Evidence RWA Redemption API
   version: 8.4.1+truthrepair.r1
+  description: 'FeedOracle Compliance Evidence Infrastructure — 44 MCP servers, 590+ evidence tools across 17 data sources. DORA, MiCA, AMLR and CSRD compliance evidence APIs. ES256K-signed responses, blockchain-anchored. Canonical metrics: https://feedoracle.io/data/feedoracle-metrics.json.'
   contact:
     email: support@feedoracle.io
     url: https://feedoracle.io/contact.html
   license:
     name: Proprietary
   termsOfService: https://feedoracle.io/terms.html
-  description: 'Operations tagged RWA Redemption across 2 of this provider''s published API definitions: tooloracle-io-feedoracle-openapi.json, tooloracle-io-feedoracle-compliance-evidence-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://api.feedoracle.io
   description: Production
@@ -45,9 +45,6 @@ paths:
           description: Missing or invalid API key
       operationId: getV1RwaRedemption
       x-operation-id-source: derived
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
   /v1/rwa/redemption/{slug}:
     get:
       tags:
@@ -81,103 +78,8 @@ paths:
           description: Missing or invalid API key
       operationId: getV1RwaRedemptionBySlug
       x-operation-id-source: derived
-    servers:
-    - url: https://api.feedoracle.io
-      description: Production
 components:
   schemas:
-    RWARedemptionProfile:
-      type: object
-      description: Institutional liquidity profile - how fast can you exit to cash?
-      properties:
-        primary_exit:
-          type: string
-          enum:
-          - ISSUER_DIRECT
-          - DEX_ONLY
-          - HYBRID
-          - OTC
-          - NONE
-          description: Primary redemption channel
-        settlement_time:
-          type: string
-          enum:
-          - T+0
-          - T+1
-          - T+2_BUSINESS_DAYS
-          - T+3_BUSINESS_DAYS
-          - VARIABLE
-          - LOCK_PERIOD
-          example: T+0
-        settlement_days_max:
-          type: integer
-          description: Maximum calendar days to settlement
-        redemption_frequency:
-          type: string
-          enum:
-          - ON_DEMAND
-          - DAILY
-          - WEEKLY
-          - MONTHLY
-          - AT_MATURITY
-        notice_period_days:
-          type: integer
-        minimum_redemption_usd:
-          type: number
-          nullable: true
-          example: 100000
-        maximum_daily_redemption_usd:
-          type: number
-          nullable: true
-        fees:
-          type: object
-          nullable: true
-          properties:
-            type:
-              type: string
-              example: bps
-            value:
-              type: number
-              example: 0
-        gates:
-          type: object
-          properties:
-            withdrawal_gate:
-              type: boolean
-              description: Can issuer halt redemptions?
-            suspension_rights:
-              type: boolean
-            conditions:
-              type: string
-              nullable: true
-              description: Under what conditions gates activate
-        kyc_required:
-          type: boolean
-        redemption_currency:
-          type: string
-          example: USD
-        nav_frequency:
-          type: string
-          enum:
-          - REAL_TIME
-          - DAILY
-          - WEEKLY
-          - MONTHLY
-        liquidity_latency_score:
-          type: integer
-          minimum: 0
-          maximum: 100
-          description: 'Composite score (0-100): higher = faster exit to cash'
-        confidence:
-          type: number
-          minimum: 0
-          maximum: 1
-          description: Data confidence level
-        source:
-          type: string
-        last_verified:
-          type: string
-          format: date
     RWAEvidence:
       type: object
       description: Response evidence envelope, contract v1.2. payload_hash is genuine and recomputable without any key. The legacy ES256K body signature is NOT produced and is NOT verifiable - it is reported with an explicit status instead of being advertised. Canonical execution and response-hash evidence is the Ed25519 execution receipt referenced by the x-nomos-receipt-url response header.
@@ -279,6 +181,98 @@ components:
         evidence_contract:
           type: string
           example: nomos.rwa.evidence.v1.2
+    RWARedemptionProfile:
+      type: object
+      description: Institutional liquidity profile - how fast can you exit to cash?
+      properties:
+        primary_exit:
+          type: string
+          enum:
+          - ISSUER_DIRECT
+          - DEX_ONLY
+          - HYBRID
+          - OTC
+          - NONE
+          description: Primary redemption channel
+        settlement_time:
+          type: string
+          enum:
+          - T+0
+          - T+1
+          - T+2_BUSINESS_DAYS
+          - T+3_BUSINESS_DAYS
+          - VARIABLE
+          - LOCK_PERIOD
+          example: T+0
+        settlement_days_max:
+          type: integer
+          description: Maximum calendar days to settlement
+        redemption_frequency:
+          type: string
+          enum:
+          - ON_DEMAND
+          - DAILY
+          - WEEKLY
+          - MONTHLY
+          - AT_MATURITY
+        notice_period_days:
+          type: integer
+        minimum_redemption_usd:
+          type: number
+          nullable: true
+          example: 100000
+        maximum_daily_redemption_usd:
+          type: number
+          nullable: true
+        fees:
+          type: object
+          nullable: true
+          properties:
+            type:
+              type: string
+              example: bps
+            value:
+              type: number
+              example: 0
+        gates:
+          type: object
+          properties:
+            withdrawal_gate:
+              type: boolean
+              description: Can issuer halt redemptions?
+            suspension_rights:
+              type: boolean
+            conditions:
+              type: string
+              nullable: true
+              description: Under what conditions gates activate
+        kyc_required:
+          type: boolean
+        redemption_currency:
+          type: string
+          example: USD
+        nav_frequency:
+          type: string
+          enum:
+          - REAL_TIME
+          - DAILY
+          - WEEKLY
+          - MONTHLY
+        liquidity_latency_score:
+          type: integer
+          minimum: 0
+          maximum: 100
+          description: 'Composite score (0-100): higher = faster exit to cash'
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Data confidence level
+        source:
+          type: string
+        last_verified:
+          type: string
+          format: date
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
@@ -294,9 +288,6 @@ components:
       type: http
       scheme: bearer
       description: FeedOracle OAuth 2.1 Bearer token. Obtain via /mcp/register (Dynamic Client Registration, RFC 7591).
-x-refined-from:
-- tooloracle-io-feedoracle-openapi.json
-- tooloracle-io-feedoracle-compliance-evidence-openapi.yml
 x-nomos-trust-chain:
   model: S0-S10
   manifest: https://agentnomos.com/.well-known/nomos-capabilities.json
