@@ -90,6 +90,8 @@ apis:
   humanURL: https://tooloracle.io/docs/
   baseURL: https://tooloracle.io/mcp/
   tags:
+  - Agent Readiness
+  tags_raw:
   - agent-readiness
   properties:
   - type: OpenAPI
@@ -126,6 +128,8 @@ apis:
   humanURL: https://tooloracle.io/docs/
   baseURL: https://tooloracle.io/mcp/
   tags:
+  - Agent Safety
+  tags_raw:
   - agent-safety
   properties:
   - type: OpenAPI
@@ -345,6 +349,8 @@ apis:
   humanURL: https://tooloracle.io/docs/
   baseURL: https://tooloracle.io/mcp/
   tags:
+  - AML Oracle
+  tags_raw:
   - AMLOracle
   properties:
   - type: OpenAPI
@@ -453,6 +459,8 @@ apis:
   humanURL: https://tooloracle.io/docs/
   baseURL: https://tooloracle.io/mcp/
   tags:
+  - Attestation
+  tags_raw:
   - Attestations
   properties:
   - type: OpenAPI
@@ -816,6 +824,8 @@ apis:
   humanURL: https://tooloracle.io/docs/
   baseURL: https://tooloracle.io/mcp/
   tags:
+  - Compliance
+  tags_raw:
   - compliance
   properties:
   - type: OpenAPI
@@ -888,6 +898,8 @@ apis:
   humanURL: https://tooloracle.io/docs/
   baseURL: https://tooloracle.io/mcp/
   tags:
+  - Cross-Border
+  tags_raw:
   - cross-border
   properties:
   - type: OpenAPI
@@ -1292,6 +1304,8 @@ apis:
   humanURL: https://tooloracle.io/docs/
   baseURL: https://tooloracle.io/mcp/
   tags:
+  - Stocks
+  tags_raw:
   - Equities
   properties:
   - type: OpenAPI
@@ -1547,6 +1561,8 @@ apis:
   humanURL: https://tooloracle.io/docs/
   baseURL: https://tooloracle.io/mcp/
   tags:
+  - Finance
+  tags_raw:
   - finance
   properties:
   - type: OpenAPI
@@ -2198,6 +2214,8 @@ apis:
   humanURL: https://tooloracle.io/docs/
   baseURL: https://tooloracle.io/mcp/
   tags:
+  - Macro Oracle
+  tags_raw:
   - MacroOracle
   properties:
   - type: OpenAPI
@@ -3648,6 +3666,8 @@ apis:
   humanURL: https://tooloracle.io/docs/
   baseURL: https://tooloracle.io/mcp/
   tags:
+  - Security
+  tags_raw:
   - security
   properties:
   - type: OpenAPI
@@ -3756,6 +3776,8 @@ apis:
   humanURL: https://tooloracle.io/docs/
   baseURL: https://tooloracle.io/mcp/
   tags:
+  - Stablecoins
+  tags_raw:
   - Stablecoin
   properties:
   - type: OpenAPI
@@ -3828,6 +3850,8 @@ apis:
   humanURL: https://tooloracle.io/docs/
   baseURL: https://tooloracle.io/mcp/
   tags:
+  - Supply Chain
+  tags_raw:
   - SupplyChain
   properties:
   - type: OpenAPI
@@ -4085,6 +4109,8 @@ apis:
   humanURL: https://tooloracle.io/docs/
   baseURL: https://tooloracle.io/mcp/
   tags:
+  - Wallets
+  tags_raw:
   - Wallet
   properties:
   - type: OpenAPI
@@ -4265,6 +4291,8 @@ apis:
   humanURL: https://tooloracle.io/docs/
   baseURL: https://tooloracle.io/mcp/
   tags:
+  - Yield
+  tags_raw:
   - Yields
   properties:
   - type: OpenAPI
@@ -4339,6 +4367,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/tooloracle-io-capability-edges.yml
+  name: FeedOracle Technologies Business Capability Map
 - type: Overlay
   url: overlays/tooloracle-io-mcp-platform-overlay.yaml
 - type: Overlay
