@@ -123,9 +123,7 @@
     "tooloracle-io-security-api-openapi.yml",
     "tooloracle-io-x402-api-openapi.yml"
   ],
-  "archived": [
-    "deleted 1 superseded output(s) from the previous generation"
-  ],
+  "archived": [],
   "errors": [
     "tooloracle-io-mcp-platform-openapi.yml: dangling $ref: #/components/schemas/MCPRequest"
   ],
@@ -162,8 +160,7 @@
     "tag 'MacroOracle' spans 2 source specs (tooloracle-io-feedoracle-compliance-evidence-openapi.yml, tooloracle-io-mcp-platform-openapi.yml): per-path servers applied",
     "tag 'RegWatchOracle' spans 2 source specs (tooloracle-io-feedoracle-compliance-evidence-openapi.yml, tooloracle-io-mcp-platform-openapi.yml): per-path servers applied",
     "tag 'ResearchOracle' spans 2 source specs (tooloracle-io-feedoracle-compliance-evidence-openapi.yml, tooloracle-io-mcp-platform-openapi.yml): per-path servers applied",
-    "superseded outputs removed: tooloracle-io-uvo-api-openapi.yml",
-    "apis.yml register: written (+0 apis, 119 total)"
+    "apis.yml register: already-registered"
   ],
   "skipped": [
     "_original/tooloracle-io-x402-v2-openapi.yml: archived document superseded by a larger archived document",
@@ -279,7 +276,6 @@
     "tooloracle-io-trainingoracle-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "tooloracle-io-trust-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "tooloracle-io-unified-integrity-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "tooloracle-io-uvo-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "tooloracle-io-verified-reports-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "tooloracle-io-wallet-api-openapi.yml: previously refined output, superseded by openapi/_original/",
     "tooloracle-io-weatheroracle-api-openapi.yml: previously refined output, superseded by openapi/_original/",

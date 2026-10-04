@@ -76,52 +76,6 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
-    RWADocument:
-      type: object
-      description: Compliance/audit document reference with integrity hash
-      properties:
-        category:
-          type: string
-          enum:
-          - attestation
-          - audit
-          - prospectus
-          - legal
-          - whitepaper
-          - factsheet
-          - regulatory
-        title:
-          type: string
-          example: Monthly Attestation Report
-        url:
-          type: string
-          format: uri
-          description: Source URL (issuer/regulator/auditor hosted)
-        issuer:
-          type: string
-          description: Document publisher
-        date:
-          type: string
-          format: date
-        hash_sha256:
-          type: string
-          nullable: true
-          description: SHA-256 for integrity verification
-        format:
-          type: string
-          enum:
-          - pdf
-          - html
-          - json
-        regulatory_relevance:
-          type: string
-          nullable: true
-          enum:
-          - MiCA
-          - DORA
-          - SEC
-          - NYDFS
-          - null
     RWAEvidence:
       type: object
       description: Response evidence envelope, contract v1.2. payload_hash is genuine and recomputable without any key. The legacy ES256K body signature is NOT produced and is NOT verifiable - it is reported with an explicit status instead of being advertised. Canonical execution and response-hash evidence is the Ed25519 execution receipt referenced by the x-nomos-receipt-url response header.
@@ -223,6 +177,52 @@ components:
         evidence_contract:
           type: string
           example: nomos.rwa.evidence.v1.2
+    RWADocument:
+      type: object
+      description: Compliance/audit document reference with integrity hash
+      properties:
+        category:
+          type: string
+          enum:
+          - attestation
+          - audit
+          - prospectus
+          - legal
+          - whitepaper
+          - factsheet
+          - regulatory
+        title:
+          type: string
+          example: Monthly Attestation Report
+        url:
+          type: string
+          format: uri
+          description: Source URL (issuer/regulator/auditor hosted)
+        issuer:
+          type: string
+          description: Document publisher
+        date:
+          type: string
+          format: date
+        hash_sha256:
+          type: string
+          nullable: true
+          description: SHA-256 for integrity verification
+        format:
+          type: string
+          enum:
+          - pdf
+          - html
+          - json
+        regulatory_relevance:
+          type: string
+          nullable: true
+          enum:
+          - MiCA
+          - DORA
+          - SEC
+          - NYDFS
+          - null
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

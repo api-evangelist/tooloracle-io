@@ -166,6 +166,83 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    RWARiskVectors:
+      type: object
+      description: 9-dimensional risk breakdown (0-100 each)
+      properties:
+        tvl_weight:
+          type: integer
+        yield_spread:
+          type: integer
+        diversification:
+          type: integer
+        maturity:
+          type: integer
+        regulatory:
+          type: integer
+        institutional:
+          type: integer
+        dex_liquidity:
+          type: integer
+        onchain_transparency:
+          type: integer
+        esg_carbon:
+          type: integer
+    RWAProtocolRisk:
+      type: object
+      properties:
+        slug:
+          type: string
+          example: rlusd
+        protocol:
+          type: string
+          example: Ripple RLUSD
+        type:
+          type: string
+          enum:
+          - regulated_stablecoin
+          - treasury
+          - commodity
+          - credit
+          - synthetic
+          - real_estate
+          - equities
+          - insurance
+          - xrpl_infrastructure
+          - xrpl_custody
+          - xrpl_tokenization
+        risk_score:
+          type: integer
+          minimum: 0
+          maximum: 100
+          example: 89
+        risk_grade:
+          type: string
+          enum:
+          - A
+          - B
+          - C
+          - D
+          - F
+        tvl_usd:
+          type: number
+        risk_vectors:
+          $ref: '#/components/schemas/RWARiskVectors'
+        reason_codes:
+          type: object
+          properties:
+            codes:
+              type: array
+              items:
+                $ref: '#/components/schemas/RWAReasonCode'
+            summary:
+              type: string
+        chains:
+          type: object
+        stablecoin_detail:
+          $ref: '#/components/schemas/RWAStablecoinDetail'
+        xrpl_detail:
+          $ref: '#/components/schemas/RWAXrplDetail'
     RWAStablecoinDetail:
       type: object
       description: Enhanced fields for regulated_stablecoin assets
@@ -226,97 +303,6 @@ components:
               type: object
             change_24h:
               type: number
-    RWARiskVectors:
-      type: object
-      description: 9-dimensional risk breakdown (0-100 each)
-      properties:
-        tvl_weight:
-          type: integer
-        yield_spread:
-          type: integer
-        diversification:
-          type: integer
-        maturity:
-          type: integer
-        regulatory:
-          type: integer
-        institutional:
-          type: integer
-        dex_liquidity:
-          type: integer
-        onchain_transparency:
-          type: integer
-        esg_carbon:
-          type: integer
-    RWAReasonCode:
-      type: object
-      properties:
-        vector:
-          type: string
-          example: tvl_weight
-        impact:
-          type: string
-          enum:
-          - positive
-          - negative
-        text:
-          type: string
-          example: Strong TVL indicates institutional confidence
-    RWAProtocolRisk:
-      type: object
-      properties:
-        slug:
-          type: string
-          example: rlusd
-        protocol:
-          type: string
-          example: Ripple RLUSD
-        type:
-          type: string
-          enum:
-          - regulated_stablecoin
-          - treasury
-          - commodity
-          - credit
-          - synthetic
-          - real_estate
-          - equities
-          - insurance
-          - xrpl_infrastructure
-          - xrpl_custody
-          - xrpl_tokenization
-        risk_score:
-          type: integer
-          minimum: 0
-          maximum: 100
-          example: 89
-        risk_grade:
-          type: string
-          enum:
-          - A
-          - B
-          - C
-          - D
-          - F
-        tvl_usd:
-          type: number
-        risk_vectors:
-          $ref: '#/components/schemas/RWARiskVectors'
-        reason_codes:
-          type: object
-          properties:
-            codes:
-              type: array
-              items:
-                $ref: '#/components/schemas/RWAReasonCode'
-            summary:
-              type: string
-        chains:
-          type: object
-        stablecoin_detail:
-          $ref: '#/components/schemas/RWAStablecoinDetail'
-        xrpl_detail:
-          $ref: '#/components/schemas/RWAXrplDetail'
     RWAXrplDetail:
       type: object
       description: Enhanced fields for XRPL native assets
@@ -460,6 +446,20 @@ components:
         evidence_contract:
           type: string
           example: nomos.rwa.evidence.v1.2
+    RWAReasonCode:
+      type: object
+      properties:
+        vector:
+          type: string
+          example: tvl_weight
+        impact:
+          type: string
+          enum:
+          - positive
+          - negative
+        text:
+          type: string
+          example: Strong TVL indicates institutional confidence
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

@@ -152,44 +152,6 @@ paths:
                 $ref: '#/components/schemas/RlusdVerifyResponse'
 components:
   schemas:
-    RlusdCciDetailed:
-      type: object
-      properties:
-        cci_score:
-          type: number
-        grade:
-          type: string
-        subscores:
-          type: object
-        weights:
-          type: object
-        timestamp:
-          type: string
-    RlusdVerifyResponse:
-      type: object
-      properties:
-        valid:
-          type: boolean
-    RlusdEvidencePack:
-      type: object
-      properties:
-        as_of:
-          type: string
-        guard:
-          type: object
-        circuit_breaker:
-          type: object
-        integrity_proof:
-          type: object
-        disclaimer:
-          type: object
-    RlusdWebhookCatalog:
-      type: object
-      properties:
-        events:
-          type: array
-        catalog:
-          type: object
     RlusdSupplyBreakdown:
       type: object
       properties:
@@ -206,23 +168,16 @@ components:
           type: integer
         timestamp:
           type: string
-    RlusdPegQuality:
-      type: object
-      properties:
-        service:
-          type: string
-        data:
-          type: object
-    RlusdCciCompact:
+    RlusdCciDetailed:
       type: object
       properties:
         cci_score:
           type: number
         grade:
           type: string
-        components:
+        subscores:
           type: object
-        penalty_log:
+        weights:
           type: object
         timestamp:
           type: string
@@ -239,6 +194,39 @@ components:
           type: array
           items:
             type: string
+    RlusdEvidencePack:
+      type: object
+      properties:
+        as_of:
+          type: string
+        guard:
+          type: object
+        circuit_breaker:
+          type: object
+        integrity_proof:
+          type: object
+        disclaimer:
+          type: object
+    RlusdCciCompact:
+      type: object
+      properties:
+        cci_score:
+          type: number
+        grade:
+          type: string
+        components:
+          type: object
+        penalty_log:
+          type: object
+        timestamp:
+          type: string
+    RlusdWebhookCatalog:
+      type: object
+      properties:
+        events:
+          type: array
+        catalog:
+          type: object
     MetaEnvelope:
       type: object
       properties:
@@ -248,6 +236,18 @@ components:
           type: string
         schema_version:
           type: string
+    RlusdPegQuality:
+      type: object
+      properties:
+        service:
+          type: string
+        data:
+          type: object
+    RlusdVerifyResponse:
+      type: object
+      properties:
+        valid:
+          type: boolean
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
