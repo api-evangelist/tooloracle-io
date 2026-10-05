@@ -1,0 +1,12 @@
+{
+ "url": "https://tooloracle.io/openapi.json",
+ "requested_url": "https://tooloracle.io/openapi.json",
+ "status": 200,
+ "content_type": "application/json",
+ "bytes": 92695,
+ "sha256": "dcab5ae01017b3d9ce9a7a72875b8223ecc00e1edec94e5ac4a486b47a0d3b08",
+ "fetched_at": "2026-10-04",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "equivalent",
+ "note": "Re-fetched from the provider by verify-openapi-sources.py; the provider's current document describes the same operations (Jaccard 1.0), but the bytes differ, so the archive is an earlier or reformatted copy."
+}
