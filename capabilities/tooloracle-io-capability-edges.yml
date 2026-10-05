@@ -1,0 +1,136 @@
+slug: tooloracle-io
+provider: FeedOracle Technologies
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 11
+edges:
+- tag: Compliance
+  spec_file: tooloracle-io-compliance-api-openapi.yml
+  capability_id: BC-130.10
+  capability_id_l1: BC-130
+  capability_name: Regulatory Compliance Management
+  confidence: 0.85
+  evidence: 'POST /v2/mica_stablecoin_check  MiCA full Ampel check across 12 articles + grade A-F; POST
+    /v2/sanctions_screen  Name screening: EU FSF (14k) + OFAC SDN (69k) + UN (3k) + UK HMT (4k)'
+  reason: Operations execute checks against specific regulations (MiCA articles) and sanctions lists,
+    returning PASS/WARN/BLOCK compliance verdicts. This is sector-specific regulatory compliance checking;
+    the frame offers no financial-crime-specific capability, so Regulatory Compliance Management is the
+    honest fit.
+- tag: Security
+  spec_file: tooloracle-io-security-api-openapi.yml
+  capability_id: BC-620.40
+  capability_id_l1: BC-620
+  capability_name: Vulnerability Management
+  confidence: 0.85
+  evidence: NIST NVD CVE search by keyword, vendor, or product — CVSS score, CWE, references
+  reason: CVE/CVSS lookup against the NIST National Vulnerability Database is vulnerability identification
+    data, the core input to Vulnerability Management.
+- tag: MiCA Compliance
+  spec_file: tooloracle-io-mica-compliance-api-openapi.yml
+  capability_id: BC-130.10
+  capability_id_l1: BC-130
+  capability_name: Regulatory Compliance Management
+  confidence: 0.78
+  evidence: '"MiCA Document Compliance Feed", "MiCA Full Evidence Pack Feed", "MiCA Reserve Quality Feed"
+    — part of "DORA, MiCA, AMLR and CSRD compliance evidence APIs"'
+  reason: The operations deliver evidence feeds built explicitly around an EU regulation (MiCA) — document
+    compliance, reserve quality, significant-issuer checks. That is sector-specific regulatory compliance
+    evidence, i.e. Regulatory Compliance Management. It is not financial-crime or treasury work despite
+    the crypto subject matter; the feeds exist to evidence regulatory adherence.
+- tag: RWA Alerts
+  spec_file: tooloracle-io-rwa-alerts-api-openapi.yml
+  capability_id: BC-4270.80
+  capability_id_l1: BC-4270
+  capability_name: Webhook & Event Subscription Management
+  confidence: 0.75
+  evidence: '"List webhook subscriptions", "Create webhook subscription", "Delete webhook subscription";
+    schema RWAWebhookEvent'
+  reason: Despite the business-sounding 'Alerts' tag, the three operations are purely CRUD over outbound
+    webhook subscriptions with an event schema — exactly Webhook & Event Subscription Management on the
+    developer platform. Not financial-crime or monitoring alerting.
+- tag: DORA Ampel
+  spec_file: tooloracle-io-dora-ampel-api-openapi.yml
+  capability_id: BC-130.10
+  capability_id_l1: BC-130
+  capability_name: Regulatory Compliance Management
+  confidence: 0.72
+  evidence: POST /ampel/mcp/  doraAmpelMcp  DORA AmpelOracle MCP endpoint (49 tools); 'DORA, MiCA, AMLR
+    and CSRD compliance evidence APIs'
+  reason: The surface delivers DORA (Digital Operational Resilience Act) compliance evidence with traffic-light
+    ('Ampel') grading, consistent with the spec description. Regulatory Compliance Management fits; confidence
+    tempered because the single MCP endpoint hides operation detail.
+- tag: ESMA Register
+  spec_file: tooloracle-io-esma-register-api-openapi.yml
+  capability_id: BC-130.10
+  capability_id_l1: BC-130
+  capability_name: Regulatory Compliance Management
+  confidence: 0.72
+  evidence: '"Non-compliant entities flagged for MiCA violations (5 entities)"; "Authorized Crypto-Asset
+    Service Providers"; "Pending MiCA applications"'
+  reason: Operations expose the ESMA regulatory register — authorisation status of crypto-asset service
+    providers, EMT issuers, and MiCA non-compliance flags — which is the evidence substrate for sector-specific
+    regulatory compliance checking. Not full confidence because the surface is read-only register lookup
+    rather than management of a compliance programme.
+- tag: Agent Trust Management
+  spec_file: tooloracle-io-agent-trust-management-api-openapi.yml
+  capability_id: BC-4270.40
+  capability_id_l1: BC-4270
+  capability_name: Developer Identity & Credential Management
+  confidence: 0.7
+  evidence: POST /ai/agent/register 'Register AI Agent'; POST /ai/agent/{agent_id}/rotate-key 'Rotate
+    Agent API Key'
+  reason: Operations register API consumers (agents) and rotate their API keys — issuance and stewardship
+    of credentials for external developers/agents consuming the platform's APIs. Could alternatively be
+    read as enterprise IAM, hence not higher confidence.
+- tag: Carbon
+  spec_file: tooloracle-io-carbon-api-openapi.yml
+  capability_id: BC-740.20
+  capability_id_l1: BC-740
+  capability_name: Climate & Carbon Management
+  confidence: 0.7
+  evidence: GET /api/v1/carbon/mica/{symbol}  getCarbonMica  MiCA-formatted carbon data; GET /api/v1/feeds/carbon/summary  Carbon
+    summary statistics
+  reason: Operations serve carbon-footprint data per blockchain network in MiCA disclosure format, i.e.
+    carbon measurement data feeding climate/carbon disclosure. Maps to Climate & Carbon Management; some
+    ambiguity as it could equally serve ESG reporting, hence moderate confidence.
+- tag: Disclosure
+  spec_file: tooloracle-io-disclosure-api-openapi.yml
+  capability_id: BC-740.10
+  capability_id_l1: BC-740
+  capability_name: ESG Strategy & Reporting Management
+  confidence: 0.7
+  evidence: GET /api/v3/disclosure/sustainability/{symbol}  getDisclosureSustainability  Single network
+    sustainability report
+  reason: Operations return sustainability disclosure and sustainability reports per network, aligned
+    with the stated CSRD scope. Maps to ESG Strategy & Reporting Management; could alternatively sit under
+    carbon management, hence moderate confidence.
+- tag: MiCA Ampel
+  spec_file: tooloracle-io-mica-ampel-api-openapi.yml
+  capability_id: BC-130.10
+  capability_id_l1: BC-130
+  capability_name: Regulatory Compliance Management
+  confidence: 0.7
+  evidence: 'POST /mica-ampel/mcp/ ''MiCA AmpelOracle MCP endpoint (24 tools)''; spec description: ''DORA,
+    MiCA, AMLR and CSRD compliance evidence APIs'''
+  reason: The tag exposes tooling for MiCA regulatory compliance evidence, i.e. support for adherence
+    to a sector-specific EU regulation. Only one operation is shown, so confidence is capped below the
+    top band.
+- tag: Reports
+  spec_file: tooloracle-io-reports-api-openapi.yml
+  capability_id: BC-130.10
+  capability_id_l1: BC-130
+  capability_name: Regulatory Compliance Management
+  confidence: 0.7
+  evidence: GET /api/v2/reports/mica-art66 'MiCA Article 66 PDF report'; 'DORA Operational PDF report';
+    'Disclosure report'
+  reason: Generates regulation-named compliance evidence reports (MiCA, DORA, CSRD) plus disclosure and
+    audit exports — squarely regulatory compliance reporting rather than management or financial reporting.
