@@ -1,0 +1,98 @@
+edges:
+- partner_name: MCP Registry
+  partner: mcp
+  partner_match: register
+  type: register
+  channel: standard-directory
+  relationship: standard-participant
+  direction: partner-built
+  evidence: https://registry.modelcontextprotocol.io/v0/servers?search=io.github.AgentNOMOS
+  contract_reference:
+    register: registry.modelcontextprotocol.io
+    spec_file: null
+    role: mcp-server-listing
+    registered_name: io.github.AgentNOMOS/nomos-crossborder-broker
+    register_id: io.github.AgentNOMOS/nomos-crossborder-broker
+    detected_by: sweep-agent-tools.py
+    detected: '2026-10-14'
+  mcp_registry:
+    servers:
+    - io.github.AgentNOMOS/nomos-crossborder-broker
+    - io.tooloracle/accessoracle
+    - io.tooloracle/agentguard
+    - io.tooloracle/aml
+    - io.tooloracle/ampel
+    - io.tooloracle/arbitrumoracle
+    - io.tooloracle/baseoracle
+    - io.tooloracle/bnboracle
+    - io.tooloracle/changeoracle
+    - io.tooloracle/cloudoracle
+    - io.tooloracle/conductor
+    - io.tooloracle/contractoracle
+    - io.tooloracle/cybershield
+    - io.tooloracle/dealoracle
+    - io.tooloracle/dependencyoracle
+    - io.tooloracle/dora
+    - io.tooloracle/doraeventfabric
+    - io.tooloracle/driftoracle
+    - io.tooloracle/ecommerceoracle
+    - io.tooloracle/flareoracle
+    - io.tooloracle/flightoracle
+    - io.tooloracle/governanceoracle
+    - io.tooloracle/healthguard
+    - io.tooloracle/hederaoracle
+    - io.tooloracle/hoteloracle
+    - io.tooloracle/incidentoracle
+    - io.tooloracle/insuranceoracle
+    - io.tooloracle/invoiceoracle
+    - io.tooloracle/iso20022oracle
+    - io.tooloracle/joboracle
+    - io.tooloracle/law
+    - io.tooloracle/leadoracle
+    - io.tooloracle/macroooracle
+    - io.tooloracle/memeoracle
+    - io.tooloracle/memoryoracle
+    - io.tooloracle/mica
+    - io.tooloracle/newsoracle
+    - io.tooloracle/paymentoracle
+    - io.tooloracle/policyoracle
+    - io.tooloracle/predictionguard
+    - io.tooloracle/predictoracle
+    - io.tooloracle/priceoracle
+    - io.tooloracle/quantum
+    - io.tooloracle/rankoracle
+    - io.tooloracle/registeroracle
+    - io.tooloracle/reporting
+    - io.tooloracle/researchoracle
+    - io.tooloracle/reserveoracle
+    - io.tooloracle/resilienceoracle
+    - io.tooloracle/revieworacle
+    - io.tooloracle/riskoracle
+    - io.tooloracle/seooraclev2
+    - io.tooloracle/shoporacle
+    - io.tooloracle/smartmoneyoracle
+    - io.tooloracle/solanaoracle
+    - io.tooloracle/suioracle
+    - io.tooloracle/tlpt
+    - io.tooloracle/tonoracle
+    - io.tooloracle/trustlayer
+    - io.tooloracle/xrploracle
+    - io.tooloracle/yieldoracle
+    - io.tooloracle/zkevidenceoracle
+    hosted_remote: 62
+    local_package: 0
+    transports:
+      streamable-http: 62
+    auth_declared: 0
+    catalog_declared: true
+    namespace_domains:
+    - tooloracle.io
+  matched_by:
+  - namespace-domain
+  - remote-domain
+  detected_by: sweep-agent-tools.py
+  first_seen: '2026-10-14'
+generated: '2026-10-14'
+method: searched
+checked:
+- https://registry.modelcontextprotocol.io/v0/servers
