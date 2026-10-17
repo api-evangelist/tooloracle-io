@@ -166,6 +166,107 @@ paths:
       x-operation-id-source: derived
 components:
   schemas:
+    RWAEvidence:
+      type: object
+      description: Response evidence envelope, contract v1.2. payload_hash is genuine and recomputable without any key. The legacy ES256K body signature is NOT produced and is NOT verifiable - it is reported with an explicit status instead of being advertised. Canonical execution and response-hash evidence is the Ed25519 execution receipt referenced by the x-nomos-receipt-url response header.
+      properties:
+        manifest_id:
+          type: string
+          example: RWA-94607EEB
+        payload_hash:
+          type: object
+          description: sha256 over this response with the 'evidence' member removed, JSON encoded with sorted keys and compact separators. Needs no key and no external service.
+          properties:
+            alg:
+              type: string
+              example: SHA-256
+            hex:
+              type: string
+        signature:
+          type: object
+          description: Legacy ES256K body signature. Currently never produced; treat as absent, never as verified.
+          properties:
+            alg:
+              type: string
+              example: ES256K
+            hex:
+              type: string
+              example: ''
+              description: Empty while status is UNAVAILABLE.
+            kid:
+              type:
+              - string
+              - 'null'
+              example: null
+              description: null while no signature exists - a key id names the key that signed, and with no signature it names nothing.
+            status:
+              type: string
+              enum:
+              - UNAVAILABLE
+              - UNVERIFIABLE_NO_PUBLISHED_JWKS
+              - ACTIVE
+              example: UNAVAILABLE
+        verification:
+          type: object
+          description: Verification surface for the legacy ES256K signature above.
+          properties:
+            jwks_url:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: null
+              description: null. The URL formerly advertised here returned 404 and no reachable JWKS publishes the legacy kid.
+            verifier_kit:
+              type:
+              - string
+              - 'null'
+              format: uri
+              example: null
+              description: null. The URL formerly advertised here answered 200 with valid:false - an alive-looking surface that verifies nothing.
+            status:
+              type: string
+              enum:
+              - OUT_OF_CONTRACT
+              - ACTIVE
+              example: OUT_OF_CONTRACT
+            reason:
+              type: string
+            self_check:
+              type: string
+              description: How to recompute payload_hash yourself.
+            canonical_execution_evidence:
+              type: object
+              description: Pointer to the evidence that IS verifiable. Ed25519/EdDSA - a different algorithm and a different key than the ES256K field above, and not a replacement JWKS for it.
+              properties:
+                note:
+                  type: string
+                receipt_url_header:
+                  type: string
+                  example: x-nomos-receipt-url
+                receipt_signature_alg:
+                  type: string
+                  example: EdDSA
+                receipt_jwks_url:
+                  type: string
+                  format: uri
+                  example: https://feedoracle.io/.well-known/nomos-execution-jwks.json
+        signature_scope:
+          type: object
+          properties:
+            signed:
+              type: string
+              example: payload_hash.hex
+            payload_excludes:
+              type: array
+              items:
+                type: string
+            canonicalization:
+              type: string
+              example: JSON_canonical_sorted
+        evidence_contract:
+          type: string
+          example: nomos.rwa.evidence.v1.2
     RWARiskVectors:
       type: object
       description: 9-dimensional risk breakdown (0-100 each)
@@ -188,6 +289,62 @@ components:
           type: integer
         esg_carbon:
           type: integer
+    RWAXrplDetail:
+      type: object
+      description: Enhanced fields for XRPL native assets
+      properties:
+        network:
+          type: object
+          properties:
+            ledger_index:
+              type: integer
+            server_state:
+              type: string
+            peers:
+              type: integer
+        xrp_market:
+          type: object
+          properties:
+            price_usd:
+              type: number
+            change_24h:
+              type: number
+            volume_24h:
+              type: number
+        whale_flows:
+          type: object
+          properties:
+            sentiment:
+              type: string
+              enum:
+              - bullish
+              - bearish
+              - neutral
+            net_flow_24h_xrp:
+              type: number
+        rwa_ecosystem:
+          type: object
+          properties:
+            custody_aum:
+              type: number
+            rlusd_supply:
+              type: number
+            tokenized_assets:
+              type: number
+    RWAReasonCode:
+      type: object
+      properties:
+        vector:
+          type: string
+          example: tvl_weight
+        impact:
+          type: string
+          enum:
+          - positive
+          - negative
+        text:
+          type: string
+          example: Strong TVL indicates institutional confidence
     RWAProtocolRisk:
       type: object
       properties:
@@ -303,163 +460,6 @@ components:
               type: object
             change_24h:
               type: number
-    RWAXrplDetail:
-      type: object
-      description: Enhanced fields for XRPL native assets
-      properties:
-        network:
-          type: object
-          properties:
-            ledger_index:
-              type: integer
-            server_state:
-              type: string
-            peers:
-              type: integer
-        xrp_market:
-          type: object
-          properties:
-            price_usd:
-              type: number
-            change_24h:
-              type: number
-            volume_24h:
-              type: number
-        whale_flows:
-          type: object
-          properties:
-            sentiment:
-              type: string
-              enum:
-              - bullish
-              - bearish
-              - neutral
-            net_flow_24h_xrp:
-              type: number
-        rwa_ecosystem:
-          type: object
-          properties:
-            custody_aum:
-              type: number
-            rlusd_supply:
-              type: number
-            tokenized_assets:
-              type: number
-    RWAEvidence:
-      type: object
-      description: Response evidence envelope, contract v1.2. payload_hash is genuine and recomputable without any key. The legacy ES256K body signature is NOT produced and is NOT verifiable - it is reported with an explicit status instead of being advertised. Canonical execution and response-hash evidence is the Ed25519 execution receipt referenced by the x-nomos-receipt-url response header.
-      properties:
-        manifest_id:
-          type: string
-          example: RWA-94607EEB
-        payload_hash:
-          type: object
-          description: sha256 over this response with the 'evidence' member removed, JSON encoded with sorted keys and compact separators. Needs no key and no external service.
-          properties:
-            alg:
-              type: string
-              example: SHA-256
-            hex:
-              type: string
-        signature:
-          type: object
-          description: Legacy ES256K body signature. Currently never produced; treat as absent, never as verified.
-          properties:
-            alg:
-              type: string
-              example: ES256K
-            hex:
-              type: string
-              example: ''
-              description: Empty while status is UNAVAILABLE.
-            kid:
-              type:
-              - string
-              - 'null'
-              example: null
-              description: null while no signature exists - a key id names the key that signed, and with no signature it names nothing.
-            status:
-              type: string
-              enum:
-              - UNAVAILABLE
-              - UNVERIFIABLE_NO_PUBLISHED_JWKS
-              - ACTIVE
-              example: UNAVAILABLE
-        verification:
-          type: object
-          description: Verification surface for the legacy ES256K signature above.
-          properties:
-            jwks_url:
-              type:
-              - string
-              - 'null'
-              format: uri
-              example: null
-              description: null. The URL formerly advertised here returned 404 and no reachable JWKS publishes the legacy kid.
-            verifier_kit:
-              type:
-              - string
-              - 'null'
-              format: uri
-              example: null
-              description: null. The URL formerly advertised here answered 200 with valid:false - an alive-looking surface that verifies nothing.
-            status:
-              type: string
-              enum:
-              - OUT_OF_CONTRACT
-              - ACTIVE
-              example: OUT_OF_CONTRACT
-            reason:
-              type: string
-            self_check:
-              type: string
-              description: How to recompute payload_hash yourself.
-            canonical_execution_evidence:
-              type: object
-              description: Pointer to the evidence that IS verifiable. Ed25519/EdDSA - a different algorithm and a different key than the ES256K field above, and not a replacement JWKS for it.
-              properties:
-                note:
-                  type: string
-                receipt_url_header:
-                  type: string
-                  example: x-nomos-receipt-url
-                receipt_signature_alg:
-                  type: string
-                  example: EdDSA
-                receipt_jwks_url:
-                  type: string
-                  format: uri
-                  example: https://feedoracle.io/.well-known/nomos-execution-jwks.json
-        signature_scope:
-          type: object
-          properties:
-            signed:
-              type: string
-              example: payload_hash.hex
-            payload_excludes:
-              type: array
-              items:
-                type: string
-            canonicalization:
-              type: string
-              example: JSON_canonical_sorted
-        evidence_contract:
-          type: string
-          example: nomos.rwa.evidence.v1.2
-    RWAReasonCode:
-      type: object
-      properties:
-        vector:
-          type: string
-          example: tvl_weight
-        impact:
-          type: string
-          enum:
-          - positive
-          - negative
-        text:
-          type: string
-          example: Strong TVL indicates institutional confidence
   securitySchemes:
     ApiKeyAuth:
       type: apiKey

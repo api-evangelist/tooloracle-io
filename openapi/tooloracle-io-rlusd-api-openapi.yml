@@ -152,22 +152,6 @@ paths:
                 $ref: '#/components/schemas/RlusdVerifyResponse'
 components:
   schemas:
-    RlusdSupplyBreakdown:
-      type: object
-      properties:
-        service:
-          type: string
-        data:
-          type: object
-    RlusdHoldersResponse:
-      type: object
-      properties:
-        chains:
-          type: object
-        total_holders:
-          type: integer
-        timestamp:
-          type: string
     RlusdCciDetailed:
       type: object
       properties:
@@ -179,6 +163,28 @@ components:
           type: object
         weights:
           type: object
+        timestamp:
+          type: string
+    RlusdCciCompact:
+      type: object
+      properties:
+        cci_score:
+          type: number
+        grade:
+          type: string
+        components:
+          type: object
+        penalty_log:
+          type: object
+        timestamp:
+          type: string
+    RlusdHoldersResponse:
+      type: object
+      properties:
+        chains:
+          type: object
+        total_holders:
+          type: integer
         timestamp:
           type: string
     RlusdStatusEnvelope:
@@ -194,6 +200,41 @@ components:
           type: array
           items:
             type: string
+    RlusdVerifyResponse:
+      type: object
+      properties:
+        valid:
+          type: boolean
+    RlusdSupplyBreakdown:
+      type: object
+      properties:
+        service:
+          type: string
+        data:
+          type: object
+    RlusdWebhookCatalog:
+      type: object
+      properties:
+        events:
+          type: array
+        catalog:
+          type: object
+    RlusdPegQuality:
+      type: object
+      properties:
+        service:
+          type: string
+        data:
+          type: object
+    MetaEnvelope:
+      type: object
+      properties:
+        api_version:
+          type: string
+        dataset_version:
+          type: string
+        schema_version:
+          type: string
     RlusdEvidencePack:
       type: object
       properties:
@@ -207,47 +248,6 @@ components:
           type: object
         disclaimer:
           type: object
-    RlusdCciCompact:
-      type: object
-      properties:
-        cci_score:
-          type: number
-        grade:
-          type: string
-        components:
-          type: object
-        penalty_log:
-          type: object
-        timestamp:
-          type: string
-    RlusdWebhookCatalog:
-      type: object
-      properties:
-        events:
-          type: array
-        catalog:
-          type: object
-    MetaEnvelope:
-      type: object
-      properties:
-        api_version:
-          type: string
-        dataset_version:
-          type: string
-        schema_version:
-          type: string
-    RlusdPegQuality:
-      type: object
-      properties:
-        service:
-          type: string
-        data:
-          type: object
-    RlusdVerifyResponse:
-      type: object
-      properties:
-        valid:
-          type: boolean
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
