@@ -936,6 +936,8 @@ apis:
   humanURL: https://tooloracle.io/docs/
   baseURL: https://tooloracle.io/mcp/
   tags:
+  - Cryptocurrency
+  tags_raw:
   - Crypto
   properties:
   - type: OpenAPI
@@ -1996,6 +1998,8 @@ apis:
   humanURL: https://tooloracle.io/docs/
   baseURL: https://tooloracle.io/mcp/
   tags:
+  - Layer 2
+  tags_raw:
   - L2
   properties:
   - type: OpenAPI
