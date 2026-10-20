@@ -2,15 +2,16 @@ generated: '2026-09-19'
 method: probed
 status: published
 source: https://tooloracle.io/.well-known/mcp.json, https://tooloracle.io/docs/mcp-auth.html, https://tooloracle.io/docs/402-protocol,
-  https://registry.modelcontextprotocol.io/v0/servers?search=tooloracle, and a live POST tools/list against every
-  advertised endpoint (2026-09-19/20)
+  https://registry.modelcontextprotocol.io/v0/servers?search=tooloracle, and a live POST tools/list against
+  every advertised endpoint (2026-09-19/20)
 docs: https://tooloracle.io/docs/mcp-auth.html
-summary: 'ToolOracle / OracleNet is not one MCP server but a hosted mesh: 92 distinct endpoints under tooloracle.io
-  (plus five on feedoracle.io / mcp.feedoracle.io) answered an anonymous tools/list with 1178 tool entries (919
-  unique tool names; health_check/ping recur on most servers). Every endpoint is MCP over Streamable HTTP (initialize
-  reports protocolVersion 2025-03-26). Free tools run with no credential; paid tools return HTTP 402 with an x402
-  challenge; an API key (kya_register) or an OAuth 2.1 bearer from feedoracle.io lifts anonymous daily limits. The
-  provider registers 61 io.tooloracle/* servers in the official MCP registry.'
+summary: 'ToolOracle / OracleNet is not one MCP server but a hosted mesh: 92 distinct endpoints under
+  tooloracle.io (plus five on feedoracle.io / mcp.feedoracle.io) answered an anonymous tools/list with
+  1178 tool entries (919 unique tool names; health_check/ping recur on most servers). Every endpoint is
+  MCP over Streamable HTTP (initialize reports protocolVersion 2025-03-26). Free tools run with no credential;
+  paid tools return HTTP 402 with an x402 challenge; an API key (kya_register) or an OAuth 2.1 bearer
+  from feedoracle.io lifts anonymous daily limits. The provider registers 61 io.tooloracle/* servers in
+  the official MCP registry.'
 deployment:
   mode: remote
   endpoint: https://tooloracle.io/mcp/
@@ -18,13 +19,14 @@ deployment:
   package: null
   auth: none
   verified: probed
-  note: https://tooloracle.io/mcp/ is the endpoint mcp.json and the docs call "main" and the one `claude mcp add
-    --transport http tooloracle https://tooloracle.io/mcp/` connects to; live it identifies itself as RankOracle
-    1.2.0 (13 SEO tools), while the mesh front door — routing, join, trust passport, execute — is https://tooloracle.io/quantum/mcp/
-    (20 tools). auth is none because anonymous tools/list and free tool calls succeed with no credential; api-key
-    (X-API-Key from kya_register), OAuth 2.1 bearer (feedoracle.io, DCR) and x402 payment are optional layers for
-    limits and paid tools. No stdio package exists; the GitHub READMEs show `npx -y mcp-remote <url>`, which is
-    a third-party bridge to the same remote endpoint, not a local server.
+  note: https://tooloracle.io/mcp/ is the endpoint mcp.json and the docs call "main" and the one `claude
+    mcp add --transport http tooloracle https://tooloracle.io/mcp/` connects to; live it identifies itself
+    as RankOracle 1.2.0 (13 SEO tools), while the mesh front door — routing, join, trust passport, execute
+    — is https://tooloracle.io/quantum/mcp/ (20 tools). auth is none because anonymous tools/list and
+    free tool calls succeed with no credential; api-key (X-API-Key from kya_register), OAuth 2.1 bearer
+    (feedoracle.io, DCR) and x402 payment are optional layers for limits and paid tools. No stdio package
+    exists; the GitHub READMEs show `npx -y mcp-remote <url>`, which is a third-party bridge to the same
+    remote endpoint, not a local server.
 entry_points:
   main: https://tooloracle.io/mcp/
   mesh_front_door: https://tooloracle.io/quantum/mcp/
@@ -42,10 +44,10 @@ protocol:
 authentication:
   anonymous: 20 requests/day per RFC 9728 doc; docs/mcp-auth says free tools 100 calls/day
   api_key: X-API-Key issued by the kya_register tool (feedoracle.io/mcp), key prefix fo_
-  oauth: OAuth 2.1 bearer from https://feedoracle.io (RFC 8414 metadata on both hosts, RFC 7591 dynamic client registration,
-    PKCE S256, client_credentials)
-  x402: 'pay-per-call: HTTP 402 + PAYMENT-REQUIRED header on /v2 routes (x402 v2, PAYMENT-SIGNATURE); legacy X-PAYMENT
-    tx-hash header on /x402/{product}/mcp/ routes'
+  oauth: OAuth 2.1 bearer from https://feedoracle.io (RFC 8414 metadata on both hosts, RFC 7591 dynamic
+    client registration, PKCE S256, client_credentials)
+  x402: 'pay-per-call: HTTP 402 + PAYMENT-REQUIRED header on /v2 routes (x402 v2, PAYMENT-SIGNATURE);
+    legacy X-PAYMENT tx-hash header on /x402/{product}/mcp/ routes'
   detail: authentication/tooloracle-io-authentication.yml
 tool_schemas:
   file: mcp/tooloracle-io-tools.json
@@ -54,9 +56,10 @@ registry:
   file: mcp/tooloracle-io-mcp-registry.json
   count: 61
   namespace: io.tooloracle/*
-  note: '61 active entries (2026-05-07). Two registry remotes are dead today: io.tooloracle/agentguard -> https://feedoracle.io/guard-oracle/mcp/
-    (404) and io.tooloracle/paymentoracle -> https://tooloracle.io/payments/mcp/ (503). io.tooloracle/rankoracle
-    points at https://tooloracle.io/mcp/ — which is why the main endpoint answers as RankOracle.'
+  note: '61 active entries (2026-05-07). Two registry remotes are dead today: io.tooloracle/agentguard
+    -> https://feedoracle.io/guard-oracle/mcp/ (404) and io.tooloracle/paymentoracle -> https://tooloracle.io/payments/mcp/
+    (503). io.tooloracle/rankoracle points at https://tooloracle.io/mcp/ — which is why the main endpoint
+    answers as RankOracle.'
 servers:
 - endpoint: https://tooloracle.io/access/mcp/
   transport: streamable-http
@@ -614,11 +617,12 @@ gated_or_stateful:
 - endpoint: https://tooloracle.io/uvo/mcp/
   status: live, stateful
   note: tools/list without a session returns -32600 "Missing session ID"; initialize succeeds (text/event-stream,
-    mcp-session-id issued, serverInfo uvo-action-gate 1.27.1, protocolVersion 2025-03-26). Tool schemas need a session,
-    not credentials.
+    mcp-session-id issued, serverInfo uvo-action-gate 1.27.1, protocolVersion 2025-03-26). Tool schemas
+    need a session, not credentials.
 - endpoint: https://tooloracle.io/deal/mcp/
   status: gated
-  note: tools/list returns JSON-RPC -32001 unauthorized (HTTP 401) — DealOracle escrow tools require a credential.
+  note: tools/list returns JSON-RPC -32001 unauthorized (HTTP 401) — DealOracle escrow tools require a
+    credential.
 advertised_but_unreachable:
 - endpoint: https://tooloracle.io/seo/mcp/
   http_status: 404
@@ -661,3 +665,28 @@ advertised_but_unreachable:
   note: named by docs/402-protocol or mcp.json
 crosswalk: mcp/tooloracle-io-tool-crosswalk.yml
 a2a: a2a/tooloracle-io-a2a.yml
+tool_quality:
+  tool_count: 13
+  tokens_total: 1627
+  tokens_per_tool_median: 129
+  heavy_tools: []
+  heavy_tool_count: 0
+  params_total: 28
+  params_undescribed: 0
+  params_described_pct: 100.0
+  tools_with_undescribed_params: 0
+  tools_annotated: 0
+  annotated_pct: 0.0
+  state_changing_unhinted: []
+  tools_missing_schema: 0
+  short_descriptions: 0
+  duplicate_descriptions: 0
+  duplicate_names: 0
+  nonportable_names: []
+  output_schema_count: 0
+  token_estimate: chars/3.6 of each compact tool definition
+  source: mcp/tooloracle-io-tools.json
+  measured: '2026-10-20'
+  scored: false
+  note: Facts from the saved tools/list capture (mcp_tool_quality.py); recorded, not scored. Checks learned
+    from Glimind's agent-readiness audit.
