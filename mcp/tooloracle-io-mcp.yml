@@ -690,3 +690,31 @@ tool_quality:
   scored: false
   note: Facts from the saved tools/list capture (mcp_tool_quality.py); recorded, not scored. Checks learned
     from Glimind's agent-readiness audit.
+tools:
+- name: keyword_research
+  description: Research keyword volume, difficulty, CPC, trends, and related keywords
+- name: check_ranking
+  description: Check where a domain ranks for a specific keyword in Google top 100
+- name: serp_snapshot
+  description: Get top 10 Google results for a keyword with SERP features
+- name: domain_overview
+  description: 'Domain SEO overview: organic keywords, traffic estimate, position distribution'
+- name: content_score
+  description: 'Analyze URL for on-page SEO quality: score, readability, technical checks, recommendations'
+- name: competitor_gap
+  description: Find keywords your competitor ranks for — identify content gaps and opportunities
+- name: title_optimizer
+  description: Analyze current title tag and generate SEO-optimized title suggestions
+- name: meta_generator
+  description: Analyze and generate optimized meta title + description for a URL
+- name: heading_analysis
+  description: Analyze H1-H4 heading structure of a page with SEO recommendations
+- name: rank_tracker
+  description: Track ranking positions for multiple keywords at once (max 10)
+- name: serp_alert
+  description: Check current SERP position and compare against previous check — tracks changes over time
+- name: backlink_check
+  description: Check backlinks and referring domains for a domain (requires Backlinks subscription)
+- name: health_check
+  description: Server health, version, tool status, and API connectivity
+tools_count: 13
