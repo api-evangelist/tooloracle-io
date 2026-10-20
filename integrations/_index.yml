@@ -19,6 +19,73 @@
     registered_name: io.github.AgentNOMOS/nomos-crossborder-broker
     register_id: io.github.AgentNOMOS/nomos-crossborder-broker
     detected_by: sweep-agent-tools.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
+  status: not-a-workflow
+  arazzo: null
+- slug: tooloracle-io-a2a-protocol-own-agent-card
+  label: A2A protocol (own Agent Card)
+  partner_name: A2A protocol (own Agent Card)
+  category: A2A agent
+  type: register
+  channel: provider-built
+  evidence: https://tooloracle.io/.well-known/agent-card.json
+  source: edge
+  relationship: compatible
+  contract_reference:
+    register: provider's own /.well-known/agent-card.json
+    spec_file: null
+    standard: A2A
+    role: a2a-agent-card
+    registered_name: ToolOracle
+    organization: FeedOracle Technologies
+    matched_domain: tooloracle.io
+    matched_by: own-domain
+    detected_by: sweep-ai-agents.py
+    detected: '2026-10-19'
+  status: not-a-workflow
+  arazzo: null
+- slug: tooloracle-io-a2aregistry-org
+  label: a2aregistry.org
+  partner_name: a2aregistry.org
+  category: A2A agent registry
+  type: register
+  channel: standard-directory
+  evidence: https://a2aregistry.org/api/agents/6d876150-fd35-499d-a940-162487775ee9
+  source: edge
+  relationship: compatible
+  contract_reference:
+    register: a2aregistry.org /api/agents
+    spec_file: null
+    standard: A2A
+    role: a2a-registry-listing
+    registered_name: FeedOracle Technologies
+    matched_domain: tooloracle.io
+    matched_by: domain
+    matched_via: card-host
+    listings_context: 1
+    sample_agents:
+    - ToolOracle
+    detected_by: sweep-ai-agents.py
+    detected: '2026-10-19'
+  status: not-a-workflow
+  arazzo: null
+- slug: tooloracle-io-agent-skills-own-github-org
+  label: Agent Skills (own GitHub org)
+  partner_name: Agent Skills (own GitHub org)
+  category: Agent Skills package
+  type: register
+  channel: provider-built
+  evidence: https://github.com/ToolOracle/oraclenet-mesh-skill
+  source: edge
+  relationship: compatible
+  contract_reference:
+    register: 'provider''s own GitHub org (GitHub REST API: repo + git tree holds SKILL.md)'
+    spec_file: null
+    standard: Agent Skills (agentskills.io)
+    role: agent-skills-repo
+    matched_org: tooloracle
+    matched_by: org-profile-domain:tooloracle.io
+    detected_by: sweep-agent-skills.py
+    detected: '2026-10-20'
   status: not-a-workflow
   arazzo: null
