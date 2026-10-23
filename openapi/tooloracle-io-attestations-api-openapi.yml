@@ -69,3 +69,9 @@ components:
 x-nomos-trust-chain:
   model: S0-S10
   manifest: https://agentnomos.com/.well-known/nomos-capabilities.json
+x-provenance:
+  method: harvested
+  publisher: FeedOracle Technologies
+  source: https://feedoracle.io/openapi.json
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
