@@ -18,6 +18,9 @@ artifacts:
   authentication/tooloracle-io-authentication.yml:
     method: derived
     evidence: declared in the artifact
+  capabilities/tooloracle-io-capability-edges.yml:
+    method: unknown
+    evidence: no authorship recorded
   changelog/tooloracle-io-changelog.yml:
     method: searched
     evidence: declared in the artifact
@@ -36,7 +39,13 @@ artifacts:
   front-door-ai/2026-09-17.yml:
     method: unknown
     evidence: no authorship recorded
-  kin/checks-2026-09-24T161608.yml:
+  integrations/_index.yml:
+    method: generated
+    evidence: carries an API Evangelist house phrase
+  integrations/tooloracle-io-integration-edges.yml:
+    method: unknown
+    evidence: no authorship recorded
+  kin/checks-2026-10-11T110117.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
   kin/score-2026-09-19T193153.yml:
@@ -69,6 +78,21 @@ artifacts:
   kin/score-2026-09-24T161608.yml:
     method: generated
     evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T210408.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-09-25T232841.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T000835.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-03T024842.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
+  kin/score-2026-10-11T110117.yml:
+    method: generated
+    evidence: Kin Score snapshot written by score.rb
   lifecycle/tooloracle-io-lifecycle.yml:
     method: searched
     evidence: declared in the artifact
@@ -93,34 +117,742 @@ artifacts:
   mcp/tooloracle-io-tools.json:
     method: unknown
     evidence: no authorship recorded
+  openapi/_original/tooloracle-io-feedoracle-compliance-evidence-openapi.yml:
+    method: harvested
+    evidence: the same operations as https://feedoracle.io/openapi.json (sha256 eb376620b676, fetched
+      2026-10-04)
   openapi/_original/tooloracle-io-feedoracle-openapi.json:
     method: harvested
-    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
-      to the provider's source is unverified
+    evidence: the same operations as https://feedoracle.io/openapi.json (sha256 eb376620b676, fetched
+      2026-10-04)
+  openapi/_original/tooloracle-io-mcp-platform-openapi.yml:
+    method: harvested
+    evidence: the same operations as https://tooloracle.io/openapi.json (sha256 dcab5ae01017, fetched
+      2026-10-04)
   openapi/_original/tooloracle-io-openapi.json:
     method: harvested
-    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
-      to the provider's source is unverified
+    evidence: the same operations as https://tooloracle.io/openapi.json (sha256 dcab5ae01017, fetched
+      2026-10-04)
   openapi/_original/tooloracle-io-v2-openapi.json:
     method: harvested
     evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
       to the provider's source is unverified
-  openapi/tooloracle-io-feedoracle-compliance-evidence-openapi.yml:
+  openapi/_original/tooloracle-io-x402-v2-openapi.yml:
+    method: harvested
+    evidence: found in openapi/_original/; the fetch URL and bytes were not recorded, so byte-identity
+      to the provider's source is unverified
+  openapi/tooloracle-io-agent-readiness-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/tooloracle-io-mcp-platform-openapi.yml:
+  openapi/tooloracle-io-agent-safety-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
-  openapi/tooloracle-io-x402-v2-openapi.yml:
+  openapi/tooloracle-io-agent-trust-management-api-openapi.yml:
     method: derived
     evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-agentguard-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-agents-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-ai-gateway-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-aml-oracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-amloracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-ampeloracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-attestation-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-attestations-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-audit-trail-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-billing-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-blockchain-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-blockchain-risk-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-business-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-carbon-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-carbonoracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-cloudoracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-commodities-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-compliance-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-credit-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-cross-border-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-crypto-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-disclosure-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-discovery-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-dora-ampel-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-dora-os-conductor-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-doraoracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-driftoracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-ecb-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-enterprise-trust-layer-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-epm-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-equities-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-esma-register-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-esmaoracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-eu-carbon-intelligence-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-eu-energy-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-eulaworacle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-eventfabric-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-finance-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-fiscal-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-flightoracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-health-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-hoteloracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-insuranceoracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-integrity-suite-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-international-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-iso20022oracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-joboracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-knowledge-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-kya-know-your-agent-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-l2-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-laworacle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-leadoracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-macro-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-macro-core-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-macro-oracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-macrooracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-maporacle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-market-integrity-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-mcp-auth-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-mcp-transport-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-mesh-economics-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-mesh-nervous-system-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-mica-ampel-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-mica-compliance-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-micaoracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-movieoracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-newsoracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-nomos-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-nomos-execution-receipts-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-oraclenet-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-policyoracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-predictoracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-priceoracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-real-estate-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-regwatchoracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-reportingoracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-reports-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-researchoracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-reserveoracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-revieworacle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-rlusd-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-rwa-alerts-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-rwa-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-rwa-compliance-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-rwa-documents-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-rwa-esg-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-rwa-events-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-rwa-history-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-rwa-legal-state-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-rwa-liquidity-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-rwa-on-chain-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-rwa-oracle-feeds-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-rwa-redemption-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-rwa-registry-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-rwa-risk-scoring-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-security-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-seooracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-sportoracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-stablecoin-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-stress-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-supplychain-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-testoracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-trading-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-trainingoracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-trust-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-unified-integrity-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-verified-reports-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-wallet-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-weatheroracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-x402-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-xrp-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-xrpl-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-yields-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  openapi/tooloracle-io-zkevidenceoracle-api-openapi.yml:
+    method: derived
+    evidence: paths are a subset of openapi/_original/ (split from the harvested spec)
+  overlays/tooloracle-io-agent-readiness-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-agent-safety-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-agent-trust-management-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-agentguard-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-agents-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-ai-gateway-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-aml-oracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-amloracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-ampeloracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-attestation-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-attestations-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-audit-trail-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-billing-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-blockchain-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-blockchain-risk-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-business-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-carbon-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-carbonoracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-cloudoracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-commodities-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-compliance-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-credit-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-cross-border-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-crypto-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-disclosure-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-discovery-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-dora-ampel-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-dora-os-conductor-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-doraoracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-driftoracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-ecb-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-enterprise-trust-layer-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-epm-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-equities-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-esma-register-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-esmaoracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-eu-carbon-intelligence-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-eu-energy-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-eulaworacle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-eventfabric-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
   overlays/tooloracle-io-feedoracle-compliance-evidence-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tooloracle-io-finance-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-fiscal-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-flightoracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-health-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-hoteloracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-insuranceoracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-integrity-suite-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-international-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-iso20022oracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-joboracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-knowledge-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-kya-know-your-agent-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-l2-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-laworacle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-leadoracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-macro-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-macro-core-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-macro-oracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-macrooracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-maporacle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-market-integrity-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-mcp-auth-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/tooloracle-io-mcp-platform-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tooloracle-io-mcp-transport-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-mesh-economics-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-mesh-nervous-system-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-mica-ampel-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-mica-compliance-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-micaoracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-movieoracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-newsoracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-nomos-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-nomos-execution-receipts-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-oraclenet-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-policyoracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-predictoracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-priceoracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-real-estate-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-regwatchoracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-reportingoracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-reports-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-researchoracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-reserveoracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-revieworacle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-rlusd-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-rwa-alerts-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-rwa-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-rwa-compliance-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-rwa-documents-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-rwa-esg-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-rwa-events-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-rwa-history-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-rwa-legal-state-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-rwa-liquidity-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-rwa-on-chain-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-rwa-oracle-feeds-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-rwa-redemption-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-rwa-registry-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-rwa-risk-scoring-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-security-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-seooracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-sportoracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-stablecoin-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-stress-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-supplychain-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-testoracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-trading-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-trainingoracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-trust-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-unified-integrity-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-uvo-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-verified-reports-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-wallet-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-weatheroracle-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-x402-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   overlays/tooloracle-io-x402-v2-overlay.yaml:
+    method: derived
+    evidence: an API Evangelist overlay (title) over the provider's contract
+  overlays/tooloracle-io-xrp-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-xrpl-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-yields-api-phrasing-overlay.yaml:
+    method: generated
+    evidence: declared in the artifact
+  overlays/tooloracle-io-zkevidenceoracle-api-phrasing-overlay.yaml:
     method: generated
     evidence: declared in the artifact
   packages/tooloracle-io-packages.yml:
